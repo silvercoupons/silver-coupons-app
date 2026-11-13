@@ -1,0 +1,13 @@
+{
+  "name": "silver-coupons",
+  "version": "1.0.0",
+  "description": "تطبيق الكوبون الفضي للخصومات والكوبونات",
+  "scripts": {
+    "build": "echo 'Ready'"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  }
+}
