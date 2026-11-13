@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>الكوبون الفضي</title>
+  <style>
+    :root { --primary: #2563eb; --bg: #f1f5f9; --card: #ffffff; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; }
+    header { background: linear-gradient(135deg, #1e293b, #334155); color: #fff; padding: 16px; text-align: center; font-size: 20px; font-weight: bold; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .search-bar { padding: 12px 15px; background: #fff; border-bottom: 1px solid #e2e8f0; }
+    .search-bar input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; outline: none; }
+    .container { padding: 15px; max-width: 600px; margin: auto; }
+    .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 10px; }
+    .card-header { display: flex; align-items: center; gap: 12px; }
+    .card img { width: 65px; height: 65px; border-radius: 10px; object-fit: contain; border: 1px solid #f1f5f9; background: #fff; }
+    .card h3 { margin: 0; font-size: 16px; line-height: 1.4; color: #0f172a; }
+    .coupon-box { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 2px dashed #94a3b8; padding: 8px 12px; border-radius: 8px; margin-top: 4px; }
+    .code { font-family: monospace; font-size: 17px; font-weight: bold; color: #dc2626; letter-spacing: 1px; }
+    .actions { display: flex; gap: 8px; }
+    .btn { background: var(--primary); color: #fff; border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; text-decoration: none; text-align: center; flex: 1; }
+    .btn-outline { background: #e2e8f0; color: #334155; }
+    #loader { text-align: center; padding: 40px 20px; font-size: 16px; color: #64748b; }
+  </style>
+</head>
+<body>
+
+<header>الكوبون الفضي - أحدث الخصومات</header>
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="ابحث عن متجر (نون، نمشي، كارفور...)" oninput="filterCoupons()">
+</div>
+
+<div class="container" id="coupons-container">
+  <div id="loader">جاري تحميل أحدث الكوبونات...</div>
+</div>
+
+<script>
+  let allPosts = [];
+
+  // استخراج كود الخصم من النص تلقائياً أو إعطاء كود افتراضي من المقال
+  function extractCode(text) {
+    const match = text.match(/\b([A-Z0-9]{3,10})\b/);
+    return match ? match[1] : "SHOW";
+  }
+
+  function renderCoupons(posts) {
+    const container = document.getElementById('coupons-container');
+    container.innerHTML = '';
+    if (posts.length === 0) {
+      container.innerHTML = '<div id="loader">لا توجد نتائج مطابقة للبحث.</div>';
+      return;
+    }
+
+    posts.forEach(entry => {
+      const title = entry.title.$t;
+      const content = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : "");
+      const cleanText = content.replace(/<[^>]*>?/gm, '');
+      const link = entry.link.find(l => l.rel === 'alternate').href;
+      const thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('s72-c', 's300') : 'https://via.placeholder.com/80?text=Coupon';
+      const code = extractCode(title + " " + cleanText);
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-header">
+          <img src="${thumb}" alt="شعار المتجر">
+          <h3>${title}</h3>
+        </div>
+        ${code !== "SHOW" ? `
+        <div class="coupon-box">
+          <span class="code">${code}</span>
+          <button class="btn" style="flex:0 0 auto;" onclick="copyCode('${code}', this)">نسخ الكوبون</button>
+        </div>` : ''}
+        <div class="actions">
+          <a href="${link}" target="_blank" class="btn btn-outline">تفاصيل العرض والمنتجات</a>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function loadBloggerFeed(data) {
+    allPosts = data.feed.entry || [];
+    renderCoupons(allPosts);
+  }
+
+  function filterCoupons() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = allPosts.filter(p => p.title.$t.toLowerCase().includes(q));
+    renderCoupons(filtered);
+  }
+
+  function copyCode(code, btn) {
+    navigator.clipboard.writeText(code);
+    const oldText = btn.innerText;
+    btn.innerText = 'تم النسخ ✓';
+    btn.style.background = '#16a34a';
+    setTimeout(() => { btn.innerText = oldText; btn.style.background = '#2563eb'; }, 2000);
+  }
+
+  // سحب البيانات مباشرة من مدونة الكوبون الفضي
+  const script = document.createElement('script');
+  script.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=50';
+  document.body.appendChild(script);
+</script>
+</body>
+</html>
