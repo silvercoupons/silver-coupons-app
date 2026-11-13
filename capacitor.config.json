@@ -1,0 +1,6 @@
+{
+  "appId": "com.silvercoupons.app",
+  "appName": "الكوبون الفضي",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
