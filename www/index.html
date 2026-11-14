@@ -3,105 +3,414 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>الكوبون الفضي</title>
+  <title>الكوبون الفضي - Silver Coupons</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --primary: #2563eb; --bg: #f1f5f9; --card: #ffffff; }
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; }
-    header { background: linear-gradient(135deg, #1e293b, #334155); color: #fff; padding: 16px; text-align: center; font-size: 20px; font-weight: bold; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-    .search-bar { padding: 12px 15px; background: #fff; border-bottom: 1px solid #e2e8f0; }
-    .search-bar input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; outline: none; }
-    .container { padding: 15px; max-width: 600px; margin: auto; }
-    .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 10px; }
-    .card-header { display: flex; align-items: center; gap: 12px; }
-    .card img { width: 65px; height: 65px; border-radius: 10px; object-fit: contain; border: 1px solid #f1f5f9; background: #fff; }
-    .card h3 { margin: 0; font-size: 16px; line-height: 1.4; color: #0f172a; }
-    .coupon-box { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 2px dashed #94a3b8; padding: 8px 12px; border-radius: 8px; margin-top: 4px; }
-    .code { font-family: monospace; font-size: 17px; font-weight: bold; color: #dc2626; letter-spacing: 1px; }
-    .actions { display: flex; gap: 8px; }
-    .btn { background: var(--primary); color: #fff; border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; text-decoration: none; text-align: center; flex: 1; }
-    .btn-outline { background: #e2e8f0; color: #334155; }
-    #loader { text-align: center; padding: 40px 20px; font-size: 16px; color: #64748b; }
+    :root {
+      --primary: #0f172a;
+      --accent: #eab308;
+      --blue: #2563eb;
+      --green: #16a34a;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 75px 0; color: var(--text); }
+
+    /* الهيدر وشريط البحث */
+    .app-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff; padding: 16px 16px 22px; border-radius: 0 0 22px 22px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 50;
+    }
+    .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .brand-title { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .brand-badge { background: var(--accent); color: #000; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; }
+    .search-box { position: relative; }
+    .search-box input {
+      width: 100%; padding: 11px 16px; border-radius: 12px; border: none;
+      font-family: 'Cairo', sans-serif; font-size: 14px; background: rgba(255,255,255,0.95);
+      color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* شريط المتاجر الدائري */
+    .section-title { font-size: 15px; font-weight: 800; margin: 16px 16px 8px; display: flex; justify-content: space-between; align-items: center; }
+    .stores-strip {
+      display: flex; gap: 12px; overflow-x: auto; padding: 6px 16px 12px;
+      scrollbar-width: none;
+    }
+    .stores-strip::-webkit-scrollbar { display: none; }
+    .store-item {
+      display: flex; flex-direction: column; align-items: center; min-width: 68px; cursor: pointer;
+    }
+    .store-circle {
+      width: 60px; height: 60px; border-radius: 50%; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 2px solid transparent;
+      padding: 8px; transition: 0.2s;
+    }
+    .store-item.active .store-circle { border-color: var(--blue); transform: scale(1.06); }
+    .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .store-name { font-size: 11px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
+
+    /* تصنيفات الكوبونات */
+    .cats-strip {
+      display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 14px; scrollbar-width: none;
+    }
+    .cats-strip::-webkit-scrollbar { display: none; }
+    .cat-pill {
+      background: #e2e8f0; color: #334155; padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: 0.2s;
+    }
+    .cat-pill.active { background: var(--blue); color: #fff; box-shadow: 0 2px 6px rgba(37,99,235,0.3); }
+
+    /* بطاقة الكوبون الاحترافية (Ticket Design) */
+    .container { padding: 0 16px; max-width: 600px; margin: auto; }
+    .coupon-ticket {
+      background: var(--card); border-radius: 16px; margin-bottom: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
+      overflow: hidden; position: relative;
+    }
+    .ticket-top { display: flex; padding: 14px; gap: 12px; align-items: center; }
+    .ticket-logo {
+      width: 58px; height: 58px; border-radius: 12px; border: 1px solid #f1f5f9;
+      padding: 6px; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0;
+    }
+    .ticket-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .ticket-info { flex: 1; }
+    .badges-row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; flex-wrap: wrap; }
+    .discount-badge { background: #fef08a; color: #854d0e; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px; }
+    .verified-badge { background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .ticket-title { font-size: 14px; font-weight: 700; margin: 0; color: var(--text); line-height: 1.4; }
+    .ticket-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    /* خط القص المتقطع وأزرار الكوبون */
+    .ticket-divider {
+      border-top: 2px dashed #e2e8f0; margin: 0 14px; position: relative;
+    }
+    .ticket-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; background: #f8fafc; gap: 10px;
+    }
+    .code-display {
+      background: #fff; border: 1.5px dashed var(--blue); border-radius: 8px;
+      padding: 6px 14px; font-family: monospace; font-size: 16px; font-weight: 800;
+      color: var(--blue); letter-spacing: 1.5px; text-align: center; min-width: 110px;
+    }
+    .btn-actions { display: flex; gap: 8px; flex: 1; justify-content: flex-end; }
+    .btn-copy {
+      background: var(--blue); color: #fff; border: none; padding: 8px 16px;
+      border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: 700;
+      font-size: 13px; cursor: pointer; flex: 1; max-width: 140px;
+    }
+    .btn-shop {
+      background: #e2e8f0; color: var(--text); text-decoration: none; padding: 8px 12px;
+      border-radius: 8px; font-weight: 700; font-size: 12px; display: flex; align-items: center;
+    }
+
+    /* شريط التنقل السفلي */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
+      display: flex; justify-content: space-around; padding: 8px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.06); z-index: 100; border-top: 1px solid #e2e8f0;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; font-size: 11px;
+      font-weight: 700; color: var(--muted); cursor: pointer;
+    }
+    .nav-item.active { color: var(--blue); }
+    .nav-icon { font-size: 18px; margin-bottom: 2px; }
+
+    /* لوحة التحكم (Admin) */
+    .page-view { display: none; }
+    .page-view.active { display: block; }
+    .admin-card { background: #fff; border-radius: 14px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-family: 'Cairo', sans-serif; font-size: 13px;
+    }
+    .toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background: #16a34a; color: #fff; padding: 10px 20px; border-radius: 30px;
+      font-weight: 700; font-size: 13px; display: none; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
 
-<header>الكوبون الفضي - أحدث الخصومات</header>
-<div class="search-bar">
-  <input type="text" id="searchInput" placeholder="ابحث عن متجر (نون، نمشي، كارفور...)" oninput="filterCoupons()">
+<div class="app-header">
+  <div class="brand-row">
+    <div class="brand-title">🪙 الكوبون الفضي <span class="brand-badge">أكواد موثقة</span></div>
+    <div style="font-size:12px; opacity:0.85;" id="totalCount">جاري التحميل...</div>
+  </div>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="ابحث عن متجر أو كود خصم (نون، نمشي، راية...)" oninput="renderCoupons()">
+  </div>
 </div>
 
-<div class="container" id="coupons-container">
-  <div id="loader">جاري تحميل أحدث الكوبونات...</div>
+<!-- الصفحة الرئيسية: الكوبونات والمتاجر -->
+<div id="homeView" class="page-view active">
+  <div class="section-title">
+    <span>أشهر المتاجر</span>
+    <span style="font-size:12px; color:var(--blue); cursor:pointer;" onclick="selectStore('all')">عرض الكل</span>
+  </div>
+  <div class="stores-strip" id="storesContainer"></div>
+
+  <div class="cats-strip" id="catsContainer">
+    <div class="cat-pill active" onclick="selectCat('all', this)">🔥 جميع العروض</div>
+    <div class="cat-pill" onclick="selectCat('متاجر شاملة', this)">🛒 متاجر شاملة</div>
+    <div class="cat-pill" onclick="selectCat('أزياء وموضة', this)">👗 أزياء وموضة</div>
+    <div class="cat-pill" onclick="selectCat('إلكترونيات', this)">💻 إلكترونيات</div>
+    <div class="cat-pill" onclick="selectCat('بقالة وسوبرماركت', this)">🥫 سوبرماركت</div>
+  </div>
+
+  <div class="container" id="couponsContainer"></div>
+</div>
+
+<!-- صفحة عروض المدونة الحية -->
+<div id="blogView" class="page-view">
+  <div class="section-title">أحدث مقالات وعروض المدونة</div>
+  <div class="container" id="blogContainer">جاري سحب المقالات من بلوجر...</div>
+</div>
+
+<!-- لوحة تحكم الأدمن لإضافة وتعديل الكوبونات -->
+<div id="adminView" class="page-view">
+  <div class="container">
+    <div class="admin-card">
+      <h3 style="margin-top:0;">➕ إضافة أو تعديل كوبون</h3>
+      <p style="font-size:12px; color:var(--muted);">أضف الكوبون هنا لاختباره فوراً في التطبيق، أو انسخ ملف البيانات المحدث لحفظه في GitHub ليظهر لكل المستخدمين.</p>
+      <div class="form-group">
+        <label>اختر المتجر</label>
+        <select id="admStore"></select>
+      </div>
+      <div class="form-group">
+        <label>القسم</label>
+        <select id="admCat">
+          <option value="متاجر شاملة">متاجر شاملة</option>
+          <option value="أزياء وموضة">أزياء وموضة</option>
+          <option value="إلكترونيات">إلكترونيات</option>
+          <option value="بقالة وسوبرماركت">بقالة وسوبرماركت</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>قيمة الخصم (مثال: خصم 20% إضافي)</label>
+        <input type="text" id="admDiscount" placeholder="خصم 15% فوري">
+      </div>
+      <div class="form-group">
+        <label>وصف الكوبون</label>
+        <input type="text" id="admTitle" placeholder="فعال على جميع المنتجات المخفضة وغير المخفضة">
+      </div>
+      <div class="form-group">
+        <label>كود الخصم الصحيح</label>
+        <input type="text" id="admCode" placeholder="WK83" style="font-family:monospace; font-weight:bold;">
+      </div>
+      <div class="form-group">
+        <label>رابط المتجر أو العرض (Affiliate Link)</label>
+        <input type="url" id="admUrl" value="https://silvercoupons.blogspot.com/">
+      </div>
+      <button class="btn-copy" style="max-width:100%; width:100%; padding:12px;" onclick="addCouponAdmin()">حفظ الكوبون في التطبيق</button>
+      <button class="btn-shop" style="width:100%; justify-content:center; margin-top:10px; padding:10px; border:none; cursor:pointer;" onclick="exportJsonData()">📋 نسخ كود JSON المحدث لحفظه في GitHub</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toastMsg">تم نسخ الكود بنجاح!</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="switchTab('homeView', this)">
+    <span class="nav-icon">🏷️</span><span>الكوبونات</span>
+  </div>
+  <div class="nav-item" onclick="switchTab('blogView', this)">
+    <span class="nav-icon">📰</span><span>مقالات المدونة</span>
+  </div>
+  <div class="nav-item" onclick="switchTab('adminView', this)">
+    <span class="nav-icon">⚙️</span><span>إدارة الكوبونات</span>
+  </div>
 </div>
 
 <script>
-  let allPosts = [];
+  // رابط البيانات السحابي المباشر من مستودعك لتحديث الكوبونات بدون تحديث التطبيق
+  const CLOUD_JSON_URL = 'https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/coupons.json';
 
-  // استخراج كود الخصم من النص تلقائياً أو إعطاء كود افتراضي من المقال
-  function extractCode(text) {
-    const match = text.match(/\b([A-Z0-9]{3,10})\b/);
-    return match ? match[1] : "SHOW";
+  let appData = { stores: [], coupons: [] };
+  let activeStore = 'all';
+  let activeCat = 'all';
+
+  async function initApp() {
+    try {
+      // جلب البيانات الحية من GitHub أولاً، أو من الملف المحلي كبديل
+      const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
+      appData = await res.json();
+      const localSaved = localStorage.getItem('silver_custom_coupons');
+      if (localSaved) appData = JSON.parse(localSaved);
+    } catch (e) {
+      console.log('Using fallback data');
+    }
+    renderStores();
+    renderCoupons();
+    populateAdminStores();
   }
 
-  function renderCoupons(posts) {
-    const container = document.getElementById('coupons-container');
-    container.innerHTML = '';
-    if (posts.length === 0) {
-      container.innerHTML = '<div id="loader">لا توجد نتائج مطابقة للبحث.</div>';
+  function renderStores() {
+    const container = document.getElementById('storesContainer');
+    let html = `
+      <div class="store-item ${activeStore === 'all' ? 'active' : ''}" onclick="selectStore('all')">
+        <div class="store-circle"><span style="font-size:22px;">🏪</span></div>
+        <div class="store-name">الكل</div>
+      </div>`;
+    appData.stores.forEach(st => {
+      html += `
+        <div class="store-item ${activeStore === st.id ? 'active' : ''}" onclick="selectStore('${st.id}')">
+          <div class="store-circle"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/50?text=${st.name[0]}'"></div>
+          <div class="store-name">${st.name.split('-')[0]}</div>
+        </div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function renderCoupons() {
+    const container = document.getElementById('couponsContainer');
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+    const filtered = appData.coupons.filter(c => {
+      const matchStore = activeStore === 'all' || c.storeId === activeStore;
+      const matchCat = activeCat === 'all' || c.category === activeCat;
+      const matchQuery = !q || c.title.toLowerCase().includes(q) || c.storeName.toLowerCase().includes(q) || c.code.toLowerCase().includes(q);
+      return matchStore && matchCat && matchQuery;
+    });
+
+    document.getElementById('totalCount').innerText = `${filtered.length} كوبون فعال`;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted);">لا توجد كوبونات مطابقة لبحثك حالياً.</div>`;
       return;
     }
 
-    posts.forEach(entry => {
-      const title = entry.title.$t;
-      const content = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : "");
-      const cleanText = content.replace(/<[^>]*>?/gm, '');
-      const link = entry.link.find(l => l.rel === 'alternate').href;
-      const thumb = entry.media$thumbnail ? entry.media$thumbnail.url.replace('s72-c', 's300') : 'https://via.placeholder.com/80?text=Coupon';
-      const code = extractCode(title + " " + cleanText);
-
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <div class="card-header">
-          <img src="${thumb}" alt="شعار المتجر">
-          <h3>${title}</h3>
+    container.innerHTML = filtered.map(c => {
+      const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
+      const logo = storeObj.logo || 'https://via.placeholder.com/60';
+      return `
+        <div class="coupon-ticket">
+          <div class="ticket-top">
+            <div class="ticket-logo"><img src="${logo}" alt="${c.storeName}"></div>
+            <div class="ticket-info">
+              <div class="badges-row">
+                <span class="discount-badge">${c.discount}</span>
+                <span class="verified-badge">✓ كود فعال ومُحقق</span>
+              </div>
+              <h3 class="ticket-title">${c.title}</h3>
+              <div class="ticket-meta">متجر: ${c.storeName} • تم الاستخدام ${c.usedCount || 120} مرة</div>
+            </div>
+          </div>
+          <div class="ticket-divider"></div>
+          <div class="ticket-bottom">
+            <div class="code-display">${c.code}</div>
+            <div class="btn-actions">
+              <button class="btn-copy" onclick="copyCoupon('${c.code}', this)">نسخ الكود</button>
+              <a href="${c.url || storeObj.url}" target="_blank" class="btn-shop">تسوق  LeftArrow</a>
+            </div>
+          </div>
         </div>
-        ${code !== "SHOW" ? `
-        <div class="coupon-box">
-          <span class="code">${code}</span>
-          <button class="btn" style="flex:0 0 auto;" onclick="copyCode('${code}', this)">نسخ الكوبون</button>
-        </div>` : ''}
-        <div class="actions">
-          <a href="${link}" target="_blank" class="btn btn-outline">تفاصيل العرض والمنتجات</a>
-        </div>
-      `;
-      container.appendChild(card);
-    });
+      `.replace('LeftArrow', '↗');
+    }).join('');
   }
 
-  function loadBloggerFeed(data) {
-    allPosts = data.feed.entry || [];
-    renderCoupons(allPosts);
+  function selectStore(storeId) {
+    activeStore = storeId;
+    renderStores();
+    renderCoupons();
   }
 
-  function filterCoupons() {
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    const filtered = allPosts.filter(p => p.title.$t.toLowerCase().includes(q));
-    renderCoupons(filtered);
+  function selectCat(cat, el) {
+    activeCat = cat;
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    renderCoupons();
   }
 
-  function copyCode(code, btn) {
+  function copyCoupon(code, btn) {
     navigator.clipboard.writeText(code);
-    const oldText = btn.innerText;
+    const old = btn.innerText;
     btn.innerText = 'تم النسخ ✓';
     btn.style.background = '#16a34a';
-    setTimeout(() => { btn.innerText = oldText; btn.style.background = '#2563eb'; }, 2000);
+    showToast(`تم نسخ الكود (${code}) بنجاح!`);
+    setTimeout(() => { btn.innerText = old; btn.style.background = '#2563eb'; }, 2000);
   }
 
-  // سحب البيانات مباشرة من مدونة الكوبون الفضي
-  const script = document.createElement('script');
-  script.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=50';
-  document.body.appendChild(script);
+  function showToast(msg) {
+    const t = document.getElementById('toastMsg');
+    t.innerText = msg;
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 2500);
+  }
+
+  function switchTab(viewId, navEl) {
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    navEl.classList.add('active');
+  }
+
+  function populateAdminStores() {
+    const sel = document.getElementById('admStore');
+    sel.innerHTML = appData.stores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+  }
+
+  function addCouponAdmin() {
+    const storeId = document.getElementById('admStore').value;
+    const storeObj = appData.stores.find(s => s.id === storeId);
+    const newCoupon = {
+      id: Date.now(),
+      storeId: storeId,
+      storeName: storeObj ? storeObj.name : storeId,
+      category: document.getElementById('admCat').value,
+      discount: document.getElementById('admDiscount').value || 'خصم إضافي',
+      title: document.getElementById('admTitle').value || 'كود خصم فعال على جميع المنتجات',
+      code: document.getElementById('admCode').value.trim().toUpperCase(),
+      url: document.getElementById('admUrl').value,
+      verified: true,
+      usedCount: Math.floor(Math.random() * 100) + 50
+    };
+    if (!newCoupon.code) return alert('يرجى كتابة كود الخصم');
+    appData.coupons.unshift(newCoupon);
+    localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
+    renderCoupons();
+    showToast('تمت إضافة الكوبون بنجاح!');
+  }
+
+  function exportJsonData() {
+    navigator.clipboard.writeText(JSON.stringify(appData, null, 2));
+    showToast('تم نسخ ملف JSON! الصقه في ملف coupons.json في GitHub ليظهر للجميع.');
+  }
+
+  // جلب مقالات بلوجر في التبويب الثاني
+  window.loadBloggerFeed = function(data) {
+    const entries = data.feed.entry || [];
+    const container = document.getElementById('blogContainer');
+    container.innerHTML = entries.map(e => {
+      const title = e.title.$t;
+      const link = e.link.find(l => l.rel === 'alternate').href;
+      const img = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
+      return `
+        <div class="coupon-ticket" style="padding:12px; display:flex; gap:12px; align-items:center;">
+          <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover;">
+          <div style="flex:1;">
+            <h4 style="margin:0 0 8px 0; font-size:14px;">${title}</h4>
+            <a href="${link}" target="_blank" class="btn-shop" style="display:inline-block;">قراءة العرض في الموقع ↗</a>
+          </div>
+        </div>`;
+    }).join('');
+  };
+
+  const bScript = document.createElement('script');
+  bScript.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=25';
+  document.body.appendChild(bScript);
+
+  initApp();
 </script>
 </body>
 </html>
