@@ -26,7 +26,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 50;
     }
     .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .brand-title { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .brand-title { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
     .brand-badge { background: var(--accent); color: #000; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; }
     .search-box { position: relative; }
     .search-box input {
@@ -118,7 +118,7 @@
     }
     .nav-item {
       display: flex; flex-direction: column; align-items: center; font-size: 11px;
-      font-weight: 700; color: var(--muted); cursor: pointer;
+      font-weight: 700; color: var(--muted); cursor: pointer; flex: 1;
     }
     .nav-item.active { color: var(--blue); }
     .nav-icon { font-size: 18px; margin-bottom: 2px; }
@@ -144,7 +144,7 @@
 
 <div class="app-header">
   <div class="brand-row">
-    <div class="brand-title">🪙 الكوبون الفضي <span class="brand-badge">أكواد موثقة</span></div>
+    <div class="brand-title" onclick="unlockAdmin()">🪙 الكوبون الفضي <span class="brand-badge">أكواد موثقة</span></div>
     <div style="font-size:12px; opacity:0.85;" id="totalCount">جاري التحميل...</div>
   </div>
   <div class="search-box">
@@ -177,11 +177,14 @@
   <div class="container" id="blogContainer">جاري سحب المقالات من بلوجر...</div>
 </div>
 
-<!-- لوحة تحكم الأدمن لإضافة وتعديل الكوبونات -->
+<!-- لوحة تحكم الأدمن السرية لإضافة وتعديل الكوبونات -->
 <div id="adminView" class="page-view">
   <div class="container">
     <div class="admin-card">
-      <h3 style="margin-top:0;">➕ إضافة أو تعديل كوبون</h3>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="margin:0;">🔒 إضافة أو تعديل كوبون</h3>
+        <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">إغلاق ✕</button>
+      </div>
       <p style="font-size:12px; color:var(--muted);">أضف الكوبون هنا لاختباره فوراً في التطبيق، أو انسخ ملف البيانات المحدث لحفظه في GitHub ليظهر لكل المستخدمين.</p>
       <div class="form-group">
         <label>اختر المتجر</label>
@@ -227,22 +230,36 @@
   <div class="nav-item" onclick="switchTab('blogView', this)">
     <span class="nav-icon">📰</span><span>مقالات المدونة</span>
   </div>
-  <div class="nav-item" onclick="switchTab('adminView', this)">
-    <span class="nav-icon">⚙️</span><span>إدارة الكوبونات</span>
-  </div>
 </div>
 
 <script>
-  // رابط البيانات السحابي المباشر من مستودعك لتحديث الكوبونات بدون تحديث التطبيق
   const CLOUD_JSON_URL = 'https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/coupons.json';
 
   let appData = { stores: [], coupons: [] };
   let activeStore = 'all';
   let activeCat = 'all';
+  let tapCount = 0;
+  let tapTimer = null;
+
+  // قفل لوحة التحكم برقم سري (اضغط 5 مرات على عنوان الكوبون الفضي بالأعلى وأدخل 2026)
+  function unlockAdmin() {
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
+    if (tapCount >= 5) {
+      tapCount = 0;
+      const pass = prompt("أدخل الرقم السري لمالك التطبيق:");
+      if (pass === "2026") {
+        document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+        document.getElementById('adminView').classList.add('active');
+      } else if (pass !== null) {
+        alert("الرقم السري غير صحيح!");
+      }
+    }
+  }
 
   async function initApp() {
     try {
-      // جلب البيانات الحية من GitHub أولاً، أو من الملف المحلي كبديل
       const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
       appData = await res.json();
       const localSaved = localStorage.getItem('silver_custom_coupons');
@@ -311,11 +328,11 @@
             <div class="code-display">${c.code}</div>
             <div class="btn-actions">
               <button class="btn-copy" onclick="copyCoupon('${c.code}', this)">نسخ الكود</button>
-              <a href="${c.url || storeObj.url}" target="_blank" class="btn-shop">تسوق  LeftArrow</a>
+              <a href="${c.url || storeObj.url}" target="_blank" class="btn-shop">تسوق ↗</a>
             </div>
           </div>
         </div>
-      `.replace('LeftArrow', '↗');
+      `;
     }).join('');
   }
 
@@ -351,8 +368,10 @@
   function switchTab(viewId, navEl) {
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById(viewId).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    navEl.classList.add('active');
+    if (navEl) {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      navEl.classList.add('active');
+    }
   }
 
   function populateAdminStores() {
