@@ -34,9 +34,10 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
+          mv app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/الكوبون الفضي.apk"
 
       - name: Upload APK Ready for Download
         uses: actions/upload-artifact@v4
         with:
-          name: SilverCoupons-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: الكوبون-الفضي-APK
+          path: "android/app/build/outputs/apk/debug/الكوبون الفضي.apk"
