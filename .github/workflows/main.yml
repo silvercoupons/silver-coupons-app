@@ -27,6 +27,8 @@ jobs:
         run: |
           npm install
           npx cap add android
+          sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">الكوبون الفضي<\/string>/g' android/app/src/main/res/values/strings.xml
+          sed -i 's/<string name="title_activity_main">.*<\/string>/<string name="title_activity_main">الكوبون الفضي<\/string>/g' android/app/src/main/res/values/strings.xml
           npx cap sync android
 
       - name: Build Debug APK
