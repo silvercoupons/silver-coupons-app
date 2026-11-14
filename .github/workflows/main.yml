@@ -27,8 +27,8 @@ jobs:
         run: |
           npm install
           npx cap add android
-          sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">الكوبون الفضي<\/string>/g' android/app/src/main/res/values/strings.xml
-          sed -i 's/<string name="title_activity_main">.*<\/string>/<string name="title_activity_main">الكوبون الفضي<\/string>/g' android/app/src/main/res/values/strings.xml
+          sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name"silvercoupons<\/string>/g' android/app/src/main/res/values/strings.xml
+          sed -i 's/<string name="title_activity_main">.*<\/string>/<string name="title_activity_main">silvercoupons<\/string>/g' android/app/src/main/res/values/strings.xml
           npx cap sync android
 
       - name: Build Debug APK
@@ -36,10 +36,10 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
-          mv app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/الكوبون الفضي.apk"
+          mv app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/silvercoupons.apk"
 
       - name: Upload APK Ready for Download
         uses: actions/upload-artifact@v4
         with:
-          name: الكوبون-الفضي-APK
-          path: "android/app/build/outputs/apk/debug/الكوبون الفضي.apk"
+          name: silvercoupons-APK
+          path: "android/app/build/outputs/apk/debug/silvercoupons.apk"
