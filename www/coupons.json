@@ -1,17 +1,17 @@
 {
   "stores": [
-    { "id": "noon", "name": "نون - Noon", "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Noon_Website_Logo.svg", "url": "https://www.noon.com/egypt-ar/" },
-    { "id": "namshi", "name": "نمشي - Namshi", "logo": "https://upload.wikimedia.org/wikipedia/commons/3/36/Namshi_logo.svg", "url": "https://ar-sa.namshi.com/" },
-    { "id": "defacto", "name": "ديفاكتو - DeFacto", "logo": "https://upload.wikimedia.org/wikipedia/commons/4/4e/DeFacto_logo.svg", "url": "https://dfcdn.defacto.com.tr/" },
+    { "id": "noon", "name": "نون - Noon", "logo": "https://cdn.almowafir.com/files/w200_noon.png", "url": "https://silvercoupons.blogspot.com/p/noon.html/" },
+    { "id": "namshi", "name": "نمشي - Namshi", "logo": "https://cdn.almowafir.com/files/w200_namshi.jpg", "url": "https://silvercoupons.blogspot.com/search/label/namshi-coupons" },
+    { "id": "defacto", "name": "ديفاكتو - DeFacto", "logo": "https://cdn.almowafir.com/files/w200_adv_defacto.jpg", "url": "https://silvercoupons.blogspot.com/p/defacto.html" },
     { "id": "2b", "name": "تو بي - 2B Egypt", "logo": "https://2b.com.eg/media/logo/stores/1/logo.png", "url": "https://2b.com.eg/ar/" },
-    { "id": "raya", "name": "راية شوب - Raya", "logo": "https://www.rayashop.com/media/logo/default/Raya_Logo.png", "url": "https://www.rayashop.com/ar/" },
-    { "id": "carrefour", "name": "كارفور - Carrefour", "logo": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Carrefour_logo.svg", "url": "https://www.carrefouregypt.com/" }
+    { "id": "raya", "name": "راية شوب - Raya", "logo": "https://cdn.almowafir.com/files/w200_adv_Raya.jpg", "url": "https://silvercoupons.blogspot.com/p/raya-shop-egypt.html" },
+    { "id": "carrefour", "name": "كارفور - Carrefour", "logo": "https://cdn.almowafir.com/files/w200_carrefour.jpg", "url": "https://silvercoupons.blogspot.com/search/label/carrefour-egypt" }
   ],
   "coupons": [
     {
       "id": 1,
       "storeId": "noon",
-      "storeName": "نون مصر والسعودية",
+      "storeName": "نون مصر ",
       "category": "متاجر شاملة",
       "discount": "خصم حتى 10% كاش باك",
       "title": "كود خصم نون فعال على جميع المنتجات والالكترونيات",
