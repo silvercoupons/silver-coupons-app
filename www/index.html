@@ -18,7 +18,20 @@
       --muted: #64748b;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 80px 0; color: var(--text); }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 80px 0; color: var(--text); overscroll-behavior-y: contain; }
+
+    /* مؤشر السحب للتحديث (Pull to Refresh) */
+    .ptr-indicator {
+      height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;
+      background: #eff6ff; color: var(--blue); font-size: 12.5px; font-weight: 800;
+      transition: height 0.2s ease; gap: 8px;
+    }
+    .ptr-spinner {
+      width: 16px; height: 16px; border: 2.5px solid #bfdbfe; border-top-color: var(--blue);
+      border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* شاشة البداية واختيار الدولة */
     .welcome-screen {
@@ -91,6 +104,7 @@
     .view-all-link {
       font-size: 12px; color: var(--blue); font-weight: 800; cursor: pointer;
       background: #eff6ff; padding: 4px 10px; border-radius: 12px; white-space: nowrap;
+      text-decoration: none;
     }
 
     /* شريط المتاجر الدائري */
@@ -181,23 +195,43 @@
     .promo-title { font-size: 14.5px; font-weight: 800; margin: 0 0 4px; line-height: 1.35; }
     .promo-cta { font-size: 11.5px; color: #fef08a; font-weight: 700; }
 
-    /* قسم أقوى الفئات */
+    /* قسم أقوى الفئات بالصفحة الرئيسية */
     .categories-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
       padding: 2px 16px 14px; max-width: 600px; margin: auto;
     }
+    /* صفحة "اعرض الكل" لأقوى الفئات: 2 كارت فقط في كل صف وتحت بعضهم بالترتيب */
+    .categories-grid-two-col {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+      padding: 6px 16px 20px; width: 100%; max-width: 600px; margin: auto;
+    }
     .cat-square-card {
-      background: #fff; border-radius: 16px; padding: 14px 8px;
+      background: #fff; border-radius: 16px; padding: 14px 10px;
       border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; gap: 8px; cursor: pointer; transition: 0.2s; aspect-ratio: 1 / 1;
+      text-align: center; gap: 7px; cursor: pointer; transition: 0.2s; min-height: 105px;
+      width: 100%; overflow: hidden;
+    }
+    .categories-grid-two-col .cat-square-card {
+      min-height: 126px; padding: 16px 12px;
     }
     .cat-square-card:active { transform: scale(0.96); border-color: var(--blue); background: #eff6ff; }
     .cat-square-icon {
       width: 46px; height: 46px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center; font-size: 24px;
+      display: flex; align-items: center; justify-content: center; font-size: 23px;
+      overflow: hidden; flex-shrink: 0;
     }
-    .cat-square-name { font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.25; }
+    .cat-square-icon img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 12px;
+    }
+    .cat-square-name {
+      font-size: 12.5px; font-weight: 800; color: var(--text); line-height: 1.3;
+      word-break: break-word;
+    }
+    .cat-square-count {
+      font-size: 11px; background: #eff6ff; color: var(--blue);
+      padding: 2px 10px; border-radius: 10px; font-weight: 700;
+    }
 
     /* بطاقة الكوبون الطولية الكاملة */
     .container { padding: 0 16px; max-width: 600px; margin: auto; }
@@ -243,6 +277,19 @@
       border-radius: 8px; font-weight: 700; font-size: 12px; display: flex; align-items: center;
     }
 
+    /* بطاقة مشاركة التطبيق المميزة */
+    .share-app-card {
+      background: linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%);
+      color: #fff; border-radius: 16px; padding: 16px; margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.2);
+    }
+    .share-app-btn {
+      background: var(--accent); color: #000; border: none; width: 100%;
+      padding: 11px; border-radius: 10px; font-family: 'Cairo', sans-serif;
+      font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+
     /* شبكة جميع المتاجر */
     .all-stores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
     .store-grid-card {
@@ -269,7 +316,7 @@
     .nav-icon { font-size: 18px; margin-bottom: 2px; }
 
     /* لوحة التحكم وصفحة المزيد */
-    .page-view { display: none; }
+    .page-view { display: none; width: 100%; overflow-x: hidden; }
     .page-view.active { display: block; }
     .admin-card { background: #fff; border-radius: 14px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .form-group { margin-bottom: 12px; }
@@ -278,9 +325,9 @@
       width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
       font-family: 'Cairo', sans-serif; font-size: 13px;
     }
-    .admin-tabs { display: flex; gap: 4px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
+    .admin-tabs { display: flex; gap: 3px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; flex-wrap: wrap; }
     .admin-tab {
-      flex: 1; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 11px;
+      flex: 1; min-width: 62px; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 11px;
       font-weight: 700; cursor: pointer; color: var(--muted);
     }
     .admin-tab.active { background: #fff; color: var(--blue); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
@@ -302,12 +349,13 @@
       background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
       padding: 12px; margin-bottom: 16px;
     }
-    .cat-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .cat-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .cat-chip-item {
       background: #fff; border: 1px solid #cbd5e1; border-radius: 20px;
       padding: 4px 10px; font-size: 11.5px; font-weight: 700;
       display: inline-flex; align-items: center; gap: 6px;
     }
+    .cat-chip-item img { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; }
     .cat-chip-del {
       color: var(--red); cursor: pointer; font-weight: 800; border: none;
       background: none; padding: 0 2px; font-size: 13px;
@@ -339,16 +387,16 @@
   <p class="welcome-sub">اختر دولتك لعرض أحدث أكواد الخصم والعروض الحصرية لبلدك</p>
 
   <div class="country-grid">
-    <div class="country-card" onclick="chooseCountry('EG', '????', 'مصر')"><span class="country-flag">????</span><span class="country-name">مصر</span></div>
-    <div class="country-card" onclick="chooseCountry('SA', '????', 'السعودية')"><span class="country-flag">????</span><span class="country-name">السعودية</span></div>
-    <div class="country-card" onclick="chooseCountry('AE', '????', 'الإمارات')"><span class="country-flag">????</span><span class="country-name">الإمارات</span></div>
-    <div class="country-card" onclick="chooseCountry('KW', '????', 'الكويت')"><span class="country-flag">????</span><span class="country-name">الكويت</span></div>
-    <div class="country-card" onclick="chooseCountry('BH', '????', 'البحرين')"><span class="country-flag">????</span><span class="country-name">البحرين</span></div>
-    <div class="country-card" onclick="chooseCountry('QA', '????', 'قطر')"><span class="country-flag">????</span><span class="country-name">قطر</span></div>
-    <div class="country-card" onclick="chooseCountry('OM', '????', 'عُمان')"><span class="country-flag">????</span><span class="country-name">عُمان</span></div>
-    <div class="country-card" onclick="chooseCountry('MA', '????', 'المغرب')"><span class="country-flag">????</span><span class="country-name">المغرب</span></div>
-    <div class="country-card" onclick="chooseCountry('JO', '????', 'الأردن')"><span class="country-flag">????</span><span class="country-name">الأردن</span></div>
-    <div class="country-card" onclick="chooseCountry('ALL', '??', 'كل الدول')"><span class="country-flag">??</span><span class="country-name">كل الدول</span></div>
+    <div class="country-card" onclick="chooseCountry('EG', '🇪🇬', 'مصر')"><span class="country-flag">🇪🇬</span><span class="country-name">مصر</span></div>
+    <div class="country-card" onclick="chooseCountry('SA', '🇸🇦', 'السعودية')"><span class="country-flag">🇸🇦</span><span class="country-name">السعودية</span></div>
+    <div class="country-card" onclick="chooseCountry('AE', '🇦🇪', 'الإمارات')"><span class="country-flag">🇦🇪</span><span class="country-name">الإمارات</span></div>
+    <div class="country-card" onclick="chooseCountry('KW', '🇰🇼', 'الكويت')"><span class="country-flag">🇰🇼</span><span class="country-name">الكويت</span></div>
+    <div class="country-card" onclick="chooseCountry('BH', '🇧🇭', 'البحرين')"><span class="country-flag">🇧🇭</span><span class="country-name">البحرين</span></div>
+    <div class="country-card" onclick="chooseCountry('QA', '🇶🇦', 'قطر')"><span class="country-flag">🇶🇦</span><span class="country-name">قطر</span></div>
+    <div class="country-card" onclick="chooseCountry('OM', '🇴🇲', 'عُمان')"><span class="country-flag">🇴🇲</span><span class="country-name">عُمان</span></div>
+    <div class="country-card" onclick="chooseCountry('MA', '🇲🇦', 'المغرب')"><span class="country-flag">🇲🇦</span><span class="country-name">المغرب</span></div>
+    <div class="country-card" onclick="chooseCountry('JO', '🇯🇴', 'الأردن')"><span class="country-flag">🇯🇴</span><span class="country-name">الأردن</span></div>
+    <div class="country-card" onclick="chooseCountry('ALL', '🌍', 'كل الدول')"><span class="country-flag">🌍</span><span class="country-name">كل الدول</span></div>
   </div>
 </div>
 
@@ -360,12 +408,18 @@
       <span class="brand-badge">أكواد موثقة</span>
     </div>
     <div class="header-left-tools">
-      <button class="country-switch-btn" id="currentCountryBtn" onclick="openCountryScreen()">?? كل الدول ?</button>
+      <button class="country-switch-btn" id="currentCountryBtn" onclick="openCountryScreen()">🌍 كل الدول ▾</button>
     </div>
   </div>
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="ابحث عن متجر أو كود خصم (نون، نمشي، راية...)" oninput="handleHomeSearch()">
   </div>
+</div>
+
+<!-- مؤشر السحب للأسفل للتحديث الفوري -->
+<div class="ptr-indicator" id="ptrIndicator">
+  <div class="ptr-spinner" id="ptrSpinner"></div>
+  <span id="ptrText">اسحب للأسفل لتحديث العروض...</span>
 </div>
 
 <!-- الصفحة الرئيسية المتكاملة -->
@@ -374,8 +428,8 @@
   <!-- نتائج البحث الفوري -->
   <div id="searchResultsSection" style="display:none; padding-top:14px;">
     <div class="section-header">
-      <span class="section-title-text">?? نتائج البحث</span>
-      <span class="view-all-link" onclick="clearSearch()">مسح البحث ?</span>
+      <span class="section-title-text">🔍 نتائج البحث</span>
+      <span class="view-all-link" onclick="clearSearch()">مسح البحث ✕</span>
     </div>
     <div class="container" id="searchResultsContainer"></div>
   </div>
@@ -387,16 +441,16 @@
 
     <!-- 1. شريط أشهر المتاجر -->
     <div class="section-header">
-      <span class="section-title-text">?? أشهر المتاجر</span>
-      <span class="view-all-link" onclick="openAllStoresPage()">عرض الكل ?</span>
+      <span class="section-title-text">🏪 أشهر المتاجر</span>
+      <span class="view-all-link" onclick="handleViewAllClick('stores')">عرض الكل ◂</span>
     </div>
     <div class="stores-strip" id="storesContainer"></div>
 
     <!-- 2. قسم عروض الإلكترونيات -->
     <div id="electronicsSectionWrap">
       <div class="section-header">
-        <span class="section-title-text">?? عروض الإلكترونيات</span>
-        <span class="view-all-link" onclick="openFilteredView('category', 'إلكترونيات', '?? عروض الإلكترونيات')">اعرض الكل ?</span>
+        <span class="section-title-text">💻 عروض الإلكترونيات</span>
+        <span class="view-all-link" onclick="handleViewAllClick('electronics')">اعرض الكل ◂</span>
       </div>
       <div class="horizontal-cards-strip" id="electronicsCarousel"></div>
     </div>
@@ -407,8 +461,8 @@
     <!-- 4. قسم العروض التلقائية -->
     <div id="autoDealsSectionWrap">
       <div class="section-header">
-        <span class="section-title-text">? العروض التلقائية</span>
-        <span class="view-all-link" onclick="openFilteredView('deals', 'all', '? جميع العروض التلقائية')">اعرض الكل ?</span>
+        <span class="section-title-text">⚡ العروض التلقائية</span>
+        <span class="view-all-link" onclick="handleViewAllClick('deals')">اعرض الكل ◂</span>
       </div>
       <div class="horizontal-cards-strip" id="autoDealsCarousel"></div>
     </div>
@@ -418,8 +472,8 @@
 
     <!-- 6. قسم أقوى الفئات -->
     <div class="section-header">
-      <span class="section-title-text">?? أقوى الفئات</span>
-      <span class="view-all-link" onclick="openFilteredView('all', 'all', '?? جميع الكوبونات والعروض')">اعرض الكل ?</span>
+      <span class="section-title-text">🎯 أقوى الفئات</span>
+      <span class="view-all-link" onclick="handleViewAllClick('categories')">اعرض الكل ◂</span>
     </div>
     <div class="categories-grid" id="categoriesGridContainer"></div>
 
@@ -428,27 +482,36 @@
 
     <!-- 8. قسم أحدث الكوبونات الفعالة -->
     <div class="section-header">
-      <span class="section-title-text">??? أحدث الكوبونات الفعالة</span>
-      <span class="view-all-link" onclick="openFilteredView('all', 'all', '??? جميع الكوبونات')">اعرض الكل ?</span>
+      <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
+      <span class="view-all-link" onclick="handleViewAllClick('latest')">اعرض الكل ◂</span>
     </div>
     <div class="horizontal-cards-strip" id="latestCouponsCarousel"></div>
   </div>
 </div>
 
-<!-- صفحة عرض الكل المخصصة -->
+<!-- صفحة عرض الكل المخصصة للكوبونات والعروض -->
 <div id="filteredListView" class="page-view">
   <div class="section-header">
     <span class="section-title-text" id="filteredViewTitle">جميع العروض</span>
-    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ?</button>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="goBackFromFiltered()">رجوع ✕</button>
   </div>
   <div class="container" id="filteredViewContainer"></div>
+</div>
+
+<!-- صفحة عرض جميع الأقسام والفئات (2 كارت في كل صف وتحت بعضهم بالترتيب) -->
+<div id="allCategoriesView" class="page-view">
+  <div class="section-header">
+    <span class="section-title-text">🎯 جميع الأقسام والفئات</span>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ✕</button>
+  </div>
+  <div class="categories-grid-two-col" id="allCategoriesGridContainer"></div>
 </div>
 
 <!-- صفحة عرض جميع المتاجر -->
 <div id="allStoresView" class="page-view">
   <div class="section-header">
-    <span class="section-title-text">?? جميع المتاجر المتاحة</span>
-    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ?</button>
+    <span class="section-title-text">🏪 جميع المتاجر المتاحة</span>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ✕</button>
   </div>
   <div class="container">
     <div class="search-box" style="margin-bottom:10px;">
@@ -460,37 +523,48 @@
 
 <!-- صفحة عروض المدونة الحية -->
 <div id="blogView" class="page-view">
-  <div class="section-header"><span class="section-title-text">?? أحدث مقالات وعروض المدونة</span></div>
+  <div class="section-header"><span class="section-title-text">📰 أحدث مقالات وعروض المدونة</span></div>
   <div class="container" id="blogContainer">جاري سحب المقالات من بلوجر...</div>
 </div>
 
-<!-- تبويب الصفحات القانونية ومنصات التواصل -->
+<!-- تبويب الصفحات القانونية ومشاركة التطبيق ومنصات التواصل -->
 <div id="aboutView" class="page-view">
-  <div class="section-header"><span class="section-title-text">?? معلومات التطبيق والتواصل</span></div>
+  <div class="section-header"><span class="section-title-text">ℹ️ معلومات التطبيق والتواصل</span></div>
   <div class="container">
+    <div class="share-app-card">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:28px;">🎁</span>
+        <div>
+          <h4 style="margin:0; font-size:15px; font-weight:800;">شارك التطبيق مع أصدقائك</h4>
+          <p style="margin:2px 0 0; font-size:12px; color:#cbd5e1;">ساعد أصدقاءك على التوفير وأرسل لهم رابط تحميل تطبيق الكوبون الفضي</p>
+        </div>
+      </div>
+      <button class="share-app-btn" onclick="shareAppWithFriends()">📤 مشاركة التطبيق الآن</button>
+    </div>
+
     <div class="legal-item open" onclick="this.classList.toggle('open')">
-      <div class="legal-header"><span>?? من نحن</span><span>?</span></div>
+      <div class="legal-header"><span>ℹ️ من نحن</span><span>▾</span></div>
       <div class="legal-body">
         تطبيق <strong>الكوبون الفضي (Silver Coupons)</strong> هو منصتك الذكية لتجميع أحدث أكواد الخصم الفعالة والعروض الحصرية لأشهر المتاجر الإلكترونية في العالم العربي. نحرص على فحص وتحديث جميع الكوبونات يومياً لتوفير المال على مشترياتك.
       </div>
     </div>
 
     <div class="legal-item" onclick="this.classList.toggle('open')">
-      <div class="legal-header"><span>?? سياسة الخصوصية (Privacy Policy)</span><span>?</span></div>
+      <div class="legal-header"><span>🔒 سياسة الخصوصية (Privacy Policy)</span><span>▾</span></div>
       <div class="legal-body">
         نحن نحترم خصوصية مستخدمينا بشكل كامل. لا يقوم تطبيق الكوبون الفضي بجمع أو تخزين أي بيانات شخصية حساسة أو معلومات دفع بنكية. قد يستخدم التطبيق خدمات تحليل الأداء أو شبكات الإعلانات المعتمدة لتحسين تجربة الاستخدام، كما تحتوي بعض الروابط على روابط تسويق بالعمولة (Affiliate Links) لا تضيف أي تكلفة إضافية على المستخدم.
       </div>
     </div>
 
     <div class="legal-item" onclick="this.classList.toggle('open')">
-      <div class="legal-header"><span>?? الشروط والأحكام (Terms & Conditions)</span><span>?</span></div>
+      <div class="legal-header"><span>📜 الشروط والأحكام (Terms & Conditions)</span><span>▾</span></div>
       <div class="legal-body">
         باستخدامك لتطبيق الكوبون الفضي، فإنك توافق على أن الكوبونات والعروض المعروضة تخضع لشروط وأحكام كل متجر على حدة وقد تنتهي صلاحيتها أو تتغير نسبة الخصم من قِبل المتجر المعلن في أي وقت دون إشعار مسبق.
       </div>
     </div>
 
     <div class="legal-item" onclick="this.classList.toggle('open')">
-      <div class="legal-header"><span>?? اتصل بنا (Contact Us)</span><span>?</span></div>
+      <div class="legal-header"><span>📞 اتصل بنا (Contact Us)</span><span>▾</span></div>
       <div class="legal-body">
         للاستفسارات، الإبلاغ عن كود لا يعمل، أو طلبات الإعلان وإضافة متجرك، يسعدنا تواصلك معنا عبر موقعنا الرسمي:<br>
         <a href="https://silvercoupons.blogspot.com/" target="_blank" style="color:var(--blue); font-weight:700;">https://silvercoupons.blogspot.com</a>
@@ -498,15 +572,15 @@
     </div>
 
     <div class="admin-card" style="margin-top:14px;">
-      <h4 style="margin:0 0 6px 0; font-size:14px;">?? تابعنا على منصات التواصل الاجتماعي</h4>
+      <h4 style="margin:0 0 6px 0; font-size:14px;">🌐 تابعنا على منصات التواصل الاجتماعي</h4>
       <p style="margin:0; font-size:12px; color:var(--muted);">احصل على تنبيهات فورية بأقوى العروض اليومية:</p>
       <div class="social-grid">
-        <a href="https://silvercoupons.blogspot.com/" target="_blank" class="social-btn" style="background:#0f172a;">?? الموقع الرسمي</a>
-        <a href="https://www.facebook.com/" target="_blank" class="social-btn" style="background:#1877f2;">?? فيسبوك</a>
-        <a href="https://www.tiktok.com/" target="_blank" class="social-btn" style="background:#000000;">?? تيك توك</a>
-        <a href="https://www.instagram.com/" target="_blank" class="social-btn" style="background:#e1306c;">?? إنستغرام</a>
-        <a href="https://www.youtube.com/" target="_blank" class="social-btn" style="background:#ff0000;">?? يوتيوب</a>
-        <a href="https://t.me/" target="_blank" class="social-btn" style="background:#0088cc;">?? تيليجرام</a>
+        <a href="https://silvercoupons.blogspot.com/" target="_blank" class="social-btn" style="background:#0f172a;">🌍 الموقع الرسمي</a>
+        <a href="https://www.facebook.com/" target="_blank" class="social-btn" style="background:#1877f2;">📘 فيسبوك</a>
+        <a href="https://www.tiktok.com/" target="_blank" class="social-btn" style="background:#000000;">🎵 تيك توك</a>
+        <a href="https://www.instagram.com/" target="_blank" class="social-btn" style="background:#e1306c;">📸 إنستغرام</a>
+        <a href="https://www.youtube.com/" target="_blank" class="social-btn" style="background:#ff0000;">▶️ يوتيوب</a>
+        <a href="https://t.me/" target="_blank" class="social-btn" style="background:#0088cc;">✈️ تيليجرام</a>
       </div>
     </div>
   </div>
@@ -517,28 +591,34 @@
   <div class="container">
     <div class="admin-card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h3 style="margin:0;">?? لوحة الإدارة السحابية</h3>
-        <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">إغلاق ?</button>
+        <h3 style="margin:0;">🔒 لوحة الإدارة السحابية</h3>
+        <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">إغلاق ✕</button>
       </div>
 
-      <button class="btn-publish" id="publishBtn" onclick="publishToGitHub()">?? نشر التعديلات للجميع الآن (تحديث مباشر)</button>
+      <button class="btn-publish" id="publishBtn" onclick="publishToGitHub()">🚀 نشر التعديلات للجميع الآن (تحديث مباشر)</button>
 
       <div class="admin-tabs">
-        <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">??? الكوبونات</div>
-        <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">?? المتاجر</div>
-        <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">??? البانرات</div>
-        <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">?? الربط</div>
+        <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
+        <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
+        <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانرات</div>
+        <div class="admin-tab" onclick="switchAdminTab('admLinksTab', this)">🔗 الروابط</div>
+        <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
       <!-- 1. إدارة الكوبونات والأقسام/الفئات -->
       <div id="admCouponsTab" class="adm-subview">
         <div class="cat-manager-box">
-          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:6px;">?? إدارة الأقسام والفئات (إضافة / حذف فئة):</label>
-          <div style="display:flex; gap:6px;">
-            <input type="text" id="newCatIcon" placeholder="أيقونة ??" style="width:74px; text-align:center;">
+          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات (إضافة صورة أو أيقونة):</label>
+          <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">تظهر أول 6 فئات في الصفحة الرئيسية، وتظهر جميع الفئات (2 كارت في كل صف وتحت بعضهم) في صفحة "اعرض الكل".</p>
+          <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <input type="text" id="newCatIcon" placeholder="أيقونة ✈️" style="width:74px; text-align:center;">
             <input type="text" id="newCatName" placeholder="اسم القسم الجديد (مثل: سفر وطيران)" style="flex:1;">
-            <button class="btn-copy" style="max-width:75px; padding:8px;" onclick="addCategoryAdmin()">+ إضافة</button>
           </div>
+          <div style="margin-bottom:8px;">
+            <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:3px;">🖼️ أو اختر صورة من هاتفك لمربع القسم (اختياري):</label>
+            <input type="file" id="newCatFile" accept="image/*" style="font-size:11.5px; padding:6px;">
+          </div>
+          <button class="btn-copy" style="max-width:100%; width:100%; padding:9px;" onclick="addCategoryAdmin()">+ إضافة القسم الجديد</button>
           <div class="cat-chip-list" id="adminCategoriesChips"></div>
         </div>
 
@@ -546,23 +626,23 @@
         <div class="form-group">
           <label>نوع البطاقة</label>
           <select id="admType" onchange="toggleCodeInput()">
-            <option value="coupon">??? بطاقة كوبون بكود خصم (نسخ الكود + تسوق)</option>
-            <option value="deal">?? بطاقة عرض تلقائي بدون كود (احصل على العرض)</option>
+            <option value="coupon">🏷️ بطاقة كوبون بكود خصم (نسخ الكود + تسوق)</option>
+            <option value="deal">🎁 بطاقة عرض تلقائي بدون كود (احصل على العرض)</option>
           </select>
         </div>
         <div class="form-group">
           <label>الدولة المستهدفة للعرض</label>
           <select id="admCountry">
-            <option value="ALL">?? كل الدول العربية</option>
-            <option value="EG">???? مصر</option>
-            <option value="SA">???? السعودية</option>
-            <option value="AE">???? الإمارات</option>
-            <option value="KW">???? الكويت</option>
-            <option value="BH">???? البحرين</option>
-            <option value="QA">???? قطر</option>
-            <option value="OM">???? عُمان</option>
-            <option value="MA">???? المغرب</option>
-            <option value="JO">???? الأردن</option>
+            <option value="ALL">🌍 كل الدول العربية</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
           </select>
         </div>
         <div class="form-group">
@@ -592,7 +672,7 @@
         <button class="btn-copy" id="saveCouponBtn" style="max-width:100%; width:100%; padding:11px;" onclick="saveCouponAdmin()">+ إضافة للقائمة</button>
         <button class="btn-shop" id="cancelEditBtn" style="display:none; width:100%; justify-content:center; margin-top:8px; border:none; cursor:pointer;" onclick="resetCouponForm()">إلغاء التعديل</button>
 
-        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">?? الكوبونات الحالية (تعديل / حذف):</h4>
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">📋 الكوبونات الحالية (تعديل / حذف):</h4>
         <div id="adminCouponsList"></div>
       </div>
 
@@ -605,16 +685,16 @@
         <div class="form-group">
           <label>دولة المتجر</label>
           <select id="newStoreCountry">
-            <option value="ALL">?? كل الدول العربية</option>
-            <option value="EG">???? مصر</option>
-            <option value="SA">???? السعودية</option>
-            <option value="AE">???? الإمارات</option>
-            <option value="KW">???? الكويت</option>
-            <option value="BH">???? البحرين</option>
-            <option value="QA">???? قطر</option>
-            <option value="OM">???? عُمان</option>
-            <option value="MA">???? المغرب</option>
-            <option value="JO">???? الأردن</option>
+            <option value="ALL">🌍 كل الدول العربية</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
           </select>
         </div>
         <div class="form-group">
@@ -631,7 +711,7 @@
         </div>
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="addStoreAdmin()">+ إضافة المتجر</button>
 
-        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">?? المتاجر المسجلة:</h4>
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🏪 المتاجر المسجلة:</h4>
         <div id="adminStoresList"></div>
       </div>
 
@@ -640,30 +720,30 @@
         <div class="form-group">
           <label>اختر مكان البانر المراد تعديله أو إخفاؤه</label>
           <select id="bannerSlotSelect" onchange="loadBannerForm()">
-            <option value="b0">?? البانر العلوي الرئيسي (قبل أشهر المتاجر)</option>
-            <option value="b1">1?? البانر الأول (أسفل عروض الإلكترونيات)</option>
-            <option value="b2">2?? البانر الثاني (أسفل العروض التلقائية)</option>
-            <option value="b3">3?? البانر الثالث (أسفل أقوى الفئات)</option>
+            <option value="b0">🔝 البانر العلوي الرئيسي (قبل أشهر المتاجر)</option>
+            <option value="b1">1️⃣ البانر الأول (أسفل عروض الإلكترونيات)</option>
+            <option value="b2">2️⃣ البانر الثاني (أسفل العروض التلقائية)</option>
+            <option value="b3">3️⃣ البانر الثالث (أسفل أقوى الفئات)</option>
           </select>
         </div>
         <div class="form-group">
           <label>حالة البانر</label>
           <select id="bannerEnabled">
-            <option value="true">? مفعّل ويظهر للزوار</option>
-            <option value="false">? مخفي حالياً</option>
+            <option value="true">✅ مفعّل ويظهر للزوار</option>
+            <option value="false">❌ مخفي حالياً</option>
           </select>
         </div>
         <div class="form-group">
-          <label>الشارة العلوية (مثال: عرض حصري ??)</label>
-          <input type="text" id="bannerTag" placeholder="عرض حصري ??">
+          <label>الشارة العلوية (مثال: عرض حصري 🔥)</label>
+          <input type="text" id="bannerTag" placeholder="عرض حصري 🔥">
         </div>
         <div class="form-group">
           <label>عنوان البانر الرئيسي</label>
           <input type="text" id="bannerTitle" placeholder="خصومات تصل إلى 70% على جميع المتاجر">
         </div>
         <div class="form-group">
-          <label>نص الزر (مثال: تسوق العرض الآن ?)</label>
-          <input type="text" id="bannerCta" placeholder="تسوق العرض الآن ?">
+          <label>نص الزر (مثال: تسوق العرض الآن ↗)</label>
+          <input type="text" id="bannerCta" placeholder="تسوق العرض الآن ↗">
         </div>
         <div class="form-group">
           <label>رابط الانتقال عند الضغط على البانر</label>
@@ -680,15 +760,49 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. إعدادات مفتاح الربط السحابي -->
+      <!-- 4. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
+      <div id="admLinksTab" class="adm-subview" style="display:none;">
+        <h4 style="margin:0 0 8px; font-size:13px;">📤 رابط مشاركة التطبيق (APK / Google Play):</h4>
+        <div class="form-group">
+          <label>رابط تحميل التطبيق الذي يُرسل للأصدقاء عند الضغط على (مشاركة التطبيق)</label>
+          <input type="url" id="appShareUrlInput" placeholder="https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk">
+        </div>
+
+        <h4 style="margin:16px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🔗 روابط أزرار (اعرض الكل) لكل قسم:</h4>
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">اترك الخانة فارغة لفتح صفحة القسم الداخلية في التطبيق تلقائياً، أو ضع رابطاً خارجياً لتوجيه الزائر إليه:</p>
+
+        <div class="form-group">
+          <label>رابط زر "عرض الكل" لقسم (🏪 أشهر المتاجر)</label>
+          <input type="url" id="vaStoresUrl" placeholder="افتراضي: صفحة جميع المتاجر الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (💻 عروض الإلكترونيات)</label>
+          <input type="url" id="vaElectronicsUrl" placeholder="افتراضي: صفحة الإلكترونيات الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (⚡ العروض التلقائية)</label>
+          <input type="url" id="vaDealsUrl" placeholder="افتراضي: صفحة العروض التلقائية الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (🎯 أقوى الفئات)</label>
+          <input type="url" id="vaCategoriesUrl" placeholder="افتراضي: صفحة جميع الأقسام والفئات الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (🏷️ أحدث الكوبونات الفعالة)</label>
+          <input type="url" id="vaLatestUrl" placeholder="افتراضي: صفحة جميع الكوبونات الداخلية">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveLinksAdmin()">حفظ إعدادات الروابط والمشاركة</button>
+      </div>
+
+      <!-- 5. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
-        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والأقسام تلقائياً بضغطة زر:</p>
+        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والروابط تلقائياً بضغطة زر:</p>
         <div class="form-group">
           <label>GitHub Personal Access Token (ghp_...)</label>
           <input type="password" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
         </div>
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveGhToken()">حفظ المفتاح في الهاتف</button>
-        <button class="btn-shop" style="width:100%; justify-content:center; margin-top:10px; border:none; cursor:pointer;" onclick="syncFromCloud()">?? جلب أحدث نسخة من السحابة</button>
+        <button class="btn-shop" style="width:100%; justify-content:center; margin-top:10px; border:none; cursor:pointer;" onclick="syncFromCloud()">🔄 جلب أحدث نسخة من السحابة</button>
       </div>
     </div>
   </div>
@@ -698,13 +812,13 @@
 
 <div class="bottom-nav">
   <div class="nav-item active" onclick="switchTab('homeView', this)">
-    <span class="nav-icon">???</span><span>الكوبونات</span>
+    <span class="nav-icon">🏷️</span><span>الكوبونات</span>
   </div>
   <div class="nav-item" onclick="switchTab('blogView', this)">
-    <span class="nav-icon">??</span><span>مقالات المدونة</span>
+    <span class="nav-icon">📰</span><span>مقالات المدونة</span>
   </div>
   <div class="nav-item" onclick="switchTab('aboutView', this)">
-    <span class="nav-icon">??</span><span>عن التطبيق</span>
+    <span class="nav-icon">ℹ️</span><span>عن التطبيق</span>
   </div>
 </div>
 
@@ -714,32 +828,120 @@
   const FILE_PATH = 'www/coupons.json';
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
+  const HOME_MAX_CARDS = 3;
+  const HOME_MAX_CATEGORIES = 6;
+
   const DEFAULT_CATEGORIES = [
-    { name: 'عروض جديدة', icon: '??', bg: '#fef3c7' },
-    { name: 'طعام', icon: '??', bg: '#fee2e2' },
-    { name: 'إلكترونيات', icon: '??', bg: '#dbeafe' },
-    { name: 'الجمال والعطور', icon: '??', bg: '#fce7f3' },
-    { name: 'أزياء وموضة', icon: '??', bg: '#ede9fe' },
-    { name: 'متاجر شاملة', icon: '??', bg: '#dcfce7' }
+    { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7' },
+    { name: 'طعام', icon: '🍔', image: '', bg: '#fee2e2' },
+    { name: 'إلكترونيات', icon: '💻', image: '', bg: '#dbeafe' },
+    { name: 'الجمال والعطور', icon: '🌸', image: '', bg: '#fce7f3' },
+    { name: 'أزياء وموضة', icon: '👗', image: '', bg: '#ede9fe' },
+    { name: 'متاجر شاملة', icon: '🛒', image: '', bg: '#dcfce7' }
   ];
 
   const DEFAULT_BANNERS = {
-    b0: { enabled: true, tag: 'عروض مميزة ?', title: 'تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر', cta: 'اكتشف العروض الآن ?', url: 'https://silvercoupons.blogspot.com/', image: '' },
-    b1: { enabled: true, tag: 'عروض الإلكترونيات ??', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ?', url: 'https://silvercoupons.blogspot.com/', image: '' },
-    b2: { enabled: true, tag: 'تخفيضات تلقائية ?', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ?', url: 'https://silvercoupons.blogspot.com/', image: '' },
-    b3: { enabled: true, tag: 'وفر أكثر ??', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ?', url: 'https://silvercoupons.blogspot.com/', image: '' }
+    b0: { enabled: true, tag: 'عروض مميزة ⭐', title: 'تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر', cta: 'اكتشف العروض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
+    b1: { enabled: true, tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
+    b2: { enabled: true, tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
+    b3: { enabled: true, tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '' }
   };
 
-  let appData = { categories: [...DEFAULT_CATEGORIES], banners: { ...DEFAULT_BANNERS }, stores: [], coupons: [] };
+  const DEFAULT_LINKS = {
+    appShareUrl: 'https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk',
+    stores: '',
+    electronics: '',
+    deals: '',
+    categories: '',
+    latest: ''
+  };
+
+  let appData = {
+    categories: [...DEFAULT_CATEGORIES],
+    banners: { ...DEFAULT_BANNERS },
+    links: { ...DEFAULT_LINKS },
+    stores: [],
+    coupons: []
+  };
+
   let selectedCountry = localStorage.getItem('silver_user_country') || '';
+  let previousViewId = 'homeView';
   let tapCount = 0;
   let tapTimer = null;
+
+  let touchStartY = 0;
+  let isPulling = false;
+  document.addEventListener('touchstart', (e) => {
+    if (window.scrollY === 0) {
+      touchStartY = e.touches[0].clientY;
+      isPulling = true;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!isPulling || window.scrollY > 0) return;
+    const diff = e.touches[0].clientY - touchStartY;
+    if (diff > 25 && diff < 130) {
+      const ptr = document.getElementById('ptrIndicator');
+      ptr.style.height = Math.min(diff * 0.5, 46) + 'px';
+      document.getElementById('ptrText').innerText = diff > 80 ? 'اترك الشاشة للتحديث الفوري 🔄' : 'اسحب للأسفل لتحديث العروض...';
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', async () => {
+    if (!isPulling) return;
+    isPulling = false;
+    const ptr = document.getElementById('ptrIndicator');
+    const currentH = parseFloat(ptr.style.height || '0');
+    if (currentH >= 38) {
+      ptr.style.height = '44px';
+      document.getElementById('ptrSpinner').style.display = 'inline-block';
+      document.getElementById('ptrText').innerText = 'جاري تحديث الكوبونات والعروض...';
+      await initApp();
+      showToast('تم تحديث أحدث الكوبونات بنجاح ✓');
+    }
+    setTimeout(() => {
+      ptr.style.height = '0px';
+      document.getElementById('ptrSpinner').style.display = 'none';
+    }, 300);
+  });
+
+  async function shareAppWithFriends() {
+    const shareUrl = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
+    const shareText = `🪙 حمل تطبيق "الكوبون الفضي" واحصل على أحدث أكواد الخصم الفعالة لأشهر المتاجر العربية:\n${shareUrl}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'تطبيق الكوبون الفضي - أكواد خصم موثقة',
+          text: shareText,
+          url: shareUrl
+        });
+      } catch (err) {}
+    } else {
+      navigator.clipboard.writeText(shareText);
+      showToast('تم نسخ رابط مشاركة التطبيق! أرسله لأصدقائك الآن.');
+    }
+  }
+
+  function handleViewAllClick(sectionKey) {
+    const customUrl = appData.links && appData.links[sectionKey] ? appData.links[sectionKey].trim() : '';
+    if (customUrl) {
+      window.open(customUrl, '_blank');
+      return;
+    }
+    if (sectionKey === 'stores') openAllStoresPage();
+    else if (sectionKey === 'electronics') openFilteredView('category', 'إلكترونيات', '💻 عروض الإلكترونيات', 'homeView');
+    else if (sectionKey === 'deals') openFilteredView('deals', 'all', '⚡ جميع العروض التلقائية', 'homeView');
+    else if (sectionKey === 'categories') openAllCategoriesPage();
+    else if (sectionKey === 'latest') openFilteredView('all', 'all', '🏷️ جميع الكوبونات الفعالة', 'homeView');
+  }
 
   function chooseCountry(code, flag, name) {
     selectedCountry = code;
     localStorage.setItem('silver_user_country', code);
     localStorage.setItem('silver_user_country_label', `${flag} ${name}`);
-    document.getElementById('currentCountryBtn').innerText = `${flag} ${name} ?`;
+    document.getElementById('currentCountryBtn').innerText = `${flag} ${name} ▾`;
     document.getElementById('welcomeScreen').classList.add('hidden');
     refreshAllUI();
   }
@@ -751,7 +953,7 @@
   function checkInitialCountry() {
     const savedLabel = localStorage.getItem('silver_user_country_label');
     if (selectedCountry && savedLabel) {
-      document.getElementById('currentCountryBtn').innerText = `${savedLabel} ?`;
+      document.getElementById('currentCountryBtn').innerText = `${savedLabel} ▾`;
     }
   }
 
@@ -767,6 +969,7 @@
         document.getElementById('adminView').classList.add('active');
         document.getElementById('ghTokenInput').value = localStorage.getItem('silver_gh_token') || '';
         loadBannerForm();
+        loadLinksForm();
         renderAdminLists();
       } else if (pass !== null) {
         alert("الرقم السري غير صحيح!");
@@ -796,21 +999,34 @@
   async function initApp() {
     checkInitialCountry();
     try {
-      const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
+      const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now(), { cache: 'no-store' }).catch(() => fetch('coupons.json'));
       const fetched = await res.json();
+
+      // دمج محصّن يحمي البانرات الأربعة والفئات من الاختفاء إذا كانت السحابة ببيانات قديمة
+      const mergedBanners = { ...DEFAULT_BANNERS };
+      if (fetched.banners) {
+        ['b0', 'b1', 'b2', 'b3'].forEach(key => {
+          if (fetched.banners[key] && (fetched.banners[key].title || fetched.banners[key].image || fetched.banners[key].enabled === false)) {
+            mergedBanners[key] = { ...DEFAULT_BANNERS[key], ...fetched.banners[key] };
+          }
+        });
+      }
+
       appData = {
-        categories: (fetched.categories && fetched.categories.length) ? fetched.categories : [...DEFAULT_CATEGORIES],
-        banners: { ...DEFAULT_BANNERS, ...(fetched.banners || {}) },
-        stores: fetched.stores || [],
-        coupons: fetched.coupons || []
+        categories: (Array.isArray(fetched.categories) && fetched.categories.length > 0) ? fetched.categories : [...DEFAULT_CATEGORIES],
+        banners: mergedBanners,
+        links: { ...DEFAULT_LINKS, ...(fetched.links || {}) },
+        stores: Array.isArray(fetched.stores) ? fetched.stores : [],
+        coupons: Array.isArray(fetched.coupons) ? fetched.coupons : []
       };
     } catch (e) {
       const localSaved = localStorage.getItem('silver_custom_coupons');
       if (localSaved) {
         const parsed = JSON.parse(localSaved);
         appData = {
-          categories: (parsed.categories && parsed.categories.length) ? parsed.categories : [...DEFAULT_CATEGORIES],
+          categories: (Array.isArray(parsed.categories) && parsed.categories.length > 0) ? parsed.categories : [...DEFAULT_CATEGORIES],
           banners: { ...DEFAULT_BANNERS, ...(parsed.banners || {}) },
+          links: { ...DEFAULT_LINKS, ...(parsed.links || {}) },
           stores: parsed.stores || [],
           coupons: parsed.coupons || []
         };
@@ -842,46 +1058,111 @@
     renderAdminLists();
   }
 
+  function loadLinksForm() {
+    const l = appData.links || DEFAULT_LINKS;
+    document.getElementById('appShareUrlInput').value = l.appShareUrl || DEFAULT_LINKS.appShareUrl;
+    document.getElementById('vaStoresUrl').value = l.stores || '';
+    document.getElementById('vaElectronicsUrl').value = l.electronics || '';
+    document.getElementById('vaDealsUrl').value = l.deals || '';
+    document.getElementById('vaCategoriesUrl').value = l.categories || '';
+    document.getElementById('vaLatestUrl').value = l.latest || '';
+  }
+
+  function saveLinksAdmin() {
+    appData.links = {
+      appShareUrl: document.getElementById('appShareUrlInput').value.trim() || DEFAULT_LINKS.appShareUrl,
+      stores: document.getElementById('vaStoresUrl').value.trim(),
+      electronics: document.getElementById('vaElectronicsUrl').value.trim(),
+      deals: document.getElementById('vaDealsUrl').value.trim(),
+      categories: document.getElementById('vaCategoriesUrl').value.trim(),
+      latest: document.getElementById('vaLatestUrl').value.trim()
+    };
+    refreshAllUI();
+    showToast('تم حفظ الروابط! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function renderCategoryVisual(cat) {
+    if (cat.image && cat.image.trim() !== '') {
+      return `<img src="${cat.image}" alt="${cat.name}" onerror="this.style.display='none'">`;
+    }
+    return cat.icon || '🏷️';
+  }
+
   function renderCategoriesGrid() {
     const grid = document.getElementById('categoriesGridContainer');
     const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
-    grid.innerHTML = cats.map(cat => `
-      <div class="cat-square-card" onclick="openFilteredView('category', '${cat.name}', '${cat.icon || '???'} ${cat.name}')">
-        <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${cat.icon || '???'}</div>
+    const homeCats = cats.slice(0, HOME_MAX_CATEGORIES);
+
+    grid.innerHTML = homeCats.map(cat => `
+      <div class="cat-square-card" onclick="openFilteredView('category', '${cat.name}', '${cat.icon || '🏷️'} ${cat.name}', 'homeView')">
+        <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${renderCategoryVisual(cat)}</div>
         <div class="cat-square-name">${cat.name}</div>
       </div>
     `).join('');
+  }
+
+  function openAllCategoriesPage() {
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('allCategoriesView').classList.add('active');
+
+    const grid = document.getElementById('allCategoriesGridContainer');
+    const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
+    const countryCoupons = appData.coupons.filter(c => matchesCountry(c.country));
+
+    grid.innerHTML = cats.map(cat => {
+      const count = countryCoupons.filter(c => c.category === cat.name).length;
+      return `
+        <div class="cat-square-card" onclick="openFilteredView('category', '${cat.name}', '${cat.icon || '🏷️'} ${cat.name}', 'allCategoriesView')">
+          <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${renderCategoryVisual(cat)}</div>
+          <div class="cat-square-name">${cat.name}</div>
+          <span class="cat-square-count">${count} عرض</span>
+        </div>
+      `;
+    }).join('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function populateAdminCategories() {
     const sel = document.getElementById('admCat');
     const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
     const currentVal = sel.value;
-    sel.innerHTML = cats.map(cat => `<option value="${cat.name}">${cat.icon || '???'} ${cat.name}</option>`).join('');
+    sel.innerHTML = cats.map(cat => `<option value="${cat.name}">${cat.icon || '🏷️'} ${cat.name}</option>`).join('');
     if (currentVal && cats.some(c => c.name === currentVal)) sel.value = currentVal;
 
     const chips = document.getElementById('adminCategoriesChips');
     chips.innerHTML = cats.map((cat, idx) => `
       <span class="cat-chip-item">
-        <span>${cat.icon || '???'} ${cat.name}</span>
+        ${cat.image ? `<img src="${cat.image}" alt="">` : `<span>${cat.icon || '🏷️'}</span>`}
+        <span>${cat.name}</span>
         ${cats.length > 1 ? `<button class="cat-chip-del" title="حذف القسم" onclick="deleteCategoryAdmin(${idx})">×</button>` : ''}
       </span>
     `).join('');
   }
 
-  function addCategoryAdmin() {
+  async function addCategoryAdmin() {
     const name = document.getElementById('newCatName').value.trim();
-    const icon = document.getElementById('newCatIcon').value.trim() || '???';
+    const icon = document.getElementById('newCatIcon').value.trim() || '🏷️';
+    const fileInput = document.getElementById('newCatFile');
+
     if (!name) return alert('يرجى كتابة اسم القسم الجديد');
     if (!appData.categories) appData.categories = [...DEFAULT_CATEGORIES];
     if (appData.categories.some(c => c.name === name)) return alert('هذا القسم موجود بالفعل!');
 
+    let imgUrl = '';
+    if (fileInput.files && fileInput.files[0]) {
+      showToast('جاري رفع صورة القسم إلى السحابة...');
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `cat_${Date.now()}.png`);
+      if (!uploaded) return;
+      imgUrl = uploaded;
+    }
+
     const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
     const randomBg = bgPalette[appData.categories.length % bgPalette.length];
 
-    appData.categories.push({ name: name, icon: icon, bg: randomBg });
+    appData.categories.push({ name: name, icon: icon, image: imgUrl, bg: randomBg });
     document.getElementById('newCatName').value = '';
     document.getElementById('newCatIcon').value = '';
+    fileInput.value = '';
     refreshAllUI();
     document.getElementById('admCat').value = name;
     showToast(`تمت إضافة قسم "${name}"! اضغط زر النشر الأخضر بالأعلى.`);
@@ -910,7 +1191,7 @@
         <div class="promo-banner-overlay" style="${!bannerObj.image ? 'position:relative; background:none;' : ''}">
           ${bannerObj.tag ? `<span class="promo-tag">${bannerObj.tag}</span>` : ''}
           <h3 class="promo-title">${bannerObj.title || 'عروض حصرية لفترة محدودة'}</h3>
-          <span class="promo-cta">${bannerObj.cta || 'احصل على العرض الآن ?'}</span>
+          <span class="promo-cta">${bannerObj.cta || 'احصل على العرض الآن ↗'}</span>
         </div>
       </a>
     `;
@@ -928,7 +1209,7 @@
     const container = document.getElementById('storesContainer');
     const visibleStores = appData.stores.filter(st => matchesCountry(st.country));
     container.innerHTML = visibleStores.map(st => `
-      <div class="store-item" onclick="openFilteredView('store', '${st.id}', '?? كوبونات ${st.name.split('-')[0]}')">
+      <div class="store-item" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}', 'homeView')">
         <div class="store-circle"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/50?text=${st.name[0]}'"></div>
         <div class="store-name">${st.name.split('-')[0]}</div>
       </div>
@@ -955,11 +1236,11 @@
         </div>
         <div class="h-card-footer">
           ${isDeal ? `
-            <a href="${targetUrl}" target="_blank" class="h-btn-deal">احصل على العرض ?</a>
+            <a href="${targetUrl}" target="_blank" class="h-btn-deal">احصل على العرض ↗</a>
           ` : `
             <div class="h-code-box">${c.code}</div>
             <button class="h-btn-copy" onclick="copyCoupon('${c.code}', this, 'نسخ الكود')">نسخ الكود</button>
-            <a href="${targetUrl}" target="_blank" class="h-btn-shop">تسوق ?</a>
+            <a href="${targetUrl}" target="_blank" class="h-btn-shop">تسوق ↗</a>
           `}
         </div>
       </div>
@@ -980,8 +1261,8 @@
             <div class="badges-row">
               <span class="discount-badge">${c.discount}</span>
               ${isDeal
-                ? `<span class="deal-badge">? عرض تلقائي بدون كود</span>`
-                : `<span class="verified-badge">? كود فعال ومُحقق</span>`}
+                ? `<span class="deal-badge">⚡ عرض تلقائي بدون كود</span>`
+                : `<span class="verified-badge">✓ كود فعال ومُحقق</span>`}
             </div>
             <h3 class="ticket-title">${c.title}</h3>
             <div class="ticket-meta">متجر: ${c.storeName} • القسم: ${c.category || 'عام'}</div>
@@ -990,12 +1271,12 @@
         <div class="ticket-divider"></div>
         <div class="ticket-bottom">
           ${isDeal ? `
-            <a href="${targetUrl}" target="_blank" class="btn-deal-full">احصل على العرض ?</a>
+            <a href="${targetUrl}" target="_blank" class="btn-deal-full">احصل على العرض ↗</a>
           ` : `
             <div class="code-display">${c.code}</div>
             <div class="btn-actions">
               <button class="btn-copy" onclick="copyCoupon('${c.code}', this, 'نسخ الكود')">نسخ الكود</button>
-              <a href="${targetUrl}" target="_blank" class="btn-shop">تسوق ?</a>
+              <a href="${targetUrl}" target="_blank" class="btn-shop">تسوق ↗</a>
             </div>
           `}
         </div>
@@ -1007,24 +1288,25 @@
     const countryCoupons = appData.coupons.filter(c => matchesCountry(c.country));
 
     let elecItems = countryCoupons.filter(c => c.category === 'إلكترونيات');
-    if (elecItems.length === 0) elecItems = countryCoupons.slice(0, 8);
+    if (elecItems.length === 0) elecItems = countryCoupons;
     document.getElementById('electronicsCarousel').innerHTML = elecItems.length
-      ? elecItems.slice(0, 12).map(buildHorizontalCard).join('')
+      ? elecItems.slice(0, HOME_MAX_CARDS).map(buildHorizontalCard).join('')
       : `<div style="padding:10px; color:var(--muted); font-size:13px;">لا توجد عروض إلكترونيات لهذه الدولة حالياً.</div>`;
 
     const dealItems = countryCoupons.filter(c => c.type === 'deal' || !c.code || c.code.trim() === '');
     document.getElementById('autoDealsCarousel').innerHTML = dealItems.length
-      ? dealItems.slice(0, 12).map(buildHorizontalCard).join('')
+      ? dealItems.slice(0, HOME_MAX_CARDS).map(buildHorizontalCard).join('')
       : `<div style="padding:10px 4px; color:var(--muted); font-size:12.5px;">أضف عروض أفلييت بدون كود من لوحة التحكم لتظهر هنا تلقائياً.</div>`;
 
     const activeCodeCoupons = countryCoupons.filter(c => c.type !== 'deal' && c.code && c.code.trim() !== '');
     const latestList = activeCodeCoupons.length ? activeCodeCoupons : countryCoupons;
     document.getElementById('latestCouponsCarousel').innerHTML = latestList.length
-      ? latestList.slice(0, 15).map(buildHorizontalCard).join('')
+      ? latestList.slice(0, HOME_MAX_CARDS).map(buildHorizontalCard).join('')
       : `<div style="padding:10px; color:var(--muted); font-size:13px;">لا توجد كوبونات متاحة لهذه الدولة حالياً.</div>`;
   }
 
-  function openFilteredView(filterType, filterValue, titleText) {
+  function openFilteredView(filterType, filterValue, titleText, returnTo = 'homeView') {
+    previousViewId = returnTo;
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('filteredListView').classList.add('active');
     document.getElementById('filteredViewTitle').innerText = titleText;
@@ -1045,6 +1327,10 @@
       ? results.map(buildVerticalTicket).join('')
       : `<div style="text-align:center; padding:40px; color:var(--muted);">لا توجد كوبونات مضافة في هذا القسم لدولتك حالياً.</div>`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goBackFromFiltered() {
+    switchTab(previousViewId || 'homeView', previousViewId === 'homeView' ? document.querySelector('.nav-item') : null);
   }
 
   function handleHomeSearch() {
@@ -1098,7 +1384,7 @@
     grid.innerHTML = visibleStores.length ? visibleStores.map(st => {
       const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
       return `
-        <div class="store-grid-card" onclick="openFilteredView('store', '${st.id}', '?? كوبونات ${st.name.split('-')[0]}')">
+        <div class="store-grid-card" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}', 'allStoresView')">
           <div class="store-grid-logo"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/60?text=${st.name[0]}'"></div>
           <div class="store-grid-title">${st.name.split('-')[0]}</div>
           <span class="store-grid-count">${count} عرض</span>
@@ -1109,7 +1395,7 @@
 
   function copyCoupon(code, btn, defaultLabel = 'نسخ الكود') {
     navigator.clipboard.writeText(code);
-    btn.innerText = 'تم النسخ ?';
+    btn.innerText = 'تم النسخ ✓';
     btn.style.background = '#16a34a';
     showToast(`تم نسخ الكود (${code}) بنجاح!`);
     setTimeout(() => { btn.innerText = defaultLabel; btn.style.background = '#2563eb'; }, 2000);
@@ -1213,7 +1499,7 @@
     document.getElementById('admTitle').value = c.title;
     document.getElementById('admCode').value = c.code || '';
     document.getElementById('admUrl').value = c.url || '';
-    document.getElementById('saveCouponBtn').innerText = '?? حفظ التعديل';
+    document.getElementById('saveCouponBtn').innerText = '💾 حفظ التعديل';
     document.getElementById('cancelEditBtn').style.display = 'flex';
     document.getElementById('adminView').scrollIntoView({ behavior: 'smooth' });
   }
@@ -1287,7 +1573,6 @@
     showToast('تم حذف المتجر! اضغط زر النشر الأخضر.');
   }
 
-  // إدارة البانرات الأربعة (b0, b1, b2, b3)
   function loadBannerForm() {
     const slot = document.getElementById('bannerSlotSelect').value;
     const allB = appData.banners || DEFAULT_BANNERS;
@@ -1339,12 +1624,12 @@
   async function publishToGitHub() {
     const token = localStorage.getItem('silver_gh_token');
     if (!token) {
-      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[3]);
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[4]);
       return alert('يرجى لصق مفتاح GitHub Token هنا أولاً (مرة واحدة فقط) لتفعيل النشر الفوري.');
     }
 
     const btn = document.getElementById('publishBtn');
-    btn.innerText = '? جاري النشر للجميع...';
+    btn.innerText = '⏳ جاري النشر للجميع...';
     btn.disabled = true;
 
     try {
@@ -1369,14 +1654,14 @@
       });
 
       if (putRes.ok) {
-        showToast('?? تم النشر بنجاح! التحديث ظهر الآن لجميع المستخدمين.');
+        showToast('🎉 تم النشر بنجاح! التحديث ظهر الآن لجميع المستخدمين.');
       } else {
         alert('حدث خطأ أثناء النشر. تأكد من صلاحية مفتاح GitHub Token.');
       }
     } catch (err) {
       alert('تعذر الاتصال بالإنترنت أثناء النشر.');
     } finally {
-      btn.innerText = '?? نشر التعديلات للجميع الآن (تحديث مباشر)';
+      btn.innerText = '🚀 نشر التعديلات للجميع الآن (تحديث مباشر)';
       btn.disabled = false;
     }
   }
@@ -1393,7 +1678,7 @@
           <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover;">
           <div style="flex:1;">
             <h4 style="margin:0 0 8px 0; font-size:14px;">${title}</h4>
-            <a href="${link}" target="_blank" class="btn-shop" style="display:inline-block;">قراءة العرض في الموقع ?</a>
+            <a href="${link}" target="_blank" class="btn-shop" style="display:inline-block;">قراءة العرض في الموقع ↗</a>
           </div>
         </div>`;
     }).join('');
