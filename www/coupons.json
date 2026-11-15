@@ -118,15 +118,17 @@
     },
     {
       "id": 6,
+      "type": "deal",
+      "country": "EG",
       "storeId": "carrefour",
       "storeName": "كارفور - Carrefour",
       "category": "بقالة وسوبرماركت",
       "discount": "خصم على الطلب الأول",
       "title": "كود خصم كارفور على مقاضي البيت والمنتجات الغذائية والأجهزة",
-      "code": "WFA38",
+      "code": "",
       "url": "https://silvercoupons.blogspot.com/",
       "verified": true,
-      "usedCount": 510
+      "usedCount": 127
     }
   ]
 }
