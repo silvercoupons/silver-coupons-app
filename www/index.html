@@ -11,6 +11,7 @@
       --accent: #eab308;
       --blue: #2563eb;
       --green: #16a34a;
+      --red: #dc2626;
       --bg: #f8fafc;
       --card: #ffffff;
       --text: #1e293b;
@@ -19,16 +20,65 @@
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 75px 0; color: var(--text); }
 
-    /* الهيدر وشريط البحث */
+    /* شاشة البداية واختيار الدولة الاحترافية */
+    .welcome-screen {
+      position: fixed; inset: 0; z-index: 999;
+      background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+      color: #fff; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 24px; text-align: center;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .welcome-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .welcome-logo-box {
+      width: 110px; height: 110px; background: #fff; border-radius: 26px;
+      padding: 12px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35); margin-bottom: 16px;
+    }
+    .welcome-logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .welcome-title { font-size: 22px; font-weight: 800; margin: 0 0 6px; }
+    .welcome-sub { font-size: 13px; color: #cbd5e1; margin: 0 0 24px; }
+    .country-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      width: 100%; max-width: 380px;
+    }
+    .country-card {
+      background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 14px 10px; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      transition: 0.2s; color: #fff;
+    }
+    .country-card:active, .country-card:hover {
+      background: rgba(234,179,8,0.18); border-color: var(--accent); transform: scale(0.98);
+    }
+    .country-flag { font-size: 32px; line-height: 1; }
+    .country-name { font-size: 14px; font-weight: 700; }
+
+    /* الهيدر المصلح بشعار الموقع الحقيقي وشارة متناسقة */
     .app-header {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #fff; padding: 16px 16px 22px; border-radius: 0 0 22px 22px;
+      color: #fff; padding: 14px 16px 20px; border-radius: 0 0 22px 22px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 50;
     }
-    .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .brand-title { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
-    .brand-badge { background: var(--accent); color: #000; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; }
-    .search-box { position: relative; }
+    .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
+    .brand-title {
+      display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; flex-shrink: 0;
+    }
+    .header-logo-img {
+      height: 38px; max-width: 145px; object-fit: contain; background: #fff;
+      padding: 4px 10px; border-radius: 10px;
+    }
+    .brand-badge {
+      background: var(--accent); color: #000; font-size: 10px; padding: 2px 7px;
+      border-radius: 8px; font-weight: 800; white-space: nowrap;
+    }
+    .header-left-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .country-switch-btn {
+      background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; padding: 4px 9px; border-radius: 10px; font-family: 'Cairo', sans-serif;
+      font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .total-pill { font-size: 11px; opacity: 0.85; white-space: nowrap; }
     .search-box input {
       width: 100%; padding: 11px 16px; border-radius: 12px; border: none;
       font-family: 'Cairo', sans-serif; font-size: 14px; background: rgba(255,255,255,0.95);
@@ -37,28 +87,20 @@
 
     /* شريط المتاجر الدائري */
     .section-title { font-size: 15px; font-weight: 800; margin: 16px 16px 8px; display: flex; justify-content: space-between; align-items: center; }
-    .stores-strip {
-      display: flex; gap: 12px; overflow-x: auto; padding: 6px 16px 12px;
-      scrollbar-width: none;
-    }
+    .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 6px 16px 12px; scrollbar-width: none; }
     .stores-strip::-webkit-scrollbar { display: none; }
-    .store-item {
-      display: flex; flex-direction: column; align-items: center; min-width: 68px; cursor: pointer;
-    }
+    .store-item { display: flex; flex-direction: column; align-items: center; min-width: 68px; cursor: pointer; }
     .store-circle {
       width: 60px; height: 60px; border-radius: 50%; background: #fff;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 2px solid transparent;
-      padding: 8px; transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 2px solid transparent; padding: 8px; transition: 0.2s;
     }
     .store-item.active .store-circle { border-color: var(--blue); transform: scale(1.06); }
     .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .store-name { font-size: 11px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
 
     /* تصنيفات الكوبونات */
-    .cats-strip {
-      display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 14px; scrollbar-width: none;
-    }
+    .cats-strip { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 14px; scrollbar-width: none; }
     .cats-strip::-webkit-scrollbar { display: none; }
     .cat-pill {
       background: #e2e8f0; color: #334155; padding: 6px 14px; border-radius: 20px;
@@ -70,8 +112,7 @@
     .container { padding: 0 16px; max-width: 600px; margin: auto; }
     .coupon-ticket {
       background: var(--card); border-radius: 16px; margin-bottom: 14px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
-      overflow: hidden; position: relative;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; overflow: hidden; position: relative;
     }
     .ticket-top { display: flex; padding: 14px; gap: 12px; align-items: center; }
     .ticket-logo {
@@ -88,7 +129,7 @@
     .ticket-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
     /* خط القص المتقطع وأزرار الكوبون والعرض */
-    .ticket-divider { border-top: 2px dashed #e2e8f0; margin: 0 14px; position: relative; }
+    .ticket-divider { border-top: 2px dashed #e2e8f0; margin: 0 14px; }
     .ticket-bottom {
       display: flex; align-items: center; justify-content: space-between;
       padding: 10px 14px; background: #f8fafc; gap: 10px;
@@ -106,8 +147,7 @@
     }
     .btn-deal-full {
       background: var(--green); color: #fff; text-decoration: none; padding: 9px 16px;
-      border-radius: 8px; font-weight: 700; font-size: 13px; text-align: center;
-      width: 100%; display: block;
+      border-radius: 8px; font-weight: 700; font-size: 13px; text-align: center; width: 100%; display: block;
     }
     .btn-shop {
       background: #e2e8f0; color: var(--text); text-decoration: none; padding: 8px 12px;
@@ -137,42 +177,85 @@
       width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
       font-family: 'Cairo', sans-serif; font-size: 13px;
     }
+    .admin-tabs { display: flex; gap: 6px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
+    .admin-tab {
+      flex: 1; text-align: center; padding: 8px 4px; border-radius: 8px; font-size: 12px;
+      font-weight: 700; cursor: pointer; color: var(--muted);
+    }
+    .admin-tab.active { background: #fff; color: var(--blue); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .manage-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px;
+    }
+    .btn-mini {
+      border: none; padding: 5px 10px; border-radius: 6px; font-family: 'Cairo', sans-serif;
+      font-size: 11px; font-weight: 700; cursor: pointer; color: #fff;
+    }
+    .btn-publish {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: #fff; border: none; width: 100%; padding: 13px; border-radius: 10px;
+      font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 14px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(22,163,74,0.25); margin-bottom: 14px;
+    }
 
     /* تنسيق الصفحات القانونية ومنصات التواصل */
-    .legal-item {
-      background: #fff; border-radius: 12px; margin-bottom: 10px;
-      border: 1px solid #e2e8f0; overflow: hidden;
-    }
-    .legal-header {
-      padding: 14px 16px; font-weight: 700; font-size: 14px; cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .legal-body {
-      display: none; padding: 0 16px 14px; font-size: 13px; color: var(--muted);
-      line-height: 1.7; border-top: 1px solid #f1f5f9;
-    }
+    .legal-item { background: #fff; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
+    .legal-header { padding: 14px 16px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .legal-body { display: none; padding: 0 16px 14px; font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid #f1f5f9; }
     .legal-item.open .legal-body { display: block; padding-top: 10px; }
-    .social-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px;
-    }
+    .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
     .social-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 11px; border-radius: 10px; text-decoration: none; color: #fff;
-      font-weight: 700; font-size: 13px;
+      padding: 11px; border-radius: 10px; text-decoration: none; color: #fff; font-weight: 700; font-size: 13px;
     }
     .toast {
       position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
       background: #16a34a; color: #fff; padding: 10px 20px; border-radius: 30px;
-      font-weight: 700; font-size: 13px; display: none; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-weight: 700; font-size: 13px; display: none; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.2); white-space: nowrap;
     }
   </style>
 </head>
 <body>
 
+<!-- شاشة البداية الاحترافية بشعار الموقع واختيار الدولة -->
+<div class="welcome-screen" id="welcomeScreen">
+  <div class="welcome-logo-box">
+    <img src="logo.png" onerror="this.src='https://via.placeholder.com/100/eab308/000000?text=SC'" alt="الكوبون الفضي">
+  </div>
+  <h1 class="welcome-title">الكوبون الفضي</h1>
+  <p class="welcome-sub">اختر دولتك لعرض أحدث أكواد الخصم والعروض الحصرية لبلدك</p>
+
+  <div class="country-grid">
+    <div class="country-card" onclick="chooseCountry('EG', '🇪🇬', 'مصر')">
+      <span class="country-flag">🇪🇬</span>
+      <span class="country-name">مصر</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('SA', '🇸🇦', 'السعودية')">
+      <span class="country-flag">🇸🇦</span>
+      <span class="country-name">السعودية</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('AE', '🇦🇪', 'الإمارات')">
+      <span class="country-flag">🇦🇪</span>
+      <span class="country-name">الإمارات</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('ALL', '🌍', 'كل الدول')">
+      <span class="country-flag">🌍</span>
+      <span class="country-name">كل الدول العربية</span>
+    </div>
+  </div>
+</div>
+
+<!-- الهيدر العلوي المصلح بشعار الموقع الحقيقي وشارة متناسقة -->
 <div class="app-header">
   <div class="brand-row">
-    <div class="brand-title" onclick="unlockAdmin()">🪙 الكوبون الفضي <span class="brand-badge">أكواد موثقة</span></div>
-    <div style="font-size:12px; opacity:0.85;" id="totalCount">جاري التحميل...</div>
+    <div class="brand-title" onclick="unlockAdmin()">
+      <img src="logo.png" class="header-logo-img" onerror="this.src='https://via.placeholder.com/120x38/ffffff/0f172a?text=Silver+Coupons'" alt="الكوبون الفضي">
+      <span class="brand-badge">أكواد موثقة</span>
+    </div>
+    <div class="header-left-tools">
+      <button class="country-switch-btn" id="currentCountryBtn" onclick="openCountryScreen()">🌍 كل الدول ▾</button>
+      <span class="total-pill" id="totalCount">...</span>
+    </div>
   </div>
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="ابحث عن متجر أو كود خصم (نون، نمشي، راية...)" oninput="renderCoupons()">
@@ -242,62 +325,131 @@
       <p style="margin:0; font-size:12px; color:var(--muted);">احصل على تنبيهات فورية بأقوى العروض اليومية:</p>
       <div class="social-grid">
         <a href="https://silvercoupons.blogspot.com/" target="_blank" class="social-btn" style="background:#0f172a;">🌍 الموقع الرسمي</a>
-        <a href="https://www.facebook.com/Silvercouponz" target="_blank" class="social-btn" style="background:#1877f2;">📘 فيسبوك</a>
-        <a href="https://www.tiktok.com/@silvercouponz" target="_blank" class="social-btn" style="background:#000000;">🎵 تيك توك</a>
-        <a href="https://www.instagram.com/silvercouponz" target="_blank" class="social-btn" style="background:#e1306c;">📸 إنستغرام</a>
-        <a href="https://www.youtube.com/silvercouponz" target="_blank" class="social-btn" style="background:#ff0000;">▶️ يوتيوب</a>
-        <a href="https://t.me/silvercouponz" target="_blank" class="social-btn" style="background:#0088cc;">✈️ تيليجرام</a>
+        <a href="https://www.facebook.com/" target="_blank" class="social-btn" style="background:#1877f2;">📘 فيسبوك</a>
+        <a href="https://www.tiktok.com/" target="_blank" class="social-btn" style="background:#000000;">🎵 تيك توك</a>
+        <a href="https://www.instagram.com/" target="_blank" class="social-btn" style="background:#e1306c;">📸 إنستغرام</a>
+        <a href="https://www.youtube.com/" target="_blank" class="social-btn" style="background:#ff0000;">▶️ يوتيوب</a>
+        <a href="https://t.me/" target="_blank" class="social-btn" style="background:#0088cc;">✈️ تيليجرام</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- لوحة تحكم الأدمن السرية لإضافة كوبون أو عرض بدون كود -->
+<!-- لوحة تحكم الأدمن السرية المتكاملة -->
 <div id="adminView" class="page-view">
   <div class="container">
     <div class="admin-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h3 style="margin:0;">🔒 إضافة كوبون أو عرض أفلييت</h3>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="margin:0;">🔒 لوحة الإدارة السحابية</h3>
         <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">إغلاق ✕</button>
       </div>
-      <div class="form-group">
-        <label>نوع البطاقة</label>
-        <select id="admType" onchange="toggleCodeInput()">
-          <option value="coupon">🏷️ بطاقة كوبون بكود خصم (زر نسخ + تسوق)</option>
-          <option value="deal">🎁 بطاقة عرض رابط أفلييت بدون كود (زر احصل على العرض)</option>
-        </select>
+
+      <button class="btn-publish" id="publishBtn" onclick="publishToGitHub()">🚀 نشر التعديلات للجميع الآن (تحديث مباشر)</button>
+
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
+        <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
+        <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 مفتاح الربط</div>
       </div>
-      <div class="form-group">
-        <label>اختر المتجر</label>
-        <select id="admStore"></select>
+
+      <!-- 1. إدارة الكوبونات والعروض -->
+      <div id="admCouponsTab" class="adm-subview">
+        <input type="hidden" id="editCouponId" value="">
+        <div class="form-group">
+          <label>نوع البطاقة</label>
+          <select id="admType" onchange="toggleCodeInput()">
+            <option value="coupon">🏷️ بطاقة كوبون بكود خصم (زر نسخ + تسوق)</option>
+            <option value="deal">🎁 بطاقة عرض رابط أفلييت بدون كود (زر احصل على العرض)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>الدولة المستهدفة للعرض</label>
+          <select id="admCountry">
+            <option value="ALL">🌍 كل الدول العربية</option>
+            <option value="EG">🇪🇬 مصر فقط</option>
+            <option value="SA">🇸🇦 السعودية فقط</option>
+            <option value="AE">🇦🇪 الإمارات فقط</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>اختر المتجر</label>
+          <select id="admStore"></select>
+        </div>
+        <div class="form-group">
+          <label>القسم</label>
+          <select id="admCat">
+            <option value="متاجر شاملة">متاجر شاملة</option>
+            <option value="أزياء وموضة">أزياء وموضة</option>
+            <option value="إلكترونيات">إلكترونيات</option>
+            <option value="بقالة وسوبرماركت">بقالة وسوبرماركت</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>قيمة الخصم (مثال: خصم 20% أو عروض حتى 50%)</label>
+          <input type="text" id="admDiscount" placeholder="خصم 15% فوري">
+        </div>
+        <div class="form-group">
+          <label>وصف الكوبون أو العرض</label>
+          <input type="text" id="admTitle" placeholder="فعال على جميع المنتجات المخفضة وغير المخفضة">
+        </div>
+        <div class="form-group" id="codeInputGroup">
+          <label>كود الخصم الصحيح</label>
+          <input type="text" id="admCode" placeholder="WK83" style="font-family:monospace; font-weight:bold;">
+        </div>
+        <div class="form-group">
+          <label>رابط المتجر أو رابط الأفلييت (Affiliate Link)</label>
+          <input type="url" id="admUrl" value="https://silvercoupons.blogspot.com/">
+        </div>
+        <button class="btn-copy" id="saveCouponBtn" style="max-width:100%; width:100%; padding:11px;" onclick="saveCouponAdmin()">+ إضافة للقائمة</button>
+        <button class="btn-shop" id="cancelEditBtn" style="display:none; width:100%; justify-content:center; margin-top:8px; border:none; cursor:pointer;" onclick="resetCouponForm()">إلغاء التعديل</button>
+
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">📋 الكوبونات الحالية (تعديل / حذف):</h4>
+        <div id="adminCouponsList"></div>
       </div>
-      <div class="form-group">
-        <label>القسم</label>
-        <select id="admCat">
-          <option value="متاجر شاملة">متاجر شاملة</option>
-          <option value="أزياء وموضة">أزياء وموضة</option>
-          <option value="إلكترونيات">إلكترونيات</option>
-          <option value="بقالة وسوبرماركت">بقالة وسوبرماركت</option>
-        </select>
+
+      <!-- 2. إدارة المتاجر والشعارات -->
+      <div id="admStoresTab" class="adm-subview" style="display:none;">
+        <div class="form-group">
+          <label>اسم المتجر (مثال: أمازون - Amazon)</label>
+          <input type="text" id="newStoreName" placeholder="أمازون - Amazon">
+        </div>
+        <div class="form-group">
+          <label>دولة المتجر</label>
+          <select id="newStoreCountry">
+            <option value="ALL">🌍 كل الدول</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>رابط شعار المتجر (أو اختر صورة من هاتفك بالأسفل)</label>
+          <input type="url" id="newStoreLogo" placeholder="https://example.com/logo.png">
+        </div>
+        <div class="form-group">
+          <label>أو رفع صورة شعار المتجر مباشرة من الهاتف:</label>
+          <input type="file" id="newStoreFile" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label>رابط المتجر الافتراضي</label>
+          <input type="url" id="newStoreUrl" value="https://silvercoupons.blogspot.com/">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="addStoreAdmin()">+ إضافة المتجر</button>
+
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🏪 المتاجر المسجلة:</h4>
+        <div id="adminStoresList"></div>
       </div>
-      <div class="form-group">
-        <label>قيمة الخصم (مثال: خصم 20% أو عروض حتى 50%)</label>
-        <input type="text" id="admDiscount" placeholder="خصم 15% فوري">
+
+      <!-- 3. إعدادات مفتاح الربط السحابي -->
+      <div id="admSettingsTab" class="adm-subview" style="display:none;">
+        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر تلقائياً بضغطة زر:</p>
+        <div class="form-group">
+          <label>GitHub Personal Access Token (ghp_...)</label>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveGhToken()">حفظ المفتاح في الهاتف</button>
+        <button class="btn-shop" style="width:100%; justify-content:center; margin-top:10px; border:none; cursor:pointer;" onclick="syncFromCloud()">🔄 جلب أحدث نسخة من السحابة</button>
       </div>
-      <div class="form-group">
-        <label>وصف الكوبون أو العرض</label>
-        <input type="text" id="admTitle" placeholder="فعال على جميع المنتجات المخفضة وغير المخفضة">
-      </div>
-      <div class="form-group" id="codeInputGroup">
-        <label>كود الخصم الصحيح</label>
-        <input type="text" id="admCode" placeholder="WK83" style="font-family:monospace; font-weight:bold;">
-      </div>
-      <div class="form-group">
-        <label>رابط المتجر أو رابط الأفلييت (Affiliate Link)</label>
-        <input type="url" id="admUrl" value="https://silvercoupons.blogspot.com/">
-      </div>
-      <button class="btn-copy" style="max-width:100%; width:100%; padding:12px;" onclick="addCouponAdmin()">حفظ في التطبيق</button>
-      <button class="btn-shop" style="width:100%; justify-content:center; margin-top:10px; padding:10px; border:none; cursor:pointer;" onclick="exportJsonData()">📋 نسخ كود JSON المحدث لحفظه في GitHub</button>
     </div>
   </div>
 </div>
@@ -317,13 +469,40 @@
 </div>
 
 <script>
-  const CLOUD_JSON_URL = 'https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/coupons.json';
+  const REPO_OWNER = 'silvercoupons';
+  const REPO_NAME = 'silver-coupons-app';
+  const FILE_PATH = 'www/coupons.json';
+  const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
   let appData = { stores: [], coupons: [] };
   let activeStore = 'all';
   let activeCat = 'all';
+  let selectedCountry = localStorage.getItem('silver_user_country') || '';
   let tapCount = 0;
   let tapTimer = null;
+
+  // التحكم بشاشة البداية واختيار الدولة
+  function chooseCountry(code, flag, name) {
+    selectedCountry = code;
+    localStorage.setItem('silver_user_country', code);
+    localStorage.setItem('silver_user_country_label', `${flag} ${name}`);
+    document.getElementById('currentCountryBtn').innerText = `${flag} ${name} ▾`;
+    document.getElementById('welcomeScreen').classList.add('hidden');
+    activeStore = 'all';
+    renderStores();
+    renderCoupons();
+  }
+
+  function openCountryScreen() {
+    document.getElementById('welcomeScreen').classList.remove('hidden');
+  }
+
+  function checkInitialCountry() {
+    const savedLabel = localStorage.getItem('silver_user_country_label');
+    if (selectedCountry && savedLabel) {
+      document.getElementById('currentCountryBtn').innerText = `${savedLabel} ▾`;
+    }
+  }
 
   function unlockAdmin() {
     tapCount++;
@@ -335,10 +514,26 @@
       if (pass === "2026") {
         document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
         document.getElementById('adminView').classList.add('active');
+        document.getElementById('ghTokenInput').value = localStorage.getItem('silver_gh_token') || '';
+        renderAdminLists();
       } else if (pass !== null) {
         alert("الرقم السري غير صحيح!");
       }
     }
+  }
+
+  function switchAdminTab(tabId, el) {
+    document.querySelectorAll('.adm-subview').forEach(v => v.style.display = 'none');
+    document.getElementById(tabId).style.display = 'block';
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function saveGhToken() {
+    const token = document.getElementById('ghTokenInput').value.trim();
+    if (!token) return alert('يرجى لصق الرمز أولاً');
+    localStorage.setItem('silver_gh_token', token);
+    showToast('تم حفظ مفتاح الربط بنجاح! يمكنك النشر الآن.');
   }
 
   function toggleCodeInput() {
@@ -347,27 +542,46 @@
   }
 
   async function initApp() {
+    checkInitialCountry();
     try {
       const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
       appData = await res.json();
+    } catch (e) {
       const localSaved = localStorage.getItem('silver_custom_coupons');
       if (localSaved) appData = JSON.parse(localSaved);
-    } catch (e) {
-      console.log('Using fallback data');
     }
+    refreshAllUI();
+  }
+
+  async function syncFromCloud() {
+    showToast('جاري التحديث من السحابة...');
+    await initApp();
+    showToast('تم جلب أحدث البيانات بنجاح!');
+  }
+
+  function refreshAllUI() {
+    localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
     renderStores();
     renderCoupons();
     populateAdminStores();
+    renderAdminLists();
+  }
+
+  function matchesCountry(itemCountry) {
+    if (!selectedCountry || selectedCountry === 'ALL') return true;
+    if (!itemCountry || itemCountry === 'ALL') return true;
+    return itemCountry === selectedCountry;
   }
 
   function renderStores() {
     const container = document.getElementById('storesContainer');
+    const visibleStores = appData.stores.filter(st => matchesCountry(st.country));
     let html = `
       <div class="store-item ${activeStore === 'all' ? 'active' : ''}" onclick="selectStore('all')">
         <div class="store-circle"><span style="font-size:22px;">🏪</span></div>
         <div class="store-name">الكل</div>
       </div>`;
-    appData.stores.forEach(st => {
+    visibleStores.forEach(st => {
       html += `
         <div class="store-item ${activeStore === st.id ? 'active' : ''}" onclick="selectStore('${st.id}')">
           <div class="store-circle"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/50?text=${st.name[0]}'"></div>
@@ -382,17 +596,18 @@
     const q = document.getElementById('searchInput').value.trim().toLowerCase();
 
     const filtered = appData.coupons.filter(c => {
+      const matchCountry = matchesCountry(c.country);
       const matchStore = activeStore === 'all' || c.storeId === activeStore;
       const matchCat = activeCat === 'all' || c.category === activeCat;
       const codeStr = c.code ? c.code.toLowerCase() : '';
       const matchQuery = !q || c.title.toLowerCase().includes(q) || c.storeName.toLowerCase().includes(q) || codeStr.includes(q);
-      return matchStore && matchCat && matchQuery;
+      return matchCountry && matchStore && matchCat && matchQuery;
     });
 
-    document.getElementById('totalCount').innerText = `${filtered.length} عرض وكوبون`;
+    document.getElementById('totalCount').innerText = `${filtered.length} عرض`;
 
     if (filtered.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted);">لا توجد عروض مطابقة لبحثك حالياً.</div>`;
+      container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted);">لا توجد عروض مطابقة لاختيارك حالياً.</div>`;
       return;
     }
 
@@ -460,7 +675,7 @@
     const t = document.getElementById('toastMsg');
     t.innerText = msg;
     t.style.display = 'block';
-    setTimeout(() => t.style.display = 'none', 2500);
+    setTimeout(() => t.style.display = 'none', 2800);
   }
 
   function switchTab(viewId, navEl) {
@@ -477,17 +692,46 @@
     sel.innerHTML = appData.stores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
   }
 
-  function addCouponAdmin() {
+  function renderAdminLists() {
+    const cList = document.getElementById('adminCouponsList');
+    cList.innerHTML = appData.coupons.map(c => `
+      <div class="manage-row">
+        <div style="flex:1;">
+          <strong>${c.storeName}</strong> ${c.code ? `(<span style="color:var(--blue);font-family:monospace;">${c.code}</span>)` : '(عرض رابط)'}<br>
+          <span style="font-size:11px;color:var(--muted);">${c.discount} - ${c.title}</span>
+        </div>
+        <div style="display:flex; gap:5px;">
+          <button class="btn-mini" style="background:var(--blue);" onclick="editCouponAdmin(${c.id})">تعديل</button>
+          <button class="btn-mini" style="background:var(--red);" onclick="deleteCouponAdmin(${c.id})">حذف</button>
+        </div>
+      </div>
+    `).join('');
+
+    const sList = document.getElementById('adminStoresList');
+    sList.innerHTML = appData.stores.map(s => `
+      <div class="manage-row">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <img src="${s.logo}" style="width:28px;height:28px;object-fit:contain;">
+          <strong>${s.name}</strong>
+        </div>
+        <button class="btn-mini" style="background:var(--red);" onclick="deleteStoreAdmin('${s.id}')">حذف</button>
+      </div>
+    `).join('');
+  }
+
+  function saveCouponAdmin() {
+    const editId = document.getElementById('editCouponId').value;
     const type = document.getElementById('admType').value;
     const storeId = document.getElementById('admStore').value;
     const storeObj = appData.stores.find(s => s.id === storeId);
     const codeVal = type === 'deal' ? '' : document.getElementById('admCode').value.trim().toUpperCase();
 
-    if (type === 'coupon' && !codeVal) return alert('يرجى كتابة كود الخصم أو اختيار نوع البطاقة "عرض رابط أفلييت"');
+    if (type === 'coupon' && !codeVal) return alert('يرجى كتابة كود الخصم أو اختيار بطاقة عرض بدون كود');
 
-    const newItem = {
-      id: Date.now(),
+    const itemData = {
+      id: editId ? Number(editId) : Date.now(),
       type: type,
+      country: document.getElementById('admCountry').value,
       storeId: storeId,
       storeName: storeObj ? storeObj.name : storeId,
       category: document.getElementById('admCat').value,
@@ -499,18 +743,153 @@
       usedCount: Math.floor(Math.random() * 100) + 50
     };
 
-    appData.coupons.unshift(newItem);
-    localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
-    renderCoupons();
-    showToast(type === 'deal' ? 'تمت إضافة العرض بنجاح!' : 'تمت إضافة الكوبون بنجاح!');
+    if (editId) {
+      const idx = appData.coupons.findIndex(c => c.id === Number(editId));
+      if (idx !== -1) appData.coupons[idx] = itemData;
+      showToast('تم تعديل الكوبون! اضغط زر النشر الأخضر بالأعلى.');
+    } else {
+      appData.coupons.unshift(itemData);
+      showToast('تمت الإضافة! اضغط زر النشر الأخضر بالأعلى.');
+    }
+
+    resetCouponForm();
+    refreshAllUI();
   }
 
-  function exportJsonData() {
-    navigator.clipboard.writeText(JSON.stringify(appData, null, 2));
-    showToast('تم نسخ ملف JSON! الصقه في ملف coupons.json في GitHub ليظهر للجميع.');
+  function editCouponAdmin(id) {
+    const c = appData.coupons.find(item => item.id === id);
+    if (!c) return;
+    document.getElementById('editCouponId').value = c.id;
+    document.getElementById('admType').value = c.type || (c.code ? 'coupon' : 'deal');
+    toggleCodeInput();
+    document.getElementById('admCountry').value = c.country || 'ALL';
+    document.getElementById('admStore').value = c.storeId;
+    document.getElementById('admCat').value = c.category;
+    document.getElementById('admDiscount').value = c.discount;
+    document.getElementById('admTitle').value = c.title;
+    document.getElementById('admCode').value = c.code || '';
+    document.getElementById('admUrl').value = c.url || '';
+    document.getElementById('saveCouponBtn').innerText = '💾 حفظ التعديل';
+    document.getElementById('cancelEditBtn').style.display = 'flex';
+    document.getElementById('adminView').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // جلب مقالات بلوجر في التبويب الثاني
+  function resetCouponForm() {
+    document.getElementById('editCouponId').value = '';
+    document.getElementById('admDiscount').value = '';
+    document.getElementById('admTitle').value = '';
+    document.getElementById('admCode').value = '';
+    document.getElementById('saveCouponBtn').innerText = '+ إضافة للقائمة';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+  }
+
+  function deleteCouponAdmin(id) {
+    if (!confirm('هل تريد حذف هذا العرض؟')) return;
+    appData.coupons = appData.coupons.filter(c => c.id !== id);
+    refreshAllUI();
+    showToast('تم الحذف! اضغط زر النشر الأخضر لتأكيده للجميع.');
+  }
+
+  async function addStoreAdmin() {
+    const name = document.getElementById('newStoreName').value.trim();
+    const country = document.getElementById('newStoreCountry').value;
+    let logoUrl = document.getElementById('newStoreLogo').value.trim();
+    const fileInput = document.getElementById('newStoreFile');
+    const url = document.getElementById('newStoreUrl').value.trim();
+
+    if (!name) return alert('يرجى كتابة اسم المتجر');
+    const storeId = 'store_' + Date.now();
+
+    if (fileInput.files && fileInput.files[0]) {
+      const token = localStorage.getItem('silver_gh_token');
+      if (!token) return alert('يرجى إدخال مفتاح GitHub Token في تبويب (مفتاح الربط) أولاً لرفع الصور من الهاتف.');
+      showToast('جاري رفع شعار المتجر إلى السحابة...');
+      const file = fileInput.files[0];
+      const base64 = await toBase64(file);
+      const fileName = `${storeId}.png`;
+      const uploadRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/www/${fileName}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: `Upload logo ${fileName}`, content: base64.split(',')[1] })
+      });
+      if (uploadRes.ok) {
+        logoUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/www/${fileName}`;
+      } else {
+        return alert('فشل رفع الصورة، تأكد من صحة مفتاح الربط.');
+      }
+    }
+
+    if (!logoUrl) logoUrl = 'https://via.placeholder.com/80?text=' + encodeURIComponent(name[0]);
+
+    appData.stores.push({ id: storeId, name: name, country: country, logo: logoUrl, url: url || 'https://silvercoupons.blogspot.com/' });
+    document.getElementById('newStoreName').value = '';
+    document.getElementById('newStoreLogo').value = '';
+    fileInput.value = '';
+    refreshAllUI();
+    showToast('تمت إضافة المتجر! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function deleteStoreAdmin(id) {
+    if (!confirm('حذف هذا المتجر؟')) return;
+    appData.stores = appData.stores.filter(s => s.id !== id);
+    refreshAllUI();
+    showToast('تم حذف المتجر! اضغط زر النشر الأخضر.');
+  }
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  async function publishToGitHub() {
+    const token = localStorage.getItem('silver_gh_token');
+    if (!token) {
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[2]);
+      return alert('يرجى لصق مفتاح GitHub Token هنا أولاً (مرة واحدة فقط) لتفعيل النشر الفوري.');
+    }
+
+    const btn = document.getElementById('publishBtn');
+    btn.innerText = '⏳ جاري النشر للجميع...';
+    btn.disabled = true;
+
+    try {
+      const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+      const getRes = await fetch(apiUrl, { headers: { 'Authorization': `token ${token}` } });
+      const fileData = await getRes.json();
+
+      const jsonStr = JSON.stringify(appData, null, 2);
+      const encodedContent = btoa(unescape(encodeURIComponent(jsonStr)));
+
+      const putRes = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'Update coupons from Silver Coupons App',
+          content: encodedContent,
+          sha: fileData.sha
+        })
+      });
+
+      if (putRes.ok) {
+        showToast('🎉 تم النشر بنجاح! التحديث ظهر الآن لجميع المستخدمين.');
+      } else {
+        alert('حدث خطأ أثناء النشر. تأكد من صلاحية مفتاح GitHub Token.');
+      }
+    } catch (err) {
+      alert('تعذر الاتصال بالإنترنت أثناء النشر.');
+    } finally {
+      btn.innerText = '🚀 نشر التعديلات للجميع الآن (تحديث مباشر)';
+      btn.disabled = false;
+    }
+  }
+
   window.loadBloggerFeed = function(data) {
     const entries = data.feed.entry || [];
     const container = document.getElementById('blogContainer');
