@@ -25,44 +25,43 @@
       position: fixed; inset: 0; z-index: 999;
       background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
       color: #fff; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; padding: 24px; text-align: center;
-      transition: opacity 0.35s ease, visibility 0.35s ease;
+      justify-content: flex-start; padding: 28px 18px 32px; text-align: center;
+      overflow-y: auto; transition: opacity 0.35s ease, visibility 0.35s ease;
     }
     .welcome-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .welcome-logo-box {
-      width: 110px; height: 110px; background: #fff; border-radius: 26px;
-      padding: 12px; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.35); margin-bottom: 16px;
+      width: 92px; height: 92px; background: #fff; border-radius: 22px;
+      padding: 10px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35); margin-bottom: 12px; flex-shrink: 0;
     }
     .welcome-logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .welcome-title { font-size: 22px; font-weight: 800; margin: 0 0 6px; }
-    .welcome-sub { font-size: 13px; color: #cbd5e1; margin: 0 0 24px; }
+    .welcome-title { font-size: 21px; font-weight: 800; margin: 0 0 4px; }
+    .welcome-sub { font-size: 12.5px; color: #cbd5e1; margin: 0 0 18px; }
     .country-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-      width: 100%; max-width: 380px;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+      width: 100%; max-width: 400px;
     }
     .country-card {
       background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15);
-      border-radius: 16px; padding: 14px 10px; cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      border-radius: 14px; padding: 11px 8px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
       transition: 0.2s; color: #fff;
     }
+    .country-card.full-span { grid-column: span 2; background: rgba(234,179,8,0.14); border-color: rgba(234,179,8,0.4); }
     .country-card:active, .country-card:hover {
-      background: rgba(234,179,8,0.18); border-color: var(--accent); transform: scale(0.98);
+      background: rgba(234,179,8,0.22); border-color: var(--accent); transform: scale(0.98);
     }
-    .country-flag { font-size: 32px; line-height: 1; }
-    .country-name { font-size: 14px; font-weight: 700; }
+    .country-flag { font-size: 24px; line-height: 1; }
+    .country-name { font-size: 13.5px; font-weight: 700; }
 
-    /* الهيدر المصلح بشعار الموقع الحقيقي وشارة متناسقة */
+    /* الهيدر العلوي */
     .app-header {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #fff; padding: 14px 16px 20px; border-radius: 0 0 22px 22px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 50;
     }
     .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
-    .brand-title {
-      display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; flex-shrink: 0;
-    }
+    .brand-title { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; flex-shrink: 0; }
     .header-logo-img {
       height: 38px; max-width: 145px; object-fit: contain; background: #fff;
       padding: 4px 10px; border-radius: 10px;
@@ -85,8 +84,31 @@
       color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
+    /* بانر العروض الاحترافي قبل شريط المتاجر */
+    .promo-banner-wrap { padding: 14px 16px 2px; max-width: 600px; margin: auto; }
+    .promo-banner-card {
+      display: block; position: relative; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1); text-decoration: none;
+      background: linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%);
+      min-height: 115px;
+    }
+    .promo-banner-card img {
+      width: 100%; height: 135px; object-fit: cover; display: block;
+    }
+    .promo-banner-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.82) 100%);
+      padding: 14px 16px; display: flex; flex-direction: column; justify-content: center; color: #fff;
+    }
+    .promo-tag {
+      background: var(--accent); color: #000; font-size: 10px; font-weight: 800;
+      padding: 2px 8px; border-radius: 6px; width: fit-content; margin-bottom: 5px;
+    }
+    .promo-title { font-size: 15px; font-weight: 800; margin: 0 0 4px; line-height: 1.3; }
+    .promo-cta { font-size: 11.5px; color: #fef08a; font-weight: 700; }
+
     /* شريط المتاجر الدائري */
-    .section-title { font-size: 15px; font-weight: 800; margin: 16px 16px 8px; display: flex; justify-content: space-between; align-items: center; }
+    .section-title { font-size: 15px; font-weight: 800; margin: 14px 16px 8px; display: flex; justify-content: space-between; align-items: center; }
     .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 6px 16px 12px; scrollbar-width: none; }
     .stores-strip::-webkit-scrollbar { display: none; }
     .store-item { display: flex; flex-direction: column; align-items: center; min-width: 68px; cursor: pointer; }
@@ -98,6 +120,23 @@
     .store-item.active .store-circle { border-color: var(--blue); transform: scale(1.06); }
     .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .store-name { font-size: 11px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
+
+    /* شبكة جميع المتاجر (صفحة عرض الكل) */
+    .all-stores-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;
+    }
+    .store-grid-card {
+      background: #fff; border-radius: 14px; padding: 14px 8px; text-align: center;
+      border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 8px; transition: 0.2s;
+    }
+    .store-grid-card:active { transform: scale(0.97); border-color: var(--blue); }
+    .store-grid-logo {
+      width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
+    }
+    .store-grid-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .store-grid-title { font-size: 12.5px; font-weight: 800; color: var(--text); }
+    .store-grid-count { font-size: 10.5px; background: #eff6ff; color: var(--blue); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
 
     /* تصنيفات الكوبونات */
     .cats-strip { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 14px; scrollbar-width: none; }
@@ -177,9 +216,9 @@
       width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
       font-family: 'Cairo', sans-serif; font-size: 13px;
     }
-    .admin-tabs { display: flex; gap: 6px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
+    .admin-tabs { display: flex; gap: 4px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
     .admin-tab {
-      flex: 1; text-align: center; padding: 8px 4px; border-radius: 8px; font-size: 12px;
+      flex: 1; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 11px;
       font-weight: 700; cursor: pointer; color: var(--muted);
     }
     .admin-tab.active { background: #fff; color: var(--blue); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
@@ -217,7 +256,7 @@
 </head>
 <body>
 
-<!-- شاشة البداية الاحترافية بشعار الموقع واختيار الدولة -->
+<!-- شاشة البداية الاحترافية بشعار الموقع واختيار جميع الدول -->
 <div class="welcome-screen" id="welcomeScreen">
   <div class="welcome-logo-box">
     <img src="logo.png" onerror="this.src='https://via.placeholder.com/100/eab308/000000?text=SC'" alt="الكوبون الفضي">
@@ -227,25 +266,39 @@
 
   <div class="country-grid">
     <div class="country-card" onclick="chooseCountry('EG', '🇪🇬', 'مصر')">
-      <span class="country-flag">🇪🇬</span>
-      <span class="country-name">مصر</span>
+      <span class="country-flag">🇪🇬</span><span class="country-name">مصر</span>
     </div>
     <div class="country-card" onclick="chooseCountry('SA', '🇸🇦', 'السعودية')">
-      <span class="country-flag">🇸🇦</span>
-      <span class="country-name">السعودية</span>
+      <span class="country-flag">🇸🇦</span><span class="country-name">السعودية</span>
     </div>
     <div class="country-card" onclick="chooseCountry('AE', '🇦🇪', 'الإمارات')">
-      <span class="country-flag">🇦🇪</span>
-      <span class="country-name">الإمارات</span>
+      <span class="country-flag">🇦🇪</span><span class="country-name">الإمارات</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('KW', '🇰🇼', 'الكويت')">
+      <span class="country-flag">🇰🇼</span><span class="country-name">الكويت</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('BH', '🇧🇭', 'البحرين')">
+      <span class="country-flag">🇧🇭</span><span class="country-name">البحرين</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('QA', '🇶🇦', 'قطر')">
+      <span class="country-flag">🇶🇦</span><span class="country-name">قطر</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('OM', '🇴🇲', 'عُمان')">
+      <span class="country-flag">🇴🇲</span><span class="country-name">عُمان</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('MA', '🇲🇦', 'المغرب')">
+      <span class="country-flag">🇲🇦</span><span class="country-name">المغرب</span>
+    </div>
+    <div class="country-card" onclick="chooseCountry('JO', '🇯🇴', 'الأردن')">
+      <span class="country-flag">🇯🇴</span><span class="country-name">الأردن</span>
     </div>
     <div class="country-card" onclick="chooseCountry('ALL', '🌍', 'كل الدول')">
-      <span class="country-flag">🌍</span>
-      <span class="country-name">كل الدول العربية</span>
+      <span class="country-flag">🌍</span><span class="country-name">كل الدول</span>
     </div>
   </div>
 </div>
 
-<!-- الهيدر العلوي المصلح بشعار الموقع الحقيقي وشارة متناسقة -->
+<!-- الهيدر العلوي -->
 <div class="app-header">
   <div class="brand-row">
     <div class="brand-title" onclick="unlockAdmin()">
@@ -262,11 +315,15 @@
   </div>
 </div>
 
-<!-- الصفحة الرئيسية: الكوبونات والعروض -->
+<!-- الصفحة الرئيسية: البانر + المتاجر + الكوبونات -->
 <div id="homeView" class="page-view active">
+
+  <!-- بانر العروض المميز قبل شريط أشهر المتاجر -->
+  <div class="promo-banner-wrap" id="promoBannerWrap"></div>
+
   <div class="section-title">
     <span>أشهر المتاجر</span>
-    <span style="font-size:12px; color:var(--blue); cursor:pointer;" onclick="selectStore('all')">عرض الكل</span>
+    <span style="font-size:12px; color:var(--blue); cursor:pointer; font-weight:800;" onclick="openAllStoresPage()">عرض الكل ◂</span>
   </div>
   <div class="stores-strip" id="storesContainer"></div>
 
@@ -279,6 +336,20 @@
   </div>
 
   <div class="container" id="couponsContainer"></div>
+</div>
+
+<!-- صفحة عرض جميع المتاجر (تفتح عند الضغط على "عرض الكل") -->
+<div id="allStoresView" class="page-view">
+  <div class="section-title">
+    <span>🏪 جميع المتاجر المتاحة</span>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ✕</button>
+  </div>
+  <div class="container">
+    <div class="search-box" style="margin-bottom:10px;">
+      <input type="text" id="storeSearchInput" placeholder="ابحث باسم المتجر..." oninput="renderAllStoresGrid()" style="border:1px solid #cbd5e1;">
+    </div>
+    <div class="all-stores-grid" id="allStoresGridContainer"></div>
+  </div>
 </div>
 
 <!-- صفحة عروض المدونة الحية -->
@@ -294,7 +365,7 @@
     <div class="legal-item open" onclick="this.classList.toggle('open')">
       <div class="legal-header"><span>ℹ️ من نحن</span><span>▾</span></div>
       <div class="legal-body">
-        تطبيق <strong>الكوبون الفضي (Silver Coupons)</strong> هو منصتك الذكية لتجميع أحدث أكواد الخصم الفعالة والعروض الحصرية لأشهر المتاجر الإلكترونية في مصر والسعودية والإمارات. نحرص على فحص وتحديث جميع الكوبونات يومياً لتوفير المال على مشترياتك.
+        تطبيق <strong>الكوبون الفضي (Silver Coupons)</strong> هو منصتك الذكية لتجميع أحدث أكواد الخصم الفعالة والعروض الحصرية لأشهر المتاجر الإلكترونية في العالم العربي. نحرص على فحص وتحديث جميع الكوبونات يومياً لتوفير المال على مشترياتك.
       </div>
     </div>
 
@@ -349,7 +420,8 @@
       <div class="admin-tabs">
         <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
         <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
-        <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 مفتاح الربط</div>
+        <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانر</div>
+        <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
       <!-- 1. إدارة الكوبونات والعروض -->
@@ -366,9 +438,15 @@
           <label>الدولة المستهدفة للعرض</label>
           <select id="admCountry">
             <option value="ALL">🌍 كل الدول العربية</option>
-            <option value="EG">🇪🇬 مصر فقط</option>
-            <option value="SA">🇸🇦 السعودية فقط</option>
-            <option value="AE">🇦🇪 الإمارات فقط</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
           </select>
         </div>
         <div class="form-group">
@@ -416,10 +494,16 @@
         <div class="form-group">
           <label>دولة المتجر</label>
           <select id="newStoreCountry">
-            <option value="ALL">🌍 كل الدول</option>
+            <option value="ALL">🌍 كل الدول العربية</option>
             <option value="EG">🇪🇬 مصر</option>
             <option value="SA">🇸🇦 السعودية</option>
             <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
           </select>
         </div>
         <div class="form-group">
@@ -440,9 +524,45 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إعدادات مفتاح الربط السحابي -->
+      <!-- 3. إدارة بانر العروض الرئيسي -->
+      <div id="admBannerTab" class="adm-subview" style="display:none;">
+        <div class="form-group">
+          <label>حالة البانر في الصفحة الرئيسية</label>
+          <select id="bannerEnabled">
+            <option value="true">✅ مفعّل ويظهر للزوار</option>
+            <option value="false">❌ مخفي حالياً</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>الشارة العلوية (مثال: عرض حصري 🔥)</label>
+          <input type="text" id="bannerTag" placeholder="عرض حصري 🔥">
+        </div>
+        <div class="form-group">
+          <label>عنوان البانر الرئيسي</label>
+          <input type="text" id="bannerTitle" placeholder="خصومات تصل إلى 70% على جميع المتاجر">
+        </div>
+        <div class="form-group">
+          <label>نص الزر (مثال: تسوق العرض الآن ↗)</label>
+          <input type="text" id="bannerCta" placeholder="تسوق العرض الآن ↗">
+        </div>
+        <div class="form-group">
+          <label>رابط الانتقال عند الضغط على البانر</label>
+          <input type="url" id="bannerUrl" placeholder="https://silvercoupons.blogspot.com/">
+        </div>
+        <div class="form-group">
+          <label>رابط صورة خلفية البانر (اختياري)</label>
+          <input type="url" id="bannerImg" placeholder="https://example.com/banner.jpg">
+        </div>
+        <div class="form-group">
+          <label>أو رفع صورة بانر من الهاتف:</label>
+          <input type="file" id="bannerFile" accept="image/*">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات البانر</button>
+      </div>
+
+      <!-- 4. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
-        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر تلقائياً بضغطة زر:</p>
+        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانر تلقائياً بضغطة زر:</p>
         <div class="form-group">
           <label>GitHub Personal Access Token (ghp_...)</label>
           <input type="password" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
@@ -474,14 +594,22 @@
   const FILE_PATH = 'www/coupons.json';
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
-  let appData = { stores: [], coupons: [] };
+  const DEFAULT_BANNER = {
+    enabled: true,
+    tag: 'عروض حصرية 🔥',
+    title: 'أقوى أكواد الخصم الفعالة لجميع المتاجر العربية',
+    cta: 'اكتشف العروض الآن ↗',
+    url: 'https://silvercoupons.blogspot.com/',
+    image: ''
+  };
+
+  let appData = { banner: DEFAULT_BANNER, stores: [], coupons: [] };
   let activeStore = 'all';
   let activeCat = 'all';
   let selectedCountry = localStorage.getItem('silver_user_country') || '';
   let tapCount = 0;
   let tapTimer = null;
 
-  // التحكم بشاشة البداية واختيار الدولة
   function chooseCountry(code, flag, name) {
     selectedCountry = code;
     localStorage.setItem('silver_user_country', code);
@@ -515,6 +643,7 @@
         document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
         document.getElementById('adminView').classList.add('active');
         document.getElementById('ghTokenInput').value = localStorage.getItem('silver_gh_token') || '';
+        loadBannerForm();
         renderAdminLists();
       } else if (pass !== null) {
         alert("الرقم السري غير صحيح!");
@@ -545,10 +674,22 @@
     checkInitialCountry();
     try {
       const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
-      appData = await res.json();
+      const fetched = await res.json();
+      appData = {
+        banner: fetched.banner || DEFAULT_BANNER,
+        stores: fetched.stores || [],
+        coupons: fetched.coupons || []
+      };
     } catch (e) {
       const localSaved = localStorage.getItem('silver_custom_coupons');
-      if (localSaved) appData = JSON.parse(localSaved);
+      if (localSaved) {
+        const parsed = JSON.parse(localSaved);
+        appData = {
+          banner: parsed.banner || DEFAULT_BANNER,
+          stores: parsed.stores || [],
+          coupons: parsed.coupons || []
+        };
+      }
     }
     refreshAllUI();
   }
@@ -561,15 +702,36 @@
 
   function refreshAllUI() {
     localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
+    renderBanner();
     renderStores();
     renderCoupons();
     populateAdminStores();
     renderAdminLists();
   }
 
+  function renderBanner() {
+    const wrap = document.getElementById('promoBannerWrap');
+    const b = appData.banner || DEFAULT_BANNER;
+    if (b.enabled === false || b.enabled === 'false') {
+      wrap.innerHTML = '';
+      return;
+    }
+    wrap.innerHTML = `
+      <a href="${b.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
+        ${b.image ? `<img src="${b.image}" alt="${b.title}">` : ''}
+        <div class="promo-banner-overlay" style="${!b.image ? 'position:relative; background:none;' : ''}">
+          ${b.tag ? `<span class="promo-tag">${b.tag}</span>` : ''}
+          <h3 class="promo-title">${b.title || 'عروض حصرية لفترة محدودة'}</h3>
+          <span class="promo-cta">${b.cta || 'احصل على العرض الآن ↗'}</span>
+        </div>
+      </a>
+    `;
+  }
+
+  // فلترة ذكية: الكوبونات أو المتاجر غير المحددة بدولة معينة تظهر في كل الدول حتى لا تبدو الصفحة فارغة
   function matchesCountry(itemCountry) {
     if (!selectedCountry || selectedCountry === 'ALL') return true;
-    if (!itemCountry || itemCountry === 'ALL') return true;
+    if (!itemCountry || itemCountry === 'ALL' || itemCountry === '') return true;
     return itemCountry === selectedCountry;
   }
 
@@ -589,6 +751,47 @@
         </div>`;
     });
     container.innerHTML = html;
+  }
+
+  // فتح صفحة عرض جميع المتاجر عند الضغط على "عرض الكل"
+  function openAllStoresPage() {
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('allStoresView').classList.add('active');
+    document.getElementById('storeSearchInput').value = '';
+    renderAllStoresGrid();
+  }
+
+  function renderAllStoresGrid() {
+    const grid = document.getElementById('allStoresGridContainer');
+    const q = document.getElementById('storeSearchInput').value.trim().toLowerCase();
+    const visibleStores = appData.stores.filter(st => {
+      const mCountry = matchesCountry(st.country);
+      const mQuery = !q || st.name.toLowerCase().includes(q);
+      return mCountry && mQuery;
+    });
+
+    if (visibleStores.length === 0) {
+      grid.innerHTML = `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر مطابقة.</div>`;
+      return;
+    }
+
+    grid.innerHTML = visibleStores.map(st => {
+      const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
+      return `
+        <div class="store-grid-card" onclick="chooseStoreFromGrid('${st.id}')">
+          <div class="store-grid-logo"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/60?text=${st.name[0]}'"></div>
+          <div class="store-grid-title">${st.name.split('-')[0]}</div>
+          <span class="store-grid-count">${count} عرض</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function chooseStoreFromGrid(storeId) {
+    activeStore = storeId;
+    switchTab('homeView', document.querySelector('.nav-item'));
+    renderStores();
+    renderCoupons();
   }
 
   function renderCoupons() {
@@ -698,7 +901,7 @@
       <div class="manage-row">
         <div style="flex:1;">
           <strong>${c.storeName}</strong> ${c.code ? `(<span style="color:var(--blue);font-family:monospace;">${c.code}</span>)` : '(عرض رابط)'}<br>
-          <span style="font-size:11px;color:var(--muted);">${c.discount} - ${c.title}</span>
+          <span style="font-size:11px;color:var(--muted);">${c.discount} - ${c.title} [${c.country || 'ALL'}]</span>
         </div>
         <div style="display:flex; gap:5px;">
           <button class="btn-mini" style="background:var(--blue);" onclick="editCouponAdmin(${c.id})">تعديل</button>
@@ -712,7 +915,7 @@
       <div class="manage-row">
         <div style="display:flex; align-items:center; gap:8px;">
           <img src="${s.logo}" style="width:28px;height:28px;object-fit:contain;">
-          <strong>${s.name}</strong>
+          <strong>${s.name}</strong> <span style="font-size:11px;color:var(--muted);">[${s.country || 'ALL'}]</span>
         </div>
         <button class="btn-mini" style="background:var(--red);" onclick="deleteStoreAdmin('${s.id}')">حذف</button>
       </div>
@@ -790,6 +993,25 @@
     showToast('تم الحذف! اضغط زر النشر الأخضر لتأكيده للجميع.');
   }
 
+  async function uploadImageToGitHub(file, fileName) {
+    const token = localStorage.getItem('silver_gh_token');
+    if (!token) {
+      alert('يرجى إدخال مفتاح GitHub Token في تبويب (الربط) أولاً لرفع الصور من الهاتف.');
+      return null;
+    }
+    const base64 = await toBase64(file);
+    const uploadRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/www/${fileName}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: `Upload image ${fileName}`, content: base64.split(',')[1] })
+    });
+    if (uploadRes.ok) {
+      return `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/www/${fileName}`;
+    }
+    alert('فشل رفع الصورة، تأكد من صحة مفتاح الربط.');
+    return null;
+  }
+
   async function addStoreAdmin() {
     const name = document.getElementById('newStoreName').value.trim();
     const country = document.getElementById('newStoreCountry').value;
@@ -801,22 +1023,10 @@
     const storeId = 'store_' + Date.now();
 
     if (fileInput.files && fileInput.files[0]) {
-      const token = localStorage.getItem('silver_gh_token');
-      if (!token) return alert('يرجى إدخال مفتاح GitHub Token في تبويب (مفتاح الربط) أولاً لرفع الصور من الهاتف.');
       showToast('جاري رفع شعار المتجر إلى السحابة...');
-      const file = fileInput.files[0];
-      const base64 = await toBase64(file);
-      const fileName = `${storeId}.png`;
-      const uploadRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/www/${fileName}`, {
-        method: 'PUT',
-        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: `Upload logo ${fileName}`, content: base64.split(',')[1] })
-      });
-      if (uploadRes.ok) {
-        logoUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/www/${fileName}`;
-      } else {
-        return alert('فشل رفع الصورة، تأكد من صحة مفتاح الربط.');
-      }
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `${storeId}.png`);
+      if (!uploaded) return;
+      logoUrl = uploaded;
     }
 
     if (!logoUrl) logoUrl = 'https://via.placeholder.com/80?text=' + encodeURIComponent(name[0]);
@@ -836,6 +1046,42 @@
     showToast('تم حذف المتجر! اضغط زر النشر الأخضر.');
   }
 
+  // إدارة بانر العروض
+  function loadBannerForm() {
+    const b = appData.banner || DEFAULT_BANNER;
+    document.getElementById('bannerEnabled').value = String(b.enabled !== false);
+    document.getElementById('bannerTag').value = b.tag || '';
+    document.getElementById('bannerTitle').value = b.title || '';
+    document.getElementById('bannerCta').value = b.cta || '';
+    document.getElementById('bannerUrl').value = b.url || '';
+    document.getElementById('bannerImg').value = b.image || '';
+  }
+
+  async function saveBannerAdmin() {
+    let imgUrl = document.getElementById('bannerImg').value.trim();
+    const fileInput = document.getElementById('bannerFile');
+
+    if (fileInput.files && fileInput.files[0]) {
+      showToast('جاري رفع صورة البانر...');
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `banner_${Date.now()}.png`);
+      if (!uploaded) return;
+      imgUrl = uploaded;
+      document.getElementById('bannerImg').value = imgUrl;
+    }
+
+    appData.banner = {
+      enabled: document.getElementById('bannerEnabled').value === 'true',
+      tag: document.getElementById('bannerTag').value.trim(),
+      title: document.getElementById('bannerTitle').value.trim(),
+      cta: document.getElementById('bannerCta').value.trim(),
+      url: document.getElementById('bannerUrl').value.trim(),
+      image: imgUrl
+    };
+    fileInput.value = '';
+    refreshAllUI();
+    showToast('تم حفظ البانر! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
   function toBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -848,7 +1094,7 @@
   async function publishToGitHub() {
     const token = localStorage.getItem('silver_gh_token');
     if (!token) {
-      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[2]);
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[3]);
       return alert('يرجى لصق مفتاح GitHub Token هنا أولاً (مرة واحدة فقط) لتفعيل النشر الفوري.');
     }
 
@@ -871,7 +1117,7 @@
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          message: 'Update coupons from Silver Coupons App',
+          message: 'Update data from Silver Coupons App',
           content: encodedContent,
           sha: fileData.sha
         })
