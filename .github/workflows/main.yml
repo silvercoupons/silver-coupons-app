@@ -20,7 +20,7 @@ jobs:
           node-version: '20'
 
       - name: Setup Java JDK 21
-        uses: setup-java@v4
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
