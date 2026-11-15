@@ -40,6 +40,22 @@ jobs:
           fi
           npx cap sync android
 
+      - name: Inject Start.io Ad SDK
+        env:
+          STARTIO_APP_ID: "210311194"
+        run: |
+          # 1. إضافة مكتبة Start.io إلى ملف build.gradle
+          sed -i "/dependencies {/a \    implementation 'com.startapp:inapp-sdk:5.1.0'" android/app/build.gradle
+
+          # 2. إضافة تصاريح الإعلانات ومعرّف التطبيق في AndroidManifest.xml
+          sed -i "/<application/i \    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />" android/app/src/main/AndroidManifest.xml
+          sed -i "/<\/application>/i \        <meta-data android:name=\"com.startapp.sdk.APPLICATION_ID\" android:value=\"${STARTIO_APP_ID}\" />" android/app/src/main/AndroidManifest.xml
+
+          # 3. تهيئة الإعلانات وتفعيل الإعلان الترحيبي والبانر داخل MainActivity.java
+          MAIN_ACT=$(find android/app/src/main/java -name "MainActivity.java" | head -n 1)
+          sed -i "/import com.getcapacitor.BridgeActivity;/a import android.os.Bundle;\nimport com.startapp.sdk.adsbase.StartAppSDK;\nimport com.startapp.sdk.adsbase.StartAppAd;" "$MAIN_ACT"
+          sed -i "/public class MainActivity extends BridgeActivity {/a \    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        StartAppSDK.init(this, \"${STARTIO_APP_ID}\", true);\n        StartAppAd.showAd(this);\n    }" "$MAIN_ACT"
+
       - name: Build Debug APK
         working-directory: ./android
         run: |
