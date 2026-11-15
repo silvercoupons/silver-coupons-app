@@ -89,7 +89,8 @@
       "id": "noon",
       "name": "نون - Noon",
       "logo": "https://cdn.almowafir.com/files/w200_noon.png",
-      "url": "https://silvercoupons.blogspot.com/p/noon.html/"
+      "url": "https://silvercoupons.blogspot.com/p/noon.html/",
+      "country": "EG"
     },
     {
       "id": "namshi",
@@ -101,25 +102,29 @@
       "id": "defacto",
       "name": "ديفاكتو - DeFacto",
       "logo": "https://cdn.almowafir.com/files/w200_adv_defacto.jpg",
-      "url": "https://www.defacto.com.eg/"
+      "url": "https://www.defacto.com.eg/",
+      "country": "EG"
     },
     {
       "id": "2b",
       "name": "تو بي - 2B Egypt",
       "logo": "https://2b.com.eg/media/logo/stores/1/logo.png",
-      "url": "https://2b.com.eg/ar/"
+      "url": "https://2b.com.eg/ar/",
+      "country": "EG"
     },
     {
       "id": "raya",
       "name": "راية شوب - Raya",
       "logo": "https://cdn.almowafir.com/files/w200_adv_Raya.jpg",
-      "url": "https://www.rayashop.com/ar"
+      "url": "https://www.rayashop.com/ar",
+      "country": "EG"
     },
     {
       "id": "carrefour",
       "name": "كارفور - Carrefour",
       "logo": "https://cdn.almowafir.com/files/w200_carrefour.jpg",
-      "url": "https://www.carrefouregypt.com/mafegy/ar"
+      "url": "https://www.carrefouregypt.com/mafegy/ar",
+      "country": "EG"
     },
     {
       "id": "store_1794772871167",
