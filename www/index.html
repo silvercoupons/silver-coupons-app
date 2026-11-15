@@ -18,9 +18,9 @@
       --muted: #64748b;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 75px 0; color: var(--text); }
+    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 80px 0; color: var(--text); }
 
-    /* شاشة البداية واختيار الدولة الاحترافية */
+    /* شاشة البداية واختيار الدولة */
     .welcome-screen {
       position: fixed; inset: 0; z-index: 999;
       background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
@@ -30,7 +30,7 @@
     }
     .welcome-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .welcome-logo-box {
-      width: 92px; height: 92px; background: #fff; border-radius: 22px;
+      width: 105px; height: 105px; background: #fff; border-radius: 24px;
       padding: 10px; display: flex; align-items: center; justify-content: center;
       box-shadow: 0 12px 30px rgba(0,0,0,0.35); margin-bottom: 12px; flex-shrink: 0;
     }
@@ -47,14 +47,13 @@
       display: flex; align-items: center; justify-content: center; gap: 8px;
       transition: 0.2s; color: #fff;
     }
-    .country-card.full-span { grid-column: span 2; background: rgba(234,179,8,0.14); border-color: rgba(234,179,8,0.4); }
     .country-card:active, .country-card:hover {
       background: rgba(234,179,8,0.22); border-color: var(--accent); transform: scale(0.98);
     }
     .country-flag { font-size: 24px; line-height: 1; }
     .country-name { font-size: 13.5px; font-weight: 700; }
 
-    /* الهيدر العلوي */
+    /* الهيدر العلوي بشعار أكبر وأوضح */
     .app-header {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #fff; padding: 14px 16px 20px; border-radius: 0 0 22px 22px;
@@ -63,8 +62,8 @@
     .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
     .brand-title { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; flex-shrink: 0; }
     .header-logo-img {
-      height: 38px; max-width: 145px; object-fit: contain; background: #fff;
-      padding: 4px 10px; border-radius: 10px;
+      height: 48px; max-width: 170px; object-fit: contain; background: #fff;
+      padding: 4px 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
     .brand-badge {
       background: var(--accent); color: #000; font-size: 10px; padding: 2px 7px;
@@ -73,81 +72,130 @@
     .header-left-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .country-switch-btn {
       background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2);
-      color: #fff; padding: 4px 9px; border-radius: 10px; font-family: 'Cairo', sans-serif;
+      color: #fff; padding: 5px 10px; border-radius: 10px; font-family: 'Cairo', sans-serif;
       font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
       display: flex; align-items: center; gap: 4px;
     }
-    .total-pill { font-size: 11px; opacity: 0.85; white-space: nowrap; }
     .search-box input {
       width: 100%; padding: 11px 16px; border-radius: 12px; border: none;
       font-family: 'Cairo', sans-serif; font-size: 14px; background: rgba(255,255,255,0.95);
       color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
-    /* بانر العروض الاحترافي قبل شريط المتاجر */
-    .promo-banner-wrap { padding: 14px 16px 2px; max-width: 600px; margin: auto; }
+    /* عناوين الأقسام وزر اعرض الكل */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin: 18px 16px 10px;
+    }
+    .section-title-text { font-size: 15.5px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .view-all-link {
+      font-size: 12px; color: var(--blue); font-weight: 800; cursor: pointer;
+      background: #eff6ff; padding: 4px 10px; border-radius: 12px; white-space: nowrap;
+    }
+
+    /* شريط المتاجر الدائري (بدون أيقونة الكل) */
+    .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px; scrollbar-width: none; }
+    .stores-strip::-webkit-scrollbar { display: none; }
+    .store-item { display: flex; flex-direction: column; align-items: center; min-width: 70px; cursor: pointer; }
+    .store-circle {
+      width: 62px; height: 62px; border-radius: 50%; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 2px solid transparent; padding: 8px; transition: 0.2s;
+    }
+    .store-item.active .store-circle { border-color: var(--blue); transform: scale(1.06); }
+    .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .store-name { font-size: 11.5px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
+
+    /* البطاقات الأفقية القابلة للتمرير (Horizontal Carousels) */
+    .horizontal-cards-strip {
+      display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 14px;
+      scrollbar-width: none; scroll-snap-type: x mandatory;
+    }
+    .horizontal-cards-strip::-webkit-scrollbar { display: none; }
+    .h-card {
+      min-width: 245px; max-width: 245px; background: #fff; border-radius: 16px;
+      border: 1px solid #e2e8f0; box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 14px; scroll-snap-align: start; flex-shrink: 0;
+    }
+    .h-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .h-card-logo {
+      width: 48px; height: 48px; border-radius: 12px; border: 1px solid #f1f5f9;
+      padding: 5px; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0;
+    }
+    .h-card-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .h-card-store-meta { flex: 1; min-width: 0; }
+    .h-card-store-name { font-size: 12px; font-weight: 800; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .h-card-discount {
+      display: inline-block; background: #fef08a; color: #854d0e; font-size: 11px;
+      font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-top: 3px;
+    }
+    /* عنوان الكارت بطول مناسب وواضح دون تآكل للنصوص */
+    .h-card-title {
+      font-size: 13.5px; font-weight: 700; color: var(--text); line-height: 1.5;
+      margin: 0 0 12px 0; min-height: 60px;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .h-card-footer {
+      border-top: 1.5px dashed #e2e8f0; padding-top: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .h-code-box {
+      background: #f8fafc; border: 1.5px dashed var(--blue); border-radius: 8px;
+      padding: 5px 8px; font-family: monospace; font-size: 13.5px; font-weight: 800;
+      color: var(--blue); letter-spacing: 1px; text-align: center; flex: 1;
+    }
+    .h-btn-copy {
+      background: var(--blue); color: #fff; border: none; padding: 7px 12px;
+      border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: 700;
+      font-size: 12px; cursor: pointer; white-space: nowrap;
+    }
+    .h-btn-deal {
+      background: var(--green); color: #fff; text-decoration: none; padding: 8px 12px;
+      border-radius: 8px; font-weight: 700; font-size: 12.5px; text-align: center;
+      width: 100%; display: block;
+    }
+
+    /* بانرات العروض الإعلانية */
+    .promo-banner-wrap { padding: 6px 16px 8px; max-width: 600px; margin: auto; }
     .promo-banner-card {
       display: block; position: relative; border-radius: 16px; overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.1); text-decoration: none;
-      background: linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%);
-      min-height: 115px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.09); text-decoration: none;
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      min-height: 105px;
     }
-    .promo-banner-card img {
-      width: 100%; height: 135px; object-fit: cover; display: block;
-    }
+    .promo-banner-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
     .promo-banner-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(90deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.82) 100%);
+      background: linear-gradient(90deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.85) 100%);
       padding: 14px 16px; display: flex; flex-direction: column; justify-content: center; color: #fff;
     }
     .promo-tag {
       background: var(--accent); color: #000; font-size: 10px; font-weight: 800;
       padding: 2px 8px; border-radius: 6px; width: fit-content; margin-bottom: 5px;
     }
-    .promo-title { font-size: 15px; font-weight: 800; margin: 0 0 4px; line-height: 1.3; }
+    .promo-title { font-size: 14.5px; font-weight: 800; margin: 0 0 4px; line-height: 1.35; }
     .promo-cta { font-size: 11.5px; color: #fef08a; font-weight: 700; }
 
-    /* شريط المتاجر الدائري */
-    .section-title { font-size: 15px; font-weight: 800; margin: 14px 16px 8px; display: flex; justify-content: space-between; align-items: center; }
-    .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 6px 16px 12px; scrollbar-width: none; }
-    .stores-strip::-webkit-scrollbar { display: none; }
-    .store-item { display: flex; flex-direction: column; align-items: center; min-width: 68px; cursor: pointer; }
-    .store-circle {
-      width: 60px; height: 60px; border-radius: 50%; background: #fff;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 2px solid transparent; padding: 8px; transition: 0.2s;
+    /* قسم أقوى الفئات (كروت مربعة احترافية) */
+    .categories-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      padding: 2px 16px 14px; max-width: 600px; margin: auto;
     }
-    .store-item.active .store-circle { border-color: var(--blue); transform: scale(1.06); }
-    .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .store-name { font-size: 11px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
+    .cat-square-card {
+      background: #fff; border-radius: 16px; padding: 14px 8px;
+      border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; gap: 8px; cursor: pointer; transition: 0.2s; aspect-ratio: 1 / 1;
+    }
+    .cat-square-card:active { transform: scale(0.96); border-color: var(--blue); background: #eff6ff; }
+    .cat-square-icon {
+      width: 46px; height: 46px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .cat-square-name { font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.25; }
 
-    /* شبكة جميع المتاجر (صفحة عرض الكل) */
-    .all-stores-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;
-    }
-    .store-grid-card {
-      background: #fff; border-radius: 14px; padding: 14px 8px; text-align: center;
-      border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 8px; transition: 0.2s;
-    }
-    .store-grid-card:active { transform: scale(0.97); border-color: var(--blue); }
-    .store-grid-logo {
-      width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
-    }
-    .store-grid-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .store-grid-title { font-size: 12.5px; font-weight: 800; color: var(--text); }
-    .store-grid-count { font-size: 10.5px; background: #eff6ff; color: var(--blue); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
-
-    /* تصنيفات الكوبونات */
-    .cats-strip { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 14px; scrollbar-width: none; }
-    .cats-strip::-webkit-scrollbar { display: none; }
-    .cat-pill {
-      background: #e2e8f0; color: #334155; padding: 6px 14px; border-radius: 20px;
-      font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: 0.2s;
-    }
-    .cat-pill.active { background: var(--blue); color: #fff; box-shadow: 0 2px 6px rgba(37,99,235,0.3); }
-
-    /* بطاقة الكوبون والعرض الاحترافية */
+    /* بطاقة الكوبون الطولية الكاملة (لصفحة الأقسام والبحث) */
     .container { padding: 0 16px; max-width: 600px; margin: auto; }
     .coupon-ticket {
       background: var(--card); border-radius: 16px; margin-bottom: 14px;
@@ -166,8 +214,6 @@
     .deal-badge { background: #dbeafe; color: #1d4ed8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
     .ticket-title { font-size: 14px; font-weight: 700; margin: 0; color: var(--text); line-height: 1.4; }
     .ticket-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
-
-    /* خط القص المتقطع وأزرار الكوبون والعرض */
     .ticket-divider { border-top: 2px dashed #e2e8f0; margin: 0 14px; }
     .ticket-bottom {
       display: flex; align-items: center; justify-content: space-between;
@@ -193,6 +239,18 @@
       border-radius: 8px; font-weight: 700; font-size: 12px; display: flex; align-items: center;
     }
 
+    /* شبكة جميع المتاجر */
+    .all-stores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+    .store-grid-card {
+      background: #fff; border-radius: 14px; padding: 14px 8px; text-align: center;
+      border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .store-grid-logo { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; }
+    .store-grid-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .store-grid-title { font-size: 12.5px; font-weight: 800; color: var(--text); }
+    .store-grid-count { font-size: 10.5px; background: #eff6ff; color: var(--blue); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+
     /* شريط التنقل السفلي */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
@@ -206,7 +264,7 @@
     .nav-item.active { color: var(--blue); }
     .nav-icon { font-size: 18px; margin-bottom: 2px; }
 
-    /* لوحة التحكم (Admin) وصفحة المزيد */
+    /* لوحة التحكم وصفحة المزيد */
     .page-view { display: none; }
     .page-view.active { display: block; }
     .admin-card { background: #fff; border-radius: 14px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
@@ -236,8 +294,6 @@
       font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 14px; cursor: pointer;
       box-shadow: 0 4px 12px rgba(22,163,74,0.25); margin-bottom: 14px;
     }
-
-    /* تنسيق الصفحات القانونية ومنصات التواصل */
     .legal-item { background: #fff; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
     .legal-header { padding: 14px 16px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .legal-body { display: none; padding: 0 16px 14px; font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid #f1f5f9; }
@@ -256,7 +312,7 @@
 </head>
 <body>
 
-<!-- شاشة البداية الاحترافية بشعار الموقع واختيار جميع الدول -->
+<!-- شاشة البداية واختيار الدولة -->
 <div class="welcome-screen" id="welcomeScreen">
   <div class="welcome-logo-box">
     <img src="logo.png" onerror="this.src='https://via.placeholder.com/100/eab308/000000?text=SC'" alt="الكوبون الفضي">
@@ -265,83 +321,137 @@
   <p class="welcome-sub">اختر دولتك لعرض أحدث أكواد الخصم والعروض الحصرية لبلدك</p>
 
   <div class="country-grid">
-    <div class="country-card" onclick="chooseCountry('EG', '🇪🇬', 'مصر')">
-      <span class="country-flag">🇪🇬</span><span class="country-name">مصر</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('SA', '🇸🇦', 'السعودية')">
-      <span class="country-flag">🇸🇦</span><span class="country-name">السعودية</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('AE', '🇦🇪', 'الإمارات')">
-      <span class="country-flag">🇦🇪</span><span class="country-name">الإمارات</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('KW', '🇰🇼', 'الكويت')">
-      <span class="country-flag">🇰🇼</span><span class="country-name">الكويت</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('BH', '🇧🇭', 'البحرين')">
-      <span class="country-flag">🇧🇭</span><span class="country-name">البحرين</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('QA', '🇶🇦', 'قطر')">
-      <span class="country-flag">🇶🇦</span><span class="country-name">قطر</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('OM', '🇴🇲', 'عُمان')">
-      <span class="country-flag">🇴🇲</span><span class="country-name">عُمان</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('MA', '🇲🇦', 'المغرب')">
-      <span class="country-flag">🇲🇦</span><span class="country-name">المغرب</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('JO', '🇯🇴', 'الأردن')">
-      <span class="country-flag">🇯🇴</span><span class="country-name">الأردن</span>
-    </div>
-    <div class="country-card" onclick="chooseCountry('ALL', '🌍', 'كل الدول')">
-      <span class="country-flag">🌍</span><span class="country-name">كل الدول</span>
-    </div>
+    <div class="country-card" onclick="chooseCountry('EG', '🇪🇬', 'مصر')"><span class="country-flag">🇪🇬</span><span class="country-name">مصر</span></div>
+    <div class="country-card" onclick="chooseCountry('SA', '🇸🇦', 'السعودية')"><span class="country-flag">🇸🇦</span><span class="country-name">السعودية</span></div>
+    <div class="country-card" onclick="chooseCountry('AE', '🇦🇪', 'الإمارات')"><span class="country-flag">🇦🇪</span><span class="country-name">الإمارات</span></div>
+    <div class="country-card" onclick="chooseCountry('KW', '🇰🇼', 'الكويت')"><span class="country-flag">🇰🇼</span><span class="country-name">الكويت</span></div>
+    <div class="country-card" onclick="chooseCountry('BH', '🇧🇭', 'البحرين')"><span class="country-flag">🇧🇭</span><span class="country-name">البحرين</span></div>
+    <div class="country-card" onclick="chooseCountry('QA', '🇶🇦', 'قطر')"><span class="country-flag">🇶🇦</span><span class="country-name">قطر</span></div>
+    <div class="country-card" onclick="chooseCountry('OM', '🇴🇲', 'عُمان')"><span class="country-flag">🇴🇲</span><span class="country-name">عُمان</span></div>
+    <div class="country-card" onclick="chooseCountry('MA', '🇲🇦', 'المغرب')"><span class="country-flag">🇲🇦</span><span class="country-name">المغرب</span></div>
+    <div class="country-card" onclick="chooseCountry('JO', '🇯🇴', 'الأردن')"><span class="country-flag">🇯🇴</span><span class="country-name">الأردن</span></div>
+    <div class="country-card" onclick="chooseCountry('ALL', '🌍', 'كل الدول')"><span class="country-flag">🌍</span><span class="country-name">كل الدول</span></div>
   </div>
 </div>
 
-<!-- الهيدر العلوي -->
+<!-- الهيدر العلوي بشعار أكبر وأوضح -->
 <div class="app-header">
   <div class="brand-row">
     <div class="brand-title" onclick="unlockAdmin()">
-      <img src="logo.png" class="header-logo-img" onerror="this.src='https://via.placeholder.com/120x38/ffffff/0f172a?text=Silver+Coupons'" alt="الكوبون الفضي">
+      <img src="logo.png" class="header-logo-img" onerror="this.src='https://via.placeholder.com/150x48/ffffff/0f172a?text=Silver+Coupons'" alt="الكوبون الفضي">
       <span class="brand-badge">أكواد موثقة</span>
     </div>
     <div class="header-left-tools">
       <button class="country-switch-btn" id="currentCountryBtn" onclick="openCountryScreen()">🌍 كل الدول ▾</button>
-      <span class="total-pill" id="totalCount">...</span>
     </div>
   </div>
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="ابحث عن متجر أو كود خصم (نون، نمشي، راية...)" oninput="renderCoupons()">
+    <input type="text" id="searchInput" placeholder="ابحث عن متجر أو كود خصم (نون، نمشي، راية...)" oninput="handleHomeSearch()">
   </div>
 </div>
 
-<!-- الصفحة الرئيسية: البانر + المتاجر + الكوبونات -->
+<!-- الصفحة الرئيسية المتكاملة بالأقسام الأفقية والبانرات -->
 <div id="homeView" class="page-view active">
 
-  <!-- بانر العروض المميز قبل شريط أشهر المتاجر -->
-  <div class="promo-banner-wrap" id="promoBannerWrap"></div>
-
-  <div class="section-title">
-    <span>أشهر المتاجر</span>
-    <span style="font-size:12px; color:var(--blue); cursor:pointer; font-weight:800;" onclick="openAllStoresPage()">عرض الكل ◂</span>
-  </div>
-  <div class="stores-strip" id="storesContainer"></div>
-
-  <div class="cats-strip" id="catsContainer">
-    <div class="cat-pill active" onclick="selectCat('all', this)">🔥 جميع العروض</div>
-    <div class="cat-pill" onclick="selectCat('متاجر شاملة', this)">🛒 متاجر شاملة</div>
-    <div class="cat-pill" onclick="selectCat('أزياء وموضة', this)">👗 أزياء وموضة</div>
-    <div class="cat-pill" onclick="selectCat('إلكترونيات', this)">💻 إلكترونيات</div>
-    <div class="cat-pill" onclick="selectCat('بقالة وسوبرماركت', this)">🥫 سوبرماركت</div>
+  <!-- نتائج البحث الفوري (تظهر فقط عند الكتابة في مربع البحث) -->
+  <div id="searchResultsSection" style="display:none; padding-top:14px;">
+    <div class="section-header">
+      <span class="section-title-text">🔍 نتائج البحث</span>
+      <span class="view-all-link" onclick="clearSearch()">مسح البحث ✕</span>
+    </div>
+    <div class="container" id="searchResultsContainer"></div>
   </div>
 
-  <div class="container" id="couponsContainer"></div>
+  <!-- محتوى الصفحة الرئيسية الافتراضي -->
+  <div id="homeMainSections">
+    <!-- 1. شريط أشهر المتاجر (بدون أيقونة الكل) -->
+    <div class="section-header">
+      <span class="section-title-text">🏪 أشهر المتاجر</span>
+      <span class="view-all-link" onclick="openAllStoresPage()">عرض الكل ◂</span>
+    </div>
+    <div class="stores-strip" id="storesContainer"></div>
+
+    <!-- 2. قسم عروض الإلكترونيات (تمرير أفقي + اعرض الكل) -->
+    <div id="electronicsSectionWrap">
+      <div class="section-header">
+        <span class="section-title-text">💻 عروض الإلكترونيات</span>
+        <span class="view-all-link" onclick="openFilteredView('category', 'إلكترونيات', '💻 عروض الإلكترونيات')">اعرض الكل ◂</span>
+      </div>
+      <div class="horizontal-cards-strip" id="electronicsCarousel"></div>
+    </div>
+
+    <!-- 3. البانر الإعلاني الأول -->
+    <div class="promo-banner-wrap" id="bannerSlot1"></div>
+
+    <!-- 4. قسم العروض التلقائية (روابط الأفلييت بدون كود + تمرير أفقي) -->
+    <div id="autoDealsSectionWrap">
+      <div class="section-header">
+        <span class="section-title-text">⚡ العروض التلقائية</span>
+        <span class="view-all-link" onclick="openFilteredView('deals', 'all', '⚡ جميع العروض التلقائية')">اعرض الكل ◂</span>
+      </div>
+      <div class="horizontal-cards-strip" id="autoDealsCarousel"></div>
+    </div>
+
+    <!-- 5. البانر الإعلاني الثاني -->
+    <div class="promo-banner-wrap" id="bannerSlot2"></div>
+
+    <!-- 6. قسم أقوى الفئات (كروت مربعة احترافية) -->
+    <div class="section-header">
+      <span class="section-title-text">🎯 أقوى الفئات</span>
+      <span class="view-all-link" onclick="openFilteredView('all', 'all', '🔥 جميع الكوبونات والعروض')">اعرض الكل ◂</span>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-square-card" onclick="openFilteredView('category', 'عروض جديدة', '🆕 عروض جديدة')">
+        <div class="cat-square-icon" style="background:#fef3c7;">🆕</div>
+        <div class="cat-square-name">عروض جديدة</div>
+      </div>
+      <div class="cat-square-card" onclick="openFilteredView('category', 'طعام', '🍔 عروض الطعام')">
+        <div class="cat-square-icon" style="background:#fee2e2;">🍔</div>
+        <div class="cat-square-name">طعام</div>
+      </div>
+      <div class="cat-square-card" onclick="openFilteredView('category', 'إلكترونيات', '💻 إلكترونيات')">
+        <div class="cat-square-icon" style="background:#dbeafe;">💻</div>
+        <div class="cat-square-name">إلكترونيات</div>
+      </div>
+      <div class="cat-square-card" onclick="openFilteredView('category', 'الجمال والعطور', '🌸 الجمال والعطور')">
+        <div class="cat-square-icon" style="background:#fce7f3;">🌸</div>
+        <div class="cat-square-name">الجمال والعطور</div>
+      </div>
+      <div class="cat-square-card" onclick="openFilteredView('category', 'أزياء وموضة', '👗 أزياء وموضة')">
+        <div class="cat-square-icon" style="background:#ede9fe;">👗</div>
+        <div class="cat-square-name">أزياء وموضة</div>
+      </div>
+      <div class="cat-square-card" onclick="openFilteredView('category', 'متاجر شاملة', '🛒 متاجر شاملة')">
+        <div class="cat-square-icon" style="background:#dcfce7;">🛒</div>
+        <div class="cat-square-name">متاجر شاملة</div>
+      </div>
+    </div>
+
+    <!-- 7. البانر الإعلاني الثالث -->
+    <div class="promo-banner-wrap" id="bannerSlot3"></div>
+
+    <!-- 8. قسم أحدث الكوبونات المتنوعة -->
+    <div class="section-header">
+      <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
+      <span class="view-all-link" onclick="openFilteredView('all', 'all', '🏷️ جميع الكوبونات')">اعرض الكل ◂</span>
+    </div>
+    <div class="container" id="latestCouponsContainer"></div>
+  </div>
 </div>
 
-<!-- صفحة عرض جميع المتاجر (تفتح عند الضغط على "عرض الكل") -->
+<!-- صفحة عرض الكل المخصصة (لأي قسم أو متجر أو فئة) -->
+<div id="filteredListView" class="page-view">
+  <div class="section-header">
+    <span class="section-title-text" id="filteredViewTitle">جميع العروض</span>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ✕</button>
+  </div>
+  <div class="container" id="filteredViewContainer"></div>
+</div>
+
+<!-- صفحة عرض جميع المتاجر -->
 <div id="allStoresView" class="page-view">
-  <div class="section-title">
-    <span>🏪 جميع المتاجر المتاحة</span>
+  <div class="section-header">
+    <span class="section-title-text">🏪 جميع المتاجر المتاحة</span>
     <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ✕</button>
   </div>
   <div class="container">
@@ -354,13 +464,13 @@
 
 <!-- صفحة عروض المدونة الحية -->
 <div id="blogView" class="page-view">
-  <div class="section-title">أحدث مقالات وعروض المدونة</div>
+  <div class="section-header"><span class="section-title-text">📰 أحدث مقالات وعروض المدونة</span></div>
   <div class="container" id="blogContainer">جاري سحب المقالات من بلوجر...</div>
 </div>
 
 <!-- تبويب الصفحات القانونية ومنصات التواصل -->
 <div id="aboutView" class="page-view">
-  <div class="section-title">معلومات التطبيق والتواصل</div>
+  <div class="section-header"><span class="section-title-text">ℹ️ معلومات التطبيق والتواصل</span></div>
   <div class="container">
     <div class="legal-item open" onclick="this.classList.toggle('open')">
       <div class="legal-header"><span>ℹ️ من نحن</span><span>▾</span></div>
@@ -420,18 +530,18 @@
       <div class="admin-tabs">
         <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
         <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
-        <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانر</div>
+        <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانرات</div>
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
-      <!-- 1. إدارة الكوبونات والعروض -->
+      <!-- 1. إدارة الكوبونات والعروض بالأقسام الجديدة -->
       <div id="admCouponsTab" class="adm-subview">
         <input type="hidden" id="editCouponId" value="">
         <div class="form-group">
           <label>نوع البطاقة</label>
           <select id="admType" onchange="toggleCodeInput()">
             <option value="coupon">🏷️ بطاقة كوبون بكود خصم (زر نسخ + تسوق)</option>
-            <option value="deal">🎁 بطاقة عرض رابط أفلييت بدون كود (زر احصل على العرض)</option>
+            <option value="deal">🎁 بطاقة عرض تلقائي بدون كود (زر احصل على العرض)</option>
           </select>
         </div>
         <div class="form-group">
@@ -454,12 +564,14 @@
           <select id="admStore"></select>
         </div>
         <div class="form-group">
-          <label>القسم</label>
+          <label>القسم (الفئة)</label>
           <select id="admCat">
-            <option value="متاجر شاملة">متاجر شاملة</option>
-            <option value="أزياء وموضة">أزياء وموضة</option>
-            <option value="إلكترونيات">إلكترونيات</option>
-            <option value="بقالة وسوبرماركت">بقالة وسوبرماركت</option>
+            <option value="عروض جديدة">🆕 عروض جديدة</option>
+            <option value="طعام">🍔 طعام</option>
+            <option value="إلكترونيات">💻 إلكترونيات</option>
+            <option value="الجمال والعطور">🌸 الجمال والعطور</option>
+            <option value="أزياء وموضة">👗 أزياء وموضة</option>
+            <option value="متاجر شاملة">🛒 متاجر شاملة</option>
           </select>
         </div>
         <div class="form-group">
@@ -524,10 +636,18 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إدارة بانر العروض الرئيسي -->
+      <!-- 3. إدارة البانرات الإعلانية الثلاثة -->
       <div id="admBannerTab" class="adm-subview" style="display:none;">
         <div class="form-group">
-          <label>حالة البانر في الصفحة الرئيسية</label>
+          <label>اختر مكان البانر المراد تعديله</label>
+          <select id="bannerSlotSelect" onchange="loadBannerForm()">
+            <option value="b1">1️⃣ البانر الأول (أسفل عروض الإلكترونيات)</option>
+            <option value="b2">2️⃣ البانر الثاني (أسفل العروض التلقائية)</option>
+            <option value="b3">3️⃣ البانر الثالث (أسفل أقوى الفئات)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>حالة البانر</label>
           <select id="bannerEnabled">
             <option value="true">✅ مفعّل ويظهر للزوار</option>
             <option value="false">❌ مخفي حالياً</option>
@@ -557,12 +677,12 @@
           <label>أو رفع صورة بانر من الهاتف:</label>
           <input type="file" id="bannerFile" accept="image/*">
         </div>
-        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات البانر</button>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
       <!-- 4. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
-        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانر تلقائياً بضغطة زر:</p>
+        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات تلقائياً بضغطة زر:</p>
         <div class="form-group">
           <label>GitHub Personal Access Token (ghp_...)</label>
           <input type="password" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
@@ -594,18 +714,13 @@
   const FILE_PATH = 'www/coupons.json';
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
-  const DEFAULT_BANNER = {
-    enabled: true,
-    tag: 'عروض حصرية 🔥',
-    title: 'أقوى أكواد الخصم الفعالة لجميع المتاجر العربية',
-    cta: 'اكتشف العروض الآن ↗',
-    url: 'https://silvercoupons.blogspot.com/',
-    image: ''
+  const DEFAULT_BANNERS = {
+    b1: { enabled: true, tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
+    b2: { enabled: true, tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
+    b3: { enabled: true, tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '' }
   };
 
-  let appData = { banner: DEFAULT_BANNER, stores: [], coupons: [] };
-  let activeStore = 'all';
-  let activeCat = 'all';
+  let appData = { banners: DEFAULT_BANNERS, stores: [], coupons: [] };
   let selectedCountry = localStorage.getItem('silver_user_country') || '';
   let tapCount = 0;
   let tapTimer = null;
@@ -616,9 +731,7 @@
     localStorage.setItem('silver_user_country_label', `${flag} ${name}`);
     document.getElementById('currentCountryBtn').innerText = `${flag} ${name} ▾`;
     document.getElementById('welcomeScreen').classList.add('hidden');
-    activeStore = 'all';
-    renderStores();
-    renderCoupons();
+    refreshAllUI();
   }
 
   function openCountryScreen() {
@@ -676,7 +789,7 @@
       const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
       const fetched = await res.json();
       appData = {
-        banner: fetched.banner || DEFAULT_BANNER,
+        banners: fetched.banners || DEFAULT_BANNERS,
         stores: fetched.stores || [],
         coupons: fetched.coupons || []
       };
@@ -685,7 +798,7 @@
       if (localSaved) {
         const parsed = JSON.parse(localSaved);
         appData = {
-          banner: parsed.banner || DEFAULT_BANNER,
+          banners: parsed.banners || DEFAULT_BANNERS,
           stores: parsed.stores || [],
           coupons: parsed.coupons || []
         };
@@ -700,60 +813,216 @@
     showToast('تم جلب أحدث البيانات بنجاح!');
   }
 
-  function refreshAllUI() {
-    localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
-    renderBanner();
-    renderStores();
-    renderCoupons();
-    populateAdminStores();
-    renderAdminLists();
-  }
-
-  function renderBanner() {
-    const wrap = document.getElementById('promoBannerWrap');
-    const b = appData.banner || DEFAULT_BANNER;
-    if (b.enabled === false || b.enabled === 'false') {
-      wrap.innerHTML = '';
-      return;
-    }
-    wrap.innerHTML = `
-      <a href="${b.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
-        ${b.image ? `<img src="${b.image}" alt="${b.title}">` : ''}
-        <div class="promo-banner-overlay" style="${!b.image ? 'position:relative; background:none;' : ''}">
-          ${b.tag ? `<span class="promo-tag">${b.tag}</span>` : ''}
-          <h3 class="promo-title">${b.title || 'عروض حصرية لفترة محدودة'}</h3>
-          <span class="promo-cta">${b.cta || 'احصل على العرض الآن ↗'}</span>
-        </div>
-      </a>
-    `;
-  }
-
-  // فلترة ذكية: الكوبونات أو المتاجر غير المحددة بدولة معينة تظهر في كل الدول حتى لا تبدو الصفحة فارغة
   function matchesCountry(itemCountry) {
     if (!selectedCountry || selectedCountry === 'ALL') return true;
     if (!itemCountry || itemCountry === 'ALL' || itemCountry === '') return true;
     return itemCountry === selectedCountry;
   }
 
-  function renderStores() {
-    const container = document.getElementById('storesContainer');
-    const visibleStores = appData.stores.filter(st => matchesCountry(st.country));
-    let html = `
-      <div class="store-item ${activeStore === 'all' ? 'active' : ''}" onclick="selectStore('all')">
-        <div class="store-circle"><span style="font-size:22px;">🏪</span></div>
-        <div class="store-name">الكل</div>
-      </div>`;
-    visibleStores.forEach(st => {
-      html += `
-        <div class="store-item ${activeStore === st.id ? 'active' : ''}" onclick="selectStore('${st.id}')">
-          <div class="store-circle"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/50?text=${st.name[0]}'"></div>
-          <div class="store-name">${st.name.split('-')[0]}</div>
-        </div>`;
-    });
-    container.innerHTML = html;
+  function refreshAllUI() {
+    localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
+    renderAllBanners();
+    renderStoresStrip();
+    renderHomeSections();
+    populateAdminStores();
+    renderAdminLists();
   }
 
-  // فتح صفحة عرض جميع المتاجر عند الضغط على "عرض الكل"
+  // رسم البانرات الثلاثة
+  function renderSingleBanner(slotId, bannerObj) {
+    const wrap = document.getElementById(slotId);
+    if (!wrap) return;
+    if (!bannerObj || bannerObj.enabled === false || bannerObj.enabled === 'false') {
+      wrap.innerHTML = '';
+      return;
+    }
+    wrap.innerHTML = `
+      <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
+        ${bannerObj.image ? `<img src="${bannerObj.image}" alt="${bannerObj.title}">` : ''}
+        <div class="promo-banner-overlay" style="${!bannerObj.image ? 'position:relative; background:none;' : ''}">
+          ${bannerObj.tag ? `<span class="promo-tag">${bannerObj.tag}</span>` : ''}
+          <h3 class="promo-title">${bannerObj.title || 'عروض حصرية لفترة محدودة'}</h3>
+          <span class="promo-cta">${bannerObj.cta || 'احصل على العرض الآن ↗'}</span>
+        </div>
+      </a>
+    `;
+  }
+
+  function renderAllBanners() {
+    const b = appData.banners || DEFAULT_BANNERS;
+    renderSingleBanner('bannerSlot1', b.b1 || DEFAULT_BANNERS.b1);
+    renderSingleBanner('bannerSlot2', b.b2 || DEFAULT_BANNERS.b2);
+    renderSingleBanner('bannerSlot3', b.b3 || DEFAULT_BANNERS.b3);
+  }
+
+  // شريط أشهر المتاجر الدائري (بدون أيقونة الكل)
+  function renderStoresStrip() {
+    const container = document.getElementById('storesContainer');
+    const visibleStores = appData.stores.filter(st => matchesCountry(st.country));
+    container.innerHTML = visibleStores.map(st => `
+      <div class="store-item" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}')">
+        <div class="store-circle"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/50?text=${st.name[0]}'"></div>
+        <div class="store-name">${st.name.split('-')[0]}</div>
+      </div>
+    `).join('');
+  }
+
+  // بناء بطاقة أفقية للتمرير الجانبي (Horizontal Card)
+  function buildHorizontalCard(c) {
+    const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
+    const logo = storeObj.logo || 'https://via.placeholder.com/50';
+    const isDeal = c.type === 'deal' || !c.code || c.code.trim() === '';
+    const targetUrl = c.url || storeObj.url;
+
+    return `
+      <div class="h-card">
+        <div>
+          <div class="h-card-top">
+            <div class="h-card-logo"><img src="${logo}" alt="${c.storeName}"></div>
+            <div class="h-card-store-meta">
+              <div class="h-card-store-name">${c.storeName}</div>
+              <span class="h-card-discount">${c.discount}</span>
+            </div>
+          </div>
+          <p class="h-card-title">${c.title}</p>
+        </div>
+        <div class="h-card-footer">
+          ${isDeal ? `
+            <a href="${targetUrl}" target="_blank" class="h-btn-deal">احصل على العرض ↗</a>
+          ` : `
+            <div class="h-code-box">${c.code}</div>
+            <button class="h-btn-copy" onclick="copyCoupon('${c.code}', this)">نسخ</button>
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  // بناء بطاقة طولية كاملة
+  function buildVerticalTicket(c) {
+    const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
+    const logo = storeObj.logo || 'https://via.placeholder.com/60';
+    const isDeal = c.type === 'deal' || !c.code || c.code.trim() === '';
+    const targetUrl = c.url || storeObj.url;
+
+    return `
+      <div class="coupon-ticket">
+        <div class="ticket-top">
+          <div class="ticket-logo"><img src="${logo}" alt="${c.storeName}"></div>
+          <div class="ticket-info">
+            <div class="badges-row">
+              <span class="discount-badge">${c.discount}</span>
+              ${isDeal
+                ? `<span class="deal-badge">⚡ عرض تلقائي بدون كود</span>`
+                : `<span class="verified-badge">✓ كود فعال ومُحقق</span>`}
+            </div>
+            <h3 class="ticket-title">${c.title}</h3>
+            <div class="ticket-meta">متجر: ${c.storeName} • القسم: ${c.category || 'عام'}</div>
+          </div>
+        </div>
+        <div class="ticket-divider"></div>
+        <div class="ticket-bottom">
+          ${isDeal ? `
+            <a href="${targetUrl}" target="_blank" class="btn-deal-full">احصل على العرض ↗</a>
+          ` : `
+            <div class="code-display">${c.code}</div>
+            <div class="btn-actions">
+              <button class="btn-copy" onclick="copyCoupon('${c.code}', this)">نسخ الكود</button>
+              <a href="${targetUrl}" target="_blank" class="btn-shop">تسوق ↗</a>
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  // رسم أقسام الصفحة الرئيسية (الإلكترونيات + العروض التلقائية + أحدث الكوبونات)
+  function renderHomeSections() {
+    const countryCoupons = appData.coupons.filter(c => matchesCountry(c.country));
+
+    // 1. قسم الإلكترونيات (إذا لم توجد كوبونات إلكترونيات بعد، يعرض أول الكوبونات كمعاينة حتى تضيف لها)
+    let elecItems = countryCoupons.filter(c => c.category === 'إلكترونيات');
+    if (elecItems.length === 0) elecItems = countryCoupons.slice(0, 6);
+    document.getElementById('electronicsCarousel').innerHTML = elecItems.length
+      ? elecItems.slice(0, 10).map(buildHorizontalCard).join('')
+      : `<div style="padding:10px; color:var(--muted); font-size:13px;">لا توجد عروض إلكترونيات لهذه الدولة حالياً.</div>`;
+
+    // 2. قسم العروض التلقائية (روابط الأفلييت بدون كود)
+    const dealItems = countryCoupons.filter(c => c.type === 'deal' || !c.code || c.code.trim() === '');
+    const autoWrap = document.getElementById('autoDealsSectionWrap');
+    if (dealItems.length > 0) {
+      autoWrap.style.display = 'block';
+      document.getElementById('autoDealsCarousel').innerHTML = dealItems.slice(0, 10).map(buildHorizontalCard).join('');
+    } else {
+      autoWrap.style.display = 'block';
+      document.getElementById('autoDealsCarousel').innerHTML = `<div style="padding:10px 4px; color:var(--muted); font-size:12.5px;">أضف عروض أفلييت بدون كود من لوحة التحكم لتظهر هنا تلقائياً.</div>`;
+    }
+
+    // 3. أحدث الكوبونات الفعالة في الأسفل
+    const latestContainer = document.getElementById('latestCouponsContainer');
+    latestContainer.innerHTML = countryCoupons.length
+      ? countryCoupons.slice(0, 12).map(buildVerticalTicket).join('')
+      : `<div style="text-align:center; padding:30px; color:var(--muted);">لا توجد كوبونات متاحة لهذه الدولة حالياً.</div>`;
+  }
+
+  // فتح صفحة "اعرض الكل" لأي قسم أو متجر أو فئة
+  function openFilteredView(filterType, filterValue, titleText) {
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('filteredListView').classList.add('active');
+    document.getElementById('filteredViewTitle').innerText = titleText;
+
+    const countryCoupons = appData.coupons.filter(c => matchesCountry(c.country));
+    let results = countryCoupons;
+
+    if (filterType === 'category') {
+      results = countryCoupons.filter(c => c.category === filterValue);
+    } else if (filterType === 'store') {
+      results = countryCoupons.filter(c => c.storeId === filterValue);
+    } else if (filterType === 'deals') {
+      results = countryCoupons.filter(c => c.type === 'deal' || !c.code || c.code.trim() === '');
+    }
+
+    const container = document.getElementById('filteredViewContainer');
+    container.innerHTML = results.length
+      ? results.map(buildVerticalTicket).join('')
+      : `<div style="text-align:center; padding:40px; color:var(--muted);">لا توجد كوبونات مضافة في هذا القسم لدولتك حالياً.</div>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // البحث الفوري في الصفحة الرئيسية
+  function handleHomeSearch() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const resSec = document.getElementById('searchResultsSection');
+    const mainSec = document.getElementById('homeMainSections');
+
+    if (!q) {
+      resSec.style.display = 'none';
+      mainSec.style.display = 'block';
+      return;
+    }
+
+    switchTab('homeView', document.querySelector('.nav-item'));
+    resSec.style.display = 'block';
+    mainSec.style.display = 'none';
+
+    const filtered = appData.coupons.filter(c => {
+      const mCountry = matchesCountry(c.country);
+      const codeStr = c.code ? c.code.toLowerCase() : '';
+      const mQuery = c.title.toLowerCase().includes(q) || c.storeName.toLowerCase().includes(q) || codeStr.includes(q);
+      return mCountry && mQuery;
+    });
+
+    document.getElementById('searchResultsContainer').innerHTML = filtered.length
+      ? filtered.map(buildVerticalTicket).join('')
+      : `<div style="text-align:center; padding:30px; color:var(--muted);">لا توجد نتائج مطابقة لبحثك.</div>`;
+  }
+
+  function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    handleHomeSearch();
+  }
+
+  // صفحة جميع المتاجر
   function openAllStoresPage() {
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('allStoresView').classList.add('active');
@@ -770,105 +1039,22 @@
       return mCountry && mQuery;
     });
 
-    if (visibleStores.length === 0) {
-      grid.innerHTML = `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر مطابقة.</div>`;
-      return;
-    }
-
-    grid.innerHTML = visibleStores.map(st => {
+    grid.innerHTML = visibleStores.length ? visibleStores.map(st => {
       const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
       return `
-        <div class="store-grid-card" onclick="chooseStoreFromGrid('${st.id}')">
+        <div class="store-grid-card" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}')">
           <div class="store-grid-logo"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/60?text=${st.name[0]}'"></div>
           <div class="store-grid-title">${st.name.split('-')[0]}</div>
           <span class="store-grid-count">${count} عرض</span>
         </div>
       `;
-    }).join('');
-  }
-
-  function chooseStoreFromGrid(storeId) {
-    activeStore = storeId;
-    switchTab('homeView', document.querySelector('.nav-item'));
-    renderStores();
-    renderCoupons();
-  }
-
-  function renderCoupons() {
-    const container = document.getElementById('couponsContainer');
-    const q = document.getElementById('searchInput').value.trim().toLowerCase();
-
-    const filtered = appData.coupons.filter(c => {
-      const matchCountry = matchesCountry(c.country);
-      const matchStore = activeStore === 'all' || c.storeId === activeStore;
-      const matchCat = activeCat === 'all' || c.category === activeCat;
-      const codeStr = c.code ? c.code.toLowerCase() : '';
-      const matchQuery = !q || c.title.toLowerCase().includes(q) || c.storeName.toLowerCase().includes(q) || codeStr.includes(q);
-      return matchCountry && matchStore && matchCat && matchQuery;
-    });
-
-    document.getElementById('totalCount').innerText = `${filtered.length} عرض`;
-
-    if (filtered.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted);">لا توجد عروض مطابقة لاختيارك حالياً.</div>`;
-      return;
-    }
-
-    container.innerHTML = filtered.map(c => {
-      const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
-      const logo = storeObj.logo || 'https://via.placeholder.com/60';
-      const isDeal = c.type === 'deal' || !c.code || c.code.trim() === '';
-      const targetUrl = c.url || storeObj.url;
-
-      return `
-        <div class="coupon-ticket">
-          <div class="ticket-top">
-            <div class="ticket-logo"><img src="${logo}" alt="${c.storeName}"></div>
-            <div class="ticket-info">
-              <div class="badges-row">
-                <span class="discount-badge">${c.discount}</span>
-                ${isDeal
-                  ? `<span class="deal-badge">⚡ عرض تلقائي بدون كود</span>`
-                  : `<span class="verified-badge">✓ كود فعال ومُحقق</span>`}
-              </div>
-              <h3 class="ticket-title">${c.title}</h3>
-              <div class="ticket-meta">متجر: ${c.storeName} • تم الاستخدام ${c.usedCount || 120} مرة</div>
-            </div>
-          </div>
-          <div class="ticket-divider"></div>
-          <div class="ticket-bottom">
-            ${isDeal ? `
-              <a href="${targetUrl}" target="_blank" class="btn-deal-full">احصل على العرض ↗</a>
-            ` : `
-              <div class="code-display">${c.code}</div>
-              <div class="btn-actions">
-                <button class="btn-copy" onclick="copyCoupon('${c.code}', this)">نسخ الكود</button>
-                <a href="${targetUrl}" target="_blank" class="btn-shop">تسوق ↗</a>
-              </div>
-            `}
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function selectStore(storeId) {
-    activeStore = storeId;
-    renderStores();
-    renderCoupons();
-  }
-
-  function selectCat(cat, el) {
-    activeCat = cat;
-    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    renderCoupons();
+    }).join('') : `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر مطابقة.</div>`;
   }
 
   function copyCoupon(code, btn) {
     navigator.clipboard.writeText(code);
     const old = btn.innerText;
-    btn.innerText = 'تم النسخ ✓';
+    btn.innerText = 'تم ✓';
     btn.style.background = '#16a34a';
     showToast(`تم نسخ الكود (${code}) بنجاح!`);
     setTimeout(() => { btn.innerText = old; btn.style.background = '#2563eb'; }, 2000);
@@ -900,8 +1086,8 @@
     cList.innerHTML = appData.coupons.map(c => `
       <div class="manage-row">
         <div style="flex:1;">
-          <strong>${c.storeName}</strong> ${c.code ? `(<span style="color:var(--blue);font-family:monospace;">${c.code}</span>)` : '(عرض رابط)'}<br>
-          <span style="font-size:11px;color:var(--muted);">${c.discount} - ${c.title} [${c.country || 'ALL'}]</span>
+          <strong>${c.storeName}</strong> ${c.code ? `(<span style="color:var(--blue);font-family:monospace;">${c.code}</span>)` : '(عرض تلقائي)'}<br>
+          <span style="font-size:11px;color:var(--muted);">${c.category || ''} | ${c.discount} [${c.country || 'ALL'}]</span>
         </div>
         <div style="display:flex; gap:5px;">
           <button class="btn-mini" style="background:var(--blue);" onclick="editCouponAdmin(${c.id})">تعديل</button>
@@ -929,7 +1115,7 @@
     const storeObj = appData.stores.find(s => s.id === storeId);
     const codeVal = type === 'deal' ? '' : document.getElementById('admCode').value.trim().toUpperCase();
 
-    if (type === 'coupon' && !codeVal) return alert('يرجى كتابة كود الخصم أو اختيار بطاقة عرض بدون كود');
+    if (type === 'coupon' && !codeVal) return alert('يرجى كتابة كود الخصم أو اختيار بطاقة عرض تلقائي بدون كود');
 
     const itemData = {
       id: editId ? Number(editId) : Date.now(),
@@ -967,7 +1153,7 @@
     toggleCodeInput();
     document.getElementById('admCountry').value = c.country || 'ALL';
     document.getElementById('admStore').value = c.storeId;
-    document.getElementById('admCat').value = c.category;
+    document.getElementById('admCat').value = c.category || 'عروض جديدة';
     document.getElementById('admDiscount').value = c.discount;
     document.getElementById('admTitle').value = c.title;
     document.getElementById('admCode').value = c.code || '';
@@ -1046,9 +1232,11 @@
     showToast('تم حذف المتجر! اضغط زر النشر الأخضر.');
   }
 
-  // إدارة بانر العروض
+  // إدارة البانرات الثلاثة
   function loadBannerForm() {
-    const b = appData.banner || DEFAULT_BANNER;
+    const slot = document.getElementById('bannerSlotSelect').value;
+    const allB = appData.banners || DEFAULT_BANNERS;
+    const b = allB[slot] || DEFAULT_BANNERS[slot];
     document.getElementById('bannerEnabled').value = String(b.enabled !== false);
     document.getElementById('bannerTag').value = b.tag || '';
     document.getElementById('bannerTitle').value = b.title || '';
@@ -1058,18 +1246,20 @@
   }
 
   async function saveBannerAdmin() {
+    const slot = document.getElementById('bannerSlotSelect').value;
     let imgUrl = document.getElementById('bannerImg').value.trim();
     const fileInput = document.getElementById('bannerFile');
 
     if (fileInput.files && fileInput.files[0]) {
       showToast('جاري رفع صورة البانر...');
-      const uploaded = await uploadImageToGitHub(fileInput.files[0], `banner_${Date.now()}.png`);
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `banner_${slot}_${Date.now()}.png`);
       if (!uploaded) return;
       imgUrl = uploaded;
       document.getElementById('bannerImg').value = imgUrl;
     }
 
-    appData.banner = {
+    if (!appData.banners) appData.banners = { ...DEFAULT_BANNERS };
+    appData.banners[slot] = {
       enabled: document.getElementById('bannerEnabled').value === 'true',
       tag: document.getElementById('bannerTag').value.trim(),
       title: document.getElementById('bannerTitle').value.trim(),
