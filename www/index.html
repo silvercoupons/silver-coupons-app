@@ -1002,21 +1002,32 @@
   async function initApp() {
     checkInitialCountry();
     try {
-      const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
+      const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now(), { cache: 'no-store' }).catch(() => fetch('coupons.json'));
       const fetched = await res.json();
+      
+      // دمج ذكي يحمي البانرات الأربعة والفئات من الاختفاء إذا كانت السحابة ببيانات قديمة
+      const mergedBanners = { ...DEFAULT_BANNERS };
+      if (fetched.banners) {
+        ['b0', 'b1', 'b2', 'b3'].forEach(key => {
+          if (fetched.banners[key] && fetched.banners[key].title) {
+            mergedBanners[key] = { ...DEFAULT_BANNERS[key], ...fetched.banners[key] };
+          }
+        });
+      }
+
       appData = {
-        categories: (fetched.categories && fetched.categories.length) ? fetched.categories : [...DEFAULT_CATEGORIES],
-        banners: { ...DEFAULT_BANNERS, ...(fetched.banners || {}) },
+        categories: (Array.isArray(fetched.categories) && fetched.categories.length > 0) ? fetched.categories : [...DEFAULT_CATEGORIES],
+        banners: mergedBanners,
         links: { ...DEFAULT_LINKS, ...(fetched.links || {}) },
-        stores: fetched.stores || [],
-        coupons: fetched.coupons || []
+        stores: Array.isArray(fetched.stores) ? fetched.stores : [],
+        coupons: Array.isArray(fetched.coupons) ? fetched.coupons : []
       };
     } catch (e) {
       const localSaved = localStorage.getItem('silver_custom_coupons');
       if (localSaved) {
         const parsed = JSON.parse(localSaved);
         appData = {
-          categories: (parsed.categories && parsed.categories.length) ? parsed.categories : [...DEFAULT_CATEGORIES],
+          categories: (Array.isArray(parsed.categories) && parsed.categories.length > 0) ? parsed.categories : [...DEFAULT_CATEGORIES],
           banners: { ...DEFAULT_BANNERS, ...(parsed.banners || {}) },
           links: { ...DEFAULT_LINKS, ...(parsed.links || {}) },
           stores: parsed.stores || [],
@@ -1026,7 +1037,6 @@
     }
     refreshAllUI();
   }
-
   async function syncFromCloud() {
     showToast('جاري التحديث من السحابة...');
     await initApp();
