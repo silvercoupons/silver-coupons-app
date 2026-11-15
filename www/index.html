@@ -22,20 +22,11 @@
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html { height: auto; overflow-y: auto; }
-    body { max-width: 100%; overflow-x: hidden; overflow-y: visible; min-height: 100vh; }
-    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 80px 0; color: var(--text); overscroll-behavior-y: contain; }
-
-    /* مؤشر السحب للتحديث (Pull to Refresh) */
-    .ptr-indicator {
-      height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;
-      background: #eff6ff; color: var(--blue); font-size: 12.5px; font-weight: 800;
-      transition: height 0.2s ease; gap: 8px;
+    body {
+      max-width: 100%; overflow-x: hidden; overflow-y: visible; min-height: 100vh;
+      font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0;
+      padding: 0 0 80px 0; color: var(--text);
     }
-    .ptr-spinner {
-      width: 16px; height: 16px; border: 2.5px solid #bfdbfe; border-top-color: var(--blue);
-      border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* شاشة البداية واختيار الدولة */
     .welcome-screen {
@@ -112,7 +103,10 @@
     }
 
     /* شريط المتاجر الدائري */
-    .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px; scrollbar-width: none; touch-action: pan-x pan-y; }
+    .stores-strip {
+      display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
+    }
     .stores-strip::-webkit-scrollbar { display: none; }
     .store-item { display: flex; flex-direction: column; align-items: center; min-width: 70px; cursor: pointer; }
     .store-circle {
@@ -126,15 +120,15 @@
 
     /* البطاقات الأفقية القابلة للتمرير */
     .horizontal-cards-strip {
-  display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 14px;
-  scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
-}
+      display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 14px;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
+    }
     .horizontal-cards-strip::-webkit-scrollbar { display: none; }
     .h-card {
       min-width: 278px; max-width: 278px; background: #fff; border-radius: 16px;
       border: 1px solid #e2e8f0; box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       display: flex; flex-direction: column; justify-content: space-between;
-      padding: 14px; scroll-snap-align: start; flex-shrink: 0;
+      padding: 14px; flex-shrink: 0;
     }
     .h-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
     .h-card-logo {
@@ -320,7 +314,7 @@
     .nav-icon { font-size: 18px; margin-bottom: 2px; }
 
     /* لوحة التحكم وصفحة المزيد */
-    .page-view { display: none; width: 100%; overflow-x: hidden; }
+    .page-view { display: none; width: 100%; }
     .page-view.active { display: block; }
     .admin-card { background: #fff; border-radius: 14px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .form-group { margin-bottom: 12px; }
@@ -418,12 +412,6 @@
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="ابحث عن متجر أو كود خصم (نون، نمشي، راية...)" oninput="handleHomeSearch()">
   </div>
-</div>
-
-<!-- مؤشر السحب للأسفل للتحديث الفوري -->
-<div class="ptr-indicator" id="ptrIndicator">
-  <div class="ptr-spinner" id="ptrSpinner"></div>
-  <span id="ptrText">اسحب للأسفل لتحديث العروض...</span>
 </div>
 
 <!-- الصفحة الرئيسية المتكاملة -->
@@ -884,34 +872,6 @@
       showToast('تم تحديث أحدث الكوبونات بنجاح ✓');
     }
   }, { passive: true });
-  
-  document.addEventListener('touchmove', (e) => {
-    if (!isPulling || window.scrollY > 0) return;
-    const diff = e.touches[0].clientY - touchStartY;
-    if (diff > 25 && diff < 130) {
-      const ptr = document.getElementById('ptrIndicator');
-      ptr.style.height = Math.min(diff * 0.5, 46) + 'px';
-      document.getElementById('ptrText').innerText = diff > 80 ? 'اترك الشاشة للتحديث الفوري 🔄' : 'اسحب للأسفل لتحديث العروض...';
-    }
-  }, { passive: true });
-
-  document.addEventListener('touchend', async () => {
-    if (!isPulling) return;
-    isPulling = false;
-    const ptr = document.getElementById('ptrIndicator');
-    const currentH = parseFloat(ptr.style.height || '0');
-    if (currentH >= 38) {
-      ptr.style.height = '44px';
-      document.getElementById('ptrSpinner').style.display = 'inline-block';
-      document.getElementById('ptrText').innerText = 'جاري تحديث الكوبونات والعروض...';
-      await initApp();
-      showToast('تم تحديث أحدث الكوبونات بنجاح ✓');
-    }
-    setTimeout(() => {
-      ptr.style.height = '0px';
-      document.getElementById('ptrSpinner').style.display = 'none';
-    }, 300);
-  });
 
   async function shareAppWithFriends() {
     const shareUrl = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
@@ -1007,7 +967,6 @@
     checkInitialCountry();
     let fetched = null;
 
-    // 1. الجلب اللحظي المباشر من GitHub API (يتجاوز كاش raw.githubusercontent تماماً)
     try {
       const apiRes = await fetch(API_JSON_URL + '?ref=main&_=' + Date.now(), {
         headers: { 'Accept': 'application/vnd.github.v3+json' },
@@ -1020,7 +979,6 @@
       }
     } catch (e) {}
 
-    // 2. مسار احتياطي عبر رابط raw
     if (!fetched) {
       try {
         const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now(), { cache: 'no-store' });
