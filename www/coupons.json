@@ -104,15 +104,17 @@
     },
     {
       "id": 5,
+      "type": "coupon",
+      "country": "EG",
       "storeId": "2b",
-      "storeName": "تو بي - 2B",
+      "storeName": "تو بي - 2B Egypt",
       "category": "إلكترونيات",
       "discount": "خصم 10% إضافي",
       "title": "كود خصم 2B فعال على اللابتوب والإكسسوارات والملحقات",
       "code": "DD26",
       "url": "https://silvercoupons.blogspot.com/",
       "verified": true,
-      "usedCount": 150
+      "usedCount": 138
     },
     {
       "id": 6,
