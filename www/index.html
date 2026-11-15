@@ -703,7 +703,7 @@
         </div>
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="addStoreAdmin()">+ إضافة المتجر</button>
 
-        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🏪 المتاجر المسجلة:</h4>
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🏪 المتاجر المسجلة (يمكنك تغيير دولة كل متجر مباشرة):</h4>
         <div id="adminStoresList"></div>
       </div>
 
@@ -1030,10 +1030,22 @@
     showToast('تم جلب أحدث البيانات بنجاح!');
   }
 
+  // فلترة الكوبونات حسب الدولة
   function matchesCountry(itemCountry) {
     if (!selectedCountry || selectedCountry === 'ALL') return true;
     if (!itemCountry || itemCountry === 'ALL' || itemCountry === '') return true;
     return itemCountry === selectedCountry;
+  }
+
+  // فلترة صارمة للمتاجر: عند اختيار دولة محددة تظهر فقط المتاجر الخاصة بتلك الدولة (أو التي لديها كوبونات مخصصة لتلك الدولة)
+  function isStoreAvailableForSelectedCountry(storeObj) {
+    if (!selectedCountry || selectedCountry === 'ALL') return true;
+    if (storeObj.country === selectedCountry) return true;
+    // إذا كان للمتجر كوبونات مخصصة صراحة لهذه الدولة فقط يظهر أيضاً
+    const hasCountrySpecificCoupon = appData.coupons.some(
+      c => c.storeId === storeObj.id && c.country === selectedCountry
+    );
+    return hasCountrySpecificCoupon;
   }
 
   function refreshAllUI() {
@@ -1196,13 +1208,16 @@
 
   function renderStoresStrip() {
     const container = document.getElementById('storesContainer');
-    const visibleStores = appData.stores.filter(st => matchesCountry(st.country)).slice(0, HOME_MAX_STORES);
-    container.innerHTML = visibleStores.map(st => `
+    const visibleStores = appData.stores
+      .filter(st => isStoreAvailableForSelectedCountry(st))
+      .slice(0, HOME_MAX_STORES);
+
+    container.innerHTML = visibleStores.length ? visibleStores.map(st => `
       <div class="store-item" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}', 'homeView')">
         <div class="store-circle"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/50?text=${st.name[0]}'"></div>
         <div class="store-name">${st.name.split('-')[0]}</div>
       </div>
-    `).join('');
+    `).join('') : `<div style="padding:8px 4px; color:var(--muted); font-size:12.5px;">لا توجد متاجر مخصصة لهذه الدولة حالياً.</div>`;
   }
 
   function buildHorizontalCard(c) {
@@ -1365,7 +1380,7 @@
     const grid = document.getElementById('allStoresGridContainer');
     const q = document.getElementById('storeSearchInput').value.trim().toLowerCase();
     const visibleStores = appData.stores.filter(st => {
-      const mCountry = matchesCountry(st.country);
+      const mCountry = isStoreAvailableForSelectedCountry(st);
       const mQuery = !q || st.name.toLowerCase().includes(q);
       return mCountry && mQuery;
     });
@@ -1379,7 +1394,7 @@
           <span class="store-grid-count">${count} عرض</span>
         </div>
       `;
-    }).join('') : `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر مطابقة.</div>`;
+    }).join('') : `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر متاحة لدولتك حالياً.</div>`;
   }
 
   function copyCoupon(code, btn, defaultLabel = 'نسخ الكود') {
@@ -1411,6 +1426,15 @@
     sel.innerHTML = appData.stores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
   }
 
+  function updateStoreCountryAdmin(storeId, newCountry) {
+    const st = appData.stores.find(s => s.id === storeId);
+    if (st) {
+      st.country = newCountry;
+      refreshAllUI();
+      showToast(`تم تحديث دولة (${st.name})! اضغط زر النشر الأخضر بالأعلى.`);
+    }
+  }
+
   function renderAdminLists() {
     const cList = document.getElementById('adminCouponsList');
     cList.innerHTML = appData.coupons.map(c => `
@@ -1426,14 +1450,32 @@
       </div>
     `).join('');
 
+    const countriesOpts = [
+      { v: 'ALL', l: '🌍 الكل' },
+      { v: 'EG', l: '🇪🇬 مصر' },
+      { v: 'SA', l: '🇸🇦 السعودية' },
+      { v: 'AE', l: '🇦🇪 الإمارات' },
+      { v: 'KW', l: '🇰🇼 الكويت' },
+      { v: 'BH', l: '🇧🇭 البحرين' },
+      { v: 'QA', l: '🇶🇦 قطر' },
+      { v: 'OM', l: '🇴🇲 عُمان' },
+      { v: 'MA', l: '🇲🇦 المغرب' },
+      { v: 'JO', l: '🇯🇴 الأردن' }
+    ];
+
     const sList = document.getElementById('adminStoresList');
     sList.innerHTML = appData.stores.map(s => `
       <div class="manage-row">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <img src="${s.logo}" style="width:28px;height:28px;object-fit:contain;">
-          <strong>${s.name}</strong> <span style="font-size:11px;color:var(--muted);">[${s.country || 'ALL'}]</span>
+        <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
+          <img src="${s.logo}" style="width:28px;height:28px;object-fit:contain;flex-shrink:0;">
+          <strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</strong>
         </div>
-        <button class="btn-mini" style="background:var(--red);" onclick="deleteStoreAdmin('${s.id}')">حذف</button>
+        <div style="display:flex; align-items:center; gap:5px;">
+          <select onchange="updateStoreCountryAdmin('${s.id}', this.value)" style="padding:4px 6px; border-radius:6px; border:1px solid #cbd5e1; font-family:'Cairo',sans-serif; font-size:11px;">
+            ${countriesOpts.map(opt => `<option value="${opt.v}" ${(s.country || 'ALL') === opt.v ? 'selected' : ''}>${opt.l}</option>`).join('')}
+          </select>
+          <button class="btn-mini" style="background:var(--red);" onclick="deleteStoreAdmin('${s.id}')">حذف</button>
+        </div>
       </div>
     `).join('');
   }
