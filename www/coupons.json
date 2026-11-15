@@ -1,11 +1,29 @@
 {
-  "banner": {
-    "enabled": true,
-    "tag": "عروض حصرية 🔥",
-    "title": "أقوى أكواد الخصم الفعالة لجميع المتاجر العربية",
-    "cta": "اكتشف العروض الآن ↗",
-    "url": "https://silvercoupons.blogspot.com/",
-    "image": ""
+  "banners": {
+    "b1": {
+      "enabled": true,
+      "tag": "عروض الإلكترونيات 💻",
+      "title": "خصومات إضافية على الهواتف والأجهزة الذكية",
+      "cta": "تسوق العرض الآن ↗",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": ""
+    },
+    "b2": {
+      "enabled": true,
+      "tag": "تخفيضات تلقائية ⚡",
+      "title": "عروض حصرية تُطبق تلقائياً بدون كود خصم",
+      "cta": "اكتشف العروض ↗",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": ""
+    },
+    "b3": {
+      "enabled": true,
+      "tag": "وفر أكثر 🪙",
+      "title": "أقوى كوبونات التوفير اليومية المحدثة باستمرار",
+      "cta": "تصفح المدونة ↗",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": ""
+    }
   },
   "stores": [
     {
@@ -95,12 +113,12 @@
       "storeId": "raya",
       "storeName": "راية شوب - Raya",
       "category": "إلكترونيات",
-      "discount": "خصم حتى 500 جنيه",
+      "discount": "خصم حتى 100 جنيه",
       "title": "كوبون راية شوب على الموبايلات والشاشات والأجهزة المنزلية",
       "code": "RS140",
       "url": "https://silvercoupons.blogspot.com/",
       "verified": true,
-      "usedCount": 137
+      "usedCount": 126
     },
     {
       "id": 5,
