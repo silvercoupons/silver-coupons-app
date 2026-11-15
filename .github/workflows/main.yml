@@ -23,17 +23,18 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Install Dependencies & Add Android Platform
+      - name: Install Dependencies & Generate App Icons
         run: |
-          mkdir -p www
+          mkdir -p www assets
           npm install
           npm install -D @capacitor/assets
           npx cap add android
           if [ -f "www/logo.png" ]; then
-            mkdir -p assets
             cp www/logo.png assets/icon.png
+            cp www/logo.png assets/icon-only.png
+            cp www/logo.png assets/icon-foreground.png
             cp www/logo.png assets/splash.png
-            npx capacitor-assets generate --android
+            npx capacitor-assets generate --android --iconBackgroundColor '#ffffff'
           fi
           npx cap sync android
 
