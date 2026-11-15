@@ -18,7 +18,19 @@
       --muted: #64748b;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 80px 0; color: var(--text); }
+    body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 80px 0; color: var(--text); overscroll-behavior-y: contain; }
+
+    /* مؤشر السحب للتحديث (Pull to Refresh) */
+    .ptr-indicator {
+      height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;
+      background: #eff6ff; color: var(--blue); font-size: 12.5px; font-weight: 800;
+      transition: height 0.2s ease; gap: 8px;
+    }
+    .ptr-spinner {
+      width: 16px; height: 16px; border: 2.5px solid #bfdbfe; border-top-color: var(--blue);
+      border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* شاشة البداية واختيار الدولة */
     .welcome-screen {
@@ -91,6 +103,7 @@
     .view-all-link {
       font-size: 12px; color: var(--blue); font-weight: 800; cursor: pointer;
       background: #eff6ff; padding: 4px 10px; border-radius: 12px; white-space: nowrap;
+      text-decoration: none;
     }
 
     /* شريط المتاجر الدائري */
@@ -243,6 +256,19 @@
       border-radius: 8px; font-weight: 700; font-size: 12px; display: flex; align-items: center;
     }
 
+    /* بطاقة مشاركة التطبيق المميزة */
+    .share-app-card {
+      background: linear-gradient(135deg, #1d4ed8 0%, #0f172a 100%);
+      color: #fff; border-radius: 16px; padding: 16px; margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.2);
+    }
+    .share-app-btn {
+      background: var(--accent); color: #000; border: none; width: 100%;
+      padding: 11px; border-radius: 10px; font-family: 'Cairo', sans-serif;
+      font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+
     /* شبكة جميع المتاجر */
     .all-stores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
     .store-grid-card {
@@ -278,9 +304,9 @@
       width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
       font-family: 'Cairo', sans-serif; font-size: 13px;
     }
-    .admin-tabs { display: flex; gap: 4px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
+    .admin-tabs { display: flex; gap: 3px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; flex-wrap: wrap; }
     .admin-tab {
-      flex: 1; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 11px;
+      flex: 1; min-width: 62px; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 11px;
       font-weight: 700; cursor: pointer; color: var(--muted);
     }
     .admin-tab.active { background: #fff; color: var(--blue); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
@@ -368,6 +394,12 @@
   </div>
 </div>
 
+<!-- مؤشر السحب للأسفل للتحديث الفوري -->
+<div class="ptr-indicator" id="ptrIndicator">
+  <div class="ptr-spinner" id="ptrSpinner"></div>
+  <span id="ptrText">اسحب للأسفل لتحديث العروض...</span>
+</div>
+
 <!-- الصفحة الرئيسية المتكاملة -->
 <div id="homeView" class="page-view active">
 
@@ -388,7 +420,7 @@
     <!-- 1. شريط أشهر المتاجر -->
     <div class="section-header">
       <span class="section-title-text">🏪 أشهر المتاجر</span>
-      <span class="view-all-link" onclick="openAllStoresPage()">عرض الكل ◂</span>
+      <span class="view-all-link" onclick="handleViewAllClick('stores')">عرض الكل ◂</span>
     </div>
     <div class="stores-strip" id="storesContainer"></div>
 
@@ -396,7 +428,7 @@
     <div id="electronicsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">💻 عروض الإلكترونيات</span>
-        <span class="view-all-link" onclick="openFilteredView('category', 'إلكترونيات', '💻 عروض الإلكترونيات')">اعرض الكل ◂</span>
+        <span class="view-all-link" onclick="handleViewAllClick('electronics')">اعرض الكل ◂</span>
       </div>
       <div class="horizontal-cards-strip" id="electronicsCarousel"></div>
     </div>
@@ -408,7 +440,7 @@
     <div id="autoDealsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">⚡ العروض التلقائية</span>
-        <span class="view-all-link" onclick="openFilteredView('deals', 'all', '⚡ جميع العروض التلقائية')">اعرض الكل ◂</span>
+        <span class="view-all-link" onclick="handleViewAllClick('deals')">اعرض الكل ◂</span>
       </div>
       <div class="horizontal-cards-strip" id="autoDealsCarousel"></div>
     </div>
@@ -419,7 +451,7 @@
     <!-- 6. قسم أقوى الفئات -->
     <div class="section-header">
       <span class="section-title-text">🎯 أقوى الفئات</span>
-      <span class="view-all-link" onclick="openFilteredView('all', 'all', '🔥 جميع الكوبونات والعروض')">اعرض الكل ◂</span>
+      <span class="view-all-link" onclick="handleViewAllClick('categories')">اعرض الكل ◂</span>
     </div>
     <div class="categories-grid" id="categoriesGridContainer"></div>
 
@@ -429,7 +461,7 @@
     <!-- 8. قسم أحدث الكوبونات الفعالة -->
     <div class="section-header">
       <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
-      <span class="view-all-link" onclick="openFilteredView('all', 'all', '🏷️ جميع الكوبونات')">اعرض الكل ◂</span>
+      <span class="view-all-link" onclick="handleViewAllClick('latest')">اعرض الكل ◂</span>
     </div>
     <div class="horizontal-cards-strip" id="latestCouponsCarousel"></div>
   </div>
@@ -464,10 +496,23 @@
   <div class="container" id="blogContainer">جاري سحب المقالات من بلوجر...</div>
 </div>
 
-<!-- تبويب الصفحات القانونية ومنصات التواصل -->
+<!-- تبويب الصفحات القانونية ومشاركة التطبيق ومنصات التواصل -->
 <div id="aboutView" class="page-view">
   <div class="section-header"><span class="section-title-text">ℹ️ معلومات التطبيق والتواصل</span></div>
   <div class="container">
+
+    <!-- بطاقة مشاركة التطبيق مع الأصدقاء -->
+    <div class="share-app-card">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:28px;">🎁</span>
+        <div>
+          <h4 style="margin:0; font-size:15px; font-weight:800;">شارك التطبيق مع أصدقائك</h4>
+          <p style="margin:2px 0 0; font-size:12px; color:#cbd5e1;">ساعد أصدقاءك على التوفير وأرسل لهم رابط تحميل تطبيق الكوبون الفضي</p>
+        </div>
+      </div>
+      <button class="share-app-btn" onclick="shareAppWithFriends()">📤 مشاركة التطبيق الآن</button>
+    </div>
+
     <div class="legal-item open" onclick="this.classList.toggle('open')">
       <div class="legal-header"><span>ℹ️ من نحن</span><span>▾</span></div>
       <div class="legal-body">
@@ -527,6 +572,7 @@
         <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
         <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
         <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانرات</div>
+        <div class="admin-tab" onclick="switchAdminTab('admLinksTab', this)">🔗 الروابط</div>
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
@@ -680,9 +726,43 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. إعدادات مفتاح الربط السحابي -->
+      <!-- 4. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
+      <div id="admLinksTab" class="adm-subview" style="display:none;">
+        <h4 style="margin:0 0 8px; font-size:13px;">📤 رابط مشاركة التطبيق (APK / Google Play):</h4>
+        <div class="form-group">
+          <label>رابط تحميل التطبيق الذي يُرسل للأصدقاء عند الضغط على (مشاركة التطبيق)</label>
+          <input type="url" id="appShareUrlInput" placeholder="https://silvercoupons.blogspot.com/">
+        </div>
+
+        <h4 style="margin:16px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🔗 روابط أزرار (اعرض الكل) لكل قسم:</h4>
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">اترك الخانة فارغة لفتح صفحة القسم الداخلية في التطبيق تلقائياً، أو ضع رابطاً خارجياً لتوجيه الزائر إليه:</p>
+
+        <div class="form-group">
+          <label>رابط زر "عرض الكل" لقسم (🏪 أشهر المتاجر)</label>
+          <input type="url" id="vaStoresUrl" placeholder="افتراضي: صفحة جميع المتاجر الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (💻 عروض الإلكترونيات)</label>
+          <input type="url" id="vaElectronicsUrl" placeholder="افتراضي: صفحة الإلكترونيات الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (⚡ العروض التلقائية)</label>
+          <input type="url" id="vaDealsUrl" placeholder="افتراضي: صفحة العروض التلقائية الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (🎯 أقوى الفئات)</label>
+          <input type="url" id="vaCategoriesUrl" placeholder="افتراضي: صفحة جميع الكوبونات الداخلية">
+        </div>
+        <div class="form-group">
+          <label>رابط زر "اعرض الكل" لقسم (🏷️ أحدث الكوبونات الفعالة)</label>
+          <input type="url" id="vaLatestUrl" placeholder="افتراضي: صفحة جميع الكوبونات الداخلية">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveLinksAdmin()">حفظ إعدادات الروابط والمشاركة</button>
+      </div>
+
+      <!-- 5. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
-        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والأقسام تلقائياً بضغطة زر:</p>
+        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والروابط تلقائياً بضغطة زر:</p>
         <div class="form-group">
           <label>GitHub Personal Access Token (ghp_...)</label>
           <input type="password" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
@@ -730,10 +810,97 @@
     b3: { enabled: true, tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '' }
   };
 
-  let appData = { categories: [...DEFAULT_CATEGORIES], banners: { ...DEFAULT_BANNERS }, stores: [], coupons: [] };
+  const DEFAULT_LINKS = {
+    appShareUrl: 'https://silvercoupons.blogspot.com/',
+    stores: '',
+    electronics: '',
+    deals: '',
+    categories: '',
+    latest: ''
+  };
+
+  let appData = {
+    categories: [...DEFAULT_CATEGORIES],
+    banners: { ...DEFAULT_BANNERS },
+    links: { ...DEFAULT_LINKS },
+    stores: [],
+    coupons: []
+  };
+
   let selectedCountry = localStorage.getItem('silver_user_country') || '';
   let tapCount = 0;
   let tapTimer = null;
+
+  // ميزة السحب للأسفل للتحديث الفوري (Pull-to-Refresh)
+  let touchStartY = 0;
+  let isPulling = false;
+  document.addEventListener('touchstart', (e) => {
+    if (window.scrollY === 0) {
+      touchStartY = e.touches[0].clientY;
+      isPulling = true;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!isPulling || window.scrollY > 0) return;
+    const diff = e.touches[0].clientY - touchStartY;
+    if (diff > 25 && diff < 130) {
+      const ptr = document.getElementById('ptrIndicator');
+      ptr.style.height = Math.min(diff * 0.5, 46) + 'px';
+      document.getElementById('ptrText').innerText = diff > 80 ? 'اترك الشاشة للتحديث الفوري 🔄' : 'اسحب للأسفل لتحديث العروض...';
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', async (e) => {
+    if (!isPulling) return;
+    isPulling = false;
+    const ptr = document.getElementById('ptrIndicator');
+    const currentH = parseFloat(ptr.style.height || '0');
+    if (currentH >= 38) {
+      ptr.style.height = '44px';
+      document.getElementById('ptrSpinner').style.display = 'inline-block';
+      document.getElementById('ptrText').innerText = 'جاري تحديث الكوبونات والعروض...';
+      await initApp();
+      showToast('تم تحديث أحدث الكوبونات بنجاح ✓');
+    }
+    setTimeout(() => {
+      ptr.style.height = '0px';
+      document.getElementById('ptrSpinner').style.display = 'none';
+    }, 300);
+  });
+
+  // مشاركة التطبيق مع الأصدقاء
+  async function shareAppWithFriends() {
+    const shareUrl = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : 'https://silvercoupons.blogspot.com/';
+    const shareText = `🪙 حمل تطبيق "الكوبون الفضي" واحصل على أحدث أكواد الخصم الفعالة لأشهر المتاجر العربية:\n${shareUrl}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'تطبيق الكوبون الفضي - أكواد خصم موثقة',
+          text: shareText,
+          url: shareUrl
+        });
+      } catch (err) {}
+    } else {
+      navigator.clipboard.writeText(shareText);
+      showToast('تم نسخ رابط مشاركة التطبيق! أرسله لأصدقائك الآن.');
+    }
+  }
+
+  // التحكم الذكي بأزرار "اعرض الكل" لكل قسم
+  function handleViewAllClick(sectionKey) {
+    const customUrl = appData.links && appData.links[sectionKey] ? appData.links[sectionKey].trim() : '';
+    if (customUrl) {
+      window.open(customUrl, '_blank');
+      return;
+    }
+    if (sectionKey === 'stores') openAllStoresPage();
+    else if (sectionKey === 'electronics') openFilteredView('category', 'إلكترونيات', '💻 عروض الإلكترونيات');
+    else if (sectionKey === 'deals') openFilteredView('deals', 'all', '⚡ جميع العروض التلقائية');
+    else if (sectionKey === 'categories') openFilteredView('all', 'all', '🔥 جميع الكوبونات والعروض');
+    else if (sectionKey === 'latest') openFilteredView('all', 'all', '🏷️ جميع الكوبونات');
+  }
 
   function chooseCountry(code, flag, name) {
     selectedCountry = code;
@@ -767,6 +934,7 @@
         document.getElementById('adminView').classList.add('active');
         document.getElementById('ghTokenInput').value = localStorage.getItem('silver_gh_token') || '';
         loadBannerForm();
+        loadLinksForm();
         renderAdminLists();
       } else if (pass !== null) {
         alert("الرقم السري غير صحيح!");
@@ -801,6 +969,7 @@
       appData = {
         categories: (fetched.categories && fetched.categories.length) ? fetched.categories : [...DEFAULT_CATEGORIES],
         banners: { ...DEFAULT_BANNERS, ...(fetched.banners || {}) },
+        links: { ...DEFAULT_LINKS, ...(fetched.links || {}) },
         stores: fetched.stores || [],
         coupons: fetched.coupons || []
       };
@@ -811,6 +980,7 @@
         appData = {
           categories: (parsed.categories && parsed.categories.length) ? parsed.categories : [...DEFAULT_CATEGORIES],
           banners: { ...DEFAULT_BANNERS, ...(parsed.banners || {}) },
+          links: { ...DEFAULT_LINKS, ...(parsed.links || {}) },
           stores: parsed.stores || [],
           coupons: parsed.coupons || []
         };
@@ -840,6 +1010,29 @@
     populateAdminStores();
     populateAdminCategories();
     renderAdminLists();
+  }
+
+  function loadLinksForm() {
+    const l = appData.links || DEFAULT_LINKS;
+    document.getElementById('appShareUrlInput').value = l.appShareUrl || 'https://silvercoupons.blogspot.com/';
+    document.getElementById('vaStoresUrl').value = l.stores || '';
+    document.getElementById('vaElectronicsUrl').value = l.electronics || '';
+    document.getElementById('vaDealsUrl').value = l.deals || '';
+    document.getElementById('vaCategoriesUrl').value = l.categories || '';
+    document.getElementById('vaLatestUrl').value = l.latest || '';
+  }
+
+  function saveLinksAdmin() {
+    appData.links = {
+      appShareUrl: document.getElementById('appShareUrlInput').value.trim() || 'https://silvercoupons.blogspot.com/',
+      stores: document.getElementById('vaStoresUrl').value.trim(),
+      electronics: document.getElementById('vaElectronicsUrl').value.trim(),
+      deals: document.getElementById('vaDealsUrl').value.trim(),
+      categories: document.getElementById('vaCategoriesUrl').value.trim(),
+      latest: document.getElementById('vaLatestUrl').value.trim()
+    };
+    refreshAllUI();
+    showToast('تم حفظ الروابط! اضغط زر النشر الأخضر بالأعلى.');
   }
 
   function renderCategoriesGrid() {
@@ -1287,7 +1480,6 @@
     showToast('تم حذف المتجر! اضغط زر النشر الأخضر.');
   }
 
-  // إدارة البانرات الأربعة (b0, b1, b2, b3)
   function loadBannerForm() {
     const slot = document.getElementById('bannerSlotSelect').value;
     const allB = appData.banners || DEFAULT_BANNERS;
@@ -1339,7 +1531,7 @@
   async function publishToGitHub() {
     const token = localStorage.getItem('silver_gh_token');
     if (!token) {
-      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[3]);
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[4]);
       return alert('يرجى لصق مفتاح GitHub Token هنا أولاً (مرة واحدة فقط) لتفعيل النشر الفوري.');
     }
 
