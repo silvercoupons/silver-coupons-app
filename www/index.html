@@ -85,7 +85,7 @@
     /* عناوين الأقسام وزر اعرض الكل */
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin: 18px 16px 10px;
+      margin: 16px 16px 10px;
     }
     .section-title-text { font-size: 15.5px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; }
     .view-all-link {
@@ -93,7 +93,7 @@
       background: #eff6ff; padding: 4px 10px; border-radius: 12px; white-space: nowrap;
     }
 
-    /* شريط المتاجر الدائري (بدون أيقونة الكل) */
+    /* شريط المتاجر الدائري */
     .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px; scrollbar-width: none; }
     .stores-strip::-webkit-scrollbar { display: none; }
     .store-item { display: flex; flex-direction: column; align-items: center; min-width: 70px; cursor: pointer; }
@@ -106,14 +106,14 @@
     .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .store-name { font-size: 11.5px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
 
-    /* البطاقات الأفقية القابلة للتمرير (Horizontal Carousels) */
+    /* البطاقات الأفقية القابلة للتمرير */
     .horizontal-cards-strip {
       display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 14px;
       scrollbar-width: none; scroll-snap-type: x mandatory;
     }
     .horizontal-cards-strip::-webkit-scrollbar { display: none; }
     .h-card {
-      min-width: 245px; max-width: 245px; background: #fff; border-radius: 16px;
+      min-width: 278px; max-width: 278px; background: #fff; border-radius: 16px;
       border: 1px solid #e2e8f0; box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       display: flex; flex-direction: column; justify-content: space-between;
       padding: 14px; scroll-snap-align: start; flex-shrink: 0;
@@ -130,7 +130,6 @@
       display: inline-block; background: #fef08a; color: #854d0e; font-size: 11px;
       font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-top: 3px;
     }
-    /* عنوان الكارت بطول مناسب وواضح دون تآكل للنصوص */
     .h-card-title {
       font-size: 13.5px; font-weight: 700; color: var(--text); line-height: 1.5;
       margin: 0 0 12px 0; min-height: 60px;
@@ -138,17 +137,22 @@
     }
     .h-card-footer {
       border-top: 1.5px dashed #e2e8f0; padding-top: 10px;
-      display: flex; align-items: center; gap: 6px;
+      display: flex; align-items: center; gap: 5px;
     }
     .h-code-box {
       background: #f8fafc; border: 1.5px dashed var(--blue); border-radius: 8px;
-      padding: 5px 8px; font-family: monospace; font-size: 13.5px; font-weight: 800;
-      color: var(--blue); letter-spacing: 1px; text-align: center; flex: 1;
+      padding: 6px 6px; font-family: monospace; font-size: 13px; font-weight: 800;
+      color: var(--blue); letter-spacing: 0.8px; text-align: center; min-width: 74px;
     }
     .h-btn-copy {
-      background: var(--blue); color: #fff; border: none; padding: 7px 12px;
+      background: var(--blue); color: #fff; border: none; padding: 7px 10px;
       border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: 700;
-      font-size: 12px; cursor: pointer; white-space: nowrap;
+      font-size: 11.5px; cursor: pointer; white-space: nowrap; flex: 1;
+    }
+    .h-btn-shop {
+      background: #e2e8f0; color: var(--text); text-decoration: none; padding: 7px 9px;
+      border-radius: 8px; font-weight: 700; font-size: 11.5px; display: flex;
+      align-items: center; justify-content: center; white-space: nowrap;
     }
     .h-btn-deal {
       background: var(--green); color: #fff; text-decoration: none; padding: 8px 12px;
@@ -157,7 +161,7 @@
     }
 
     /* بانرات العروض الإعلانية */
-    .promo-banner-wrap { padding: 6px 16px 8px; max-width: 600px; margin: auto; }
+    .promo-banner-wrap { padding: 12px 16px 4px; max-width: 600px; margin: auto; }
     .promo-banner-card {
       display: block; position: relative; border-radius: 16px; overflow: hidden;
       box-shadow: 0 4px 14px rgba(0,0,0,0.09); text-decoration: none;
@@ -177,7 +181,7 @@
     .promo-title { font-size: 14.5px; font-weight: 800; margin: 0 0 4px; line-height: 1.35; }
     .promo-cta { font-size: 11.5px; color: #fef08a; font-weight: 700; }
 
-    /* قسم أقوى الفئات (كروت مربعة احترافية) */
+    /* قسم أقوى الفئات */
     .categories-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
       padding: 2px 16px 14px; max-width: 600px; margin: auto;
@@ -195,7 +199,7 @@
     }
     .cat-square-name { font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.25; }
 
-    /* بطاقة الكوبون الطولية الكاملة (لصفحة الأقسام والبحث) */
+    /* بطاقة الكوبون الطولية الكاملة */
     .container { padding: 0 16px; max-width: 600px; margin: auto; }
     .coupon-ticket {
       background: var(--card); border-radius: 16px; margin-bottom: 14px;
@@ -294,6 +298,20 @@
       font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 14px; cursor: pointer;
       box-shadow: 0 4px 12px rgba(22,163,74,0.25); margin-bottom: 14px;
     }
+    .cat-manager-box {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+      padding: 12px; margin-bottom: 16px;
+    }
+    .cat-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .cat-chip-item {
+      background: #fff; border: 1px solid #cbd5e1; border-radius: 20px;
+      padding: 4px 10px; font-size: 11.5px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .cat-chip-del {
+      color: var(--red); cursor: pointer; font-weight: 800; border: none;
+      background: none; padding: 0 2px; font-size: 13px;
+    }
     .legal-item { background: #fff; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
     .legal-header { padding: 14px 16px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .legal-body { display: none; padding: 0 16px 14px; font-size: 13px; color: var(--muted); line-height: 1.7; border-top: 1px solid #f1f5f9; }
@@ -350,10 +368,10 @@
   </div>
 </div>
 
-<!-- الصفحة الرئيسية المتكاملة بالأقسام الأفقية والبانرات -->
+<!-- الصفحة الرئيسية المتكاملة -->
 <div id="homeView" class="page-view active">
 
-  <!-- نتائج البحث الفوري (تظهر فقط عند الكتابة في مربع البحث) -->
+  <!-- نتائج البحث الفوري -->
   <div id="searchResultsSection" style="display:none; padding-top:14px;">
     <div class="section-header">
       <span class="section-title-text">🔍 نتائج البحث</span>
@@ -364,14 +382,17 @@
 
   <!-- محتوى الصفحة الرئيسية الافتراضي -->
   <div id="homeMainSections">
-    <!-- 1. شريط أشهر المتاجر (بدون أيقونة الكل) -->
+    <!-- 0. البانر العلوي الرئيسي قبل "أشهر المتاجر" -->
+    <div class="promo-banner-wrap" id="bannerSlot0"></div>
+
+    <!-- 1. شريط أشهر المتاجر -->
     <div class="section-header">
       <span class="section-title-text">🏪 أشهر المتاجر</span>
       <span class="view-all-link" onclick="openAllStoresPage()">عرض الكل ◂</span>
     </div>
     <div class="stores-strip" id="storesContainer"></div>
 
-    <!-- 2. قسم عروض الإلكترونيات (تمرير أفقي + اعرض الكل) -->
+    <!-- 2. قسم عروض الإلكترونيات -->
     <div id="electronicsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">💻 عروض الإلكترونيات</span>
@@ -383,7 +404,7 @@
     <!-- 3. البانر الإعلاني الأول -->
     <div class="promo-banner-wrap" id="bannerSlot1"></div>
 
-    <!-- 4. قسم العروض التلقائية (روابط الأفلييت بدون كود + تمرير أفقي) -->
+    <!-- 4. قسم العروض التلقائية -->
     <div id="autoDealsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">⚡ العروض التلقائية</span>
@@ -395,51 +416,26 @@
     <!-- 5. البانر الإعلاني الثاني -->
     <div class="promo-banner-wrap" id="bannerSlot2"></div>
 
-    <!-- 6. قسم أقوى الفئات (كروت مربعة احترافية) -->
+    <!-- 6. قسم أقوى الفئات -->
     <div class="section-header">
       <span class="section-title-text">🎯 أقوى الفئات</span>
       <span class="view-all-link" onclick="openFilteredView('all', 'all', '🔥 جميع الكوبونات والعروض')">اعرض الكل ◂</span>
     </div>
-    <div class="categories-grid">
-      <div class="cat-square-card" onclick="openFilteredView('category', 'عروض جديدة', '🆕 عروض جديدة')">
-        <div class="cat-square-icon" style="background:#fef3c7;">🆕</div>
-        <div class="cat-square-name">عروض جديدة</div>
-      </div>
-      <div class="cat-square-card" onclick="openFilteredView('category', 'طعام', '🍔 عروض الطعام')">
-        <div class="cat-square-icon" style="background:#fee2e2;">🍔</div>
-        <div class="cat-square-name">طعام</div>
-      </div>
-      <div class="cat-square-card" onclick="openFilteredView('category', 'إلكترونيات', '💻 إلكترونيات')">
-        <div class="cat-square-icon" style="background:#dbeafe;">💻</div>
-        <div class="cat-square-name">إلكترونيات</div>
-      </div>
-      <div class="cat-square-card" onclick="openFilteredView('category', 'الجمال والعطور', '🌸 الجمال والعطور')">
-        <div class="cat-square-icon" style="background:#fce7f3;">🌸</div>
-        <div class="cat-square-name">الجمال والعطور</div>
-      </div>
-      <div class="cat-square-card" onclick="openFilteredView('category', 'أزياء وموضة', '👗 أزياء وموضة')">
-        <div class="cat-square-icon" style="background:#ede9fe;">👗</div>
-        <div class="cat-square-name">أزياء وموضة</div>
-      </div>
-      <div class="cat-square-card" onclick="openFilteredView('category', 'متاجر شاملة', '🛒 متاجر شاملة')">
-        <div class="cat-square-icon" style="background:#dcfce7;">🛒</div>
-        <div class="cat-square-name">متاجر شاملة</div>
-      </div>
-    </div>
+    <div class="categories-grid" id="categoriesGridContainer"></div>
 
     <!-- 7. البانر الإعلاني الثالث -->
     <div class="promo-banner-wrap" id="bannerSlot3"></div>
 
-    <!-- 8. قسم أحدث الكوبونات المتنوعة -->
+    <!-- 8. قسم أحدث الكوبونات الفعالة -->
     <div class="section-header">
       <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
       <span class="view-all-link" onclick="openFilteredView('all', 'all', '🏷️ جميع الكوبونات')">اعرض الكل ◂</span>
     </div>
-    <div class="container" id="latestCouponsContainer"></div>
+    <div class="horizontal-cards-strip" id="latestCouponsCarousel"></div>
   </div>
 </div>
 
-<!-- صفحة عرض الكل المخصصة (لأي قسم أو متجر أو فئة) -->
+<!-- صفحة عرض الكل المخصصة -->
 <div id="filteredListView" class="page-view">
   <div class="section-header">
     <span class="section-title-text" id="filteredViewTitle">جميع العروض</span>
@@ -534,14 +530,24 @@
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
-      <!-- 1. إدارة الكوبونات والعروض بالأقسام الجديدة -->
+      <!-- 1. إدارة الكوبونات والأقسام/الفئات -->
       <div id="admCouponsTab" class="adm-subview">
+        <div class="cat-manager-box">
+          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:6px;">📂 إدارة الأقسام والفئات (إضافة / حذف فئة):</label>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="newCatIcon" placeholder="أيقونة ✈️" style="width:74px; text-align:center;">
+            <input type="text" id="newCatName" placeholder="اسم القسم الجديد (مثل: سفر وطيران)" style="flex:1;">
+            <button class="btn-copy" style="max-width:75px; padding:8px;" onclick="addCategoryAdmin()">+ إضافة</button>
+          </div>
+          <div class="cat-chip-list" id="adminCategoriesChips"></div>
+        </div>
+
         <input type="hidden" id="editCouponId" value="">
         <div class="form-group">
           <label>نوع البطاقة</label>
           <select id="admType" onchange="toggleCodeInput()">
-            <option value="coupon">🏷️ بطاقة كوبون بكود خصم (زر نسخ + تسوق)</option>
-            <option value="deal">🎁 بطاقة عرض تلقائي بدون كود (زر احصل على العرض)</option>
+            <option value="coupon">🏷️ بطاقة كوبون بكود خصم (نسخ الكود + تسوق)</option>
+            <option value="deal">🎁 بطاقة عرض تلقائي بدون كود (احصل على العرض)</option>
           </select>
         </div>
         <div class="form-group">
@@ -565,14 +571,7 @@
         </div>
         <div class="form-group">
           <label>القسم (الفئة)</label>
-          <select id="admCat">
-            <option value="عروض جديدة">🆕 عروض جديدة</option>
-            <option value="طعام">🍔 طعام</option>
-            <option value="إلكترونيات">💻 إلكترونيات</option>
-            <option value="الجمال والعطور">🌸 الجمال والعطور</option>
-            <option value="أزياء وموضة">👗 أزياء وموضة</option>
-            <option value="متاجر شاملة">🛒 متاجر شاملة</option>
-          </select>
+          <select id="admCat"></select>
         </div>
         <div class="form-group">
           <label>قيمة الخصم (مثال: خصم 20% أو عروض حتى 50%)</label>
@@ -636,11 +635,12 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إدارة البانرات الإعلانية الثلاثة -->
+      <!-- 3. إدارة البانرات الإعلانية الأربعة -->
       <div id="admBannerTab" class="adm-subview" style="display:none;">
         <div class="form-group">
-          <label>اختر مكان البانر المراد تعديله</label>
+          <label>اختر مكان البانر المراد تعديله أو إخفاؤه</label>
           <select id="bannerSlotSelect" onchange="loadBannerForm()">
+            <option value="b0">🔝 البانر العلوي الرئيسي (قبل أشهر المتاجر)</option>
             <option value="b1">1️⃣ البانر الأول (أسفل عروض الإلكترونيات)</option>
             <option value="b2">2️⃣ البانر الثاني (أسفل العروض التلقائية)</option>
             <option value="b3">3️⃣ البانر الثالث (أسفل أقوى الفئات)</option>
@@ -682,7 +682,7 @@
 
       <!-- 4. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
-        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات تلقائياً بضغطة زر:</p>
+        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والأقسام تلقائياً بضغطة زر:</p>
         <div class="form-group">
           <label>GitHub Personal Access Token (ghp_...)</label>
           <input type="password" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
@@ -714,13 +714,23 @@
   const FILE_PATH = 'www/coupons.json';
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
+  const DEFAULT_CATEGORIES = [
+    { name: 'عروض جديدة', icon: '🆕', bg: '#fef3c7' },
+    { name: 'طعام', icon: '🍔', bg: '#fee2e2' },
+    { name: 'إلكترونيات', icon: '💻', bg: '#dbeafe' },
+    { name: 'الجمال والعطور', icon: '🌸', bg: '#fce7f3' },
+    { name: 'أزياء وموضة', icon: '👗', bg: '#ede9fe' },
+    { name: 'متاجر شاملة', icon: '🛒', bg: '#dcfce7' }
+  ];
+
   const DEFAULT_BANNERS = {
+    b0: { enabled: true, tag: 'عروض مميزة ⭐', title: 'تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر', cta: 'اكتشف العروض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
     b1: { enabled: true, tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
     b2: { enabled: true, tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '' },
     b3: { enabled: true, tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '' }
   };
 
-  let appData = { banners: DEFAULT_BANNERS, stores: [], coupons: [] };
+  let appData = { categories: [...DEFAULT_CATEGORIES], banners: { ...DEFAULT_BANNERS }, stores: [], coupons: [] };
   let selectedCountry = localStorage.getItem('silver_user_country') || '';
   let tapCount = 0;
   let tapTimer = null;
@@ -789,7 +799,8 @@
       const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now()).catch(() => fetch('coupons.json'));
       const fetched = await res.json();
       appData = {
-        banners: fetched.banners || DEFAULT_BANNERS,
+        categories: (fetched.categories && fetched.categories.length) ? fetched.categories : [...DEFAULT_CATEGORIES],
+        banners: { ...DEFAULT_BANNERS, ...(fetched.banners || {}) },
         stores: fetched.stores || [],
         coupons: fetched.coupons || []
       };
@@ -798,7 +809,8 @@
       if (localSaved) {
         const parsed = JSON.parse(localSaved);
         appData = {
-          banners: parsed.banners || DEFAULT_BANNERS,
+          categories: (parsed.categories && parsed.categories.length) ? parsed.categories : [...DEFAULT_CATEGORIES],
+          banners: { ...DEFAULT_BANNERS, ...(parsed.banners || {}) },
           stores: parsed.stores || [],
           coupons: parsed.coupons || []
         };
@@ -823,19 +835,75 @@
     localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
     renderAllBanners();
     renderStoresStrip();
+    renderCategoriesGrid();
     renderHomeSections();
     populateAdminStores();
+    populateAdminCategories();
     renderAdminLists();
   }
 
-  // رسم البانرات الثلاثة
+  function renderCategoriesGrid() {
+    const grid = document.getElementById('categoriesGridContainer');
+    const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
+    grid.innerHTML = cats.map(cat => `
+      <div class="cat-square-card" onclick="openFilteredView('category', '${cat.name}', '${cat.icon || '🏷️'} ${cat.name}')">
+        <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${cat.icon || '🏷️'}</div>
+        <div class="cat-square-name">${cat.name}</div>
+      </div>
+    `).join('');
+  }
+
+  function populateAdminCategories() {
+    const sel = document.getElementById('admCat');
+    const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
+    const currentVal = sel.value;
+    sel.innerHTML = cats.map(cat => `<option value="${cat.name}">${cat.icon || '🏷️'} ${cat.name}</option>`).join('');
+    if (currentVal && cats.some(c => c.name === currentVal)) sel.value = currentVal;
+
+    const chips = document.getElementById('adminCategoriesChips');
+    chips.innerHTML = cats.map((cat, idx) => `
+      <span class="cat-chip-item">
+        <span>${cat.icon || '🏷️'} ${cat.name}</span>
+        ${cats.length > 1 ? `<button class="cat-chip-del" title="حذف القسم" onclick="deleteCategoryAdmin(${idx})">×</button>` : ''}
+      </span>
+    `).join('');
+  }
+
+  function addCategoryAdmin() {
+    const name = document.getElementById('newCatName').value.trim();
+    const icon = document.getElementById('newCatIcon').value.trim() || '🏷️';
+    if (!name) return alert('يرجى كتابة اسم القسم الجديد');
+    if (!appData.categories) appData.categories = [...DEFAULT_CATEGORIES];
+    if (appData.categories.some(c => c.name === name)) return alert('هذا القسم موجود بالفعل!');
+
+    const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
+    const randomBg = bgPalette[appData.categories.length % bgPalette.length];
+
+    appData.categories.push({ name: name, icon: icon, bg: randomBg });
+    document.getElementById('newCatName').value = '';
+    document.getElementById('newCatIcon').value = '';
+    refreshAllUI();
+    document.getElementById('admCat').value = name;
+    showToast(`تمت إضافة قسم "${name}"! اضغط زر النشر الأخضر بالأعلى.`);
+  }
+
+  function deleteCategoryAdmin(index) {
+    const catName = appData.categories[index].name;
+    if (!confirm(`هل تريد حذف قسم "${catName}"؟`)) return;
+    appData.categories.splice(index, 1);
+    refreshAllUI();
+    showToast('تم حذف القسم! اضغط زر النشر الأخضر لتأكيده للجميع.');
+  }
+
   function renderSingleBanner(slotId, bannerObj) {
     const wrap = document.getElementById(slotId);
     if (!wrap) return;
     if (!bannerObj || bannerObj.enabled === false || bannerObj.enabled === 'false') {
       wrap.innerHTML = '';
+      wrap.style.display = 'none';
       return;
     }
+    wrap.style.display = 'block';
     wrap.innerHTML = `
       <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
         ${bannerObj.image ? `<img src="${bannerObj.image}" alt="${bannerObj.title}">` : ''}
@@ -850,12 +918,12 @@
 
   function renderAllBanners() {
     const b = appData.banners || DEFAULT_BANNERS;
+    renderSingleBanner('bannerSlot0', b.b0 || DEFAULT_BANNERS.b0);
     renderSingleBanner('bannerSlot1', b.b1 || DEFAULT_BANNERS.b1);
     renderSingleBanner('bannerSlot2', b.b2 || DEFAULT_BANNERS.b2);
     renderSingleBanner('bannerSlot3', b.b3 || DEFAULT_BANNERS.b3);
   }
 
-  // شريط أشهر المتاجر الدائري (بدون أيقونة الكل)
   function renderStoresStrip() {
     const container = document.getElementById('storesContainer');
     const visibleStores = appData.stores.filter(st => matchesCountry(st.country));
@@ -867,7 +935,6 @@
     `).join('');
   }
 
-  // بناء بطاقة أفقية للتمرير الجانبي (Horizontal Card)
   function buildHorizontalCard(c) {
     const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
     const logo = storeObj.logo || 'https://via.placeholder.com/50';
@@ -891,14 +958,14 @@
             <a href="${targetUrl}" target="_blank" class="h-btn-deal">احصل على العرض ↗</a>
           ` : `
             <div class="h-code-box">${c.code}</div>
-            <button class="h-btn-copy" onclick="copyCoupon('${c.code}', this)">نسخ</button>
+            <button class="h-btn-copy" onclick="copyCoupon('${c.code}', this, 'نسخ الكود')">نسخ الكود</button>
+            <a href="${targetUrl}" target="_blank" class="h-btn-shop">تسوق ↗</a>
           `}
         </div>
       </div>
     `;
   }
 
-  // بناء بطاقة طولية كاملة
   function buildVerticalTicket(c) {
     const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
     const logo = storeObj.logo || 'https://via.placeholder.com/60';
@@ -927,7 +994,7 @@
           ` : `
             <div class="code-display">${c.code}</div>
             <div class="btn-actions">
-              <button class="btn-copy" onclick="copyCoupon('${c.code}', this)">نسخ الكود</button>
+              <button class="btn-copy" onclick="copyCoupon('${c.code}', this, 'نسخ الكود')">نسخ الكود</button>
               <a href="${targetUrl}" target="_blank" class="btn-shop">تسوق ↗</a>
             </div>
           `}
@@ -936,36 +1003,27 @@
     `;
   }
 
-  // رسم أقسام الصفحة الرئيسية (الإلكترونيات + العروض التلقائية + أحدث الكوبونات)
   function renderHomeSections() {
     const countryCoupons = appData.coupons.filter(c => matchesCountry(c.country));
 
-    // 1. قسم الإلكترونيات (إذا لم توجد كوبونات إلكترونيات بعد، يعرض أول الكوبونات كمعاينة حتى تضيف لها)
     let elecItems = countryCoupons.filter(c => c.category === 'إلكترونيات');
-    if (elecItems.length === 0) elecItems = countryCoupons.slice(0, 6);
+    if (elecItems.length === 0) elecItems = countryCoupons.slice(0, 8);
     document.getElementById('electronicsCarousel').innerHTML = elecItems.length
-      ? elecItems.slice(0, 10).map(buildHorizontalCard).join('')
+      ? elecItems.slice(0, 12).map(buildHorizontalCard).join('')
       : `<div style="padding:10px; color:var(--muted); font-size:13px;">لا توجد عروض إلكترونيات لهذه الدولة حالياً.</div>`;
 
-    // 2. قسم العروض التلقائية (روابط الأفلييت بدون كود)
     const dealItems = countryCoupons.filter(c => c.type === 'deal' || !c.code || c.code.trim() === '');
-    const autoWrap = document.getElementById('autoDealsSectionWrap');
-    if (dealItems.length > 0) {
-      autoWrap.style.display = 'block';
-      document.getElementById('autoDealsCarousel').innerHTML = dealItems.slice(0, 10).map(buildHorizontalCard).join('');
-    } else {
-      autoWrap.style.display = 'block';
-      document.getElementById('autoDealsCarousel').innerHTML = `<div style="padding:10px 4px; color:var(--muted); font-size:12.5px;">أضف عروض أفلييت بدون كود من لوحة التحكم لتظهر هنا تلقائياً.</div>`;
-    }
+    document.getElementById('autoDealsCarousel').innerHTML = dealItems.length
+      ? dealItems.slice(0, 12).map(buildHorizontalCard).join('')
+      : `<div style="padding:10px 4px; color:var(--muted); font-size:12.5px;">أضف عروض أفلييت بدون كود من لوحة التحكم لتظهر هنا تلقائياً.</div>`;
 
-    // 3. أحدث الكوبونات الفعالة في الأسفل
-    const latestContainer = document.getElementById('latestCouponsContainer');
-    latestContainer.innerHTML = countryCoupons.length
-      ? countryCoupons.slice(0, 12).map(buildVerticalTicket).join('')
-      : `<div style="text-align:center; padding:30px; color:var(--muted);">لا توجد كوبونات متاحة لهذه الدولة حالياً.</div>`;
+    const activeCodeCoupons = countryCoupons.filter(c => c.type !== 'deal' && c.code && c.code.trim() !== '');
+    const latestList = activeCodeCoupons.length ? activeCodeCoupons : countryCoupons;
+    document.getElementById('latestCouponsCarousel').innerHTML = latestList.length
+      ? latestList.slice(0, 15).map(buildHorizontalCard).join('')
+      : `<div style="padding:10px; color:var(--muted); font-size:13px;">لا توجد كوبونات متاحة لهذه الدولة حالياً.</div>`;
   }
 
-  // فتح صفحة "اعرض الكل" لأي قسم أو متجر أو فئة
   function openFilteredView(filterType, filterValue, titleText) {
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('filteredListView').classList.add('active');
@@ -989,7 +1047,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // البحث الفوري في الصفحة الرئيسية
   function handleHomeSearch() {
     const q = document.getElementById('searchInput').value.trim().toLowerCase();
     const resSec = document.getElementById('searchResultsSection');
@@ -1022,7 +1079,6 @@
     handleHomeSearch();
   }
 
-  // صفحة جميع المتاجر
   function openAllStoresPage() {
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('allStoresView').classList.add('active');
@@ -1051,13 +1107,12 @@
     }).join('') : `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر مطابقة.</div>`;
   }
 
-  function copyCoupon(code, btn) {
+  function copyCoupon(code, btn, defaultLabel = 'نسخ الكود') {
     navigator.clipboard.writeText(code);
-    const old = btn.innerText;
-    btn.innerText = 'تم ✓';
+    btn.innerText = 'تم النسخ ✓';
     btn.style.background = '#16a34a';
     showToast(`تم نسخ الكود (${code}) بنجاح!`);
-    setTimeout(() => { btn.innerText = old; btn.style.background = '#2563eb'; }, 2000);
+    setTimeout(() => { btn.innerText = defaultLabel; btn.style.background = '#2563eb'; }, 2000);
   }
 
   function showToast(msg) {
@@ -1232,7 +1287,7 @@
     showToast('تم حذف المتجر! اضغط زر النشر الأخضر.');
   }
 
-  // إدارة البانرات الثلاثة
+  // إدارة البانرات الأربعة (b0, b1, b2, b3)
   function loadBannerForm() {
     const slot = document.getElementById('bannerSlotSelect').value;
     const allB = appData.banners || DEFAULT_BANNERS;
