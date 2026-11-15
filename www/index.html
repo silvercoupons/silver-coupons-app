@@ -102,7 +102,7 @@
       text-decoration: none;
     }
 
-    /* شريط المتاجر الدائري */
+    /* شريط المتاجر الدائري (أفقي بجانب بعضهم - بحد أقصى 6 متاجر بالرئيسية) */
     .stores-strip {
       display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px;
       scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
@@ -823,6 +823,7 @@
 
   const HOME_MAX_CARDS = 3;
   const HOME_MAX_CATEGORIES = 6;
+  const HOME_MAX_STORES = 6;
 
   const DEFAULT_CATEGORIES = [
     { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7' },
@@ -1195,7 +1196,7 @@
 
   function renderStoresStrip() {
     const container = document.getElementById('storesContainer');
-    const visibleStores = appData.stores.filter(st => matchesCountry(st.country));
+    const visibleStores = appData.stores.filter(st => matchesCountry(st.country)).slice(0, HOME_MAX_STORES);
     container.innerHTML = visibleStores.map(st => `
       <div class="store-item" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}', 'homeView')">
         <div class="store-circle"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/50?text=${st.name[0]}'"></div>
