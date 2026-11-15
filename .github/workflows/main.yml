@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: setup-node@v4
         with:
           node-version: '20'
 
@@ -40,21 +40,61 @@ jobs:
           fi
           npx cap sync android
 
-      - name: Inject Start.io Ad SDK
+      - name: Inject Start.io Ad SDK Safely
         env:
-          STARTIO_APP_ID: "210311194"
+          STARTIO_APP_ID: "YOUR_STARTIO_APP_ID"
         run: |
-          # 1. إضافة مكتبة Start.io إلى ملف build.gradle
-          sed -i "/dependencies {/a \    implementation 'com.startapp:inapp-sdk:5.1.0'" android/app/build.gradle
+          python3 - << 'EOF'
+          import os, glob
 
-          # 2. إضافة تصاريح الإعلانات ومعرّف التطبيق في AndroidManifest.xml
-          sed -i "/<application/i \    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />" android/app/src/main/AndroidManifest.xml
-          sed -i "/<\/application>/i \        <meta-data android:name=\"com.startapp.sdk.APPLICATION_ID\" android:value=\"${STARTIO_APP_ID}\" />" android/app/src/main/AndroidManifest.xml
+          app_id = os.environ["STARTIO_APP_ID"]
 
-          # 3. تهيئة الإعلانات وتفعيل الإعلان الترحيبي والبانر داخل MainActivity.java
-          MAIN_ACT=$(find android/app/src/main/java -name "MainActivity.java" | head -n 1)
-          sed -i "/import com.getcapacitor.BridgeActivity;/a import android.os.Bundle;\nimport com.startapp.sdk.adsbase.StartAppSDK;\nimport com.startapp.sdk.adsbase.StartAppAd;" "$MAIN_ACT"
-          sed -i "/public class MainActivity extends BridgeActivity {/a \    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        StartAppSDK.init(this, \"${STARTIO_APP_ID}\", true);\n        StartAppAd.showAd(this);\n    }" "$MAIN_ACT"
+          # 1. إضافة مكتبة Start.io إلى build.gradle
+          gradle_path = "android/app/build.gradle"
+          with open(gradle_path, "r") as f:
+              gradle = f.read()
+          if "com.startapp:inapp-sdk" not in gradle:
+              gradle = gradle.replace("dependencies {", "dependencies {\n    implementation 'com.startapp:inapp-sdk:5.0.2'", 1)
+          with open(gradle_path, "w") as f:
+              f.write(gradle)
+
+          # 2. إضافة التصاريح ومعرف التطبيق في AndroidManifest.xml
+          manifest_path = "android/app/src/main/AndroidManifest.xml"
+          with open(manifest_path, "r") as f:
+              manifest = f.read()
+          if "ACCESS_NETWORK_STATE" not in manifest:
+              manifest = manifest.replace("<application", '<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />\n    <application', 1)
+          if "com.startapp.sdk.APPLICATION_ID" not in manifest:
+              manifest = manifest.replace("</application>", f'        <meta-data android:name="com.startapp.sdk.APPLICATION_ID" android:value="{app_id}" />\n    </application>', 1)
+          with open(manifest_path, "w") as f:
+              f.write(manifest)
+
+          # 3. كتابة MainActivity.java النظيف لتفعيل الإعلان البيني فقط بدون بانر سفلي
+          main_files = glob.glob("android/app/src/main/java/**/MainActivity.java", recursive=True)
+          if main_files:
+              main_path = main_files[0]
+              with open(main_path, "r") as f:
+                  first_line = f.readline().strip()
+              pkg_line = first_line if first_line.startswith("package ") else "package com.silvercoupons.app;"
+              java_code = f"""{pkg_line}
+
+          import android.os.Bundle;
+          import com.getcapacitor.BridgeActivity;
+          import com.startapp.sdk.adsbase.StartAppSDK;
+          import com.startapp.sdk.adsbase.StartAppAd;
+
+          public class MainActivity extends BridgeActivity {{
+              @Override
+              public void onCreate(Bundle savedInstanceState) {{
+                  super.onCreate(savedInstanceState);
+                  StartAppSDK.init(this, "{app_id}", true);
+                  StartAppAd.showAd(this);
+              }}
+          }}
+          """
+              with open(main_path, "w") as f:
+                  f.write(java_code)
+          EOF
 
       - name: Build Debug APK
         working-directory: ./android
