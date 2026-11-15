@@ -112,7 +112,7 @@
     }
 
     /* شريط المتاجر الدائري */
-    .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px; scrollbar-width: none; }
+    .stores-strip { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px; scrollbar-width: none; touch-action: pan-x pan-y; }
     .stores-strip::-webkit-scrollbar { display: none; }
     .store-item { display: flex; flex-direction: column; align-items: center; min-width: 70px; cursor: pointer; }
     .store-circle {
@@ -126,9 +126,9 @@
 
     /* البطاقات الأفقية القابلة للتمرير */
     .horizontal-cards-strip {
-      display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 14px;
-      scrollbar-width: none; scroll-snap-type: x mandatory;
-    }
+  display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 14px;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
+}
     .horizontal-cards-strip::-webkit-scrollbar { display: none; }
     .h-card {
       min-width: 278px; max-width: 278px; background: #fff; border-radius: 16px;
@@ -875,14 +875,16 @@
   let tapTimer = null;
 
   let touchStartY = 0;
-  let isPulling = false;
   document.addEventListener('touchstart', (e) => {
-    if (window.scrollY === 0) {
-      touchStartY = e.touches[0].clientY;
-      isPulling = true;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', async (e) => {
+    if (window.scrollY <= 0 && (e.changedTouches[0].clientY - touchStartY) > 110) {
+      await initApp();
+      showToast('تم تحديث أحدث الكوبونات بنجاح ✓');
     }
   }, { passive: true });
-
+  
   document.addEventListener('touchmove', (e) => {
     if (!isPulling || window.scrollY > 0) return;
     const diff = e.touches[0].clientY - touchStartY;
