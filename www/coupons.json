@@ -62,15 +62,17 @@
     },
     {
       "id": 2,
+      "type": "coupon",
+      "country": "SA",
       "storeId": "namshi",
-      "storeName": "نمشي للأزياء",
+      "storeName": "نمشي - Namshi",
       "category": "أزياء وموضة",
       "discount": "خصم 20% إضافي",
       "title": "كوبون نمشي فعال على كافة الملابس والأحذية والشنط المخفضة",
       "code": "NM111",
       "url": "https://silvercoupons.blogspot.com/",
       "verified": true,
-      "usedCount": 315
+      "usedCount": 144
     },
     {
       "id": 3,
