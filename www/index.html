@@ -215,12 +215,12 @@
     }
     .cat-square-card:active { transform: scale(0.96); border-color: var(--blue); background: #eff6ff; }
     .cat-square-icon {
-      width: 46px; height: 46px; border-radius: 14px;
+      width: 48px; height: 48px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center; font-size: 23px;
-      overflow: hidden; flex-shrink: 0;
+      overflow: hidden; flex-shrink: 0; padding: 4px;
     }
     .cat-square-icon img {
-      width: 100%; height: 100%; object-fit: cover; border-radius: 12px;
+      width: 100%; height: 100%; object-fit: contain; border-radius: 10px;
     }
     .cat-square-name {
       font-size: 12.5px; font-weight: 800; color: var(--text); line-height: 1.3;
@@ -353,7 +353,7 @@
       padding: 4px 10px; font-size: 11.5px; font-weight: 700;
       display: inline-flex; align-items: center; gap: 6px;
     }
-    .cat-chip-item img { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; }
+    .cat-chip-item img { width: 18px; height: 18px; border-radius: 4px; object-fit: contain; }
     .cat-chip-del {
       color: var(--red); cursor: pointer; font-weight: 800; border: none;
       background: none; padding: 0 2px; font-size: 13px;
@@ -600,11 +600,14 @@
       <!-- 1. إدارة الكوبونات والأقسام/الفئات -->
       <div id="admCouponsTab" class="adm-subview">
         <div class="cat-manager-box">
-          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات (إضافة صورة أو أيقونة):</label>
+          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات (لصق رابط صورة أو رفع من الهاتف):</label>
           <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">تظهر أول 6 فئات في الصفحة الرئيسية، وتظهر جميع الفئات (2 كارت في كل صف وتحت بعضهم) في صفحة "اعرض الكل".</p>
           <div style="display:flex; gap:6px; margin-bottom:6px;">
             <input type="text" id="newCatIcon" placeholder="أيقونة ✈️" style="width:74px; text-align:center;">
-            <input type="text" id="newCatName" placeholder="اسم القسم الجديد (مثل: سفر وطيران)" style="flex:1;">
+            <input type="text" id="newCatName" placeholder="اسم القسم الجديد (مثل: موبايلات)" style="flex:1;">
+          </div>
+          <div style="margin-bottom:6px;">
+            <input type="url" id="newCatUrl" placeholder="🔗 الصق رابط صورة القسم المباشر (اختياري)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
           </div>
           <div style="margin-bottom:8px;">
             <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:3px;">🖼️ أو اختر صورة من هاتفك لمربع القسم (اختياري):</label>
@@ -826,16 +829,17 @@
   const HOME_MAX_STORES = 6;
 
   const DEFAULT_CATEGORIES = [
-    { name: 'عروض جديدة', icon: '🆕', image: 'https://img.icons8.com/3d-fluency/94/discount.png', bg: '#fef3c7' },
-    { name: 'الأحذية والحقائب', icon: '👜', image: 'https://img.icons8.com/3d-fluency/94/handbag.png', bg: '#fce7f3' },
-    { name: 'مطاعم', icon: '🍔', image: 'https://img.icons8.com/3d-fluency/94/hamburger.png', bg: '#fee2e2' },
-    { name: 'ترفيه', icon: '🎮', image: 'https://img.icons8.com/3d-fluency/94/controller.png', bg: '#ede9fe' },
-    { name: 'سوبر ماركت', icon: '🛒', image: 'https://img.icons8.com/3d-fluency/94/shopping-cart.png', bg: '#dcfce7' },
-    { name: 'البيت والمطبخ', icon: '🏠', image: 'https://img.icons8.com/3d-fluency/94/kitchen-room.png', bg: '#ffedd5' },
-    { name: 'موبايلات', icon: '📱', image: 'https://img.icons8.com/3d-fluency/94/iphone.png', bg: '#dbeafe' },
-    { name: 'أكسسوارات', icon: '⌚', image: 'https://img.icons8.com/3d-fluency/94/smart-watch.png', bg: '#e0f2fe' },
-    { name: 'الجمال والعطور', icon: '🌸', image: 'https://img.icons8.com/3d-fluency/94/perfume-bottle.png', bg: '#fdf2f8' },
-    { name: 'أزياء وموضة', icon: '👗', image: 'https://img.icons8.com/3d-fluency/94/t-shirt.png', bg: '#f3e8ff' }
+    { name: 'عروض جديدة', icon: '🆕', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png', bg: '#fef3c7' },
+    { name: 'الأحذية والحقائب', icon: '👜', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Handbag/3D/handbag_3d.png', bg: '#fce7f3' },
+    { name: 'مطاعم', icon: '🍔', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Hamburger/3D/hamburger_3d.png', bg: '#fee2e2' },
+    { name: 'ترفيه', icon: '🎮', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Video%20game/3D/video_game_3d.png', bg: '#ede9fe' },
+    { name: 'سوبر ماركت', icon: '🛒', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Shopping%20cart/3D/shopping_cart_3d.png', bg: '#dcfce7' },
+    { name: 'البيت والمطبخ', icon: '🏠', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/House%20with%20garden/3D/house_with_garden_3d.png', bg: '#ffedd5' },
+    { name: 'موبايلات', icon: '📱', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Mobile%20phone/3D/mobile_phone_3d.png', bg: '#dbeafe' },
+    { name: 'أكسسوارات', icon: '⌚', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Watch/3D/watch_3d.png', bg: '#e0f2fe' },
+    { name: 'إلكترونيات', icon: '💻', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Laptop/3D/laptop_3d.png', bg: '#dbeafe' },
+    { name: 'الجمال والعطور', icon: '🌸', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Lipstick/3D/lipstick_3d.png', bg: '#fdf2f8' },
+    { name: 'أزياء وموضة', icon: '👗', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Dress/3D/dress_3d.png', bg: '#f3e8ff' }
   ];
 
   const DEFAULT_BANNERS = {
@@ -1034,18 +1038,15 @@
     showToast('تم جلب أحدث البيانات بنجاح!');
   }
 
-  // فلترة الكوبونات حسب الدولة
   function matchesCountry(itemCountry) {
     if (!selectedCountry || selectedCountry === 'ALL') return true;
     if (!itemCountry || itemCountry === 'ALL' || itemCountry === '') return true;
     return itemCountry === selectedCountry;
   }
 
-  // فلترة صارمة للمتاجر: عند اختيار دولة محددة تظهر فقط المتاجر الخاصة بتلك الدولة (أو التي لديها كوبونات مخصصة لتلك الدولة)
   function isStoreAvailableForSelectedCountry(storeObj) {
     if (!selectedCountry || selectedCountry === 'ALL') return true;
     if (storeObj.country === selectedCountry) return true;
-    // إذا كان للمتجر كوبونات مخصصة صراحة لهذه الدولة فقط يظهر أيضاً
     const hasCountrySpecificCoupon = appData.coupons.some(
       c => c.storeId === storeObj.id && c.country === selectedCountry
     );
@@ -1088,7 +1089,7 @@
 
   function renderCategoryVisual(cat) {
     if (cat.image && cat.image.trim() !== '') {
-      return `<img src="${cat.image}" alt="${cat.name}" onerror="this.style.display='none'">`;
+      return `<img src="${cat.image}" alt="${cat.name}" onerror="this.outerHTML='${cat.icon || '🏷️'}'">`;
     }
     return cat.icon || '🏷️';
   }
@@ -1147,13 +1148,13 @@
   async function addCategoryAdmin() {
     const name = document.getElementById('newCatName').value.trim();
     const icon = document.getElementById('newCatIcon').value.trim() || '🏷️';
+    let imgUrl = document.getElementById('newCatUrl').value.trim();
     const fileInput = document.getElementById('newCatFile');
 
     if (!name) return alert('يرجى كتابة اسم القسم الجديد');
     if (!appData.categories) appData.categories = [...DEFAULT_CATEGORIES];
     if (appData.categories.some(c => c.name === name)) return alert('هذا القسم موجود بالفعل!');
 
-    let imgUrl = '';
     if (fileInput.files && fileInput.files[0]) {
       showToast('جاري رفع صورة القسم إلى السحابة...');
       const uploaded = await uploadImageToGitHub(fileInput.files[0], `cat_${Date.now()}.png`);
@@ -1167,6 +1168,7 @@
     appData.categories.push({ name: name, icon: icon, image: imgUrl, bg: randomBg });
     document.getElementById('newCatName').value = '';
     document.getElementById('newCatIcon').value = '';
+    document.getElementById('newCatUrl').value = '';
     fileInput.value = '';
     refreshAllUI();
     document.getElementById('admCat').value = name;
@@ -1295,7 +1297,7 @@
   function renderHomeSections() {
     const countryCoupons = appData.coupons.filter(c => matchesCountry(c.country));
 
-    let elecItems = countryCoupons.filter(c => c.category === 'إلكترونيات');
+    let elecItems = countryCoupons.filter(c => c.category === 'إلكترونيات' || c.category === 'موبايلات');
     if (elecItems.length === 0) elecItems = countryCoupons;
     document.getElementById('electronicsCarousel').innerHTML = elecItems.length
       ? elecItems.slice(0, HOME_MAX_CARDS).map(buildHorizontalCard).join('')
