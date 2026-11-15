@@ -76,6 +76,8 @@
     },
     {
       "id": 3,
+      "type": "coupon",
+      "country": "EG",
       "storeId": "defacto",
       "storeName": "ديفاكتو - DeFacto",
       "category": "أزياء وموضة",
@@ -84,7 +86,7 @@
       "code": "DEFAR148",
       "url": "https://silvercoupons.blogspot.com/",
       "verified": true,
-      "usedCount": 210
+      "usedCount": 134
     },
     {
       "id": 4,
