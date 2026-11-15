@@ -3,7 +3,7 @@
   "appName": "الكوبون الفضي",
   "webDir": "www",
   "server": {
-    "url": "https://silvercoupons.github.io/silver-coupons-app/www/",
+    "url": "https://silvercoupons.github.io/silver-coupons-app/www/index.html",
     "cleartext": true
   }
 }
