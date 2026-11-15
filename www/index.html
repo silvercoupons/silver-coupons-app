@@ -18,6 +18,7 @@
       --muted: #64748b;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { max-width: 100%; overflow-x: hidden; }
     body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding: 0 0 80px 0; color: var(--text); overscroll-behavior-y: contain; }
 
     /* مؤشر السحب للتحديث (Pull to Refresh) */
@@ -119,7 +120,7 @@
     .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .store-name { font-size: 11.5px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
 
-    /* البطاقات الأفقية القابلة للتمرير (3 بطاقات في الصفحة الرئيسية) */
+    /* البطاقات الأفقية القابلة للتمرير */
     .horizontal-cards-strip {
       display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 14px;
       scrollbar-width: none; scroll-snap-type: x mandatory;
@@ -194,24 +195,43 @@
     .promo-title { font-size: 14.5px; font-weight: 800; margin: 0 0 4px; line-height: 1.35; }
     .promo-cta { font-size: 11.5px; color: #fef08a; font-weight: 700; }
 
-    /* قسم أقوى الفئات (6 مربعات بالرئيسية + شبكة كاملة في صفحة عرض الكل) */
+    /* قسم أقوى الفئات بالصفحة الرئيسية (6 فئات في 3 أعمدة) */
     .categories-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
       padding: 2px 16px 14px; max-width: 600px; margin: auto;
     }
+    /* صفحة "اعرض الكل" لأقوى الفئات: 2 كارت فقط في كل صف وتحت بعضهم بالترتيب بدون انزلاق لليمين */
+    .categories-grid-two-col {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+      padding: 6px 16px 20px; width: 100%; max-width: 600px; margin: auto;
+    }
     .cat-square-card {
-      background: #fff; border-radius: 16px; padding: 14px 8px;
+      background: #fff; border-radius: 16px; padding: 14px 10px;
       border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; gap: 6px; cursor: pointer; transition: 0.2s; aspect-ratio: 1 / 1;
+      text-align: center; gap: 7px; cursor: pointer; transition: 0.2s; min-height: 105px;
+      width: 100%; overflow: hidden;
+    }
+    .categories-grid-two-col .cat-square-card {
+      min-height: 126px; padding: 16px 12px;
     }
     .cat-square-card:active { transform: scale(0.96); border-color: var(--blue); background: #eff6ff; }
     .cat-square-icon {
-      width: 44px; height: 44px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      width: 46px; height: 46px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 23px;
+      overflow: hidden; flex-shrink: 0;
     }
-    .cat-square-name { font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.25; }
-    .cat-square-count { font-size: 10px; color: var(--muted); font-weight: 700; }
+    .cat-square-icon img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 12px;
+    }
+    .cat-square-name {
+      font-size: 12.5px; font-weight: 800; color: var(--text); line-height: 1.3;
+      word-break: break-word;
+    }
+    .cat-square-count {
+      font-size: 11px; background: #eff6ff; color: var(--blue);
+      padding: 2px 10px; border-radius: 10px; font-weight: 700;
+    }
 
     /* بطاقة الكوبون الطولية الكاملة */
     .container { padding: 0 16px; max-width: 600px; margin: auto; }
@@ -296,7 +316,7 @@
     .nav-icon { font-size: 18px; margin-bottom: 2px; }
 
     /* لوحة التحكم وصفحة المزيد */
-    .page-view { display: none; }
+    .page-view { display: none; width: 100%; overflow-x: hidden; }
     .page-view.active { display: block; }
     .admin-card { background: #fff; border-radius: 14px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .form-group { margin-bottom: 12px; }
@@ -329,12 +349,13 @@
       background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
       padding: 12px; margin-bottom: 16px;
     }
-    .cat-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .cat-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .cat-chip-item {
       background: #fff; border: 1px solid #cbd5e1; border-radius: 20px;
       padding: 4px 10px; font-size: 11.5px; font-weight: 700;
       display: inline-flex; align-items: center; gap: 6px;
     }
+    .cat-chip-item img { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; }
     .cat-chip-del {
       color: var(--red); cursor: pointer; font-weight: 800; border: none;
       background: none; padding: 0 2px; font-size: 13px;
@@ -425,7 +446,7 @@
     </div>
     <div class="stores-strip" id="storesContainer"></div>
 
-    <!-- 2. قسم عروض الإلكترونيات (يعرض 3 كروت والباقي في اعرض الكل) -->
+    <!-- 2. قسم عروض الإلكترونيات -->
     <div id="electronicsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">💻 عروض الإلكترونيات</span>
@@ -437,7 +458,7 @@
     <!-- 3. البانر الإعلاني الأول -->
     <div class="promo-banner-wrap" id="bannerSlot1"></div>
 
-    <!-- 4. قسم العروض التلقائية (يعرض 3 كروت والباقي في اعرض الكل) -->
+    <!-- 4. قسم العروض التلقائية -->
     <div id="autoDealsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">⚡ العروض التلقائية</span>
@@ -449,7 +470,7 @@
     <!-- 5. البانر الإعلاني الثاني -->
     <div class="promo-banner-wrap" id="bannerSlot2"></div>
 
-    <!-- 6. قسم أقوى الفئات (يعرض 6 فئات فقط والباقي في صفحة اعرض الكل) -->
+    <!-- 6. قسم أقوى الفئات (يعرض 6 فئات بالرئيسية + صفحة 2 كارت في كل صف عند الضغط على اعرض الكل) -->
     <div class="section-header">
       <span class="section-title-text">🎯 أقوى الفئات</span>
       <span class="view-all-link" onclick="handleViewAllClick('categories')">اعرض الكل ◂</span>
@@ -459,7 +480,7 @@
     <!-- 7. البانر الإعلاني الثالث -->
     <div class="promo-banner-wrap" id="bannerSlot3"></div>
 
-    <!-- 8. قسم أحدث الكوبونات الفعالة (يعرض 3 كروت والباقي في اعرض الكل) -->
+    <!-- 8. قسم أحدث الكوبونات الفعالة -->
     <div class="section-header">
       <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
       <span class="view-all-link" onclick="handleViewAllClick('latest')">اعرض الكل ◂</span>
@@ -477,13 +498,13 @@
   <div class="container" id="filteredViewContainer"></div>
 </div>
 
-<!-- صفحة عرض جميع الأقسام والفئات (تفتح عند الضغط على "اعرض الكل" في أقوى الفئات) -->
+<!-- صفحة عرض جميع الأقسام والفئات (2 كارت في كل صف وتحت بعضهم بالترتيب بدون انزلاق لليمين) -->
 <div id="allCategoriesView" class="page-view">
   <div class="section-header">
     <span class="section-title-text">🎯 جميع الأقسام والفئات</span>
     <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.querySelector('.nav-item'))">رجوع ✕</button>
   </div>
-  <div class="categories-grid" id="allCategoriesGridContainer" style="margin-top:8px;"></div>
+  <div class="categories-grid-two-col" id="allCategoriesGridContainer"></div>
 </div>
 
 <!-- صفحة عرض جميع المتاجر -->
@@ -586,16 +607,20 @@
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
-      <!-- 1. إدارة الكوبونات والأقسام/الفئات -->
+      <!-- 1. إدارة الكوبونات والأقسام/الفئات (مع رفع صورة أو أيقونة للقسم) -->
       <div id="admCouponsTab" class="adm-subview">
         <div class="cat-manager-box">
-          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات:</label>
-          <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">تظهر أول 6 فئات في الصفحة الرئيسية، وتظهر جميع الفئات (بما فيها الجديدة) عند الضغط على "اعرض الكل" في قسم أقوى الفئات.</p>
-          <div style="display:flex; gap:6px;">
+          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات (إضافة صورة أو أيقونة):</label>
+          <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">تظهر أول 6 فئات في الصفحة الرئيسية، وتظهر جميع الفئات (2 كارت في كل صف وتحت بعضهم) في صفحة "اعرض الكل".</p>
+          <div style="display:flex; gap:6px; margin-bottom:6px;">
             <input type="text" id="newCatIcon" placeholder="أيقونة ✈️" style="width:74px; text-align:center;">
             <input type="text" id="newCatName" placeholder="اسم القسم الجديد (مثل: سفر وطيران)" style="flex:1;">
-            <button class="btn-copy" style="max-width:75px; padding:8px;" onclick="addCategoryAdmin()">+ إضافة</button>
           </div>
+          <div style="margin-bottom:8px;">
+            <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:3px;">🖼️ أو اختر صورة من هاتفك لمربع القسم (اختياري):</label>
+            <input type="file" id="newCatFile" accept="image/*" style="font-size:11.5px; padding:6px;">
+          </div>
+          <button class="btn-copy" style="max-width:100%; width:100%; padding:9px;" onclick="addCategoryAdmin()">+ إضافة القسم الجديد</button>
           <div class="cat-chip-list" id="adminCategoriesChips"></div>
         </div>
 
@@ -805,17 +830,16 @@
   const FILE_PATH = 'www/coupons.json';
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
-  // الحد الأقصى للكروت والفئات المعروضة في الصفحة الرئيسية (والباقي في صفحة اعرض الكل)
   const HOME_MAX_CARDS = 3;
   const HOME_MAX_CATEGORIES = 6;
 
   const DEFAULT_CATEGORIES = [
-    { name: 'عروض جديدة', icon: '🆕', bg: '#fef3c7' },
-    { name: 'طعام', icon: '🍔', bg: '#fee2e2' },
-    { name: 'إلكترونيات', icon: '💻', bg: '#dbeafe' },
-    { name: 'الجمال والعطور', icon: '🌸', bg: '#fce7f3' },
-    { name: 'أزياء وموضة', icon: '👗', bg: '#ede9fe' },
-    { name: 'متاجر شاملة', icon: '🛒', bg: '#dcfce7' }
+    { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7' },
+    { name: 'طعام', icon: '🍔', image: '', bg: '#fee2e2' },
+    { name: 'إلكترونيات', icon: '💻', image: '', bg: '#dbeafe' },
+    { name: 'الجمال والعطور', icon: '🌸', image: '', bg: '#fce7f3' },
+    { name: 'أزياء وموضة', icon: '👗', image: '', bg: '#ede9fe' },
+    { name: 'متاجر شاملة', icon: '🛒', image: '', bg: '#dcfce7' }
   ];
 
   const DEFAULT_BANNERS = {
@@ -885,7 +909,6 @@
     }, 300);
   });
 
-  // مشاركة التطبيق مع الأصدقاء
   async function shareAppWithFriends() {
     const shareUrl = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
     const shareText = `🪙 حمل تطبيق "الكوبون الفضي" واحصل على أحدث أكواد الخصم الفعالة لأشهر المتاجر العربية:\n${shareUrl}`;
@@ -904,7 +927,6 @@
     }
   }
 
-  // التحكم الذكي بأزرار "اعرض الكل" لكل قسم
   function handleViewAllClick(sectionKey) {
     const customUrl = appData.links && appData.links[sectionKey] ? appData.links[sectionKey].trim() : '';
     if (customUrl) {
@@ -1051,7 +1073,14 @@
     showToast('تم حفظ الروابط! اضغط زر النشر الأخضر بالأعلى.');
   }
 
-  // عرض أول 6 فئات فقط في الصفحة الرئيسية (والباقي يظهر في صفحة اعرض الكل)
+  function renderCategoryVisual(cat) {
+    if (cat.image && cat.image.trim() !== '') {
+      return `<img src="${cat.image}" alt="${cat.name}" onerror="this.style.display='none'">`;
+    }
+    return cat.icon || '🏷️';
+  }
+
+  // عرض أول 6 فئات فقط في الصفحة الرئيسية
   function renderCategoriesGrid() {
     const grid = document.getElementById('categoriesGridContainer');
     const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
@@ -1059,13 +1088,13 @@
 
     grid.innerHTML = homeCats.map(cat => `
       <div class="cat-square-card" onclick="openFilteredView('category', '${cat.name}', '${cat.icon || '🏷️'} ${cat.name}', 'homeView')">
-        <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${cat.icon || '🏷️'}</div>
+        <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${renderCategoryVisual(cat)}</div>
         <div class="cat-square-name">${cat.name}</div>
       </div>
     `).join('');
   }
 
-  // صفحة جميع الأقسام والفئات (تفتح عند الضغط على "اعرض الكل" بجانب أقوى الفئات)
+  // صفحة جميع الأقسام والفئات (2 كارت فقط في كل صف وتحت بعضهم بالترتيب بدون انزلاق لليمين)
   function openAllCategoriesPage() {
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('allCategoriesView').classList.add('active');
@@ -1078,7 +1107,7 @@
       const count = countryCoupons.filter(c => c.category === cat.name).length;
       return `
         <div class="cat-square-card" onclick="openFilteredView('category', '${cat.name}', '${cat.icon || '🏷️'} ${cat.name}', 'allCategoriesView')">
-          <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${cat.icon || '🏷️'}</div>
+          <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${renderCategoryVisual(cat)}</div>
           <div class="cat-square-name">${cat.name}</div>
           <span class="cat-square-count">${count} عرض</span>
         </div>
@@ -1097,25 +1126,37 @@
     const chips = document.getElementById('adminCategoriesChips');
     chips.innerHTML = cats.map((cat, idx) => `
       <span class="cat-chip-item">
-        <span>${cat.icon || '🏷️'} ${cat.name}</span>
+        ${cat.image ? `<img src="${cat.image}" alt="">` : `<span>${cat.icon || '🏷️'}</span>`}
+        <span>${cat.name}</span>
         ${cats.length > 1 ? `<button class="cat-chip-del" title="حذف القسم" onclick="deleteCategoryAdmin(${idx})">×</button>` : ''}
       </span>
     `).join('');
   }
 
-  function addCategoryAdmin() {
+  async function addCategoryAdmin() {
     const name = document.getElementById('newCatName').value.trim();
     const icon = document.getElementById('newCatIcon').value.trim() || '🏷️';
+    const fileInput = document.getElementById('newCatFile');
+
     if (!name) return alert('يرجى كتابة اسم القسم الجديد');
     if (!appData.categories) appData.categories = [...DEFAULT_CATEGORIES];
     if (appData.categories.some(c => c.name === name)) return alert('هذا القسم موجود بالفعل!');
 
+    let imgUrl = '';
+    if (fileInput.files && fileInput.files[0]) {
+      showToast('جاري رفع صورة القسم إلى السحابة...');
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `cat_${Date.now()}.png`);
+      if (!uploaded) return;
+      imgUrl = uploaded;
+    }
+
     const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
     const randomBg = bgPalette[appData.categories.length % bgPalette.length];
 
-    appData.categories.push({ name: name, icon: icon, bg: randomBg });
+    appData.categories.push({ name: name, icon: icon, image: imgUrl, bg: randomBg });
     document.getElementById('newCatName').value = '';
     document.getElementById('newCatIcon').value = '';
+    fileInput.value = '';
     refreshAllUI();
     document.getElementById('admCat').value = name;
     showToast(`تمت إضافة قسم "${name}"! اضغط زر النشر الأخضر بالأعلى.`);
@@ -1237,7 +1278,6 @@
     `;
   }
 
-  // عرض 3 كروت فقط في كل قسم بالصفحة الرئيسية (والباقي يظهر في صفحة اعرض الكل)
   function renderHomeSections() {
     const countryCoupons = appData.coupons.filter(c => matchesCountry(c.country));
 
