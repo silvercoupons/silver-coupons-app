@@ -1,24 +1,64 @@
 {
+  "banner": {
+    "enabled": true,
+    "tag": "عروض حصرية 🔥",
+    "title": "أقوى أكواد الخصم الفعالة لجميع المتاجر العربية",
+    "cta": "اكتشف العروض الآن ↗",
+    "url": "https://silvercoupons.blogspot.com/",
+    "image": ""
+  },
   "stores": [
-    { "id": "noon", "name": "نون - Noon", "logo": "https://cdn.almowafir.com/files/w200_noon.png", "url": "https://silvercoupons.blogspot.com/p/noon.html/" },
-    { "id": "namshi", "name": "نمشي - Namshi", "logo": "https://cdn.almowafir.com/files/w200_namshi.jpg", "url": "https://silvercoupons.blogspot.com/search/label/namshi-coupons" },
-    { "id": "defacto", "name": "ديفاكتو - DeFacto", "logo": "https://cdn.almowafir.com/files/w200_adv_defacto.jpg", "url": "https://silvercoupons.blogspot.com/p/defacto.html" },
-    { "id": "2b", "name": "تو بي - 2B Egypt", "logo": "https://2b.com.eg/media/logo/stores/1/logo.png", "url": "https://2b.com.eg/ar/" },
-    { "id": "raya", "name": "راية شوب - Raya", "logo": "https://cdn.almowafir.com/files/w200_adv_Raya.jpg", "url": "https://silvercoupons.blogspot.com/p/raya-shop-egypt.html" },
-    { "id": "carrefour", "name": "كارفور - Carrefour", "logo": "https://cdn.almowafir.com/files/w200_carrefour.jpg", "url": "https://silvercoupons.blogspot.com/search/label/carrefour-egypt" }
+    {
+      "id": "noon",
+      "name": "نون - Noon",
+      "logo": "https://cdn.almowafir.com/files/w200_noon.png",
+      "url": "https://silvercoupons.blogspot.com/p/noon.html/"
+    },
+    {
+      "id": "namshi",
+      "name": "نمشي - Namshi",
+      "logo": "https://cdn.almowafir.com/files/w200_namshi.jpg",
+      "url": "https://silvercoupons.blogspot.com/search/label/namshi-coupons"
+    },
+    {
+      "id": "defacto",
+      "name": "ديفاكتو - DeFacto",
+      "logo": "https://cdn.almowafir.com/files/w200_adv_defacto.jpg",
+      "url": "https://silvercoupons.blogspot.com/p/defacto.html"
+    },
+    {
+      "id": "2b",
+      "name": "تو بي - 2B Egypt",
+      "logo": "https://2b.com.eg/media/logo/stores/1/logo.png",
+      "url": "https://2b.com.eg/ar/"
+    },
+    {
+      "id": "raya",
+      "name": "راية شوب - Raya",
+      "logo": "https://cdn.almowafir.com/files/w200_adv_Raya.jpg",
+      "url": "https://silvercoupons.blogspot.com/p/raya-shop-egypt.html"
+    },
+    {
+      "id": "carrefour",
+      "name": "كارفور - Carrefour",
+      "logo": "https://cdn.almowafir.com/files/w200_carrefour.jpg",
+      "url": "https://silvercoupons.blogspot.com/search/label/carrefour-egypt"
+    }
   ],
   "coupons": [
     {
       "id": 1,
+      "type": "coupon",
+      "country": "EG",
       "storeId": "noon",
-      "storeName": "نون مصر ",
+      "storeName": "نون - Noon",
       "category": "متاجر شاملة",
       "discount": "خصم حتى 10% كاش باك",
       "title": "كود خصم نون فعال على جميع المنتجات والالكترونيات",
       "code": "WK83",
       "url": "https://silvercoupons.blogspot.com/",
       "verified": true,
-      "usedCount": 420
+      "usedCount": 145
     },
     {
       "id": 2,
