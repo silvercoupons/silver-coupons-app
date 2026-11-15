@@ -27,7 +27,14 @@ jobs:
         run: |
           mkdir -p www
           npm install
+          npm install -D @capacitor/assets
           npx cap add android
+          if [ -f "www/logo.png" ]; then
+            mkdir -p assets
+            cp www/logo.png assets/icon.png
+            cp www/logo.png assets/splash.png
+            npx capacitor-assets generate --android
+          fi
           npx cap sync android
 
       - name: Build Debug APK
