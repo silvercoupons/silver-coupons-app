@@ -90,6 +90,8 @@
     },
     {
       "id": 4,
+      "type": "coupon",
+      "country": "EG",
       "storeId": "raya",
       "storeName": "راية شوب - Raya",
       "category": "إلكترونيات",
@@ -98,7 +100,7 @@
       "code": "RS140",
       "url": "https://silvercoupons.blogspot.com/",
       "verified": true,
-      "usedCount": 185
+      "usedCount": 137
     },
     {
       "id": 5,
