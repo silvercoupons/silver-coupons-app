@@ -132,6 +132,20 @@
   ],
   "coupons": [
     {
+      "id": 1794776898201,
+      "type": "coupon",
+      "country": "SA",
+      "storeId": "noon",
+      "storeName": "نون - Noon",
+      "category": "متاجر شاملة",
+      "discount": "10%",
+      "title": "كود خصم نون السعودية على كل المنتجات",
+      "code": "SILVER1",
+      "url": "https://www.noon.com/saudi-ar/noon",
+      "verified": true,
+      "usedCount": 64
+    },
+    {
       "id": 1,
       "type": "coupon",
       "country": "EG",
