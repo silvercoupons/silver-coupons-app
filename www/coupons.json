@@ -1,5 +1,50 @@
 {
+  "categories": [
+    {
+      "name": "عروض جديدة",
+      "icon": "🆕",
+      "bg": "#fef3c7"
+    },
+    {
+      "name": "طعام",
+      "icon": "🍔",
+      "bg": "#fee2e2"
+    },
+    {
+      "name": "إلكترونيات",
+      "icon": "💻",
+      "bg": "#dbeafe"
+    },
+    {
+      "name": "الجمال والعطور",
+      "icon": "🌸",
+      "bg": "#fce7f3"
+    },
+    {
+      "name": "أزياء وموضة",
+      "icon": "👗",
+      "bg": "#ede9fe"
+    },
+    {
+      "name": "متاجر شاملة",
+      "icon": "🛒",
+      "bg": "#dcfce7"
+    },
+    {
+      "name": "موبايلات",
+      "icon": "🏷️",
+      "bg": "#e0f2fe"
+    }
+  ],
   "banners": {
+    "b0": {
+      "enabled": true,
+      "tag": "عروض مميزة ⭐",
+      "title": "تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر",
+      "cta": "اكتشف العروض الآن ↗",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": ""
+    },
     "b1": {
       "enabled": true,
       "tag": "عروض الإلكترونيات 💻",
@@ -24,6 +69,14 @@
       "url": "https://silvercoupons.blogspot.com/",
       "image": ""
     }
+  },
+  "links": {
+    "appShareUrl": "https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk",
+    "stores": "",
+    "electronics": "",
+    "deals": "",
+    "categories": "",
+    "latest": ""
   },
   "stores": [
     {
