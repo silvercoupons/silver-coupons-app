@@ -56,7 +56,8 @@
       "title": "تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر",
       "cta": "اكتشف العروض الآن ↗",
       "url": "https://silvercoupons.blogspot.com/",
-      "image": ""
+      "image": "",
+      "byCountry": {}
     },
     "b1": {
       "enabled": true,
@@ -64,7 +65,8 @@
       "title": "خصومات إضافية على الهواتف والأجهزة الذكية",
       "cta": "تسوق العرض الآن ↗",
       "url": "https://silvercoupons.blogspot.com/",
-      "image": ""
+      "image": "",
+      "byCountry": {}
     },
     "b2": {
       "enabled": true,
@@ -72,7 +74,8 @@
       "title": "عروض حصرية تُطبق تلقائياً بدون كود خصم",
       "cta": "اكتشف العروض ↗",
       "url": "https://silvercoupons.blogspot.com/",
-      "image": ""
+      "image": "",
+      "byCountry": {}
     },
     "b3": {
       "enabled": true,
@@ -80,7 +83,8 @@
       "title": "أقوى كوبونات التوفير اليومية المحدثة باستمرار",
       "cta": "تصفح المدونة ↗",
       "url": "https://silvercoupons.blogspot.com/",
-      "image": ""
+      "image": "",
+      "byCountry": {}
     }
   },
   "links": {
