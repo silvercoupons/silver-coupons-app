@@ -102,7 +102,7 @@
       text-decoration: none;
     }
 
-    /* شريط المتاجر الدائري (أفقي بجانب بعضهم - بحد أقصى 6 متاجر بالرئيسية) */
+    /* شريط المتاجر الدائري */
     .stores-strip {
       display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px;
       scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
@@ -215,12 +215,12 @@
     }
     .cat-square-card:active { transform: scale(0.96); border-color: var(--blue); background: #eff6ff; }
     .cat-square-icon {
-      width: 48px; height: 48px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center; font-size: 23px;
+      width: 50px; height: 50px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
       overflow: hidden; flex-shrink: 0; padding: 4px;
     }
     .cat-square-icon img {
-      width: 100%; height: 100%; object-fit: contain; border-radius: 10px;
+      width: 42px; height: 42px; object-fit: contain; display: block; border-radius: 8px;
     }
     .cat-square-name {
       font-size: 12.5px; font-weight: 800; color: var(--text); line-height: 1.3;
@@ -354,6 +354,10 @@
       display: inline-flex; align-items: center; gap: 6px;
     }
     .cat-chip-item img { width: 18px; height: 18px; border-radius: 4px; object-fit: contain; }
+    .cat-chip-edit {
+      color: var(--blue); cursor: pointer; font-weight: 800; border: none;
+      background: none; padding: 0 3px; font-size: 12px;
+    }
     .cat-chip-del {
       color: var(--red); cursor: pointer; font-weight: 800; border: none;
       background: none; padding: 0 2px; font-size: 13px;
@@ -426,7 +430,7 @@
     <div class="container" id="searchResultsContainer"></div>
   </div>
 
-  <!-- محتوى الصفحة الرئيسية الافتراضي -->
+  <!-- محتوى الصفحة الرئيسية الافتراضي (الترتيب الصحيح للبانرات قبل كل قسم) -->
   <div id="homeMainSections">
     <!-- 0. البانر العلوي الرئيسي قبل "أشهر المتاجر" -->
     <div class="promo-banner-wrap" id="bannerSlot0"></div>
@@ -438,7 +442,10 @@
     </div>
     <div class="stores-strip" id="storesContainer"></div>
 
-    <!-- 2. قسم عروض الإلكترونيات -->
+    <!-- 2. البانر الإعلاني الأول قبل "عروض الإلكترونيات" -->
+    <div class="promo-banner-wrap" id="bannerSlot1"></div>
+
+    <!-- 3. قسم عروض الإلكترونيات -->
     <div id="electronicsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">💻 عروض الإلكترونيات</span>
@@ -447,10 +454,10 @@
       <div class="horizontal-cards-strip" id="electronicsCarousel"></div>
     </div>
 
-    <!-- 3. البانر الإعلاني الأول -->
-    <div class="promo-banner-wrap" id="bannerSlot1"></div>
+    <!-- 4. البانر الإعلاني الثاني قبل "العروض التلقائية" -->
+    <div class="promo-banner-wrap" id="bannerSlot2"></div>
 
-    <!-- 4. قسم العروض التلقائية -->
+    <!-- 5. قسم العروض التلقائية -->
     <div id="autoDealsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">⚡ العروض التلقائية</span>
@@ -459,9 +466,6 @@
       <div class="horizontal-cards-strip" id="autoDealsCarousel"></div>
     </div>
 
-    <!-- 5. البانر الإعلاني الثاني -->
-    <div class="promo-banner-wrap" id="bannerSlot2"></div>
-
     <!-- 6. قسم أقوى الفئات -->
     <div class="section-header">
       <span class="section-title-text">🎯 أقوى الفئات</span>
@@ -469,7 +473,7 @@
     </div>
     <div class="categories-grid" id="categoriesGridContainer"></div>
 
-    <!-- 7. البانر الإعلاني الثالث -->
+    <!-- 7. البانر الإعلاني الثالث قبل "أحدث الكوبونات الفعالة" -->
     <div class="promo-banner-wrap" id="bannerSlot3"></div>
 
     <!-- 8. قسم أحدث الكوبونات الفعالة -->
@@ -597,14 +601,15 @@
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
-      <!-- 1. إدارة الكوبونات والأقسام/الفئات -->
+      <!-- 1. إدارة الكوبونات والأقسام/الفئات (مع الإضافة والتعديل) -->
       <div id="admCouponsTab" class="adm-subview">
-        <div class="cat-manager-box">
-          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات (لصق رابط صورة أو رفع من الهاتف):</label>
-          <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">تظهر أول 6 فئات في الصفحة الرئيسية، وتظهر جميع الفئات (2 كارت في كل صف وتحت بعضهم) في صفحة "اعرض الكل".</p>
+        <div class="cat-manager-box" id="catManagerBox">
+          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات (إضافة / تعديل صورة أو أيقونة):</label>
+          <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">اضغط على (✎) بجانب أي قسم لتعديل اسمه أو صورته، أو أضف قسماً جديداً بالأسفل.</p>
+          <input type="hidden" id="editCatIndex" value="-1">
           <div style="display:flex; gap:6px; margin-bottom:6px;">
             <input type="text" id="newCatIcon" placeholder="أيقونة ✈️" style="width:74px; text-align:center;">
-            <input type="text" id="newCatName" placeholder="اسم القسم الجديد (مثل: موبايلات)" style="flex:1;">
+            <input type="text" id="newCatName" placeholder="اسم القسم (مثل: موبايلات)" style="flex:1;">
           </div>
           <div style="margin-bottom:6px;">
             <input type="url" id="newCatUrl" placeholder="🔗 الصق رابط صورة القسم المباشر (اختياري)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
@@ -613,7 +618,8 @@
             <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:3px;">🖼️ أو اختر صورة من هاتفك لمربع القسم (اختياري):</label>
             <input type="file" id="newCatFile" accept="image/*" style="font-size:11.5px; padding:6px;">
           </div>
-          <button class="btn-copy" style="max-width:100%; width:100%; padding:9px;" onclick="addCategoryAdmin()">+ إضافة القسم الجديد</button>
+          <button class="btn-copy" id="saveCatBtn" style="max-width:100%; width:100%; padding:9px;" onclick="saveCategoryAdmin()">+ إضافة القسم الجديد</button>
+          <button class="btn-shop" id="cancelCatEditBtn" style="display:none; width:100%; justify-content:center; margin-top:6px; border:none; cursor:pointer;" onclick="resetCategoryForm()">إلغاء تعديل القسم</button>
           <div class="cat-chip-list" id="adminCategoriesChips"></div>
         </div>
 
@@ -671,8 +677,9 @@
         <div id="adminCouponsList"></div>
       </div>
 
-      <!-- 2. إدارة المتاجر والشعارات -->
+      <!-- 2. إدارة المتاجر والشعارات (مع الإضافة والتعديل الكامل) -->
       <div id="admStoresTab" class="adm-subview" style="display:none;">
+        <input type="hidden" id="editStoreId" value="">
         <div class="form-group">
           <label>اسم المتجر (مثال: أمازون - Amazon)</label>
           <input type="text" id="newStoreName" placeholder="أمازون - Amazon">
@@ -704,9 +711,10 @@
           <label>رابط المتجر الافتراضي</label>
           <input type="url" id="newStoreUrl" value="https://silvercoupons.blogspot.com/">
         </div>
-        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="addStoreAdmin()">+ إضافة المتجر</button>
+        <button class="btn-copy" id="saveStoreBtn" style="max-width:100%; width:100%; padding:11px;" onclick="saveStoreAdmin()">+ إضافة المتجر</button>
+        <button class="btn-shop" id="cancelStoreEditBtn" style="display:none; width:100%; justify-content:center; margin-top:8px; border:none; cursor:pointer;" onclick="resetStoreForm()">إلغاء تعديل المتجر</button>
 
-        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🏪 المتاجر المسجلة (يمكنك تغيير دولة كل متجر مباشرة):</h4>
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🏪 المتاجر المسجلة (تعديل الاسم والشعار والدولة / حذف):</h4>
         <div id="adminStoresList"></div>
       </div>
 
@@ -716,9 +724,9 @@
           <label>اختر مكان البانر المراد تعديله أو إخفاؤه</label>
           <select id="bannerSlotSelect" onchange="loadBannerForm()">
             <option value="b0">🔝 البانر العلوي الرئيسي (قبل أشهر المتاجر)</option>
-            <option value="b1">1️⃣ البانر الأول (أسفل عروض الإلكترونيات)</option>
-            <option value="b2">2️⃣ البانر الثاني (أسفل العروض التلقائية)</option>
-            <option value="b3">3️⃣ البانر الثالث (أسفل أقوى الفئات)</option>
+            <option value="b1">1️⃣ البانر الأول (قبل عروض الإلكترونيات)</option>
+            <option value="b2">2️⃣ البانر الثاني (قبل العروض التلقائية)</option>
+            <option value="b3">3️⃣ البانر الثالث (قبل أحدث الكوبونات الفعالة)</option>
           </select>
         </div>
         <div class="form-group">
@@ -1088,8 +1096,10 @@
   }
 
   function renderCategoryVisual(cat) {
-    if (cat.image && cat.image.trim() !== '') {
-      return `<img src="${cat.image}" alt="${cat.name}" onerror="this.outerHTML='${cat.icon || '🏷️'}'">`;
+    const imgSrc = (cat.image || '').trim();
+    if (imgSrc !== '') {
+      const safeIcon = (cat.icon || '🏷️').replace(/'/g, '');
+      return `<img src="${imgSrc}" alt="${cat.name}" loading="lazy" onerror="this.parentElement.innerHTML='${safeIcon}'">`;
     }
     return cat.icon || '🏷️';
   }
@@ -1138,22 +1148,49 @@
     const chips = document.getElementById('adminCategoriesChips');
     chips.innerHTML = cats.map((cat, idx) => `
       <span class="cat-chip-item">
-        ${cat.image ? `<img src="${cat.image}" alt="">` : `<span>${cat.icon || '🏷️'}</span>`}
+        ${(cat.image && cat.image.trim() !== '') ? `<img src="${cat.image.trim()}" alt="" onerror="this.style.display='none'">` : `<span>${cat.icon || '🏷️'}</span>`}
         <span>${cat.name}</span>
+        <button class="cat-chip-edit" title="تعديل القسم" onclick="editCategoryAdmin(${idx})">✎</button>
         ${cats.length > 1 ? `<button class="cat-chip-del" title="حذف القسم" onclick="deleteCategoryAdmin(${idx})">×</button>` : ''}
       </span>
     `).join('');
   }
 
-  async function addCategoryAdmin() {
+  function editCategoryAdmin(index) {
+    const cat = appData.categories[index];
+    if (!cat) return;
+    document.getElementById('editCatIndex').value = index;
+    document.getElementById('newCatIcon').value = cat.icon || '🏷️';
+    document.getElementById('newCatName').value = cat.name || '';
+    document.getElementById('newCatUrl').value = cat.image || '';
+    document.getElementById('saveCatBtn').innerText = '💾 حفظ تعديل القسم';
+    document.getElementById('cancelCatEditBtn').style.display = 'flex';
+    document.getElementById('catManagerBox').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function resetCategoryForm() {
+    document.getElementById('editCatIndex').value = '-1';
+    document.getElementById('newCatName').value = '';
+    document.getElementById('newCatIcon').value = '';
+    document.getElementById('newCatUrl').value = '';
+    document.getElementById('newCatFile').value = '';
+    document.getElementById('saveCatBtn').innerText = '+ إضافة القسم الجديد';
+    document.getElementById('cancelCatEditBtn').style.display = 'none';
+  }
+
+  async function saveCategoryAdmin() {
+    const editIdx = Number(document.getElementById('editCatIndex').value);
     const name = document.getElementById('newCatName').value.trim();
     const icon = document.getElementById('newCatIcon').value.trim() || '🏷️';
     let imgUrl = document.getElementById('newCatUrl').value.trim();
     const fileInput = document.getElementById('newCatFile');
 
-    if (!name) return alert('يرجى كتابة اسم القسم الجديد');
+    if (!name) return alert('يرجى كتابة اسم القسم');
     if (!appData.categories) appData.categories = [...DEFAULT_CATEGORIES];
-    if (appData.categories.some(c => c.name === name)) return alert('هذا القسم موجود بالفعل!');
+
+    if (editIdx === -1 && appData.categories.some(c => c.name === name)) {
+      return alert('هذا القسم موجود بالفعل!');
+    }
 
     if (fileInput.files && fileInput.files[0]) {
       showToast('جاري رفع صورة القسم إلى السحابة...');
@@ -1162,23 +1199,34 @@
       imgUrl = uploaded;
     }
 
-    const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
-    const randomBg = bgPalette[appData.categories.length % bgPalette.length];
-
-    appData.categories.push({ name: name, icon: icon, image: imgUrl, bg: randomBg });
-    document.getElementById('newCatName').value = '';
-    document.getElementById('newCatIcon').value = '';
-    document.getElementById('newCatUrl').value = '';
-    fileInput.value = '';
-    refreshAllUI();
-    document.getElementById('admCat').value = name;
-    showToast(`تمت إضافة قسم "${name}"! اضغط زر النشر الأخضر بالأعلى.`);
+    if (editIdx >= 0 && appData.categories[editIdx]) {
+      const oldName = appData.categories[editIdx].name;
+      const existingBg = appData.categories[editIdx].bg || '#eff6ff';
+      appData.categories[editIdx] = { name: name, icon: icon, image: imgUrl, bg: existingBg };
+      if (oldName !== name) {
+        appData.coupons.forEach(c => {
+          if (c.category === oldName) c.category = name;
+        });
+      }
+      resetCategoryForm();
+      refreshAllUI();
+      showToast(`تم تعديل قسم "${name}"! اضغط زر النشر الأخضر بالأعلى.`);
+    } else {
+      const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
+      const randomBg = bgPalette[appData.categories.length % bgPalette.length];
+      appData.categories.push({ name: name, icon: icon, image: imgUrl, bg: randomBg });
+      resetCategoryForm();
+      refreshAllUI();
+      document.getElementById('admCat').value = name;
+      showToast(`تمت إضافة قسم "${name}"! اضغط زر النشر الأخضر بالأعلى.`);
+    }
   }
 
   function deleteCategoryAdmin(index) {
     const catName = appData.categories[index].name;
     if (!confirm(`هل تريد حذف قسم "${catName}"؟`)) return;
     appData.categories.splice(index, 1);
+    resetCategoryForm();
     refreshAllUI();
     showToast('تم حذف القسم! اضغط زر النشر الأخضر لتأكيده للجميع.');
   }
@@ -1476,10 +1524,11 @@
           <img src="${s.logo}" style="width:28px;height:28px;object-fit:contain;flex-shrink:0;">
           <strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</strong>
         </div>
-        <div style="display:flex; align-items:center; gap:5px;">
-          <select onchange="updateStoreCountryAdmin('${s.id}', this.value)" style="padding:4px 6px; border-radius:6px; border:1px solid #cbd5e1; font-family:'Cairo',sans-serif; font-size:11px;">
+        <div style="display:flex; align-items:center; gap:4px;">
+          <select onchange="updateStoreCountryAdmin('${s.id}', this.value)" style="padding:4px 5px; border-radius:6px; border:1px solid #cbd5e1; font-family:'Cairo',sans-serif; font-size:11px;">
             ${countriesOpts.map(opt => `<option value="${opt.v}" ${(s.country || 'ALL') === opt.v ? 'selected' : ''}>${opt.l}</option>`).join('')}
           </select>
+          <button class="btn-mini" style="background:var(--blue);" onclick="editStoreAdmin('${s.id}')">تعديل</button>
           <button class="btn-mini" style="background:var(--red);" onclick="deleteStoreAdmin('${s.id}')">حذف</button>
         </div>
       </div>
@@ -1576,7 +1625,32 @@
     return null;
   }
 
-  async function addStoreAdmin() {
+  function editStoreAdmin(storeId) {
+    const st = appData.stores.find(s => s.id === storeId);
+    if (!st) return;
+    document.getElementById('editStoreId').value = st.id;
+    document.getElementById('newStoreName').value = st.name || '';
+    document.getElementById('newStoreCountry').value = st.country || 'ALL';
+    document.getElementById('newStoreLogo').value = st.logo || '';
+    document.getElementById('newStoreUrl').value = st.url || 'https://silvercoupons.blogspot.com/';
+    document.getElementById('saveStoreBtn').innerText = '💾 حفظ تعديل المتجر';
+    document.getElementById('cancelStoreEditBtn').style.display = 'flex';
+    document.getElementById('adminView').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function resetStoreForm() {
+    document.getElementById('editStoreId').value = '';
+    document.getElementById('newStoreName').value = '';
+    document.getElementById('newStoreCountry').value = 'ALL';
+    document.getElementById('newStoreLogo').value = '';
+    document.getElementById('newStoreFile').value = '';
+    document.getElementById('newStoreUrl').value = 'https://silvercoupons.blogspot.com/';
+    document.getElementById('saveStoreBtn').innerText = '+ إضافة المتجر';
+    document.getElementById('cancelStoreEditBtn').style.display = 'none';
+  }
+
+  async function saveStoreAdmin() {
+    const editId = document.getElementById('editStoreId').value;
     const name = document.getElementById('newStoreName').value.trim();
     const country = document.getElementById('newStoreCountry').value;
     let logoUrl = document.getElementById('newStoreLogo').value.trim();
@@ -1584,28 +1658,52 @@
     const url = document.getElementById('newStoreUrl').value.trim();
 
     if (!name) return alert('يرجى كتابة اسم المتجر');
-    const storeId = 'store_' + Date.now();
+    const storeId = editId || ('store_' + Date.now());
 
     if (fileInput.files && fileInput.files[0]) {
       showToast('جاري رفع شعار المتجر إلى السحابة...');
-      const uploaded = await uploadImageToGitHub(fileInput.files[0], `${storeId}.png`);
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `${storeId}_${Date.now()}.png`);
       if (!uploaded) return;
       logoUrl = uploaded;
     }
 
     if (!logoUrl) logoUrl = 'https://via.placeholder.com/80?text=' + encodeURIComponent(name[0]);
 
-    appData.stores.push({ id: storeId, name: name, country: country, logo: logoUrl, url: url || 'https://silvercoupons.blogspot.com/' });
-    document.getElementById('newStoreName').value = '';
-    document.getElementById('newStoreLogo').value = '';
-    fileInput.value = '';
-    refreshAllUI();
-    showToast('تمت إضافة المتجر! اضغط زر النشر الأخضر بالأعلى.');
+    if (editId) {
+      const idx = appData.stores.findIndex(s => s.id === editId);
+      if (idx !== -1) {
+        appData.stores[idx] = {
+          id: editId,
+          name: name,
+          country: country,
+          logo: logoUrl,
+          url: url || 'https://silvercoupons.blogspot.com/'
+        };
+        appData.coupons.forEach(c => {
+          if (c.storeId === editId) c.storeName = name;
+        });
+      }
+      resetStoreForm();
+      refreshAllUI();
+      showToast('تم تعديل المتجر بنجاح! اضغط زر النشر الأخضر بالأعلى.');
+    } else {
+      appData.stores.push({
+        id: storeId,
+        name: name,
+        country: country,
+        logo: logoUrl,
+        url: url || 'https://silvercoupons.blogspot.com/'
+      });
+      resetStoreForm();
+      refreshAllUI();
+      showToast('تمت إضافة المتجر! اضغط زر النشر الأخضر بالأعلى.');
+    }
   }
 
   function deleteStoreAdmin(id) {
     if (!confirm('حذف هذا المتجر؟')) return;
     appData.stores = appData.stores.filter(s => s.id !== id);
+    if (document.getElementById('editStoreId').value === id) resetStoreForm();
     refreshAllUI();
     showToast('تم حذف المتجر! اضغط زر النشر الأخضر.');
   }
