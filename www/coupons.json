@@ -169,6 +169,20 @@
   ],
   "coupons": [
     {
+      "id": 1794930214510,
+      "type": "coupon",
+      "country": "AE",
+      "storeId": "namshi",
+      "storeName": "نمشي - Namshi",
+      "category": "أزياء وموضة",
+      "discount": "10%",
+      "title": "عرض خاص لفترة محدودة",
+      "code": "NM111",
+      "url": "https://silvercoupons.blogspot.com/",
+      "verified": true,
+      "usedCount": 115
+    },
+    {
       "id": 1794930051188,
       "type": "coupon",
       "country": "KW",
