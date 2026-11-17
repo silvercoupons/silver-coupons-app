@@ -9,7 +9,7 @@
   <title>الكوبون الفضي - Silver Coupons</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- كود ربط إشعارات OneSignal الفورية (استبدل YOUR_ONESIGNAL_APP_ID برمز تطبيقك عند التفعيل) -->
+  <!-- كود ربط إشعارات OneSignal الفورية -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -440,8 +440,60 @@
     .fb-btn.voted-up { background: #dcfce7; border-color: #16a34a; color: #15803d; }
     .fb-btn.voted-down { background: #fee2e2; border-color: #dc2626; color: #b91c1c; }
 
-    /* بانرات العروض الإعلانية */
+    /* بانرات العروض الإعلانية + السلايدر العلوي المتحرك (3 شرائح بنفس المقاس 130px) */
     .promo-banner-wrap { padding: 12px 16px 4px; max-width: 600px; margin: auto; }
+    .top-slider-wrapper {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+    }
+    .top-slider-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .top-slider-track::-webkit-scrollbar { display: none; }
+    .top-slider-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+    }
+    .top-slider-slide .promo-banner-card {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .top-slider-dots {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 6;
+      background: rgba(15, 23, 42, 0.45);
+      padding: 4px 9px;
+      border-radius: 20px;
+    }
+    .slider-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.55);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    .slider-dot.active {
+      width: 18px;
+      border-radius: 8px;
+      background: var(--accent);
+    }
+
     .promo-banner-card {
       display: block; position: relative; border-radius: 16px; overflow: hidden;
       box-shadow: 0 4px 14px rgba(0,0,0,0.09); text-decoration: none;
@@ -821,7 +873,7 @@
   </div>
 </div>
 
-<!-- البانر المستطيل العائم بعرض التطبيق (يظهر لثوانٍ أو يغلقه الزائر) -->
+<!-- البانر المستطيل العائم بعرض التطبيق -->
 <div class="floating-strip-wrap" id="floatingStripWrap">
   <div class="floating-strip-card">
     <img id="floatingStripBg" class="floating-strip-bg" src="" alt="" style="display:none;">
@@ -871,6 +923,7 @@
 
   <!-- محتوى الصفحة الرئيسية الافتراضي -->
   <div id="homeMainSections">
+    <!-- السلايدر العلوي المتحرك (3 شرائح قبل أشهر المتاجر) -->
     <div class="promo-banner-wrap" id="bannerSlot0"></div>
 
     <div class="section-header">
@@ -1240,13 +1293,15 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إدارة البانرات الإعلانية الأربعة (مع إمكانية إظهار الصورة صافية بدون نصوص) -->
+      <!-- 3. إدارة البانرات الإعلانية (السلايدر العلوي بـ 3 شرائح + البانرات الداخلية) -->
       <div id="admBannerTab" class="adm-subview" style="display:none;">
-        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">💡 <strong>ملاحظة احترافية:</strong> إذا رفعت صورة بانر مصممة جاهزة، امسح النصوص من الخانات الثلاث (الشارة، العنوان، نص الزر) لتظهر صورتك صافية 100% بدون أي كتابة أو تظليل فوقها.</p>
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">💡 <strong>ملاحظة:</strong> البانر العلوي يدعم <strong>3 شرائح متحركة</strong> بنفس المقاس السابق (`130px`). امسح النصوص من أي شريحة لتظهر صورتها صافية بدون كتابة، أو اختر "مخفي" لإخفاء الشريحة.</p>
         <div class="form-group">
-          <label>اختر مكان البانر المراد تعديله أو إخفاؤه</label>
+          <label>اختر البانر أو الشريحة المراد تعديلها أو إخفاؤها</label>
           <select id="bannerSlotSelect" onchange="loadBannerForm()">
-            <option value="b0">🔝 البانر العلوي الرئيسي (قبل أشهر المتاجر)</option>
+            <option value="b0_1">🔝 البانر العلوي (قبل أشهر المتاجر) — الشريحة 1</option>
+            <option value="b0_2">🔝 البانر العلوي (قبل أشهر المتاجر) — الشريحة 2</option>
+            <option value="b0_3">🔝 البانر العلوي (قبل أشهر المتاجر) — الشريحة 3</option>
             <option value="b1">1️⃣ البانر الأول (قبل عروض الإلكترونيات)</option>
             <option value="b2">2️⃣ البانر الثاني (قبل العروض التلقائية)</option>
             <option value="b3">3️⃣ البانر الثالث (قبل أحدث الكوبونات الفعالة)</option>
@@ -1268,7 +1323,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label>حالة البانر</label>
+          <label>حالة الشريحة / البانر</label>
           <select id="bannerEnabled">
             <option value="true">✅ مفعّل ويظهر للزوار</option>
             <option value="false">❌ مخفي حالياً</option>
@@ -1600,7 +1655,9 @@
   ];
 
   const DEFAULT_BANNERS = {
-    b0: { enabled: true, tag: 'عروض مميزة ⭐', title: 'تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر', cta: 'اكتشف العروض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_1: { enabled: true, tag: 'عروض مميزة ⭐', title: 'تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر', cta: 'اكتشف العروض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_2: { enabled: false, tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_3: { enabled: false, tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
     b1: { enabled: true, tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
     b2: { enabled: true, tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
     b3: { enabled: true, tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
@@ -1664,24 +1721,35 @@
   let tapTimer = null;
   let popupTimerHandle = null;
   let stripTimerHandle = null;
+  let topSliderAutoHandle = null;
 
   let userFavorites = JSON.parse(localStorage.getItem('silver_user_favorites') || '[]');
   let userFavoriteStores = JSON.parse(localStorage.getItem('silver_user_fav_stores') || '[]');
   let userVotes = JSON.parse(localStorage.getItem('silver_user_votes') || '{}');
   let lastSeenNotifId = Number(localStorage.getItem('silver_last_seen_notif_id') || '0');
 
-  /* دوال إدارة وعرض نافذة البوب أب الترويجية */
+  function isWelcomeVisible() {
+    const ws = document.getElementById('welcomeScreen');
+    return ws && !ws.classList.contains('hidden');
+  }
+
+  /* دوال إدارة وعرض نافذة البوب أب الترويجية (مُصلحة للظهور المضمون بعد اختيار الدولة) */
   function triggerPromoPopup(forcePreview = false, currentView = null) {
     const pop = appData.popupBanner;
-    if (!pop || (!forcePreview && !pop.enabled)) return;
-    if (!forcePreview && !matchesCountry(pop.country)) return;
+    if (!pop) return;
+    if (!forcePreview) {
+      if (!pop.enabled || pop.enabled === 'false') return;
+      if (isWelcomeVisible()) return;
+      if (!matchesCountry(pop.country)) return;
 
-    const viewToCheck = currentView || activeViewId || 'homeView';
-    const targetPage = pop.targetPage || 'homeView';
-    if (!forcePreview && targetPage !== 'ALL' && targetPage !== viewToCheck) return;
+      const viewToCheck = currentView || activeViewId || 'homeView';
+      const targetPage = pop.targetPage || 'homeView';
+      if (targetPage !== 'ALL' && targetPage !== viewToCheck) return;
 
-    const seenKey = 'silver_seen_popup_' + (pop.id || 1);
-    if (!forcePreview && sessionStorage.getItem(seenKey)) return;
+      const seenKey = 'silver_seen_popup_v2_' + (pop.id || 1);
+      if (sessionStorage.getItem(seenKey)) return;
+      sessionStorage.setItem(seenKey, '1');
+    }
 
     const layoutMode = pop.layout || 'landscape';
     const imgWrap = document.getElementById('promoPopupImgWrap');
@@ -1706,7 +1774,11 @@
       bodyEl.classList.remove('compact-poster-body');
     }
 
-    document.getElementById('promoPopupTag').innerText = pop.tag || '🔥 عرض حصري';
+    const tagEl = document.getElementById('promoPopupTag');
+    const tagVal = (pop.tag || '').trim();
+    tagEl.innerText = tagVal;
+    tagEl.style.display = tagVal ? 'inline-block' : 'none';
+
     document.getElementById('promoPopupTitle').innerText = pop.title || '';
     document.getElementById('promoPopupDesc').innerText = pop.desc || '';
     document.getElementById('promoPopupCtaLink').innerText = pop.cta || 'احصل على العرض الآن ↗';
@@ -1740,7 +1812,6 @@
     }
 
     document.getElementById('promoPopupBackdrop').classList.add('open');
-    if (!forcePreview) sessionStorage.setItem(seenKey, '1');
   }
 
   function handlePopupImageClick() {
@@ -1795,8 +1866,9 @@
       document.getElementById('popImg').value = imgUrl;
     }
 
+    const newId = Date.now();
     appData.popupBanner = {
-      id: Date.now(),
+      id: newId,
       enabled: document.getElementById('popEnabled').value === 'true',
       targetPage: document.getElementById('popTargetPage').value || 'homeView',
       layout: document.getElementById('popLayout').value || 'landscape',
@@ -1812,7 +1884,7 @@
     };
     fileInput.value = '';
     refreshAllUI();
-    showToast('تم حفظ إعدادات البوب أب! اضغط زر النشر الأخضر بالأعلى.');
+    showToast('تم حفظ البوب أب! اضغط زر النشر الأخضر بالأعلى.');
   }
 
   function previewPopupNow() {
@@ -1823,7 +1895,7 @@
       layout: document.getElementById('popLayout').value || 'landscape',
       country: 'ALL',
       duration: Number(document.getElementById('popDuration').value) || 0,
-      tag: document.getElementById('popTag').value.trim() || '🔥 عرض حصري',
+      tag: document.getElementById('popTag').value.trim(),
       title: document.getElementById('popTitle').value.trim() || 'معاينة نافذة البوب أب الترويجية',
       desc: document.getElementById('popDesc').value.trim() || 'هكذا سيظهر الإعلان للزوار داخل التطبيق.',
       code: document.getElementById('popCode').value.trim().toUpperCase(),
@@ -1842,16 +1914,25 @@
     showToast('تم حذف وإخفاء البوب أب! اضغط زر النشر الأخضر.');
   }
 
-  /* دوال إدارة وعرض البانر المستطيل العائم بعرض التطبيق (Toast Strip) */
+  /* دوال إدارة وعرض البانر المستطيل العائم بعرض التطبيق (مُصلحة للظهور المضمون) */
   function triggerFloatingStrip(forcePreview = false) {
     const st = appData.floatingStrip;
-    if (!st || (!forcePreview && !st.enabled)) return;
-    if (!forcePreview && !matchesCountry(st.country)) return;
+    if (!st) return;
+    if (!forcePreview) {
+      if (!st.enabled || st.enabled === 'false') return;
+      if (isWelcomeVisible()) return;
+      if (!matchesCountry(st.country)) return;
 
-    const seenKey = 'silver_seen_strip_' + (st.id || 1);
-    if (!forcePreview && sessionStorage.getItem(seenKey)) return;
+      const seenKey = 'silver_seen_strip_v2_' + (st.id || 1);
+      if (sessionStorage.getItem(seenKey)) return;
+      sessionStorage.setItem(seenKey, '1');
+    }
 
-    document.getElementById('floatingStripBadge').innerText = st.badge || '⚡ عرض سريع';
+    const badgeEl = document.getElementById('floatingStripBadge');
+    const badgeVal = (st.badge || '').trim();
+    badgeEl.innerText = badgeVal;
+    badgeEl.style.display = badgeVal ? 'inline-block' : 'none';
+
     document.getElementById('floatingStripTitle').innerText = st.title || '';
     document.getElementById('floatingStripSub').innerText = st.sub || '';
     document.getElementById('floatingStripBtnText').innerText = st.btnText || 'تسوق ↗';
@@ -1875,8 +1956,6 @@
         closeFloatingStrip();
       }, secs * 1000);
     }
-
-    if (!forcePreview) sessionStorage.setItem(seenKey, '1');
   }
 
   function closeFloatingStrip() {
@@ -1931,7 +2010,7 @@
       enabled: true,
       country: 'ALL',
       duration: Number(document.getElementById('stripDuration').value) || 7,
-      badge: document.getElementById('stripBadge').value.trim() || '⚡ عرض خاطف',
+      badge: document.getElementById('stripBadge').value.trim(),
       title: document.getElementById('stripTitle').value.trim() || 'معاينة البانر المستطيل بعرض التطبيق',
       sub: document.getElementById('stripSub').value.trim() || 'يظهر لعدة ثوانٍ ثم يختفي تلقائياً',
       btnText: document.getElementById('stripBtnText').value.trim() || 'تسوق ↗',
@@ -2179,7 +2258,7 @@
     setTimeout(() => {
       triggerPromoPopup(false, activeViewId);
       triggerFloatingStrip(false);
-    }, 600);
+    }, 650);
   }
 
   function openCountryScreen() {
@@ -2235,6 +2314,23 @@
     document.getElementById('codeInputGroup').style.display = (type === 'deal') ? 'none' : 'block';
   }
 
+  /* ترحيل البانر العلوي القديم b0 تلقائياً إلى b0_1 دون فقدان أي بيانات */
+  function normalizeBanners(rawBanners) {
+    const merged = { ...DEFAULT_BANNERS };
+    if (!rawBanners) return merged;
+
+    if (rawBanners.b0 && !rawBanners.b0_1) {
+      merged.b0_1 = { ...DEFAULT_BANNERS.b0_1, ...rawBanners.b0, byCountry: rawBanners.b0.byCountry || {} };
+    }
+
+    ['b0_1', 'b0_2', 'b0_3', 'b1', 'b2', 'b3'].forEach(key => {
+      if (rawBanners[key]) {
+        merged[key] = { ...DEFAULT_BANNERS[key], ...rawBanners[key], byCountry: rawBanners[key].byCountry || {} };
+      }
+    });
+    return merged;
+  }
+
   async function initApp() {
     checkInitialCountry();
     let fetched = null;
@@ -2259,20 +2355,11 @@
     }
 
     if (fetched) {
-      const mergedBanners = { ...DEFAULT_BANNERS };
-      if (fetched.banners) {
-        ['b0', 'b1', 'b2', 'b3'].forEach(key => {
-          if (fetched.banners[key]) {
-            mergedBanners[key] = { ...DEFAULT_BANNERS[key], ...fetched.banners[key], byCountry: fetched.banners[key].byCountry || {} };
-          }
-        });
-      }
-
       appData = {
         categories: (Array.isArray(fetched.categories) && fetched.categories.length > 0)
           ? fetched.categories
           : [...DEFAULT_CATEGORIES],
-        banners: mergedBanners,
+        banners: normalizeBanners(fetched.banners),
         popupBanner: { ...DEFAULT_POPUP, ...(fetched.popupBanner || {}) },
         floatingStrip: { ...DEFAULT_STRIP, ...(fetched.floatingStrip || {}) },
         links: { ...DEFAULT_LINKS, ...(fetched.links || {}) },
@@ -2288,7 +2375,7 @@
           categories: (Array.isArray(parsed.categories) && parsed.categories.length > 0)
             ? parsed.categories
             : [...DEFAULT_CATEGORIES],
-          banners: { ...DEFAULT_BANNERS, ...(parsed.banners || {}) },
+          banners: normalizeBanners(parsed.banners),
           popupBanner: { ...DEFAULT_POPUP, ...(parsed.popupBanner || {}) },
           floatingStrip: { ...DEFAULT_STRIP, ...(parsed.floatingStrip || {}) },
           links: { ...DEFAULT_LINKS, ...(parsed.links || {}) },
@@ -2300,11 +2387,11 @@
     }
     refreshAllUI();
 
-    if (selectedCountry) {
+    if (selectedCountry && !isWelcomeVisible()) {
       setTimeout(() => {
         triggerPromoPopup(false, activeViewId);
         triggerFloatingStrip(false);
-      }, 900);
+      }, 850);
     }
   }
 
@@ -2594,7 +2681,98 @@
     return base;
   }
 
-  /* دالة عرض البانر الذكية: تعرض الصورة صافية 100% إذا مسحت النصوص من لوحة الإدارة */
+  function buildBannerCardHtml(bannerObj, isSlide = false) {
+    const hasImage = bannerObj.image && bannerObj.image.trim() !== '';
+    const tagTxt = (bannerObj.tag || '').trim();
+    const titleTxt = (bannerObj.title || '').trim();
+    const ctaTxt = (bannerObj.cta || '').trim();
+    const hasAnyText = Boolean(tagTxt || titleTxt || ctaTxt);
+    const slideWrapStart = isSlide ? '<div class="top-slider-slide">' : '';
+    const slideWrapEnd = isSlide ? '</div>' : '';
+
+    if (hasImage && !hasAnyText) {
+      return `${slideWrapStart}
+        <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card image-only-banner">
+          <img src="${bannerObj.image.trim()}" alt="عرض ترويجي" loading="lazy">
+        </a>
+      ${slideWrapEnd}`;
+    }
+
+    return `${slideWrapStart}
+      <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
+        ${hasImage ? `<img src="${bannerObj.image.trim()}" alt="${titleTxt}" loading="lazy">` : ''}
+        <div class="promo-banner-overlay" style="${!hasImage ? 'position:relative; background:none;' : ''}">
+          ${tagTxt ? `<span class="promo-tag">${tagTxt}</span>` : ''}
+          ${titleTxt ? `<h3 class="promo-title">${titleTxt}</h3>` : ''}
+          ${ctaTxt ? `<span class="promo-cta">${ctaTxt}</span>` : ''}
+        </div>
+      </a>
+    ${slideWrapEnd}`;
+  }
+
+  /* بناء السلايدر العلوي من 3 شرائح بنفس المقاس السابق (130px) */
+  function renderTopHeroSlider() {
+    const wrap = document.getElementById('bannerSlot0');
+    if (!wrap) return;
+    clearInterval(topSliderAutoHandle);
+
+    const activeSlides = ['b0_1', 'b0_2', 'b0_3']
+      .map(key => getEffectiveBanner(key))
+      .filter(b => b && b.enabled !== false && b.enabled !== 'false');
+
+    if (activeSlides.length === 0) {
+      wrap.innerHTML = '';
+      wrap.style.display = 'none';
+      return;
+    }
+
+    wrap.style.display = 'block';
+
+    if (activeSlides.length === 1) {
+      wrap.innerHTML = buildBannerCardHtml(activeSlides[0], false);
+      return;
+    }
+
+    wrap.innerHTML = `
+      <div class="top-slider-wrapper">
+        <div class="top-slider-track" id="topSliderTrack" onscroll="syncTopSliderDots()">
+          ${activeSlides.map(s => buildBannerCardHtml(s, true)).join('')}
+        </div>
+        <div class="top-slider-dots" id="topSliderDots">
+          ${activeSlides.map((_, idx) => `<button type="button" class="slider-dot ${idx === 0 ? 'active' : ''}" onclick="goToTopSlide(${idx})"></button>`).join('')}
+        </div>
+      </div>
+    `;
+
+    let currentIdx = 0;
+    topSliderAutoHandle = setInterval(() => {
+      const track = document.getElementById('topSliderTrack');
+      if (!track) return;
+      currentIdx = (currentIdx + 1) % activeSlides.length;
+      goToTopSlide(currentIdx);
+    }, 4200);
+  }
+
+  function goToTopSlide(index) {
+    const track = document.getElementById('topSliderTrack');
+    if (!track) return;
+    const width = track.clientWidth;
+    track.scrollTo({ left: -index * width, behavior: 'smooth' });
+    updateTopSliderDotUI(index);
+  }
+
+  function syncTopSliderDots() {
+    const track = document.getElementById('topSliderTrack');
+    if (!track || !track.clientWidth) return;
+    const idx = Math.round(Math.abs(track.scrollLeft) / track.clientWidth);
+    updateTopSliderDotUI(idx);
+  }
+
+  function updateTopSliderDotUI(activeIdx) {
+    const dots = document.querySelectorAll('#topSliderDots .slider-dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+  }
+
   function renderSingleBanner(slotId, bannerObj) {
     const wrap = document.getElementById(slotId);
     if (!wrap) return;
@@ -2603,38 +2781,12 @@
       wrap.style.display = 'none';
       return;
     }
-
-    const hasImage = bannerObj.image && bannerObj.image.trim() !== '';
-    const tagTxt = (bannerObj.tag || '').trim();
-    const titleTxt = (bannerObj.title || '').trim();
-    const ctaTxt = (bannerObj.cta || '').trim();
-    const hasAnyText = Boolean(tagTxt || titleTxt || ctaTxt);
-
     wrap.style.display = 'block';
-
-    if (hasImage && !hasAnyText) {
-      wrap.innerHTML = `
-        <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card image-only-banner">
-          <img src="${bannerObj.image.trim()}" alt="عرض ترويجي">
-        </a>
-      `;
-      return;
-    }
-
-    wrap.innerHTML = `
-      <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
-        ${hasImage ? `<img src="${bannerObj.image.trim()}" alt="${titleTxt}">` : ''}
-        <div class="promo-banner-overlay" style="${!hasImage ? 'position:relative; background:none;' : ''}">
-          ${tagTxt ? `<span class="promo-tag">${tagTxt}</span>` : ''}
-          ${titleTxt ? `<h3 class="promo-title">${titleTxt}</h3>` : ''}
-          ${ctaTxt ? `<span class="promo-cta">${ctaTxt}</span>` : ''}
-        </div>
-      </a>
-    `;
+    wrap.innerHTML = buildBannerCardHtml(bannerObj, false);
   }
 
   function renderAllBanners() {
-    renderSingleBanner('bannerSlot0', getEffectiveBanner('b0'));
+    renderTopHeroSlider();
     renderSingleBanner('bannerSlot1', getEffectiveBanner('b1'));
     renderSingleBanner('bannerSlot2', getEffectiveBanner('b2'));
     renderSingleBanner('bannerSlot3', getEffectiveBanner('b3'));
@@ -2878,7 +3030,7 @@
       updateHubCounters();
     }
 
-    if (selectedCountry && viewId !== 'adminView') {
+    if (selectedCountry && !isWelcomeVisible() && viewId !== 'adminView') {
       setTimeout(() => triggerPromoPopup(false, viewId), 450);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
