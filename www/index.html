@@ -173,12 +173,12 @@
       color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
-    /* نافذة البوب أب الترويجية الاحترافية (مثل الموفر ووفرها) */
+    /* نافذة البوب أب الترويجية الاحترافية (تدعم أفقي / عمودي / بوستر كامل) */
     .promo-popup-backdrop {
-      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.74);
       backdrop-filter: blur(4px); z-index: 500;
       display: none; align-items: center; justify-content: center;
-      padding: 18px; animation: fadeInBackdrop 0.25s ease;
+      padding: 16px; overflow-y: auto; animation: fadeInBackdrop 0.25s ease;
     }
     .promo-popup-backdrop.open { display: flex; }
     @keyframes fadeInBackdrop {
@@ -187,8 +187,9 @@
     }
     .promo-popup-card {
       background: #fff; width: 100%; max-width: 390px;
-      border-radius: 22px; overflow: hidden; position: relative;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      max-height: 90vh; overflow-y: auto;
+      border-radius: 22px; position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.38);
       animation: popScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       text-align: center;
     }
@@ -197,28 +198,47 @@
       to { transform: scale(1) translateY(0); opacity: 1; }
     }
     .promo-popup-close {
-      position: absolute; top: 12px; left: 12px; z-index: 10;
+      position: absolute; top: 12px; left: 12px; z-index: 15;
       width: 32px; height: 32px; border-radius: 50%;
-      background: rgba(15, 23, 42, 0.7); color: #fff;
-      border: 1.5px solid rgba(255,255,255,0.4);
+      background: rgba(15, 23, 42, 0.75); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.45);
       font-size: 15px; font-weight: 800; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
     }
     .promo-popup-timer-pill {
-      position: absolute; top: 12px; right: 12px; z-index: 10;
-      background: rgba(15, 23, 42, 0.75); color: #fef08a;
+      position: absolute; top: 12px; right: 12px; z-index: 15;
+      background: rgba(15, 23, 42, 0.78); color: #fef08a;
       font-size: 11px; font-weight: 800; padding: 3px 10px;
-      border-radius: 20px; border: 1px solid rgba(234,179,8,0.4);
+      border-radius: 20px; border: 1px solid rgba(234,179,8,0.45);
     }
+
+    /* الأنماط الثلاثة لحاوية صورة البوب أب */
     .promo-popup-img-wrap {
-      width: 100%; max-height: 210px; overflow: hidden;
-      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      width: 100%; overflow: hidden;
+      background: #0f172a;
+      display: flex; align-items: center; justify-content: center;
     }
-    .promo-popup-img-wrap img {
-      width: 100%; height: 210px; object-fit: cover; display: block;
+    .promo-popup-img-wrap.mode-landscape img {
+      width: 100%; height: 200px; object-fit: cover; display: block;
     }
+    .promo-popup-img-wrap.mode-portrait {
+      background: #f1f5f9;
+    }
+    .promo-popup-img-wrap.mode-portrait img {
+      width: 100%; max-height: 340px; height: auto; object-fit: contain; display: block;
+    }
+    .promo-popup-img-wrap.mode-poster {
+      background: #0f172a; cursor: pointer;
+    }
+    .promo-popup-img-wrap.mode-poster img {
+      width: 100%; max-height: 430px; height: auto; object-fit: contain; display: block;
+    }
+
     .promo-popup-body {
-      padding: 18px 18px 20px;
+      padding: 16px 18px 20px;
+    }
+    .promo-popup-body.compact-poster-body {
+      padding: 12px 16px 16px;
     }
     .promo-popup-tag {
       display: inline-block; background: #fef08a; color: #854d0e;
@@ -397,7 +417,7 @@
       width: 100%; display: block;
     }
 
-    /* زر المفضلة (القلب) وأزرار التقييم (يعمل / لا يعمل) */
+    /* زر المفضلة (القلب) وأزرار التقييم */
     .fav-heart-btn {
       position: absolute; top: 10px; left: 10px;
       width: 30px; height: 30px; border-radius: 50%;
@@ -777,18 +797,20 @@
   </div>
 </div>
 
-<!-- نافذة البوب أب الترويجية الاحترافية (تُدار بالكامل من لوحة التحكم) -->
+<!-- نافذة البوب أب الترويجية الاحترافية (تدعم أفقي / عمودي / بوستر كامل + تحديد مكان الظهور) -->
 <div class="promo-popup-backdrop" id="promoPopupBackdrop" onclick="if(event.target===this) closePromoPopup()">
   <div class="promo-popup-card">
     <button type="button" class="promo-popup-close" title="إغلاق" onclick="closePromoPopup()">✕</button>
     <span class="promo-popup-timer-pill" id="promoPopupTimerPill" style="display:none;"></span>
-    <div class="promo-popup-img-wrap" id="promoPopupImgWrap" style="display:none;">
+    <div class="promo-popup-img-wrap mode-landscape" id="promoPopupImgWrap" style="display:none;" onclick="handlePopupImageClick()">
       <img id="promoPopupImg" src="" alt="عرض خاص">
     </div>
-    <div class="promo-popup-body">
-      <span class="promo-popup-tag" id="promoPopupTag">🔥 عرض حصري لفترة محدودة</span>
-      <h3 class="promo-popup-title" id="promoPopupTitle"></h3>
-      <p class="promo-popup-desc" id="promoPopupDesc"></p>
+    <div class="promo-popup-body" id="promoPopupBody">
+      <div id="promoPopupTextBlock">
+        <span class="promo-popup-tag" id="promoPopupTag">🔥 عرض حصري لفترة محدودة</span>
+        <h3 class="promo-popup-title" id="promoPopupTitle"></h3>
+        <p class="promo-popup-desc" id="promoPopupDesc"></p>
+      </div>
       <div class="promo-popup-code-box" id="promoPopupCodeBox" style="display:none;">
         <span class="promo-popup-code-text" id="promoPopupCodeText"></span>
         <button type="button" class="btn-copy" style="max-width:110px; padding:6px 10px;" onclick="copyPopupCode()">نسخ الكود</button>
@@ -1277,14 +1299,32 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. إدارة نافذة البوب أب الترويجية (مثل الموفر ووفرها) -->
+      <!-- 4. إدارة نافذة البوب أب الترويجية (مع تحديد مكان الظهور + شكل الصورة) -->
       <div id="admPopupTab" class="adm-subview" style="display:none;">
-        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">تحكم في نافذة البوب أب الترويجية التي تنبثق للزائر بصورة وكود خصم وزر انتقال:</p>
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">تظهر نافذة البوب أب <strong>مرة واحدة فقط في الجلسة</strong> في المكان الذي تحدده بالأسفل لضمان عدم إزعاج الزائر:</p>
         <div class="form-group">
           <label>حالة نافذة البوب أب</label>
           <select id="popEnabled">
             <option value="true">✅ مفعّلة وتظهر للزوار</option>
             <option value="false">❌ مخفية حالياً</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>مكان ظهور البوب أب (مرة واحدة فقط في الزيارة)</label>
+          <select id="popTargetPage">
+            <option value="homeView">🏠 الصفحة الرئيسية (عند فتح التطبيق)</option>
+            <option value="couponsTabView">🏷️ تبويب الكوبونات فقط (أثناء بحث الزائر عن كود)</option>
+            <option value="blogView">📖 تبويب دليل التسوق فقط</option>
+            <option value="aboutView">ℹ️ تبويب عن التطبيق فقط</option>
+            <option value="ALL">🌍 أول صفحة يزورها المستخدم (الكل - مرة واحدة)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>شكل وحجم صورة البوب أب</label>
+          <select id="popLayout">
+            <option value="landscape">🖼️ أفقي عريض (Landscape — 800×450 بكسل) + نصوص وزر</option>
+            <option value="portrait">📱 عمودي طولي (Portrait — 720×1080 بكسل) + نصوص وزر</option>
+            <option value="poster">🎨 بوستر إعلاني كامل (Full Poster — الصورة كاملة + زر الانتقال فقط)</option>
           </select>
         </div>
         <div class="form-group">
@@ -1567,6 +1607,8 @@
   const DEFAULT_POPUP = {
     id: 0,
     enabled: false,
+    targetPage: 'homeView',
+    layout: 'landscape',
     country: 'ALL',
     duration: 0,
     tag: '🔥 عرض حصري',
@@ -1615,6 +1657,7 @@
   let couponsTabSelectedCategory = 'ALL';
   let previousViewId = 'homeView';
   let notifReturnViewId = 'homeView';
+  let activeViewId = 'homeView';
   let tapCount = 0;
   let tapTimer = null;
   let popupTimerHandle = null;
@@ -1625,29 +1668,47 @@
   let userVotes = JSON.parse(localStorage.getItem('silver_user_votes') || '{}');
   let lastSeenNotifId = Number(localStorage.getItem('silver_last_seen_notif_id') || '0');
 
-  /* دوال إدارة وعرض نافذة البوب أب الترويجية */
-  function triggerPromoPopup(forcePreview = false) {
+  /* دوال إدارة وعرض نافذة البوب أب الترويجية (مرة واحدة فقط في الصفحة المحددة) */
+  function triggerPromoPopup(forcePreview = false, currentView = null) {
     const pop = appData.popupBanner;
     if (!pop || (!forcePreview && !pop.enabled)) return;
     if (!forcePreview && !matchesCountry(pop.country)) return;
 
+    const viewToCheck = currentView || activeViewId || 'homeView';
+    const targetPage = pop.targetPage || 'homeView';
+    if (!forcePreview && targetPage !== 'ALL' && targetPage !== viewToCheck) return;
+
     const seenKey = 'silver_seen_popup_' + (pop.id || 1);
     if (!forcePreview && sessionStorage.getItem(seenKey)) return;
+
+    const layoutMode = pop.layout || 'landscape';
+    const imgWrap = document.getElementById('promoPopupImgWrap');
+    const imgEl = document.getElementById('promoPopupImg');
+    const bodyEl = document.getElementById('promoPopupBody');
+    const textBlock = document.getElementById('promoPopupTextBlock');
+
+    imgWrap.className = 'promo-popup-img-wrap mode-' + layoutMode;
+
+    if (pop.image && pop.image.trim() !== '') {
+      imgEl.src = pop.image.trim();
+      imgWrap.style.display = 'flex';
+    } else {
+      imgWrap.style.display = 'none';
+    }
+
+    if (layoutMode === 'poster' && pop.image && pop.image.trim() !== '') {
+      textBlock.style.display = 'none';
+      bodyEl.classList.add('compact-poster-body');
+    } else {
+      textBlock.style.display = 'block';
+      bodyEl.classList.remove('compact-poster-body');
+    }
 
     document.getElementById('promoPopupTag').innerText = pop.tag || '🔥 عرض حصري';
     document.getElementById('promoPopupTitle').innerText = pop.title || '';
     document.getElementById('promoPopupDesc').innerText = pop.desc || '';
     document.getElementById('promoPopupCtaLink').innerText = pop.cta || 'احصل على العرض الآن ↗';
     document.getElementById('promoPopupCtaLink').href = pop.url || 'https://silvercoupons.blogspot.com/';
-
-    const imgWrap = document.getElementById('promoPopupImgWrap');
-    const imgEl = document.getElementById('promoPopupImg');
-    if (pop.image && pop.image.trim() !== '') {
-      imgEl.src = pop.image.trim();
-      imgWrap.style.display = 'block';
-    } else {
-      imgWrap.style.display = 'none';
-    }
 
     const codeBox = document.getElementById('promoPopupCodeBox');
     const codeTxt = document.getElementById('promoPopupCodeText');
@@ -1680,6 +1741,14 @@
     if (!forcePreview) sessionStorage.setItem(seenKey, '1');
   }
 
+  function handlePopupImageClick() {
+    const pop = appData.popupBanner;
+    if (pop && pop.layout === 'poster' && pop.url) {
+      closePromoPopup();
+      window.open(pop.url, '_blank');
+    }
+  }
+
   function closePromoPopup() {
     clearInterval(popupTimerHandle);
     document.getElementById('promoPopupBackdrop').classList.remove('open');
@@ -1700,6 +1769,8 @@
   function loadPopupForm() {
     const p = appData.popupBanner || DEFAULT_POPUP;
     document.getElementById('popEnabled').value = String(Boolean(p.enabled));
+    document.getElementById('popTargetPage').value = p.targetPage || 'homeView';
+    document.getElementById('popLayout').value = p.layout || 'landscape';
     document.getElementById('popCountry').value = p.country || 'ALL';
     document.getElementById('popDuration').value = p.duration || 0;
     document.getElementById('popTag').value = p.tag || '';
@@ -1725,6 +1796,8 @@
     appData.popupBanner = {
       id: Date.now(),
       enabled: document.getElementById('popEnabled').value === 'true',
+      targetPage: document.getElementById('popTargetPage').value || 'homeView',
+      layout: document.getElementById('popLayout').value || 'landscape',
       country: document.getElementById('popCountry').value,
       duration: Number(document.getElementById('popDuration').value) || 0,
       tag: document.getElementById('popTag').value.trim(),
@@ -1744,6 +1817,8 @@
     appData.popupBanner = {
       id: Date.now(),
       enabled: true,
+      targetPage: document.getElementById('popTargetPage').value || 'homeView',
+      layout: document.getElementById('popLayout').value || 'landscape',
       country: 'ALL',
       duration: Number(document.getElementById('popDuration').value) || 0,
       tag: document.getElementById('popTag').value.trim() || '🔥 عرض حصري',
@@ -2100,7 +2175,7 @@
     document.getElementById('welcomeScreen').classList.add('hidden');
     refreshAllUI();
     setTimeout(() => {
-      triggerPromoPopup(false);
+      triggerPromoPopup(false, activeViewId);
       triggerFloatingStrip(false);
     }, 600);
   }
@@ -2124,6 +2199,7 @@
       tapCount = 0;
       const pass = prompt("أدخل الرقم السري لمالك التطبيق:");
       if (pass === "2026") {
+        activeViewId = 'adminView';
         document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
         document.getElementById('adminView').classList.add('active');
         document.getElementById('ghTokenInput').value = localStorage.getItem('silver_gh_token') || '';
@@ -2224,7 +2300,7 @@
 
     if (selectedCountry) {
       setTimeout(() => {
-        triggerPromoPopup(false);
+        triggerPromoPopup(false, activeViewId);
         triggerFloatingStrip(false);
       }, 900);
     }
@@ -2769,6 +2845,7 @@
   }
 
   function switchTab(viewId, navEl) {
+    activeViewId = viewId;
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById(viewId).classList.add('active');
     if (navEl) {
@@ -2779,6 +2856,10 @@
       renderCouponsTab();
     } else if (viewId === 'aboutView') {
       updateHubCounters();
+    }
+
+    if (selectedCountry && viewId !== 'adminView') {
+      setTimeout(() => triggerPromoPopup(false, viewId), 450);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
