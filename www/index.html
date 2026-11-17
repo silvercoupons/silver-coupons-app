@@ -365,10 +365,44 @@
       border-color: var(--blue);
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
     }
-    .f-cat-pill.fav-pill.active {
-      background: var(--red);
-      border-color: var(--red);
+
+    /* بطاقات المركز الشخصي والتنبيهات في تبويب (عن التطبيق) */
+    .user-hub-grid {
+      display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 14px;
     }
+    .hub-action-card {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+      padding: 13px 15px; display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer; transition: 0.2s;
+    }
+    .hub-action-card:active { transform: scale(0.98); background: #f8fafc; }
+    .hub-card-left { display: flex; align-items: center; gap: 12px; }
+    .hub-icon-circle {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 21px; flex-shrink: 0;
+    }
+    .hub-card-title { font-size: 14px; font-weight: 800; color: var(--text); margin: 0 0 2px; }
+    .hub-card-sub { font-size: 11.5px; color: var(--muted); margin: 0; }
+    .hub-card-right { display: flex; align-items: center; gap: 6px; }
+    .hub-count-pill {
+      font-size: 11.5px; font-weight: 800; padding: 3px 10px;
+      border-radius: 20px; background: #eff6ff; color: var(--blue);
+    }
+
+    /* بطاقة التنبيه داخل مركز التنبيهات */
+    .notif-item-card {
+      background: #fff; border-radius: 14px; padding: 14px; margin-bottom: 12px;
+      border: 1px solid #e2e8f0; border-right: 4px solid var(--blue);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .notif-item-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px; gap: 8px;
+    }
+    .notif-item-title { font-size: 14px; font-weight: 800; color: var(--text); margin: 0; }
+    .notif-item-date { font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+    .notif-item-body { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin: 0 0 10px; }
 
     /* بطاقة مشاركة التطبيق المميزة + نافذة خيارات المشاركة */
     .share-app-card {
@@ -407,14 +441,23 @@
       cursor: pointer; text-decoration: none;
     }
 
-    /* شبكة جميع المتاجر */
+    /* شبكة جميع المتاجر + نجمة تمييز المتجر المفضل */
     .all-stores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
     .store-grid-card {
-      background: #fff; border-radius: 14px; padding: 14px 8px; text-align: center;
+      background: #fff; border-radius: 14px; padding: 18px 8px 12px; text-align: center;
       border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      display: flex; flex-direction: column; align-items: center; gap: 7px; position: relative;
     }
-    .store-grid-logo { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; }
+    .store-star-btn {
+      position: absolute; top: 6px; left: 6px;
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50%;
+      width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; cursor: pointer; z-index: 4;
+    }
+    .store-star-btn.starred {
+      background: #fef9c3; border-color: #facc15;
+    }
+    .store-grid-logo { width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; }
     .store-grid-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .store-grid-title { font-size: 12.5px; font-weight: 800; color: var(--text); }
     .store-grid-count { font-size: 10.5px; background: #eff6ff; color: var(--blue); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
@@ -438,13 +481,13 @@
     .admin-card { background: #fff; border-radius: 14px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
-    .form-group input, .form-group select {
+    .form-group input, .form-group select, .form-group textarea {
       width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
       font-family: 'Cairo', sans-serif; font-size: 13px;
     }
     .admin-tabs { display: flex; gap: 3px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; flex-wrap: wrap; }
     .admin-tab {
-      flex: 1; min-width: 62px; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 11px;
+      flex: 1; min-width: 54px; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 10.5px;
       font-weight: 700; cursor: pointer; color: var(--muted);
     }
     .admin-tab.active { background: #fff; color: var(--blue); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
@@ -595,7 +638,7 @@
   </div>
 </div>
 
-<!-- 2. تبويب الكوبونات (جميع الكوبونات والعروض + المفضلة + التقييم + شريط الفئات العائم) -->
+<!-- 2. تبويب الكوبونات (شريط فئات نقي تماماً بدون مفضلة) -->
 <div id="couponsTabView" class="page-view" style="padding-bottom: 65px;">
   <div class="section-header">
     <span class="section-title-text" id="couponsTabHeading">🏷️ جميع الكوبونات والعروض</span>
@@ -628,7 +671,7 @@
   <div class="categories-grid-two-col" id="allCategoriesGridContainer"></div>
 </div>
 
-<!-- صفحة عرض جميع المتاجر -->
+<!-- صفحة عرض جميع المتاجر (مع نجمة تمييز المتجر المفضل) -->
 <div id="allStoresView" class="page-view">
   <div class="section-header">
     <span class="section-title-text">🏪 جميع المتاجر المتاحة</span>
@@ -642,16 +685,91 @@
   </div>
 </div>
 
+<!-- صفحة الكوبونات المفضلة المحفوظة -->
+<div id="favCouponsView" class="page-view">
+  <div class="section-header">
+    <span class="section-title-text">❤️ الكوبونات المفضلة المحفوظة</span>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('aboutView', document.getElementById('navAbout'))">رجوع ✕</button>
+  </div>
+  <div class="container" id="favCouponsContainer"></div>
+</div>
+
+<!-- صفحة متاجرك المفضلة -->
+<div id="favStoresView" class="page-view">
+  <div class="section-header">
+    <span class="section-title-text">⭐ متاجرك المفضلة</span>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('aboutView', document.getElementById('navAbout'))">رجوع ✕</button>
+  </div>
+  <div class="container">
+    <div class="all-stores-grid" id="favStoresGridContainer"></div>
+  </div>
+</div>
+
+<!-- صفحة مركز التنبيهات والعروض الفورية -->
+<div id="notificationsView" class="page-view">
+  <div class="section-header">
+    <span class="section-title-text">🔔 مركز التنبيهات والعروض الفورية</span>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('aboutView', document.getElementById('navAbout'))">رجوع ✕</button>
+  </div>
+  <div class="container" id="notificationsListContainer"></div>
+</div>
+
 <!-- 3. تبويب دليل التسوق الحي -->
 <div id="blogView" class="page-view">
   <div class="section-header"><span class="section-title-text">📖 دليل التسوق وأحدث العروض</span></div>
   <div class="container" id="blogContainer">جاري تحميل دليل التسوق...</div>
 </div>
 
-<!-- 4. تبويب عن التطبيق -->
+<!-- 4. تبويب عن التطبيق (البطاقات التفاعلية الثلاث + مشاركة التطبيق + المعلومات القانونية) -->
 <div id="aboutView" class="page-view">
-  <div class="section-header"><span class="section-title-text">ℹ️ معلومات التطبيق والتواصل</span></div>
+  <div class="section-header"><span class="section-title-text">ℹ️ مفضلاتك ومعلومات التطبيق</span></div>
   <div class="container">
+
+    <!-- البطاقات الثلاث: الكوبونات المفضلة + متاجرك المفضلة + مركز التنبيهات -->
+    <div class="user-hub-grid">
+      <div class="hub-action-card" onclick="openFavCouponsPage()">
+        <div class="hub-card-left">
+          <div class="hub-icon-circle" style="background:#fee2e2;">❤️</div>
+          <div>
+            <h4 class="hub-card-title">الكوبونات المفضلة</h4>
+            <p class="hub-card-sub">جميع الأكواد التي قمت بحفظها للرجوع السريع</p>
+          </div>
+        </div>
+        <div class="hub-card-right">
+          <span class="hub-count-pill" id="hubFavCouponsCount" style="background:#fee2e2; color:#b91c1c;">0</span>
+          <span style="color:var(--muted); font-weight:800;">◂</span>
+        </div>
+      </div>
+
+      <div class="hub-action-card" onclick="openFavStoresPage()">
+        <div class="hub-card-left">
+          <div class="hub-icon-circle" style="background:#fef9c3;">⭐</div>
+          <div>
+            <h4 class="hub-card-title">متاجرك المفضلة</h4>
+            <p class="hub-card-sub">تصفح أحدث عروض متاجرك المميزة بنجمة</p>
+          </div>
+        </div>
+        <div class="hub-card-right">
+          <span class="hub-count-pill" id="hubFavStoresCount" style="background:#fef9c3; color:#854d0e;">0</span>
+          <span style="color:var(--muted); font-weight:800;">◂</span>
+        </div>
+      </div>
+
+      <div class="hub-action-card" onclick="openNotificationsPage()">
+        <div class="hub-card-left">
+          <div class="hub-icon-circle" style="background:#dbeafe;">🔔</div>
+          <div>
+            <h4 class="hub-card-title">مركز التنبيهات والعروض الفورية</h4>
+            <p class="hub-card-sub">سجل كامل بأقوى الإشعارات والتخفيضات اللحظية</p>
+          </div>
+        </div>
+        <div class="hub-card-right">
+          <span class="hub-count-pill" id="hubNotifCount">0</span>
+          <span style="color:var(--muted); font-weight:800;">◂</span>
+        </div>
+      </div>
+    </div>
+
     <div class="share-app-card">
       <div style="display:flex; align-items:center; gap:10px;">
         <span style="font-size:28px;">🎁</span>
@@ -722,6 +840,7 @@
         <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
         <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
         <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانرات</div>
+        <div class="admin-tab" onclick="switchAdminTab('admNotifTab', this)">🔔 التنبيهات</div>
         <div class="admin-tab" onclick="switchAdminTab('admLinksTab', this)">🔗 الروابط</div>
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
@@ -903,7 +1022,43 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
+      <!-- 4. إدارة التنبيهات والعروض الفورية داخل التطبيق -->
+      <div id="admNotifTab" class="adm-subview" style="display:none;">
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">أضف هنا كل إشعار أو عرض فوري ترسله للمستخدمين ليظل محفوظاً داخل قسم <strong>(🔔 مركز التنبيهات)</strong> في التطبيق:</p>
+        <div class="form-group">
+          <label>الدولة المستهدفة للتنبيه</label>
+          <select id="notifCountry">
+            <option value="ALL">🌍 كل الدول العربية</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>عنوان التنبيه (مثال: 🔥 كود خصم نون الإضافي وصل!)</label>
+          <input type="text" id="notifTitleInput" placeholder="🔥 كود خصم نون الإضافي وصل!">
+        </div>
+        <div class="form-group">
+          <label>نص وتفاصيل التنبيه</label>
+          <textarea id="notifBodyInput" rows="2" placeholder="استخدم كود WK83 واحصل على خصم 15% إضافي لفترة محدودة..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>رابط العرض (اختياري)</label>
+          <input type="url" id="notifUrlInput" value="https://silvercoupons.blogspot.com/">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveNotifAdmin()">+ إضافة التنبيه للسجل</button>
+
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🔔 التنبيهات المسجلة حالياً:</h4>
+        <div id="adminNotifsList"></div>
+      </div>
+
+      <!-- 5. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
       <div id="admLinksTab" class="adm-subview" style="display:none;">
         <h4 style="margin:0 0 8px; font-size:13px;">📤 رابط مشاركة التطبيق (APK / Google Play):</h4>
         <div class="form-group">
@@ -937,9 +1092,9 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveLinksAdmin()">حفظ إعدادات الروابط والمشاركة</button>
       </div>
 
-      <!-- 5. إعدادات مفتاح الربط السحابي -->
+      <!-- 6. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
-        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والروابط تلقائياً بضغطة زر:</p>
+        <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والتنبيهات تلقائياً بضغطة زر:</p>
         <div class="form-group">
           <label>GitHub Personal Access Token (ghp_...)</label>
           <input type="password" id="ghTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
@@ -1031,6 +1186,7 @@
     categories: [...DEFAULT_CATEGORIES],
     banners: { ...DEFAULT_BANNERS },
     links: { ...DEFAULT_LINKS },
+    notifications: [],
     stores: [],
     coupons: []
   };
@@ -1041,8 +1197,9 @@
   let tapCount = 0;
   let tapTimer = null;
 
-  /* إدارة المفضلة والتقييمات في ذاكرة هاتف كل مستخدم بدون تسجيل دخول */
+  /* إدارة الكوبونات المفضلة والمتاجر المفضلة والتقييمات في ذاكرة هاتف المستخدم */
   let userFavorites = JSON.parse(localStorage.getItem('silver_user_favorites') || '[]');
+  let userFavoriteStores = JSON.parse(localStorage.getItem('silver_user_fav_stores') || '[]');
   let userVotes = JSON.parse(localStorage.getItem('silver_user_votes') || '{}');
 
   function isFavorite(couponId) {
@@ -1055,21 +1212,119 @@
     const idx = userFavorites.indexOf(idNum);
     if (idx === -1) {
       userFavorites.push(idNum);
-      showToast('❤️ تمت الإضافة إلى المفضلة');
+      showToast('❤️ تمت الإضافة إلى الكوبونات المفضلة');
     } else {
       userFavorites.splice(idx, 1);
-      showToast('تمت الإزالة من المفضلة');
+      showToast('تمت الإزالة من الكوبونات المفضلة');
     }
     localStorage.setItem('silver_user_favorites', JSON.stringify(userFavorites));
+    updateHubCounters();
     renderHomeSections();
     renderCouponsTab();
+    if (document.getElementById('favCouponsView').classList.contains('active')) {
+      renderFavCouponsList();
+    }
+  }
+
+  function isFavoriteStore(storeId) {
+    return userFavoriteStores.includes(String(storeId));
+  }
+
+  function toggleFavoriteStore(storeId, event) {
+    if (event) event.stopPropagation();
+    const sId = String(storeId);
+    const idx = userFavoriteStores.indexOf(sId);
+    if (idx === -1) {
+      userFavoriteStores.push(sId);
+      showToast('⭐ تمت إضافة المتجر إلى متاجرك المفضلة');
+    } else {
+      userFavoriteStores.splice(idx, 1);
+      showToast('تمت إزالة المتجر من المفضلة');
+    }
+    localStorage.setItem('silver_user_fav_stores', JSON.stringify(userFavoriteStores));
+    updateHubCounters();
+    renderAllStoresGrid();
+    if (document.getElementById('favStoresView').classList.contains('active')) {
+      renderFavStoresGrid();
+    }
+  }
+
+  function updateHubCounters() {
+    const cCount = document.getElementById('hubFavCouponsCount');
+    const sCount = document.getElementById('hubFavStoresCount');
+    const nCount = document.getElementById('hubNotifCount');
+
+    const validFavCoupons = appData.coupons.filter(c => userFavorites.includes(Number(c.id))).length;
+    const validFavStores = appData.stores.filter(s => userFavoriteStores.includes(String(s.id))).length;
+    const validNotifs = (appData.notifications || []).filter(n => matchesCountry(n.country)).length;
+
+    if (cCount) cCount.innerText = validFavCoupons;
+    if (sCount) sCount.innerText = validFavStores;
+    if (nCount) nCount.innerText = validNotifs;
+  }
+
+  function openFavCouponsPage() {
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('favCouponsView').classList.add('active');
+    renderFavCouponsList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderFavCouponsList() {
+    const container = document.getElementById('favCouponsContainer');
+    const favItems = appData.coupons.filter(c => userFavorites.includes(Number(c.id)));
+    container.innerHTML = favItems.length
+      ? favItems.map(buildVerticalTicket).join('')
+      : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لم تقم بحفظ أي كوبونات في المفضلة بعد.<br>اضغط على أيقونة ❤️ في أي بطاقة لحفظها هنا والرجوع إليها في أي وقت.</div>`;
+  }
+
+  function openFavStoresPage() {
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('favStoresView').classList.add('active');
+    renderFavStoresGrid();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderFavStoresGrid() {
+    const grid = document.getElementById('favStoresGridContainer');
+    const favStores = appData.stores.filter(st => userFavoriteStores.includes(String(st.id)));
+    grid.innerHTML = favStores.length ? favStores.map(st => {
+      const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
+      return `
+        <div class="store-grid-card" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}', 'favStoresView')">
+          <button type="button" class="store-star-btn starred" title="إزالة من المفضلة" onclick="toggleFavoriteStore('${st.id}', event)">⭐</button>
+          <div class="store-grid-logo"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/60?text=${st.name[0]}'"></div>
+          <div class="store-grid-title">${st.name.split('-')[0]}</div>
+          <span class="store-grid-count">${count} عرض</span>
+        </div>
+      `;
+    }).join('') : `<div style="grid-column:span 3; text-align:center; padding:45px 16px; color:var(--muted);">لم تقم بتمييز أي متجر بنجمة بعد.<br>افتح صفحة "المتاجر" واضغط على أيقونة ☆ بجانب أي متجر لإضافته هنا.</div>`;
+  }
+
+  function openNotificationsPage() {
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('notificationsView').classList.add('active');
+    const container = document.getElementById('notificationsListContainer');
+    const list = (appData.notifications || []).filter(n => matchesCountry(n.country));
+
+    container.innerHTML = list.length ? list.map(n => `
+      <div class="notif-item-card">
+        <div class="notif-item-header">
+          <h4 class="notif-item-title">${n.title}</h4>
+          <span class="notif-item-date">${n.date || ''}</span>
+        </div>
+        <p class="notif-item-body">${n.body}</p>
+        ${n.url ? `<a href="${n.url}" target="_blank" class="btn-shop" style="display:inline-flex; background:var(--blue); color:#fff;">اكتشف العرض الآن ↗</a>` : ''}
+      </div>
+    `).join('') : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لا توجد تنبيهات جديدة حالياً.</div>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function rateCoupon(couponId, voteType) {
     const idKey = String(couponId);
     userVotes[idKey] = voteType;
     localStorage.setItem('silver_user_votes', JSON.stringify(userVotes));
-    showToast(voteType === 'up' ? '👍 شكراً لتأكيد فعالية الكود!' : '👎 تم استلام ملاحظتك وسنراجع الكود');
+    showToast(voteType === 'up' ? '👍 شكراً لتأكيد فعالية الكود!' : '👎 تم تسجيل تقييمك بنجاح');
     renderCouponsTab();
   }
 
@@ -1218,6 +1473,7 @@
           : [...DEFAULT_CATEGORIES],
         banners: mergedBanners,
         links: { ...DEFAULT_LINKS, ...(fetched.links || {}) },
+        notifications: Array.isArray(fetched.notifications) ? fetched.notifications : [],
         stores: Array.isArray(fetched.stores) ? fetched.stores : [],
         coupons: Array.isArray(fetched.coupons) ? fetched.coupons : []
       };
@@ -1231,6 +1487,7 @@
             : [...DEFAULT_CATEGORIES],
           banners: { ...DEFAULT_BANNERS, ...(parsed.banners || {}) },
           links: { ...DEFAULT_LINKS, ...(parsed.links || {}) },
+          notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
           stores: parsed.stores || [],
           coupons: parsed.coupons || []
         };
@@ -1274,12 +1531,13 @@
     renderCategoriesGrid();
     renderHomeSections();
     renderCouponsTab();
+    updateHubCounters();
     populateAdminStores();
     populateAdminCategories();
     renderAdminLists();
   }
 
-  /* تبويب الكوبونات: جميع الكوبونات + المفضلة + شريط الفئات السفلي */
+  /* تبويب الكوبونات: يعرض جميع الكوبونات + شريط الفئات التجاري فقط */
   function renderCouponsTab() {
     const bar = document.getElementById('floatingCategoriesBar');
     const container = document.getElementById('uniqueStoreCouponsContainer');
@@ -1291,9 +1549,6 @@
     const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
 
     let pillsHtml = `
-      <div class="f-cat-pill fav-pill ${couponsTabSelectedCategory === 'FAV' ? 'active' : ''}" onclick="selectCouponsTabCategory('FAV')">
-        <span>❤️ المفضلة (${userFavorites.length})</span>
-      </div>
       <div class="f-cat-pill ${couponsTabSelectedCategory === 'ALL' ? 'active' : ''}" onclick="selectCouponsTabCategory('ALL')">
         <span>🌟 الكل</span>
       </div>
@@ -1309,10 +1564,7 @@
     bar.innerHTML = pillsHtml;
 
     let sortedCoupons = getSortedCountryCoupons();
-    if (couponsTabSelectedCategory === 'FAV') {
-      sortedCoupons = appData.coupons.filter(c => userFavorites.includes(Number(c.id)));
-      headingEl.innerText = '❤️ الكوبونات المحفوظة في المفضلة';
-    } else if (couponsTabSelectedCategory !== 'ALL') {
+    if (couponsTabSelectedCategory !== 'ALL') {
       sortedCoupons = sortedCoupons.filter(c => c.category === couponsTabSelectedCategory);
       headingEl.innerText = `🏷️ عروض قسم: ${couponsTabSelectedCategory}`;
     } else {
@@ -1322,15 +1574,45 @@
     countEl.innerText = `${sortedCoupons.length} عرض`;
     container.innerHTML = sortedCoupons.length
       ? sortedCoupons.map(buildVerticalTicket).join('')
-      : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">
-          ${couponsTabSelectedCategory === 'FAV' ? 'لم تقم بحفظ أي كوبونات في المفضلة بعد. اضغط على أيقونة ❤️ في أي بطاقة لحفظها هنا.' : 'لا توجد كوبونات أو عروض متاحة في هذا التصنيف لدولتك حالياً.'}
-         </div>`;
+      : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لا توجد كوبونات أو عروض متاحة في هذا التصنيف لدولتك حالياً.</div>`;
   }
 
   function selectCouponsTabCategory(catName) {
     couponsTabSelectedCategory = catName;
     renderCouponsTab();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function saveNotifAdmin() {
+    const title = document.getElementById('notifTitleInput').value.trim();
+    const body = document.getElementById('notifBodyInput').value.trim();
+    const url = document.getElementById('notifUrlInput').value.trim();
+    const country = document.getElementById('notifCountry').value;
+
+    if (!title || !body) return alert('يرجى كتابة عنوان ونص التنبيه');
+    if (!appData.notifications) appData.notifications = [];
+
+    const todayStr = new Date().toLocaleDateString('ar-EG', { day: 'numeric', month: 'short' });
+    appData.notifications.unshift({
+      id: Date.now(),
+      country: country,
+      title: title,
+      body: body,
+      url: url,
+      date: todayStr
+    });
+
+    document.getElementById('notifTitleInput').value = '';
+    document.getElementById('notifBodyInput').value = '';
+    refreshAllUI();
+    showToast('تمت إضافة التنبيه! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function deleteNotifAdmin(id) {
+    if (!confirm('حذف هذا التنبيه من السجل؟')) return;
+    appData.notifications = (appData.notifications || []).filter(n => n.id !== id);
+    refreshAllUI();
+    showToast('تم حذف التنبيه! اضغط زر النشر الأخضر.');
   }
 
   function loadLinksForm() {
@@ -1720,8 +2002,10 @@
 
     grid.innerHTML = visibleStores.length ? visibleStores.map(st => {
       const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
+      const starred = isFavoriteStore(st.id);
       return `
         <div class="store-grid-card" onclick="openFilteredView('store', '${st.id}', '🏪 كوبونات ${st.name.split('-')[0]}', 'allStoresView')">
+          <button type="button" class="store-star-btn ${starred ? 'starred' : ''}" title="تمييز المتجر في المفضلة" onclick="toggleFavoriteStore('${st.id}', event)">${starred ? '⭐' : '☆'}</button>
           <div class="store-grid-logo"><img src="${st.logo}" onerror="this.src='https://via.placeholder.com/60?text=${st.name[0]}'"></div>
           <div class="store-grid-title">${st.name.split('-')[0]}</div>
           <span class="store-grid-count">${count} عرض</span>
@@ -1730,7 +2014,6 @@
     }).join('') : `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر متاحة لدولتك حالياً.</div>`;
   }
 
-  /* نسخ الكود للحافظة وفتح رابط المتجر تلقائياً بعد 1.1 ثانية لرفع معدل التحويل */
   function copyAndShop(code, targetUrl, btn, defaultLabel = 'نسخ الكود') {
     navigator.clipboard.writeText(code);
     btn.innerText = 'تم النسخ ✓ جاري الفتح...';
@@ -1761,6 +2044,8 @@
     }
     if (viewId === 'couponsTabView') {
       renderCouponsTab();
+    } else if (viewId === 'aboutView') {
+      updateHubCounters();
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1823,6 +2108,19 @@
         </div>
       </div>
     `).join('');
+
+    const nList = document.getElementById('adminNotifsList');
+    if (nList) {
+      nList.innerHTML = (appData.notifications || []).map(n => `
+        <div class="manage-row">
+          <div style="flex:1;">
+            <strong>${n.title}</strong> <span style="font-size:10.5px; color:var(--muted);">[${n.country || 'ALL'}]</span><br>
+            <span style="font-size:11px; color:var(--muted);">${n.body}</span>
+          </div>
+          <button class="btn-mini" style="background:var(--red);" onclick="deleteNotifAdmin(${n.id})">حذف</button>
+        </div>
+      `).join('');
+    }
   }
 
   function saveCouponAdmin() {
@@ -2073,7 +2371,7 @@
   async function publishToGitHub() {
     const token = localStorage.getItem('silver_gh_token');
     if (!token) {
-      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[4]);
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[5]);
       return alert('يرجى لصق مفتاح GitHub Token هنا أولاً (مرة واحدة فقط) لتفعيل النشر الفوري.');
     }
 
