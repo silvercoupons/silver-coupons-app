@@ -87,6 +87,33 @@
       "byCountry": {}
     }
   },
+  "popupBanner": {
+    "id": 0,
+    "enabled": false,
+    "targetPage": "homeView",
+    "layout": "landscape",
+    "country": "ALL",
+    "duration": 0,
+    "tag": "🔥 عرض حصري",
+    "title": "",
+    "desc": "",
+    "code": "",
+    "cta": "تسوق العرض الآن ↗",
+    "url": "https://silvercoupons.blogspot.com/",
+    "image": ""
+  },
+  "floatingStrip": {
+    "id": 0,
+    "enabled": false,
+    "country": "ALL",
+    "duration": 7,
+    "badge": "⚡ عرض سريع",
+    "title": "",
+    "sub": "",
+    "btnText": "تسوق ↗",
+    "url": "https://silvercoupons.blogspot.com/",
+    "image": ""
+  },
   "links": {
     "appShareUrl": "https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk",
     "stores": "",
