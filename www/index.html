@@ -61,11 +61,15 @@
     .country-flag { font-size: 24px; line-height: 1; }
     .country-name { font-size: 13.5px; font-weight: 700; }
 
-    /* الهيدر العلوي بشعار أكبر وأوضح */
+    /* الهيدر العلوي بشعار أكبر وأوضح + منع اهتزاز الشريط على الكمبيوتر */
     .app-header {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #fff; padding: 14px 16px 20px; border-radius: 0 0 22px 22px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 50;
+    }
+    @media (min-width: 768px) {
+      .app-header { position: static; }
+      body { overflow-y: scroll; }
     }
     .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
     .brand-title { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; flex-shrink: 0; }
@@ -558,11 +562,14 @@
   </div>
 </div>
 
-<!-- 2. تبويب الكوبونات (بطاقة واحدة أحدث لكل متجر + شريط فئات سفلي عائم مكتمل الارتفاع) -->
+<!-- 2. تبويب الكوبونات (بطاقة واحدة أحدث لكل متجر + زر المزيد من المتاجر + شريط فئات سفلي عائم) -->
 <div id="couponsTabView" class="page-view" style="padding-bottom: 65px;">
   <div class="section-header">
     <span class="section-title-text" id="couponsTabHeading">🏷️ أحدث عرض لكل متجر</span>
-    <span style="font-size:11.5px; color:var(--muted); font-weight:700;" id="couponsTabCountBadge">0 متجر</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span class="view-all-link" onclick="handleViewAllClick('stores')">المزيد من المتاجر ◂</span>
+      <span style="font-size:11.5px; color:var(--muted); font-weight:700;" id="couponsTabCountBadge">0 متجر</span>
+    </div>
   </div>
   <div class="container" id="uniqueStoreCouponsContainer"></div>
 
