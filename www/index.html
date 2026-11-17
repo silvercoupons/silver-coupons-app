@@ -94,13 +94,79 @@
       background: var(--accent); color: #000; font-size: 10px; padding: 2px 7px;
       border-radius: 8px; font-weight: 800; white-space: nowrap;
     }
-    .header-left-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .header-left-tools { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
     .country-switch-btn {
       background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2);
       color: #fff; padding: 5px 10px; border-radius: 10px; font-family: 'Cairo', sans-serif;
       font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
       display: flex; align-items: center; gap: 4px;
     }
+
+    /* زر الجرس العلوي والشارة الحمراء للتنبيهات الجديدة */
+    .header-bell-btn {
+      position: relative;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .header-bell-btn:active { transform: scale(0.94); }
+    .bell-unread-badge {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 4px;
+      border-radius: 99px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid #0f172a;
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.5);
+      animation: pulseBadge 1.6s infinite;
+    }
+    .bell-unread-badge.visible { display: flex; }
+
+    /* النقطة الحمراء على أيقونة وتبويب (عن التطبيق) في الشريط السفلي */
+    .nav-icon-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-unread-dot {
+      position: absolute;
+      top: -1px;
+      left: -4px;
+      width: 9px;
+      height: 9px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 1.5px solid #fff;
+      display: none;
+      animation: pulseBadge 1.6s infinite;
+    }
+    .nav-unread-dot.visible { display: block; }
+
+    @keyframes pulseBadge {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.16); }
+      100% { transform: scale(1); }
+    }
+
     .search-box input {
       width: 100%; padding: 11px 16px; border-radius: 12px; border: none;
       font-family: 'Cairo', sans-serif; font-size: 14px; background: rgba(255,255,255,0.95);
@@ -396,6 +462,10 @@
       border: 1px solid #e2e8f0; border-right: 4px solid var(--blue);
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
+    .notif-item-card.unread {
+      background: #eff6ff;
+      border-right-color: var(--red);
+    }
     .notif-item-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 6px; gap: 8px;
@@ -564,7 +634,7 @@
   </div>
 </div>
 
-<!-- الهيدر العلوي -->
+<!-- الهيدر العلوي (مع أيقونة الجرس والشارة الحمراء للتنبيهات غير المقروءة) -->
 <div class="app-header">
   <div class="brand-row">
     <div class="brand-title" onclick="unlockAdmin()">
@@ -572,6 +642,10 @@
       <span class="brand-badge">أكواد موثقة</span>
     </div>
     <div class="header-left-tools">
+      <button type="button" class="header-bell-btn" title="مركز التنبيهات والعروض الفورية" onclick="openNotificationsPage('homeView')">
+        <span>🔔</span>
+        <span class="bell-unread-badge" id="headerBellBadge">0</span>
+      </button>
       <button class="country-switch-btn" id="currentCountryBtn" onclick="openCountryScreen()">🌍 كل الدول ▾</button>
     </div>
   </div>
@@ -709,7 +783,7 @@
 <div id="notificationsView" class="page-view">
   <div class="section-header">
     <span class="section-title-text">🔔 مركز التنبيهات والعروض الفورية</span>
-    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('aboutView', document.getElementById('navAbout'))">رجوع ✕</button>
+    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="goBackFromNotifications()">رجوع ✕</button>
   </div>
   <div class="container" id="notificationsListContainer"></div>
 </div>
@@ -755,7 +829,7 @@
         </div>
       </div>
 
-      <div class="hub-action-card" onclick="openNotificationsPage()">
+      <div class="hub-action-card" onclick="openNotificationsPage('aboutView')">
         <div class="hub-card-left">
           <div class="hub-icon-circle" style="background:#dbeafe;">🔔</div>
           <div>
@@ -1024,7 +1098,7 @@
 
       <!-- 4. إدارة التنبيهات والعروض الفورية داخل التطبيق -->
       <div id="admNotifTab" class="adm-subview" style="display:none;">
-        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">أضف هنا كل إشعار أو عرض فوري ترسله للمستخدمين ليظل محفوظاً داخل قسم <strong>(🔔 مركز التنبيهات)</strong> في التطبيق:</p>
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">أضف هنا كل إشعار أو عرض فوري ترسله للمستخدمين ليضيء الجرس العلوي والنقطة الحمراء ويظل محفوظاً داخل <strong>(🔔 مركز التنبيهات)</strong>:</p>
         <div class="form-group">
           <label>الدولة المستهدفة للتنبيه</label>
           <select id="notifCountry">
@@ -1125,7 +1199,7 @@
 
 <div class="toast" id="toastMsg">تم نسخ الكود بنجاح!</div>
 
-<!-- شريط التبويبات السفلي الرباعي -->
+<!-- شريط التبويبات السفلي الرباعي (مع النقطة الحمراء فوق أيقونة عن التطبيق) -->
 <div class="bottom-nav">
   <div class="nav-item active" id="navHome" onclick="switchTab('homeView', this)">
     <span class="nav-icon">🏠</span><span>الرئيسية</span>
@@ -1137,7 +1211,11 @@
     <span class="nav-icon">📖</span><span>دليل التسوق</span>
   </div>
   <div class="nav-item" id="navAbout" onclick="switchTab('aboutView', this)">
-    <span class="nav-icon">ℹ️</span><span>عن التطبيق</span>
+    <span class="nav-icon-wrap">
+      <span class="nav-icon">ℹ️</span>
+      <span class="nav-unread-dot" id="navAboutUnreadDot"></span>
+    </span>
+    <span>عن التطبيق</span>
   </div>
 </div>
 
@@ -1194,13 +1272,15 @@
   let selectedCountry = localStorage.getItem('silver_user_country') || '';
   let couponsTabSelectedCategory = 'ALL';
   let previousViewId = 'homeView';
+  let notifReturnViewId = 'homeView';
   let tapCount = 0;
   let tapTimer = null;
 
-  /* إدارة الكوبونات المفضلة والمتاجر المفضلة والتقييمات في ذاكرة هاتف المستخدم */
+  /* إدارة الكوبونات المفضلة والمتاجر المفضلة والتقييمات وحالة قراءة التنبيهات في ذاكرة هاتف المستخدم */
   let userFavorites = JSON.parse(localStorage.getItem('silver_user_favorites') || '[]');
   let userFavoriteStores = JSON.parse(localStorage.getItem('silver_user_fav_stores') || '[]');
   let userVotes = JSON.parse(localStorage.getItem('silver_user_votes') || '{}');
+  let lastSeenNotifId = Number(localStorage.getItem('silver_last_seen_notif_id') || '0');
 
   function isFavorite(couponId) {
     return userFavorites.includes(Number(couponId));
@@ -1253,14 +1333,34 @@
     const cCount = document.getElementById('hubFavCouponsCount');
     const sCount = document.getElementById('hubFavStoresCount');
     const nCount = document.getElementById('hubNotifCount');
+    const bellBadge = document.getElementById('headerBellBadge');
+    const navDot = document.getElementById('navAboutUnreadDot');
 
     const validFavCoupons = appData.coupons.filter(c => userFavorites.includes(Number(c.id))).length;
     const validFavStores = appData.stores.filter(s => userFavoriteStores.includes(String(s.id))).length;
-    const validNotifs = (appData.notifications || []).filter(n => matchesCountry(n.country)).length;
+    const countryNotifs = (appData.notifications || []).filter(n => matchesCountry(n.country));
+    const unreadNotifs = countryNotifs.filter(n => (Number(n.id) || 0) > lastSeenNotifId);
 
     if (cCount) cCount.innerText = validFavCoupons;
     if (sCount) sCount.innerText = validFavStores;
-    if (nCount) nCount.innerText = validNotifs;
+    if (nCount) nCount.innerText = countryNotifs.length;
+
+    if (bellBadge) {
+      if (unreadNotifs.length > 0) {
+        bellBadge.innerText = unreadNotifs.length;
+        bellBadge.classList.add('visible');
+      } else {
+        bellBadge.classList.remove('visible');
+      }
+    }
+
+    if (navDot) {
+      if (unreadNotifs.length > 0) {
+        navDot.classList.add('visible');
+      } else {
+        navDot.classList.remove('visible');
+      }
+    }
   }
 
   function openFavCouponsPage() {
@@ -1301,23 +1401,50 @@
     }).join('') : `<div style="grid-column:span 3; text-align:center; padding:45px 16px; color:var(--muted);">لم تقم بتمييز أي متجر بنجمة بعد.<br>افتح صفحة "المتاجر" واضغط على أيقونة ☆ بجانب أي متجر لإضافته هنا.</div>`;
   }
 
-  function openNotificationsPage() {
+  function openNotificationsPage(returnTo = 'homeView') {
+    notifReturnViewId = returnTo;
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('notificationsView').classList.add('active');
+
     const container = document.getElementById('notificationsListContainer');
     const list = (appData.notifications || []).filter(n => matchesCountry(n.country));
+    const prevSeenId = lastSeenNotifId;
 
-    container.innerHTML = list.length ? list.map(n => `
-      <div class="notif-item-card">
-        <div class="notif-item-header">
-          <h4 class="notif-item-title">${n.title}</h4>
-          <span class="notif-item-date">${n.date || ''}</span>
+    container.innerHTML = list.length ? list.map(n => {
+      const isUnread = (Number(n.id) || 0) > prevSeenId;
+      return `
+        <div class="notif-item-card ${isUnread ? 'unread' : ''}">
+          <div class="notif-item-header">
+            <h4 class="notif-item-title">${isUnread ? '🆕 ' : ''}${n.title}</h4>
+            <span class="notif-item-date">${n.date || ''}</span>
+          </div>
+          <p class="notif-item-body">${n.body}</p>
+          ${n.url ? `<a href="${n.url}" target="_blank" class="btn-shop" style="display:inline-flex; background:var(--blue); color:#fff;">اكتشف العرض الآن ↗</a>` : ''}
         </div>
-        <p class="notif-item-body">${n.body}</p>
-        ${n.url ? `<a href="${n.url}" target="_blank" class="btn-shop" style="display:inline-flex; background:var(--blue); color:#fff;">اكتشف العرض الآن ↗</a>` : ''}
-      </div>
-    `).join('') : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لا توجد تنبيهات جديدة حالياً.</div>`;
+      `;
+    }).join('') : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لا توجد تنبيهات جديدة حالياً.</div>`;
+
+    /* تعليم جميع التنبيهات الحالية كمقروءة وإخفاء النقطة الحمراء وعداد الجرس */
+    if (list.length > 0) {
+      const maxId = Math.max(...list.map(n => Number(n.id) || 0));
+      if (maxId > lastSeenNotifId) {
+        lastSeenNotifId = maxId;
+        localStorage.setItem('silver_last_seen_notif_id', String(lastSeenNotifId));
+      }
+    }
+    updateHubCounters();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goBackFromNotifications() {
+    const target = notifReturnViewId || 'homeView';
+    const navMap = {
+      homeView: document.getElementById('navHome'),
+      couponsTabView: document.getElementById('navCoupons'),
+      blogView: document.getElementById('navBlog'),
+      aboutView: document.getElementById('navAbout')
+    };
+    switchTab(target, navMap[target] || document.getElementById('navHome'));
   }
 
   function rateCoupon(couponId, voteType) {
