@@ -8,6 +8,19 @@
   <meta http-equiv="Expires" content="0">
   <title>الكوبون الفضي - Silver Coupons</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- كود ربط إشعارات OneSignal الفورية (استبدل YOUR_ONESIGNAL_APP_ID برمز تطبيقك عند التفعيل) -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      const appId = "YOUR_ONESIGNAL_APP_ID";
+      if (appId && appId !== "YOUR_ONESIGNAL_APP_ID") {
+        await OneSignal.init({ appId: appId });
+      }
+    });
+  </script>
+
   <style>
     :root {
       --primary: #0f172a;
@@ -61,7 +74,7 @@
     .country-flag { font-size: 24px; line-height: 1; }
     .country-name { font-size: 13.5px; font-weight: 700; }
 
-    /* الهيدر العلوي بشعار ممتلئ + منع اهتزاز الشريط على الكمبيوتر */
+    /* الهيدر العلوي */
     .app-header {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #fff; padding: 14px 16px 20px; border-radius: 0 0 22px 22px;
@@ -94,7 +107,7 @@
       color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
-    /* عناوين الأقسام وزر اعرض الكل */
+    /* عناوين الأقسام */
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
       margin: 16px 16px 10px;
@@ -118,7 +131,6 @@
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 2px solid transparent; padding: 8px; transition: 0.2s;
     }
-    .store-item.active .store-circle { border-color: var(--blue); transform: scale(1.06); }
     .store-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .store-name { font-size: 11.5px; font-weight: 700; margin-top: 6px; text-align: center; color: var(--text); white-space: nowrap; }
 
@@ -132,9 +144,9 @@
       min-width: 278px; max-width: 278px; background: #fff; border-radius: 16px;
       border: 1px solid #e2e8f0; box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       display: flex; flex-direction: column; justify-content: space-between;
-      padding: 14px; flex-shrink: 0;
+      padding: 14px; flex-shrink: 0; position: relative;
     }
-    .h-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .h-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-left: 26px; }
     .h-card-logo {
       width: 48px; height: 48px; border-radius: 12px; border: 1px solid #f1f5f9;
       padding: 5px; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0;
@@ -175,6 +187,32 @@
       border-radius: 8px; font-weight: 700; font-size: 12.5px; text-align: center;
       width: 100%; display: block;
     }
+
+    /* زر المفضلة (القلب) وأزرار التقييم (يعمل / لا يعمل) */
+    .fav-heart-btn {
+      position: absolute; top: 10px; left: 10px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: #f8fafc; border: 1px solid #e2e8f0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; cursor: pointer; z-index: 5; transition: 0.2s;
+    }
+    .fav-heart-btn.saved {
+      background: #fee2e2; border-color: #fca5a5; transform: scale(1.08);
+    }
+    .ticket-feedback-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 14px; background: #f1f5f9; border-top: 1px solid #e2e8f0;
+      font-size: 11px; color: var(--muted);
+    }
+    .fb-btns { display: flex; gap: 6px; }
+    .fb-btn {
+      background: #fff; border: 1px solid #cbd5e1; border-radius: 14px;
+      padding: 2px 9px; font-family: 'Cairo', sans-serif; font-size: 10.5px;
+      font-weight: 700; color: var(--text); cursor: pointer; display: inline-flex;
+      align-items: center; gap: 4px; transition: 0.15s;
+    }
+    .fb-btn.voted-up { background: #dcfce7; border-color: #16a34a; color: #15803d; }
+    .fb-btn.voted-down { background: #fee2e2; border-color: #dc2626; color: #b91c1c; }
 
     /* بانرات العروض الإعلانية */
     .promo-banner-wrap { padding: 12px 16px 4px; max-width: 600px; margin: auto; }
@@ -240,7 +278,7 @@
       background: var(--card); border-radius: 16px; margin-bottom: 14px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; overflow: hidden; position: relative;
     }
-    .ticket-top { display: flex; padding: 14px; gap: 12px; align-items: center; }
+    .ticket-top { display: flex; padding: 14px 14px 14px 44px; gap: 12px; align-items: center; }
     .ticket-logo {
       width: 58px; height: 58px; border-radius: 12px; border: 1px solid #f1f5f9;
       padding: 6px; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0;
@@ -267,7 +305,7 @@
     .btn-copy {
       background: var(--blue); color: #fff; border: none; padding: 8px 16px;
       border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: 700;
-      font-size: 13px; cursor: pointer; flex: 1; max-width: 140px;
+      font-size: 13px; cursor: pointer; flex: 1; max-width: 155px;
     }
     .btn-deal-full {
       background: var(--green); color: #fff; text-decoration: none; padding: 9px 16px;
@@ -326,6 +364,10 @@
       color: #fff;
       border-color: var(--blue);
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+    .f-cat-pill.fav-pill.active {
+      background: var(--red);
+      border-color: var(--red);
     }
 
     /* بطاقة مشاركة التطبيق المميزة + نافذة خيارات المشاركة */
@@ -495,7 +537,7 @@
   </div>
 </div>
 
-<!-- 1. تبويب الرئيسية (الأقسام + البانرات المخصصة للدولة + أحدث 5 كروت لكل قسم) -->
+<!-- 1. تبويب الرئيسية -->
 <div id="homeView" class="page-view active">
 
   <!-- نتائج البحث الفوري -->
@@ -509,20 +551,16 @@
 
   <!-- محتوى الصفحة الرئيسية الافتراضي -->
   <div id="homeMainSections">
-    <!-- 0. البانر العلوي الرئيسي قبل "أشهر المتاجر" -->
     <div class="promo-banner-wrap" id="bannerSlot0"></div>
 
-    <!-- 1. شريط أشهر المتاجر -->
     <div class="section-header">
       <span class="section-title-text">🏪 أشهر المتاجر</span>
       <span class="view-all-link" onclick="handleViewAllClick('stores')">عرض الكل ◂</span>
     </div>
     <div class="stores-strip" id="storesContainer"></div>
 
-    <!-- 2. البانر الإعلاني الأول قبل "عروض الإلكترونيات" -->
     <div class="promo-banner-wrap" id="bannerSlot1"></div>
 
-    <!-- 3. قسم عروض الإلكترونيات (أحدث 5 كروت) -->
     <div id="electronicsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">💻 عروض الإلكترونيات</span>
@@ -531,10 +569,8 @@
       <div class="horizontal-cards-strip" id="electronicsCarousel"></div>
     </div>
 
-    <!-- 4. البانر الإعلاني الثاني قبل "العروض التلقائية" -->
     <div class="promo-banner-wrap" id="bannerSlot2"></div>
 
-    <!-- 5. قسم العروض التلقائية (أحدث 5 كروت) -->
     <div id="autoDealsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">⚡ العروض التلقائية</span>
@@ -543,17 +579,14 @@
       <div class="horizontal-cards-strip" id="autoDealsCarousel"></div>
     </div>
 
-    <!-- 6. قسم أقوى الفئات -->
     <div class="section-header">
       <span class="section-title-text">🎯 أقوى الفئات</span>
       <span class="view-all-link" onclick="handleViewAllClick('categories')">اعرض الكل ◂</span>
     </div>
     <div class="categories-grid" id="categoriesGridContainer"></div>
 
-    <!-- 7. البانر الإعلاني الثالث قبل "أحدث الكوبونات الفعالة" -->
     <div class="promo-banner-wrap" id="bannerSlot3"></div>
 
-    <!-- 8. قسم أحدث الكوبونات الفعالة (أحدث 5 كروت) -->
     <div class="section-header">
       <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
       <span class="view-all-link" onclick="handleViewAllClick('latest')">اعرض الكل ◂</span>
@@ -562,7 +595,7 @@
   </div>
 </div>
 
-<!-- 2. تبويب الكوبونات (يعرض جميع الكوبونات والعروض الفعالة لدولة الزائر + زر المزيد من المتاجر + شريط الفئات العائم) -->
+<!-- 2. تبويب الكوبونات (جميع الكوبونات والعروض + المفضلة + التقييم + شريط الفئات العائم) -->
 <div id="couponsTabView" class="page-view" style="padding-bottom: 65px;">
   <div class="section-header">
     <span class="section-title-text" id="couponsTabHeading">🏷️ جميع الكوبونات والعروض</span>
@@ -586,7 +619,7 @@
   <div class="container" id="filteredViewContainer"></div>
 </div>
 
-<!-- صفحة عرض جميع الأقسام والفئات (2 كارت في كل صف وتحت بعضهم بالترتيب) -->
+<!-- صفحة عرض جميع الأقسام والفئات -->
 <div id="allCategoriesView" class="page-view">
   <div class="section-header">
     <span class="section-title-text">🎯 جميع الأقسام والفئات</span>
@@ -615,7 +648,7 @@
   <div class="container" id="blogContainer">جاري تحميل دليل التسوق...</div>
 </div>
 
-<!-- 4. تبويب عن التطبيق (الصفحات القانونية ومشاركة التطبيق ومنصات التواصل) -->
+<!-- 4. تبويب عن التطبيق -->
 <div id="aboutView" class="page-view">
   <div class="section-header"><span class="section-title-text">ℹ️ معلومات التطبيق والتواصل</span></div>
   <div class="container">
@@ -719,7 +752,7 @@
         <div class="form-group">
           <label>نوع البطاقة</label>
           <select id="admType" onchange="toggleCodeInput()">
-            <option value="coupon">🏷️ بطاقة كوبون بكود خصم (نسخ الكود + تسوق)</option>
+            <option value="coupon">🏷️ بطاقة كوبون بكود خصم (نسخ الكود + فتح المتجر)</option>
             <option value="deal">🎁 بطاقة عرض تلقائي بدون كود (احصل على العرض)</option>
           </select>
         </div>
@@ -810,7 +843,7 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إدارة البانرات الإعلانية الأربعة (مع التخصيص حسب الدولة) -->
+      <!-- 3. إدارة البانرات الإعلانية الأربعة -->
       <div id="admBannerTab" class="adm-subview" style="display:none;">
         <div class="form-group">
           <label>اختر مكان البانر المراد تعديله أو إخفاؤه</label>
@@ -918,7 +951,7 @@
   </div>
 </div>
 
-<!-- نافذة خيارات مشاركة التطبيق الاحترافية (واتساب، فيسبوك، ماسنجر، نسخ الرابط) -->
+<!-- نافذة خيارات مشاركة التطبيق الاحترافية -->
 <div class="share-modal-backdrop" id="shareModalBackdrop" onclick="if(event.target===this) closeShareSheet()">
   <div class="share-modal-sheet">
     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1007,6 +1040,38 @@
   let previousViewId = 'homeView';
   let tapCount = 0;
   let tapTimer = null;
+
+  /* إدارة المفضلة والتقييمات في ذاكرة هاتف كل مستخدم بدون تسجيل دخول */
+  let userFavorites = JSON.parse(localStorage.getItem('silver_user_favorites') || '[]');
+  let userVotes = JSON.parse(localStorage.getItem('silver_user_votes') || '{}');
+
+  function isFavorite(couponId) {
+    return userFavorites.includes(Number(couponId));
+  }
+
+  function toggleFavorite(couponId, event) {
+    if (event) event.stopPropagation();
+    const idNum = Number(couponId);
+    const idx = userFavorites.indexOf(idNum);
+    if (idx === -1) {
+      userFavorites.push(idNum);
+      showToast('❤️ تمت الإضافة إلى المفضلة');
+    } else {
+      userFavorites.splice(idx, 1);
+      showToast('تمت الإزالة من المفضلة');
+    }
+    localStorage.setItem('silver_user_favorites', JSON.stringify(userFavorites));
+    renderHomeSections();
+    renderCouponsTab();
+  }
+
+  function rateCoupon(couponId, voteType) {
+    const idKey = String(couponId);
+    userVotes[idKey] = voteType;
+    localStorage.setItem('silver_user_votes', JSON.stringify(userVotes));
+    showToast(voteType === 'up' ? '👍 شكراً لتأكيد فعالية الكود!' : '👎 تم استلام ملاحظتك وسنراجع الكود');
+    renderCouponsTab();
+  }
 
   let touchStartY = 0;
   document.addEventListener('touchstart', (e) => {
@@ -1214,7 +1279,7 @@
     renderAdminLists();
   }
 
-  /* تبويب الكوبونات: يعرض جميع الكوبونات والعروض الفعالة لدولة الزائر + شريط الفئات السفلي */
+  /* تبويب الكوبونات: جميع الكوبونات + المفضلة + شريط الفئات السفلي */
   function renderCouponsTab() {
     const bar = document.getElementById('floatingCategoriesBar');
     const container = document.getElementById('uniqueStoreCouponsContainer');
@@ -1226,6 +1291,9 @@
     const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
 
     let pillsHtml = `
+      <div class="f-cat-pill fav-pill ${couponsTabSelectedCategory === 'FAV' ? 'active' : ''}" onclick="selectCouponsTabCategory('FAV')">
+        <span>❤️ المفضلة (${userFavorites.length})</span>
+      </div>
       <div class="f-cat-pill ${couponsTabSelectedCategory === 'ALL' ? 'active' : ''}" onclick="selectCouponsTabCategory('ALL')">
         <span>🌟 الكل</span>
       </div>
@@ -1241,7 +1309,10 @@
     bar.innerHTML = pillsHtml;
 
     let sortedCoupons = getSortedCountryCoupons();
-    if (couponsTabSelectedCategory !== 'ALL') {
+    if (couponsTabSelectedCategory === 'FAV') {
+      sortedCoupons = appData.coupons.filter(c => userFavorites.includes(Number(c.id)));
+      headingEl.innerText = '❤️ الكوبونات المحفوظة في المفضلة';
+    } else if (couponsTabSelectedCategory !== 'ALL') {
       sortedCoupons = sortedCoupons.filter(c => c.category === couponsTabSelectedCategory);
       headingEl.innerText = `🏷️ عروض قسم: ${couponsTabSelectedCategory}`;
     } else {
@@ -1251,7 +1322,9 @@
     countEl.innerText = `${sortedCoupons.length} عرض`;
     container.innerHTML = sortedCoupons.length
       ? sortedCoupons.map(buildVerticalTicket).join('')
-      : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لا توجد كوبونات أو عروض متاحة في هذا التصنيف لدولتك حالياً.</div>`;
+      : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">
+          ${couponsTabSelectedCategory === 'FAV' ? 'لم تقم بحفظ أي كوبونات في المفضلة بعد. اضغط على أيقونة ❤️ في أي بطاقة لحفظها هنا.' : 'لا توجد كوبونات أو عروض متاحة في هذا التصنيف لدولتك حالياً.'}
+         </div>`;
   }
 
   function selectCouponsTabCategory(catName) {
@@ -1474,10 +1547,12 @@
     const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
     const logo = storeObj.logo || 'https://via.placeholder.com/50';
     const isDeal = c.type === 'deal' || !c.code || c.code.trim() === '';
-    const targetUrl = c.url || storeObj.url;
+    const targetUrl = c.url || storeObj.url || 'https://silvercoupons.blogspot.com/';
+    const favActive = isFavorite(c.id);
 
     return `
       <div class="h-card">
+        <button type="button" class="fav-heart-btn ${favActive ? 'saved' : ''}" title="إضافة للمفضلة" onclick="toggleFavorite(${c.id}, event)">${favActive ? '❤️' : '🤍'}</button>
         <div>
           <div class="h-card-top">
             <div class="h-card-logo"><img src="${logo}" alt="${c.storeName}"></div>
@@ -1493,8 +1568,8 @@
             <a href="${targetUrl}" target="_blank" class="h-btn-deal">احصل على العرض ↗</a>
           ` : `
             <div class="h-code-box">${c.code}</div>
-            <button class="h-btn-copy" onclick="copyCoupon('${c.code}', this, 'نسخ الكود')">نسخ الكود</button>
-            <a href="${targetUrl}" target="_blank" class="h-btn-shop">تسوق ↗</a>
+            <button class="h-btn-copy" onclick="copyAndShop('${c.code}', '${targetUrl}', this, 'نسخ وتسوق')">نسخ وتسوق</button>
+            <a href="${targetUrl}" target="_blank" class="h-btn-shop">↗</a>
           `}
         </div>
       </div>
@@ -1505,10 +1580,13 @@
     const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
     const logo = storeObj.logo || 'https://via.placeholder.com/60';
     const isDeal = c.type === 'deal' || !c.code || c.code.trim() === '';
-    const targetUrl = c.url || storeObj.url;
+    const targetUrl = c.url || storeObj.url || 'https://silvercoupons.blogspot.com/';
+    const favActive = isFavorite(c.id);
+    const myVote = userVotes[String(c.id)] || '';
 
     return `
       <div class="coupon-ticket">
+        <button type="button" class="fav-heart-btn ${favActive ? 'saved' : ''}" title="إضافة للمفضلة" onclick="toggleFavorite(${c.id}, event)">${favActive ? '❤️' : '🤍'}</button>
         <div class="ticket-top">
           <div class="ticket-logo"><img src="${logo}" alt="${c.storeName}"></div>
           <div class="ticket-info">
@@ -1529,10 +1607,17 @@
           ` : `
             <div class="code-display">${c.code}</div>
             <div class="btn-actions">
-              <button class="btn-copy" onclick="copyCoupon('${c.code}', this, 'نسخ الكود')">نسخ الكود</button>
+              <button class="btn-copy" onclick="copyAndShop('${c.code}', '${targetUrl}', this, 'نسخ الكود')">نسخ الكود</button>
               <a href="${targetUrl}" target="_blank" class="btn-shop">تسوق ↗</a>
             </div>
           `}
+        </div>
+        <div class="ticket-feedback-bar">
+          <span>هل استفدت من العرض؟</span>
+          <div class="fb-btns">
+            <button type="button" class="fb-btn ${myVote === 'up' ? 'voted-up' : ''}" onclick="rateCoupon(${c.id}, 'up')">👍 شغال</button>
+            <button type="button" class="fb-btn ${myVote === 'down' ? 'voted-down' : ''}" onclick="rateCoupon(${c.id}, 'down')">👎 لا يعمل</button>
+          </div>
         </div>
       </div>
     `;
@@ -1645,12 +1730,19 @@
     }).join('') : `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر متاحة لدولتك حالياً.</div>`;
   }
 
-  function copyCoupon(code, btn, defaultLabel = 'نسخ الكود') {
+  /* نسخ الكود للحافظة وفتح رابط المتجر تلقائياً بعد 1.1 ثانية لرفع معدل التحويل */
+  function copyAndShop(code, targetUrl, btn, defaultLabel = 'نسخ الكود') {
     navigator.clipboard.writeText(code);
-    btn.innerText = 'تم النسخ ✓';
+    btn.innerText = 'تم النسخ ✓ جاري الفتح...';
     btn.style.background = '#16a34a';
-    showToast(`تم نسخ الكود (${code}) بنجاح!`);
-    setTimeout(() => { btn.innerText = defaultLabel; btn.style.background = '#2563eb'; }, 2000);
+    showToast(`تم نسخ الكود (${code})! جاري توجيهك للمتجر...`);
+    setTimeout(() => {
+      btn.innerText = defaultLabel;
+      btn.style.background = '#2563eb';
+      if (targetUrl) {
+        window.open(targetUrl, '_blank');
+      }
+    }, 1100);
   }
 
   function showToast(msg) {
