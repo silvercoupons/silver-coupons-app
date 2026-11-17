@@ -173,6 +173,149 @@
       color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
+    /* نافذة البوب أب الترويجية الاحترافية (مثل الموفر ووفرها) */
+    .promo-popup-backdrop {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(4px); z-index: 500;
+      display: none; align-items: center; justify-content: center;
+      padding: 18px; animation: fadeInBackdrop 0.25s ease;
+    }
+    .promo-popup-backdrop.open { display: flex; }
+    @keyframes fadeInBackdrop {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .promo-popup-card {
+      background: #fff; width: 100%; max-width: 390px;
+      border-radius: 22px; overflow: hidden; position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      animation: popScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+    @keyframes popScaleIn {
+      from { transform: scale(0.88) translateY(15px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .promo-popup-close {
+      position: absolute; top: 12px; left: 12px; z-index: 10;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(15, 23, 42, 0.7); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.4);
+      font-size: 15px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .promo-popup-timer-pill {
+      position: absolute; top: 12px; right: 12px; z-index: 10;
+      background: rgba(15, 23, 42, 0.75); color: #fef08a;
+      font-size: 11px; font-weight: 800; padding: 3px 10px;
+      border-radius: 20px; border: 1px solid rgba(234,179,8,0.4);
+    }
+    .promo-popup-img-wrap {
+      width: 100%; max-height: 210px; overflow: hidden;
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+    }
+    .promo-popup-img-wrap img {
+      width: 100%; height: 210px; object-fit: cover; display: block;
+    }
+    .promo-popup-body {
+      padding: 18px 18px 20px;
+    }
+    .promo-popup-tag {
+      display: inline-block; background: #fef08a; color: #854d0e;
+      font-size: 11px; font-weight: 800; padding: 3px 10px;
+      border-radius: 20px; margin-bottom: 8px;
+    }
+    .promo-popup-title {
+      font-size: 17px; font-weight: 800; color: var(--text);
+      margin: 0 0 6px; line-height: 1.4;
+    }
+    .promo-popup-desc {
+      font-size: 13px; color: var(--muted); line-height: 1.6;
+      margin: 0 0 14px;
+    }
+    .promo-popup-code-box {
+      background: #eff6ff; border: 2px dashed var(--blue);
+      border-radius: 12px; padding: 9px 14px; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .promo-popup-code-text {
+      font-family: monospace; font-size: 18px; font-weight: 800;
+      color: var(--blue); letter-spacing: 1.5px;
+    }
+    .promo-popup-cta {
+      display: block; width: 100%; padding: 12px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff; text-decoration: none; border: none;
+      border-radius: 12px; font-family: 'Cairo', sans-serif;
+      font-size: 14.5px; font-weight: 800; cursor: pointer;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+    }
+
+    /* البانر المستطيل العائم بعرض التطبيق (Toast Strip Banner) */
+    .floating-strip-wrap {
+      position: fixed;
+      bottom: 74px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 576px;
+      z-index: 260;
+      display: none;
+      animation: slideUpBanner 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .floating-strip-wrap.open { display: block; }
+    @keyframes slideUpBanner {
+      from { transform: translate(-50%, 35px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+    .floating-strip-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.35);
+      border: 1.5px solid rgba(234, 179, 8, 0.45);
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+    }
+    .floating-strip-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0.38; pointer-events: none;
+    }
+    .floating-strip-content {
+      position: relative; z-index: 2;
+      width: 100%; padding: 11px 14px 11px 40px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      color: #fff; text-decoration: none;
+    }
+    .floating-strip-info { flex: 1; min-width: 0; }
+    .floating-strip-badge {
+      display: inline-block; background: var(--accent); color: #000;
+      font-size: 9.5px; font-weight: 800; padding: 1px 7px;
+      border-radius: 6px; margin-bottom: 3px;
+    }
+    .floating-strip-title {
+      font-size: 13px; font-weight: 800; margin: 0; line-height: 1.35;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .floating-strip-sub {
+      font-size: 11px; color: #e2e8f0; margin: 1px 0 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .floating-strip-btn {
+      background: var(--accent); color: #000;
+      font-size: 11.5px; font-weight: 800; padding: 6px 12px;
+      border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+    }
+    .floating-strip-close {
+      position: absolute; top: 8px; left: 8px; z-index: 5;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2); color: #fff;
+      border: none; font-size: 12px; font-weight: 800;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+
     /* عناوين الأقسام */
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
@@ -557,7 +700,7 @@
     }
     .admin-tabs { display: flex; gap: 3px; margin-bottom: 14px; background: #f1f5f9; padding: 4px; border-radius: 10px; flex-wrap: wrap; }
     .admin-tab {
-      flex: 1; min-width: 54px; text-align: center; padding: 8px 2px; border-radius: 8px; font-size: 10.5px;
+      flex: 1; min-width: 48px; text-align: center; padding: 7px 2px; border-radius: 8px; font-size: 10px;
       font-weight: 700; cursor: pointer; color: var(--muted);
     }
     .admin-tab.active { background: #fff; color: var(--blue); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
@@ -634,7 +777,44 @@
   </div>
 </div>
 
-<!-- الهيدر العلوي (مع أيقونة الجرس والشارة الحمراء للتنبيهات غير المقروءة) -->
+<!-- نافذة البوب أب الترويجية الاحترافية (تُدار بالكامل من لوحة التحكم) -->
+<div class="promo-popup-backdrop" id="promoPopupBackdrop" onclick="if(event.target===this) closePromoPopup()">
+  <div class="promo-popup-card">
+    <button type="button" class="promo-popup-close" title="إغلاق" onclick="closePromoPopup()">✕</button>
+    <span class="promo-popup-timer-pill" id="promoPopupTimerPill" style="display:none;"></span>
+    <div class="promo-popup-img-wrap" id="promoPopupImgWrap" style="display:none;">
+      <img id="promoPopupImg" src="" alt="عرض خاص">
+    </div>
+    <div class="promo-popup-body">
+      <span class="promo-popup-tag" id="promoPopupTag">🔥 عرض حصري لفترة محدودة</span>
+      <h3 class="promo-popup-title" id="promoPopupTitle"></h3>
+      <p class="promo-popup-desc" id="promoPopupDesc"></p>
+      <div class="promo-popup-code-box" id="promoPopupCodeBox" style="display:none;">
+        <span class="promo-popup-code-text" id="promoPopupCodeText"></span>
+        <button type="button" class="btn-copy" style="max-width:110px; padding:6px 10px;" onclick="copyPopupCode()">نسخ الكود</button>
+      </div>
+      <a id="promoPopupCtaLink" href="#" target="_blank" class="promo-popup-cta" onclick="closePromoPopup()">احصل على العرض الآن ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- البانر المستطيل العائم بعرض التطبيق (يظهر لثوانٍ أو يغلقه الزائر) -->
+<div class="floating-strip-wrap" id="floatingStripWrap">
+  <div class="floating-strip-card">
+    <img id="floatingStripBg" class="floating-strip-bg" src="" alt="" style="display:none;">
+    <button type="button" class="floating-strip-close" title="إغلاق" onclick="closeFloatingStrip()">✕</button>
+    <a id="floatingStripLink" href="#" target="_blank" class="floating-strip-content" onclick="closeFloatingStrip()">
+      <div class="floating-strip-info">
+        <span class="floating-strip-badge" id="floatingStripBadge">⚡ عرض سريع</span>
+        <h4 class="floating-strip-title" id="floatingStripTitle"></h4>
+        <p class="floating-strip-sub" id="floatingStripSub"></p>
+      </div>
+      <span class="floating-strip-btn" id="floatingStripBtnText">تسوق ↗</span>
+    </a>
+  </div>
+</div>
+
+<!-- الهيدر العلوي -->
 <div class="app-header">
   <div class="brand-row">
     <div class="brand-title" onclick="unlockAdmin()">
@@ -712,7 +892,7 @@
   </div>
 </div>
 
-<!-- 2. تبويب الكوبونات (شريط فئات نقي تماماً بدون مفضلة) -->
+<!-- 2. تبويب الكوبونات -->
 <div id="couponsTabView" class="page-view" style="padding-bottom: 65px;">
   <div class="section-header">
     <span class="section-title-text" id="couponsTabHeading">🏷️ جميع الكوبونات والعروض</span>
@@ -745,7 +925,7 @@
   <div class="categories-grid-two-col" id="allCategoriesGridContainer"></div>
 </div>
 
-<!-- صفحة عرض جميع المتاجر (مع نجمة تمييز المتجر المفضل) -->
+<!-- صفحة عرض جميع المتاجر -->
 <div id="allStoresView" class="page-view">
   <div class="section-header">
     <span class="section-title-text">🏪 جميع المتاجر المتاحة</span>
@@ -794,12 +974,11 @@
   <div class="container" id="blogContainer">جاري تحميل دليل التسوق...</div>
 </div>
 
-<!-- 4. تبويب عن التطبيق (البطاقات التفاعلية الثلاث + مشاركة التطبيق + المعلومات القانونية) -->
+<!-- 4. تبويب عن التطبيق -->
 <div id="aboutView" class="page-view">
   <div class="section-header"><span class="section-title-text">ℹ️ مفضلاتك ومعلومات التطبيق</span></div>
   <div class="container">
 
-    <!-- البطاقات الثلاث: الكوبونات المفضلة + متاجرك المفضلة + مركز التنبيهات -->
     <div class="user-hub-grid">
       <div class="hub-action-card" onclick="openFavCouponsPage()">
         <div class="hub-card-left">
@@ -914,6 +1093,8 @@
         <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
         <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
         <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانرات</div>
+        <div class="admin-tab" onclick="switchAdminTab('admPopupTab', this)">🎯 بوب أب</div>
+        <div class="admin-tab" onclick="switchAdminTab('admStripTab', this)">📢 شريط عائم</div>
         <div class="admin-tab" onclick="switchAdminTab('admNotifTab', this)">🔔 التنبيهات</div>
         <div class="admin-tab" onclick="switchAdminTab('admLinksTab', this)">🔗 الروابط</div>
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
@@ -1096,7 +1277,139 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. إدارة التنبيهات والعروض الفورية داخل التطبيق -->
+      <!-- 4. إدارة نافذة البوب أب الترويجية (مثل الموفر ووفرها) -->
+      <div id="admPopupTab" class="adm-subview" style="display:none;">
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">تحكم في نافذة البوب أب الترويجية التي تنبثق للزائر بصورة وكود خصم وزر انتقال:</p>
+        <div class="form-group">
+          <label>حالة نافذة البوب أب</label>
+          <select id="popEnabled">
+            <option value="true">✅ مفعّلة وتظهر للزوار</option>
+            <option value="false">❌ مخفية حالياً</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>الدولة المستهدفة</label>
+          <select id="popCountry">
+            <option value="ALL">🌍 كل الدول العربية</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>مدة الإغلاق التلقائي بالثواني (اكتب 0 ليغلقه الزائر يدوياً فقط)</label>
+          <input type="number" id="popDuration" min="0" max="60" value="0" placeholder="0 أو 8">
+        </div>
+        <div class="form-group">
+          <label>الشارة العلوية (مثال: 🔥 عرض اليوم الحصري)</label>
+          <input type="text" id="popTag" placeholder="🔥 عرض اليوم الحصري">
+        </div>
+        <div class="form-group">
+          <label>عنوان البوب أب الرئيسي</label>
+          <input type="text" id="popTitle" placeholder="خصم إضافي 20% على جميع طلبات نون!">
+        </div>
+        <div class="form-group">
+          <label>وصف العرض</label>
+          <textarea id="popDesc" rows="2" placeholder="انسخ الكود الآن واستمتع بأقوى تخفيض لفترة محدودة..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>كود الخصم داخل البوب أب (اختياري)</label>
+          <input type="text" id="popCode" placeholder="WK83" style="font-family:monospace; font-weight:bold;">
+        </div>
+        <div class="form-group">
+          <label>نص زر الانتقال</label>
+          <input type="text" id="popCta" placeholder="تسوق العرض الآن ↗">
+        </div>
+        <div class="form-group">
+          <label>رابط الانتقال عند الضغط</label>
+          <input type="url" id="popUrl" value="https://silvercoupons.blogspot.com/">
+        </div>
+        <div class="form-group">
+          <label>رابط صورة البوب أب (اختياري)</label>
+          <input type="url" id="popImg" placeholder="https://example.com/popup.jpg">
+        </div>
+        <div class="form-group">
+          <label>أو رفع صورة للبوب أب من الهاتف:</label>
+          <input type="file" id="popFile" accept="image/*">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="savePopupAdmin()">💾 حفظ وتفعيل البوب أب</button>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button type="button" class="btn-shop" style="flex:1; justify-content:center; border:none; cursor:pointer;" onclick="previewPopupNow()">👁️ معاينة الآن</button>
+          <button type="button" class="btn-mini" style="flex:1; background:var(--red); padding:9px;" onclick="clearPopupAdmin()">🗑️ حذف وإخفاء</button>
+        </div>
+      </div>
+
+      <!-- 5. إدارة البانر المستطيل العائم بعرض التطبيق (Toast Strip Banner) -->
+      <div id="admStripTab" class="adm-subview" style="display:none;">
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">بانر مستطيل أنيق بعرض التطبيق بالكامل يظهر للزائر لعدة ثوانٍ (أو يغلقه يدوياً) بصورة أو نص وزر:</p>
+        <div class="form-group">
+          <label>حالة البانر المستطيل العائم</label>
+          <select id="stripEnabled">
+            <option value="true">✅ مفعّل ويظهر للزوار</option>
+            <option value="false">❌ مخفي حالياً</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>الدولة المستهدفة</label>
+          <select id="stripCountry">
+            <option value="ALL">🌍 كل الدول العربية</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>مدة الظهور بالثواني قبل الإخفاء التلقائي (مثال: 7 ثوانٍ، أو 0 ليبقى حتى يغلقه الزائر)</label>
+          <input type="number" id="stripDuration" min="0" max="60" value="7" placeholder="7">
+        </div>
+        <div class="form-group">
+          <label>شارة صغيرة (مثال: ⚡ عرض خاطف)</label>
+          <input type="text" id="stripBadge" placeholder="⚡ عرض خاطف">
+        </div>
+        <div class="form-group">
+          <label>عنوان البانر المستطيل</label>
+          <input type="text" id="stripTitle" placeholder="تخفيضات نهاية الأسبوع تصل إلى 60%">
+        </div>
+        <div class="form-group">
+          <label>وصف مختصر (سطر واحد)</label>
+          <input type="text" id="stripSub" placeholder="استخدم كود WK83 واحصل على خصم إضافي">
+        </div>
+        <div class="form-group">
+          <label>نص الزر</label>
+          <input type="text" id="stripBtnText" placeholder="تسوق ↗">
+        </div>
+        <div class="form-group">
+          <label>رابط الانتقال</label>
+          <input type="url" id="stripUrl" value="https://silvercoupons.blogspot.com/">
+        </div>
+        <div class="form-group">
+          <label>رابط صورة خلفية البانر المستطيل (اختياري)</label>
+          <input type="url" id="stripImg" placeholder="https://example.com/strip.jpg">
+        </div>
+        <div class="form-group">
+          <label>أو رفع صورة مستطيلة من الهاتف:</label>
+          <input type="file" id="stripFile" accept="image/*">
+        </div>
+        <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveStripAdmin()">💾 حفظ وتفعيل البانر المستطيل</button>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button type="button" class="btn-shop" style="flex:1; justify-content:center; border:none; cursor:pointer;" onclick="previewStripNow()">👁️ معاينة الآن</button>
+          <button type="button" class="btn-mini" style="flex:1; background:var(--red); padding:9px;" onclick="clearStripAdmin()">🗑️ حذف وإخفاء</button>
+        </div>
+      </div>
+
+      <!-- 6. إدارة التنبيهات والعروض الفورية داخل التطبيق -->
       <div id="admNotifTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">أضف هنا كل إشعار أو عرض فوري ترسله للمستخدمين ليضيء الجرس العلوي والنقطة الحمراء ويظل محفوظاً داخل <strong>(🔔 مركز التنبيهات)</strong>:</p>
         <div class="form-group">
@@ -1132,7 +1445,7 @@
         <div id="adminNotifsList"></div>
       </div>
 
-      <!-- 5. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
+      <!-- 7. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
       <div id="admLinksTab" class="adm-subview" style="display:none;">
         <h4 style="margin:0 0 8px; font-size:13px;">📤 رابط مشاركة التطبيق (APK / Google Play):</h4>
         <div class="form-group">
@@ -1166,7 +1479,7 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveLinksAdmin()">حفظ إعدادات الروابط والمشاركة</button>
       </div>
 
-      <!-- 6. إعدادات مفتاح الربط السحابي -->
+      <!-- 8. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
         <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والتنبيهات تلقائياً بضغطة زر:</p>
         <div class="form-group">
@@ -1199,7 +1512,7 @@
 
 <div class="toast" id="toastMsg">تم نسخ الكود بنجاح!</div>
 
-<!-- شريط التبويبات السفلي الرباعي (مع النقطة الحمراء فوق أيقونة عن التطبيق) -->
+<!-- شريط التبويبات السفلي الرباعي -->
 <div class="bottom-nav">
   <div class="nav-item active" id="navHome" onclick="switchTab('homeView', this)">
     <span class="nav-icon">🏠</span><span>الرئيسية</span>
@@ -1251,6 +1564,33 @@
     b3: { enabled: true, tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
   };
 
+  const DEFAULT_POPUP = {
+    id: 0,
+    enabled: false,
+    country: 'ALL',
+    duration: 0,
+    tag: '🔥 عرض حصري',
+    title: '',
+    desc: '',
+    code: '',
+    cta: 'تسوق العرض الآن ↗',
+    url: 'https://silvercoupons.blogspot.com/',
+    image: ''
+  };
+
+  const DEFAULT_STRIP = {
+    id: 0,
+    enabled: false,
+    country: 'ALL',
+    duration: 7,
+    badge: '⚡ عرض سريع',
+    title: '',
+    sub: '',
+    btnText: 'تسوق ↗',
+    url: 'https://silvercoupons.blogspot.com/',
+    image: ''
+  };
+
   const DEFAULT_LINKS = {
     appShareUrl: 'https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk',
     stores: '',
@@ -1263,6 +1603,8 @@
   let appData = {
     categories: [...DEFAULT_CATEGORIES],
     banners: { ...DEFAULT_BANNERS },
+    popupBanner: { ...DEFAULT_POPUP },
+    floatingStrip: { ...DEFAULT_STRIP },
     links: { ...DEFAULT_LINKS },
     notifications: [],
     stores: [],
@@ -1275,12 +1617,261 @@
   let notifReturnViewId = 'homeView';
   let tapCount = 0;
   let tapTimer = null;
+  let popupTimerHandle = null;
+  let stripTimerHandle = null;
 
-  /* إدارة الكوبونات المفضلة والمتاجر المفضلة والتقييمات وحالة قراءة التنبيهات في ذاكرة هاتف المستخدم */
   let userFavorites = JSON.parse(localStorage.getItem('silver_user_favorites') || '[]');
   let userFavoriteStores = JSON.parse(localStorage.getItem('silver_user_fav_stores') || '[]');
   let userVotes = JSON.parse(localStorage.getItem('silver_user_votes') || '{}');
   let lastSeenNotifId = Number(localStorage.getItem('silver_last_seen_notif_id') || '0');
+
+  /* دوال إدارة وعرض نافذة البوب أب الترويجية */
+  function triggerPromoPopup(forcePreview = false) {
+    const pop = appData.popupBanner;
+    if (!pop || (!forcePreview && !pop.enabled)) return;
+    if (!forcePreview && !matchesCountry(pop.country)) return;
+
+    const seenKey = 'silver_seen_popup_' + (pop.id || 1);
+    if (!forcePreview && sessionStorage.getItem(seenKey)) return;
+
+    document.getElementById('promoPopupTag').innerText = pop.tag || '🔥 عرض حصري';
+    document.getElementById('promoPopupTitle').innerText = pop.title || '';
+    document.getElementById('promoPopupDesc').innerText = pop.desc || '';
+    document.getElementById('promoPopupCtaLink').innerText = pop.cta || 'احصل على العرض الآن ↗';
+    document.getElementById('promoPopupCtaLink').href = pop.url || 'https://silvercoupons.blogspot.com/';
+
+    const imgWrap = document.getElementById('promoPopupImgWrap');
+    const imgEl = document.getElementById('promoPopupImg');
+    if (pop.image && pop.image.trim() !== '') {
+      imgEl.src = pop.image.trim();
+      imgWrap.style.display = 'block';
+    } else {
+      imgWrap.style.display = 'none';
+    }
+
+    const codeBox = document.getElementById('promoPopupCodeBox');
+    const codeTxt = document.getElementById('promoPopupCodeText');
+    if (pop.code && pop.code.trim() !== '') {
+      codeTxt.innerText = pop.code.trim().toUpperCase();
+      codeBox.style.display = 'flex';
+    } else {
+      codeBox.style.display = 'none';
+    }
+
+    const timerPill = document.getElementById('promoPopupTimerPill');
+    clearInterval(popupTimerHandle);
+    let secs = Number(pop.duration) || 0;
+    if (secs > 0) {
+      timerPill.style.display = 'inline-block';
+      timerPill.innerText = `يُغلق تلقائياً خلال ${secs} ث`;
+      popupTimerHandle = setInterval(() => {
+        secs--;
+        if (secs <= 0) {
+          closePromoPopup();
+        } else {
+          timerPill.innerText = `يُغلق تلقائياً خلال ${secs} ث`;
+        }
+      }, 1000);
+    } else {
+      timerPill.style.display = 'none';
+    }
+
+    document.getElementById('promoPopupBackdrop').classList.add('open');
+    if (!forcePreview) sessionStorage.setItem(seenKey, '1');
+  }
+
+  function closePromoPopup() {
+    clearInterval(popupTimerHandle);
+    document.getElementById('promoPopupBackdrop').classList.remove('open');
+  }
+
+  function copyPopupCode() {
+    const code = document.getElementById('promoPopupCodeText').innerText.trim();
+    const url = document.getElementById('promoPopupCtaLink').href;
+    if (!code) return;
+    navigator.clipboard.writeText(code);
+    showToast(`تم نسخ الكود (${code})! جاري توجيهك للمتجر...`);
+    setTimeout(() => {
+      closePromoPopup();
+      if (url) window.open(url, '_blank');
+    }, 1000);
+  }
+
+  function loadPopupForm() {
+    const p = appData.popupBanner || DEFAULT_POPUP;
+    document.getElementById('popEnabled').value = String(Boolean(p.enabled));
+    document.getElementById('popCountry').value = p.country || 'ALL';
+    document.getElementById('popDuration').value = p.duration || 0;
+    document.getElementById('popTag').value = p.tag || '';
+    document.getElementById('popTitle').value = p.title || '';
+    document.getElementById('popDesc').value = p.desc || '';
+    document.getElementById('popCode').value = p.code || '';
+    document.getElementById('popCta').value = p.cta || '';
+    document.getElementById('popUrl').value = p.url || 'https://silvercoupons.blogspot.com/';
+    document.getElementById('popImg').value = p.image || '';
+  }
+
+  async function savePopupAdmin() {
+    let imgUrl = document.getElementById('popImg').value.trim();
+    const fileInput = document.getElementById('popFile');
+    if (fileInput.files && fileInput.files[0]) {
+      showToast('جاري رفع صورة البوب أب...');
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `popup_${Date.now()}.png`);
+      if (!uploaded) return;
+      imgUrl = uploaded;
+      document.getElementById('popImg').value = imgUrl;
+    }
+
+    appData.popupBanner = {
+      id: Date.now(),
+      enabled: document.getElementById('popEnabled').value === 'true',
+      country: document.getElementById('popCountry').value,
+      duration: Number(document.getElementById('popDuration').value) || 0,
+      tag: document.getElementById('popTag').value.trim(),
+      title: document.getElementById('popTitle').value.trim(),
+      desc: document.getElementById('popDesc').value.trim(),
+      code: document.getElementById('popCode').value.trim().toUpperCase(),
+      cta: document.getElementById('popCta').value.trim() || 'تسوق العرض الآن ↗',
+      url: document.getElementById('popUrl').value.trim() || 'https://silvercoupons.blogspot.com/',
+      image: imgUrl
+    };
+    fileInput.value = '';
+    refreshAllUI();
+    showToast('تم حفظ إعدادات البوب أب! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function previewPopupNow() {
+    appData.popupBanner = {
+      id: Date.now(),
+      enabled: true,
+      country: 'ALL',
+      duration: Number(document.getElementById('popDuration').value) || 0,
+      tag: document.getElementById('popTag').value.trim() || '🔥 عرض حصري',
+      title: document.getElementById('popTitle').value.trim() || 'معاينة نافذة البوب أب الترويجية',
+      desc: document.getElementById('popDesc').value.trim() || 'هكذا سيظهر الإعلان للزوار داخل التطبيق.',
+      code: document.getElementById('popCode').value.trim().toUpperCase(),
+      cta: document.getElementById('popCta').value.trim() || 'احصل على العرض الآن ↗',
+      url: document.getElementById('popUrl').value.trim() || 'https://silvercoupons.blogspot.com/',
+      image: document.getElementById('popImg').value.trim()
+    };
+    triggerPromoPopup(true);
+  }
+
+  function clearPopupAdmin() {
+    if (!confirm('هل تريد حذف بيانات البوب أب وإخفاءه؟')) return;
+    appData.popupBanner = { ...DEFAULT_POPUP, id: Date.now(), enabled: false };
+    loadPopupForm();
+    refreshAllUI();
+    showToast('تم حذف وإخفاء البوب أب! اضغط زر النشر الأخضر.');
+  }
+
+  /* دوال إدارة وعرض البانر المستطيل العائم بعرض التطبيق (Toast Strip) */
+  function triggerFloatingStrip(forcePreview = false) {
+    const st = appData.floatingStrip;
+    if (!st || (!forcePreview && !st.enabled)) return;
+    if (!forcePreview && !matchesCountry(st.country)) return;
+
+    const seenKey = 'silver_seen_strip_' + (st.id || 1);
+    if (!forcePreview && sessionStorage.getItem(seenKey)) return;
+
+    document.getElementById('floatingStripBadge').innerText = st.badge || '⚡ عرض سريع';
+    document.getElementById('floatingStripTitle').innerText = st.title || '';
+    document.getElementById('floatingStripSub').innerText = st.sub || '';
+    document.getElementById('floatingStripBtnText').innerText = st.btnText || 'تسوق ↗';
+    document.getElementById('floatingStripLink').href = st.url || 'https://silvercoupons.blogspot.com/';
+
+    const bgImg = document.getElementById('floatingStripBg');
+    if (st.image && st.image.trim() !== '') {
+      bgImg.src = st.image.trim();
+      bgImg.style.display = 'block';
+    } else {
+      bgImg.style.display = 'none';
+    }
+
+    clearTimeout(stripTimerHandle);
+    const wrap = document.getElementById('floatingStripWrap');
+    wrap.classList.add('open');
+
+    const secs = Number(st.duration) || 0;
+    if (secs > 0) {
+      stripTimerHandle = setTimeout(() => {
+        closeFloatingStrip();
+      }, secs * 1000);
+    }
+
+    if (!forcePreview) sessionStorage.setItem(seenKey, '1');
+  }
+
+  function closeFloatingStrip() {
+    clearTimeout(stripTimerHandle);
+    document.getElementById('floatingStripWrap').classList.remove('open');
+  }
+
+  function loadStripForm() {
+    const s = appData.floatingStrip || DEFAULT_STRIP;
+    document.getElementById('stripEnabled').value = String(Boolean(s.enabled));
+    document.getElementById('stripCountry').value = s.country || 'ALL';
+    document.getElementById('stripDuration').value = (s.duration !== undefined) ? s.duration : 7;
+    document.getElementById('stripBadge').value = s.badge || '';
+    document.getElementById('stripTitle').value = s.title || '';
+    document.getElementById('stripSub').value = s.sub || '';
+    document.getElementById('stripBtnText').value = s.btnText || '';
+    document.getElementById('stripUrl').value = s.url || 'https://silvercoupons.blogspot.com/';
+    document.getElementById('stripImg').value = s.image || '';
+  }
+
+  async function saveStripAdmin() {
+    let imgUrl = document.getElementById('stripImg').value.trim();
+    const fileInput = document.getElementById('stripFile');
+    if (fileInput.files && fileInput.files[0]) {
+      showToast('جاري رفع صورة البانر المستطيل...');
+      const uploaded = await uploadImageToGitHub(fileInput.files[0], `strip_${Date.now()}.png`);
+      if (!uploaded) return;
+      imgUrl = uploaded;
+      document.getElementById('stripImg').value = imgUrl;
+    }
+
+    appData.floatingStrip = {
+      id: Date.now(),
+      enabled: document.getElementById('stripEnabled').value === 'true',
+      country: document.getElementById('stripCountry').value,
+      duration: Number(document.getElementById('stripDuration').value) || 0,
+      badge: document.getElementById('stripBadge').value.trim(),
+      title: document.getElementById('stripTitle').value.trim(),
+      sub: document.getElementById('stripSub').value.trim(),
+      btnText: document.getElementById('stripBtnText').value.trim() || 'تسوق ↗',
+      url: document.getElementById('stripUrl').value.trim() || 'https://silvercoupons.blogspot.com/',
+      image: imgUrl
+    };
+    fileInput.value = '';
+    refreshAllUI();
+    showToast('تم حفظ البانر المستطيل! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function previewStripNow() {
+    appData.floatingStrip = {
+      id: Date.now(),
+      enabled: true,
+      country: 'ALL',
+      duration: Number(document.getElementById('stripDuration').value) || 7,
+      badge: document.getElementById('stripBadge').value.trim() || '⚡ عرض خاطف',
+      title: document.getElementById('stripTitle').value.trim() || 'معاينة البانر المستطيل بعرض التطبيق',
+      sub: document.getElementById('stripSub').value.trim() || 'يظهر لعدة ثوانٍ ثم يختفي تلقائياً',
+      btnText: document.getElementById('stripBtnText').value.trim() || 'تسوق ↗',
+      url: document.getElementById('stripUrl').value.trim() || 'https://silvercoupons.blogspot.com/',
+      image: document.getElementById('stripImg').value.trim()
+    };
+    triggerFloatingStrip(true);
+  }
+
+  function clearStripAdmin() {
+    if (!confirm('هل تريد حذف بيانات البانر المستطيل وإخفاءه؟')) return;
+    appData.floatingStrip = { ...DEFAULT_STRIP, id: Date.now(), enabled: false };
+    loadStripForm();
+    closeFloatingStrip();
+    refreshAllUI();
+    showToast('تم حذف البانر المستطيل! اضغط زر النشر الأخضر.');
+  }
 
   function isFavorite(couponId) {
     return userFavorites.includes(Number(couponId));
@@ -1424,7 +2015,6 @@
       `;
     }).join('') : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لا توجد تنبيهات جديدة حالياً.</div>`;
 
-    /* تعليم جميع التنبيهات الحالية كمقروءة وإخفاء النقطة الحمراء وعداد الجرس */
     if (list.length > 0) {
       const maxId = Math.max(...list.map(n => Number(n.id) || 0));
       if (maxId > lastSeenNotifId) {
@@ -1509,6 +2099,10 @@
     document.getElementById('currentCountryBtn').innerText = `${flag} ${name} ▾`;
     document.getElementById('welcomeScreen').classList.add('hidden');
     refreshAllUI();
+    setTimeout(() => {
+      triggerPromoPopup(false);
+      triggerFloatingStrip(false);
+    }, 600);
   }
 
   function openCountryScreen() {
@@ -1534,6 +2128,8 @@
         document.getElementById('adminView').classList.add('active');
         document.getElementById('ghTokenInput').value = localStorage.getItem('silver_gh_token') || '';
         loadBannerForm();
+        loadPopupForm();
+        loadStripForm();
         loadLinksForm();
         renderAdminLists();
       } else if (pass !== null) {
@@ -1599,6 +2195,8 @@
           ? fetched.categories
           : [...DEFAULT_CATEGORIES],
         banners: mergedBanners,
+        popupBanner: { ...DEFAULT_POPUP, ...(fetched.popupBanner || {}) },
+        floatingStrip: { ...DEFAULT_STRIP, ...(fetched.floatingStrip || {}) },
         links: { ...DEFAULT_LINKS, ...(fetched.links || {}) },
         notifications: Array.isArray(fetched.notifications) ? fetched.notifications : [],
         stores: Array.isArray(fetched.stores) ? fetched.stores : [],
@@ -1613,6 +2211,8 @@
             ? parsed.categories
             : [...DEFAULT_CATEGORIES],
           banners: { ...DEFAULT_BANNERS, ...(parsed.banners || {}) },
+          popupBanner: { ...DEFAULT_POPUP, ...(parsed.popupBanner || {}) },
+          floatingStrip: { ...DEFAULT_STRIP, ...(parsed.floatingStrip || {}) },
           links: { ...DEFAULT_LINKS, ...(parsed.links || {}) },
           notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
           stores: parsed.stores || [],
@@ -1621,6 +2221,13 @@
       }
     }
     refreshAllUI();
+
+    if (selectedCountry) {
+      setTimeout(() => {
+        triggerPromoPopup(false);
+        triggerFloatingStrip(false);
+      }, 900);
+    }
   }
 
   async function syncFromCloud() {
@@ -1664,7 +2271,6 @@
     renderAdminLists();
   }
 
-  /* تبويب الكوبونات: يعرض جميع الكوبونات + شريط الفئات التجاري فقط */
   function renderCouponsTab() {
     const bar = document.getElementById('floatingCategoriesBar');
     const container = document.getElementById('uniqueStoreCouponsContainer');
@@ -2498,7 +3104,7 @@
   async function publishToGitHub() {
     const token = localStorage.getItem('silver_gh_token');
     if (!token) {
-      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[5]);
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[7]);
       return alert('يرجى لصق مفتاح GitHub Token هنا أولاً (مرة واحدة فقط) لتفعيل النشر الفوري.');
     }
 
