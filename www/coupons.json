@@ -50,13 +50,31 @@
     }
   ],
   "banners": {
-    "b0": {
+    "b0_1": {
       "enabled": true,
       "tag": "",
       "title": "",
       "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
       "image": "https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/banner_b0_ALL_1794951979999.png",
+      "byCountry": {}
+    },
+    "b0_2": {
+      "enabled": false,
+      "tag": "",
+      "title": "",
+      "cta": "",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": "",
+      "byCountry": {}
+    },
+    "b0_3": {
+      "enabled": false,
+      "tag": "",
+      "title": "",
+      "cta": "",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": "",
       "byCountry": {}
     },
     "b1": {
@@ -88,12 +106,12 @@
     }
   },
   "popupBanner": {
-    "id": 1794955828853,
-    "enabled": true,
+    "id": 1794956473791,
+    "enabled": false,
     "targetPage": "homeView",
     "layout": "landscape",
     "country": "ALL",
-    "duration": 2,
+    "duration": 3,
     "tag": "🔥 عرض حصري",
     "title": "معاينة نافذة البوب أب الترويجية",
     "desc": "هكذا سيظهر الإعلان للزوار داخل التطبيق.",
