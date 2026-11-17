@@ -94,31 +94,36 @@
       background: var(--accent); color: #000; font-size: 10px; padding: 2px 7px;
       border-radius: 8px; font-weight: 800; white-space: nowrap;
     }
-    .header-left-tools { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+    .header-left-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .country-switch-btn {
       background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2);
-      color: #fff; padding: 5px 10px; border-radius: 10px; font-family: 'Cairo', sans-serif;
+      color: #fff; padding: 5px 9px; border-radius: 10px; font-family: 'Cairo', sans-serif;
       font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
       display: flex; align-items: center; gap: 4px;
     }
 
-    /* زر الجرس العلوي والشارة الحمراء للتنبيهات الجديدة */
-    .header-bell-btn {
+    /* زر التحديث الفوري + زر الجرس العلوي */
+    .header-icon-btn {
       position: relative;
       background: rgba(255,255,255,0.14);
       border: 1px solid rgba(255,255,255,0.2);
       color: #fff;
-      width: 34px;
-      height: 34px;
+      width: 33px;
+      height: 33px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       transition: 0.2s;
     }
-    .header-bell-btn:active { transform: scale(0.94); }
+    .header-icon-btn:active { transform: scale(0.92); }
+    .spin-anim { animation: spinIcon 0.7s linear infinite; }
+    @keyframes spinIcon {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
     .bell-unread-badge {
       position: absolute;
       top: -5px;
@@ -268,7 +273,7 @@
       box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
     }
 
-    /* البانر المستطيل العائم بعرض التطبيق (Toast Strip Banner) */
+    /* البانر المستطيل العائم بعرض التطبيق */
     .floating-strip-wrap {
       position: fixed;
       bottom: 74px;
@@ -447,20 +452,17 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+      direction: ltr;
     }
     .top-slider-track {
       display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
+      transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+      width: 100%;
     }
-    .top-slider-track::-webkit-scrollbar { display: none; }
     .top-slider-slide {
       flex: 0 0 100%;
       width: 100%;
-      scroll-snap-align: start;
+      direction: rtl;
     }
     .top-slider-slide .promo-banner-card {
       border-radius: 0;
@@ -477,6 +479,7 @@
       background: rgba(15, 23, 42, 0.45);
       padding: 4px 9px;
       border-radius: 20px;
+      direction: rtl;
     }
     .slider-dot {
       width: 7px;
@@ -897,7 +900,10 @@
       <span class="brand-badge">أكواد موثقة</span>
     </div>
     <div class="header-left-tools">
-      <button type="button" class="header-bell-btn" title="مركز التنبيهات والعروض الفورية" onclick="openNotificationsPage('homeView')">
+      <button type="button" class="header-icon-btn" title="تحديث فوري من السحابة" onclick="manualCloudRefresh()">
+        <span id="headerSyncIcon">🔄</span>
+      </button>
+      <button type="button" class="header-icon-btn" title="مركز التنبيهات والعروض الفورية" onclick="openNotificationsPage('homeView')">
         <span>🔔</span>
         <span class="bell-unread-badge" id="headerBellBadge">0</span>
       </button>
@@ -1655,7 +1661,7 @@
   ];
 
   const DEFAULT_BANNERS = {
-    b0_1: { enabled: true, tag: 'عروض مميزة ⭐', title: 'تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر', cta: 'اكتشف العروض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_1: { enabled: true, tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
     b0_2: { enabled: false, tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
     b0_3: { enabled: false, tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
     b1: { enabled: true, tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
@@ -1703,7 +1709,7 @@
 
   let appData = {
     categories: [...DEFAULT_CATEGORIES],
-    banners: { ...DEFAULT_BANNERS },
+    banners: JSON.parse(JSON.stringify(DEFAULT_BANNERS)),
     popupBanner: { ...DEFAULT_POPUP },
     floatingStrip: { ...DEFAULT_STRIP },
     links: { ...DEFAULT_LINKS },
@@ -1722,6 +1728,8 @@
   let popupTimerHandle = null;
   let stripTimerHandle = null;
   let topSliderAutoHandle = null;
+  let currentTopSlideIdx = 0;
+  let totalTopSlidesCount = 0;
 
   let userFavorites = JSON.parse(localStorage.getItem('silver_user_favorites') || '[]');
   let userFavoriteStores = JSON.parse(localStorage.getItem('silver_user_fav_stores') || '[]');
@@ -1733,7 +1741,46 @@
     return ws && !ws.classList.contains('hidden');
   }
 
-  /* دوال إدارة وعرض نافذة البوب أب الترويجية (مُصلحة للظهور المضمون بعد اختيار الدولة) */
+  /* تحديث فوري من السحابة (تجاوز كامل للكاش على الهاتف والكمبيوتر) */
+  async function fetchFreshCloudData() {
+    const nocacheSuffix = `?ref=main&nocache=${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    try {
+      const apiRes = await fetch(API_JSON_URL + nocacheSuffix, {
+        headers: { 'Accept': 'application/vnd.github.v3+json' },
+        cache: 'no-store'
+      });
+      if (apiRes.ok) {
+        const meta = await apiRes.json();
+        const decoded = decodeURIComponent(escape(atob(meta.content.replace(/\s/g, ''))));
+        return JSON.parse(decoded);
+      }
+    } catch (e) {}
+
+    try {
+      const res = await fetch(CLOUD_JSON_URL + nocacheSuffix, { cache: 'no-store' });
+      if (res.ok) return await res.json();
+    } catch (e) {}
+
+    return null;
+  }
+
+  async function manualCloudRefresh() {
+    const icon = document.getElementById('headerSyncIcon');
+    if (icon) icon.classList.add('spin-anim');
+    showToast('جاري مزامنة أحدث العروض والبانرات...');
+    await initApp(true);
+    if (icon) icon.classList.remove('spin-anim');
+    showToast('تم تحديث التطبيق بأحدث البيانات بنجاح ✓');
+  }
+
+  /* التحديث التلقائي عند عودة المستخدم للتطبيق من الخلفية على الهاتف */
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      initApp(false);
+    }
+  });
+
+  /* دوال إدارة وعرض نافذة البوب أب الترويجية */
   function triggerPromoPopup(forcePreview = false, currentView = null) {
     const pop = appData.popupBanner;
     if (!pop) return;
@@ -1746,7 +1793,7 @@
       const targetPage = pop.targetPage || 'homeView';
       if (targetPage !== 'ALL' && targetPage !== viewToCheck) return;
 
-      const seenKey = 'silver_seen_popup_v2_' + (pop.id || 1);
+      const seenKey = 'silver_seen_popup_v3_' + (pop.id || 1);
       if (sessionStorage.getItem(seenKey)) return;
       sessionStorage.setItem(seenKey, '1');
     }
@@ -1866,9 +1913,8 @@
       document.getElementById('popImg').value = imgUrl;
     }
 
-    const newId = Date.now();
     appData.popupBanner = {
-      id: newId,
+      id: Date.now(),
       enabled: document.getElementById('popEnabled').value === 'true',
       targetPage: document.getElementById('popTargetPage').value || 'homeView',
       layout: document.getElementById('popLayout').value || 'landscape',
@@ -1914,7 +1960,7 @@
     showToast('تم حذف وإخفاء البوب أب! اضغط زر النشر الأخضر.');
   }
 
-  /* دوال إدارة وعرض البانر المستطيل العائم بعرض التطبيق (مُصلحة للظهور المضمون) */
+  /* دوال إدارة وعرض البانر المستطيل العائم بعرض التطبيق */
   function triggerFloatingStrip(forcePreview = false) {
     const st = appData.floatingStrip;
     if (!st) return;
@@ -1923,7 +1969,7 @@
       if (isWelcomeVisible()) return;
       if (!matchesCountry(st.country)) return;
 
-      const seenKey = 'silver_seen_strip_v2_' + (st.id || 1);
+      const seenKey = 'silver_seen_strip_v3_' + (st.id || 1);
       if (sessionStorage.getItem(seenKey)) return;
       sessionStorage.setItem(seenKey, '1');
     }
@@ -2207,8 +2253,8 @@
   }, { passive: true });
   document.addEventListener('touchend', async (e) => {
     if (window.scrollY <= 0 && (e.changedTouches[0].clientY - touchStartY) > 110) {
-      await initApp();
-      showToast('تم تحديث أحدث الكوبونات بنجاح ✓');
+      await initApp(true);
+      showToast('تم تحديث أحدث الكوبونات والبانرات بنجاح ✓');
     }
   }, { passive: true });
 
@@ -2258,7 +2304,7 @@
     setTimeout(() => {
       triggerPromoPopup(false, activeViewId);
       triggerFloatingStrip(false);
-    }, 650);
+    }, 600);
   }
 
   function openCountryScreen() {
@@ -2314,45 +2360,42 @@
     document.getElementById('codeInputGroup').style.display = (type === 'deal') ? 'none' : 'block';
   }
 
-  /* ترحيل البانر العلوي القديم b0 تلقائياً إلى b0_1 دون فقدان أي بيانات */
+  /* ترحيل ذكي للبانر العلوي القديم b0 بجميع دوله إلى b0_1 دون فقدان الصورة */
   function normalizeBanners(rawBanners) {
-    const merged = { ...DEFAULT_BANNERS };
+    const merged = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
     if (!rawBanners) return merged;
 
-    if (rawBanners.b0 && !rawBanners.b0_1) {
-      merged.b0_1 = { ...DEFAULT_BANNERS.b0_1, ...rawBanners.b0, byCountry: rawBanners.b0.byCountry || {} };
+    if (rawBanners.b0) {
+      const oldB0 = rawBanners.b0;
+      const hasNewB01Img = rawBanners.b0_1 && rawBanners.b0_1.image && rawBanners.b0_1.image.trim() !== '';
+      if (!rawBanners.b0_1 || (!hasNewB01Img && oldB0.image)) {
+        merged.b0_1 = {
+          ...merged.b0_1,
+          ...oldB0,
+          byCountry: oldB0.byCountry ? JSON.parse(JSON.stringify(oldB0.byCountry)) : {}
+        };
+      }
     }
 
     ['b0_1', 'b0_2', 'b0_3', 'b1', 'b2', 'b3'].forEach(key => {
       if (rawBanners[key]) {
-        merged[key] = { ...DEFAULT_BANNERS[key], ...rawBanners[key], byCountry: rawBanners[key].byCountry || {} };
+        const currentImg = merged[key].image;
+        merged[key] = {
+          ...merged[key],
+          ...rawBanners[key],
+          byCountry: rawBanners[key].byCountry ? JSON.parse(JSON.stringify(rawBanners[key].byCountry)) : {}
+        };
+        if (!merged[key].image && currentImg) {
+          merged[key].image = currentImg;
+        }
       }
     });
     return merged;
   }
 
-  async function initApp() {
+  async function initApp(forceTriggerPopups = true) {
     checkInitialCountry();
-    let fetched = null;
-
-    try {
-      const apiRes = await fetch(API_JSON_URL + '?ref=main&_=' + Date.now(), {
-        headers: { 'Accept': 'application/vnd.github.v3+json' },
-        cache: 'no-store'
-      });
-      if (apiRes.ok) {
-        const meta = await apiRes.json();
-        const decoded = decodeURIComponent(escape(atob(meta.content.replace(/\s/g, ''))));
-        fetched = JSON.parse(decoded);
-      }
-    } catch (e) {}
-
-    if (!fetched) {
-      try {
-        const res = await fetch(CLOUD_JSON_URL + '?t=' + Date.now(), { cache: 'no-store' });
-        if (res.ok) fetched = await res.json();
-      } catch (e) {}
-    }
+    const fetched = await fetchFreshCloudData();
 
     if (fetched) {
       appData = {
@@ -2387,18 +2430,22 @@
     }
     refreshAllUI();
 
-    if (selectedCountry && !isWelcomeVisible()) {
+    if (forceTriggerPopups && selectedCountry && !isWelcomeVisible()) {
       setTimeout(() => {
         triggerPromoPopup(false, activeViewId);
         triggerFloatingStrip(false);
-      }, 850);
+      }, 750);
     }
   }
 
   async function syncFromCloud() {
     showToast('جاري التحديث من السحابة...');
-    await initApp();
-    showToast('تم جلب أحدث البيانات بنجاح!');
+    await initApp(false);
+    loadBannerForm();
+    loadPopupForm();
+    loadStripForm();
+    loadLinksForm();
+    showToast('تم جلب أحدث البيانات من السحابة بنجاح!');
   }
 
   function matchesCountry(itemCountry) {
@@ -2676,13 +2723,17 @@
     const allB = appData.banners || DEFAULT_BANNERS;
     const base = allB[slotKey] || DEFAULT_BANNERS[slotKey];
     if (selectedCountry && selectedCountry !== 'ALL' && base.byCountry && base.byCountry[selectedCountry]) {
-      return base.byCountry[selectedCountry];
+      const cBanner = base.byCountry[selectedCountry];
+      if (cBanner.enabled !== false) {
+        return cBanner;
+      }
     }
     return base;
   }
 
   function buildBannerCardHtml(bannerObj, isSlide = false) {
-    const hasImage = bannerObj.image && bannerObj.image.trim() !== '';
+    const imgSrc = (bannerObj.image || '').trim();
+    const hasImage = imgSrc !== '';
     const tagTxt = (bannerObj.tag || '').trim();
     const titleTxt = (bannerObj.title || '').trim();
     const ctaTxt = (bannerObj.cta || '').trim();
@@ -2693,14 +2744,14 @@
     if (hasImage && !hasAnyText) {
       return `${slideWrapStart}
         <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card image-only-banner">
-          <img src="${bannerObj.image.trim()}" alt="عرض ترويجي" loading="lazy">
+          <img src="${imgSrc}" alt="عرض ترويجي">
         </a>
       ${slideWrapEnd}`;
     }
 
     return `${slideWrapStart}
       <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
-        ${hasImage ? `<img src="${bannerObj.image.trim()}" alt="${titleTxt}" loading="lazy">` : ''}
+        ${hasImage ? `<img src="${imgSrc}" alt="${titleTxt}">` : ''}
         <div class="promo-banner-overlay" style="${!hasImage ? 'position:relative; background:none;' : ''}">
           ${tagTxt ? `<span class="promo-tag">${tagTxt}</span>` : ''}
           ${titleTxt ? `<h3 class="promo-title">${titleTxt}</h3>` : ''}
@@ -2710,7 +2761,7 @@
     ${slideWrapEnd}`;
   }
 
-  /* بناء السلايدر العلوي من 3 شرائح بنفس المقاس السابق (130px) */
+  /* بناء السلايدر العلوي المتحرك بنظام Transform المضمون 100% على الهاتف والكمبيوتر */
   function renderTopHeroSlider() {
     const wrap = document.getElementById('bannerSlot0');
     if (!wrap) return;
@@ -2718,7 +2769,14 @@
 
     const activeSlides = ['b0_1', 'b0_2', 'b0_3']
       .map(key => getEffectiveBanner(key))
-      .filter(b => b && b.enabled !== false && b.enabled !== 'false');
+      .filter(b => {
+        if (!b || b.enabled === false || b.enabled === 'false') return false;
+        const hasContent = Boolean((b.image || '').trim() || (b.title || '').trim() || (b.tag || '').trim() || (b.cta || '').trim());
+        return hasContent;
+      });
+
+    totalTopSlidesCount = activeSlides.length;
+    currentTopSlideIdx = 0;
 
     if (activeSlides.length === 0) {
       wrap.innerHTML = '';
@@ -2734,8 +2792,8 @@
     }
 
     wrap.innerHTML = `
-      <div class="top-slider-wrapper">
-        <div class="top-slider-track" id="topSliderTrack" onscroll="syncTopSliderDots()">
+      <div class="top-slider-wrapper" id="topSliderWrapper">
+        <div class="top-slider-track" id="topSliderTrack">
           ${activeSlides.map(s => buildBannerCardHtml(s, true)).join('')}
         </div>
         <div class="top-slider-dots" id="topSliderDots">
@@ -2744,33 +2802,38 @@
       </div>
     `;
 
-    let currentIdx = 0;
+    attachTopSliderSwipe();
+
     topSliderAutoHandle = setInterval(() => {
-      const track = document.getElementById('topSliderTrack');
-      if (!track) return;
-      currentIdx = (currentIdx + 1) % activeSlides.length;
-      goToTopSlide(currentIdx);
+      if (totalTopSlidesCount <= 1) return;
+      const nextIdx = (currentTopSlideIdx + 1) % totalTopSlidesCount;
+      goToTopSlide(nextIdx);
     }, 4200);
   }
 
   function goToTopSlide(index) {
     const track = document.getElementById('topSliderTrack');
-    if (!track) return;
-    const width = track.clientWidth;
-    track.scrollTo({ left: -index * width, behavior: 'smooth' });
-    updateTopSliderDotUI(index);
-  }
-
-  function syncTopSliderDots() {
-    const track = document.getElementById('topSliderTrack');
-    if (!track || !track.clientWidth) return;
-    const idx = Math.round(Math.abs(track.scrollLeft) / track.clientWidth);
-    updateTopSliderDotUI(idx);
-  }
-
-  function updateTopSliderDotUI(activeIdx) {
+    if (!track || totalTopSlidesCount <= 0) return;
+    currentTopSlideIdx = (index + totalTopSlidesCount) % totalTopSlidesCount;
+    track.style.transform = `translateX(-${currentTopSlideIdx * 100}%)`;
     const dots = document.querySelectorAll('#topSliderDots .slider-dot');
-    dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentTopSlideIdx));
+  }
+
+  function attachTopSliderSwipe() {
+    const wrapper = document.getElementById('topSliderWrapper');
+    if (!wrapper) return;
+    let startX = 0;
+    wrapper.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    wrapper.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].clientX - startX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) goToTopSlide(currentTopSlideIdx + 1);
+        else goToTopSlide(currentTopSlideIdx - 1);
+      }
+    }, { passive: true });
   }
 
   function renderSingleBanner(slotId, bannerObj) {
@@ -3320,7 +3383,7 @@
       document.getElementById('bannerImg').value = imgUrl;
     }
 
-    if (!appData.banners) appData.banners = { ...DEFAULT_BANNERS };
+    if (!appData.banners) appData.banners = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
     if (!appData.banners[slot]) appData.banners[slot] = { ...DEFAULT_BANNERS[slot], byCountry: {} };
 
     const newBannerFields = {
@@ -3367,7 +3430,10 @@
 
     try {
       const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-      const getRes = await fetch(apiUrl, { headers: { 'Authorization': `token ${token}` } });
+      const getRes = await fetch(apiUrl + '?nocache=' + Date.now(), {
+        headers: { 'Authorization': `token ${token}` },
+        cache: 'no-store'
+      });
       const fileData = await getRes.json();
 
       const jsonStr = JSON.stringify(appData, null, 2);
@@ -3421,7 +3487,7 @@
   bScript.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=25';
   document.body.appendChild(bScript);
 
-  initApp();
+  initApp(true);
 </script>
 </body>
 </html>
