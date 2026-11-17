@@ -88,19 +88,19 @@
     }
   },
   "popupBanner": {
-    "id": 0,
+    "id": 1794955276030,
     "enabled": false,
     "targetPage": "homeView",
     "layout": "landscape",
     "country": "ALL",
-    "duration": 0,
+    "duration": 2,
     "tag": "🔥 عرض حصري",
     "title": "",
     "desc": "",
     "code": "",
     "cta": "تسوق العرض الآن ↗",
     "url": "https://silvercoupons.blogspot.com/",
-    "image": ""
+    "image": "https://cdn.almowafir.com/files/w200_dhgate.jpg"
   },
   "floatingStrip": {
     "id": 1794955142917,
