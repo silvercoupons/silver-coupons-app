@@ -173,7 +173,7 @@
       color: var(--text); outline: none; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
-    /* نافذة البوب أب الترويجية الاحترافية (تدعم أفقي / عمودي / بوستر كامل) */
+    /* نافذة البوب أب الترويجية الاحترافية */
     .promo-popup-backdrop {
       position: fixed; inset: 0; background: rgba(15, 23, 42, 0.74);
       backdrop-filter: blur(4px); z-index: 500;
@@ -211,8 +211,6 @@
       font-size: 11px; font-weight: 800; padding: 3px 10px;
       border-radius: 20px; border: 1px solid rgba(234,179,8,0.45);
     }
-
-    /* الأنماط الثلاثة لحاوية صورة البوب أب */
     .promo-popup-img-wrap {
       width: 100%; overflow: hidden;
       background: #0f172a;
@@ -233,7 +231,6 @@
     .promo-popup-img-wrap.mode-poster img {
       width: 100%; max-height: 430px; height: auto; object-fit: contain; display: block;
     }
-
     .promo-popup-body {
       padding: 16px 18px 20px;
     }
@@ -450,6 +447,10 @@
       box-shadow: 0 4px 14px rgba(0,0,0,0.09); text-decoration: none;
       background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
       min-height: 105px;
+    }
+    .promo-banner-card.image-only-banner {
+      background: transparent;
+      min-height: 0;
     }
     .promo-banner-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
     .promo-banner-overlay {
@@ -797,7 +798,7 @@
   </div>
 </div>
 
-<!-- نافذة البوب أب الترويجية الاحترافية (تدعم أفقي / عمودي / بوستر كامل + تحديد مكان الظهور) -->
+<!-- نافذة البوب أب الترويجية الاحترافية -->
 <div class="promo-popup-backdrop" id="promoPopupBackdrop" onclick="if(event.target===this) closePromoPopup()">
   <div class="promo-popup-card">
     <button type="button" class="promo-popup-close" title="إغلاق" onclick="closePromoPopup()">✕</button>
@@ -1239,8 +1240,9 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إدارة البانرات الإعلانية الأربعة -->
+      <!-- 3. إدارة البانرات الإعلانية الأربعة (مع إمكانية إظهار الصورة صافية بدون نصوص) -->
       <div id="admBannerTab" class="adm-subview" style="display:none;">
+        <p style="font-size:11.5px; color:var(--muted); margin-top:0;">💡 <strong>ملاحظة احترافية:</strong> إذا رفعت صورة بانر مصممة جاهزة، امسح النصوص من الخانات الثلاث (الشارة، العنوان، نص الزر) لتظهر صورتك صافية 100% بدون أي كتابة أو تظليل فوقها.</p>
         <div class="form-group">
           <label>اختر مكان البانر المراد تعديله أو إخفاؤه</label>
           <select id="bannerSlotSelect" onchange="loadBannerForm()">
@@ -1273,23 +1275,23 @@
           </select>
         </div>
         <div class="form-group">
-          <label>الشارة العلوية (مثال: عرض حصري 🔥)</label>
-          <input type="text" id="bannerTag" placeholder="عرض حصري 🔥">
+          <label>الشارة العلوية (اتركها فارغة لإخفاء الكتابة من فوق الصورة)</label>
+          <input type="text" id="bannerTag" placeholder="اتركها فارغة للصورة الصافية">
         </div>
         <div class="form-group">
-          <label>عنوان البانر الرئيسي</label>
-          <input type="text" id="bannerTitle" placeholder="خصومات تصل إلى 70% على جميع المتاجر">
+          <label>عنوان البانر الرئيسي (اتركه فارغاً لإخفاء الكتابة من فوق الصورة)</label>
+          <input type="text" id="bannerTitle" placeholder="اتركه فارغاً للصورة الصافية">
         </div>
         <div class="form-group">
-          <label>نص الزر (مثال: تسوق العرض الآن ↗)</label>
-          <input type="text" id="bannerCta" placeholder="تسوق العرض الآن ↗">
+          <label>نص الزر (اتركه فارغاً لإخفاء الكتابة من فوق الصورة)</label>
+          <input type="text" id="bannerCta" placeholder="اتركه فارغاً للصورة الصافية">
         </div>
         <div class="form-group">
           <label>رابط الانتقال عند الضغط على البانر</label>
           <input type="url" id="bannerUrl" placeholder="https://silvercoupons.blogspot.com/">
         </div>
         <div class="form-group">
-          <label>رابط صورة خلفية البانر (اختياري)</label>
+          <label>رابط صورة خلفية البانر</label>
           <input type="url" id="bannerImg" placeholder="https://example.com/banner.jpg">
         </div>
         <div class="form-group">
@@ -1299,7 +1301,7 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. إدارة نافذة البوب أب الترويجية (مع تحديد مكان الظهور + شكل الصورة) -->
+      <!-- 4. إدارة نافذة البوب أب الترويجية -->
       <div id="admPopupTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">تظهر نافذة البوب أب <strong>مرة واحدة فقط في الجلسة</strong> في المكان الذي تحدده بالأسفل لضمان عدم إزعاج الزائر:</p>
         <div class="form-group">
@@ -1668,7 +1670,7 @@
   let userVotes = JSON.parse(localStorage.getItem('silver_user_votes') || '{}');
   let lastSeenNotifId = Number(localStorage.getItem('silver_last_seen_notif_id') || '0');
 
-  /* دوال إدارة وعرض نافذة البوب أب الترويجية (مرة واحدة فقط في الصفحة المحددة) */
+  /* دوال إدارة وعرض نافذة البوب أب الترويجية */
   function triggerPromoPopup(forcePreview = false, currentView = null) {
     const pop = appData.popupBanner;
     if (!pop || (!forcePreview && !pop.enabled)) return;
@@ -2592,6 +2594,7 @@
     return base;
   }
 
+  /* دالة عرض البانر الذكية: تعرض الصورة صافية 100% إذا مسحت النصوص من لوحة الإدارة */
   function renderSingleBanner(slotId, bannerObj) {
     const wrap = document.getElementById(slotId);
     if (!wrap) return;
@@ -2600,14 +2603,31 @@
       wrap.style.display = 'none';
       return;
     }
+
+    const hasImage = bannerObj.image && bannerObj.image.trim() !== '';
+    const tagTxt = (bannerObj.tag || '').trim();
+    const titleTxt = (bannerObj.title || '').trim();
+    const ctaTxt = (bannerObj.cta || '').trim();
+    const hasAnyText = Boolean(tagTxt || titleTxt || ctaTxt);
+
     wrap.style.display = 'block';
+
+    if (hasImage && !hasAnyText) {
+      wrap.innerHTML = `
+        <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card image-only-banner">
+          <img src="${bannerObj.image.trim()}" alt="عرض ترويجي">
+        </a>
+      `;
+      return;
+    }
+
     wrap.innerHTML = `
       <a href="${bannerObj.url || 'https://silvercoupons.blogspot.com/'}" target="_blank" class="promo-banner-card">
-        ${bannerObj.image ? `<img src="${bannerObj.image}" alt="${bannerObj.title}">` : ''}
-        <div class="promo-banner-overlay" style="${!bannerObj.image ? 'position:relative; background:none;' : ''}">
-          ${bannerObj.tag ? `<span class="promo-tag">${bannerObj.tag}</span>` : ''}
-          <h3 class="promo-title">${bannerObj.title || 'عروض حصرية لفترة محدودة'}</h3>
-          <span class="promo-cta">${bannerObj.cta || 'احصل على العرض الآن ↗'}</span>
+        ${hasImage ? `<img src="${bannerObj.image.trim()}" alt="${titleTxt}">` : ''}
+        <div class="promo-banner-overlay" style="${!hasImage ? 'position:relative; background:none;' : ''}">
+          ${tagTxt ? `<span class="promo-tag">${tagTxt}</span>` : ''}
+          ${titleTxt ? `<h3 class="promo-title">${titleTxt}</h3>` : ''}
+          ${ctaTxt ? `<span class="promo-cta">${ctaTxt}</span>` : ''}
         </div>
       </a>
     `;
