@@ -50,29 +50,11 @@
     }
   ],
   "banners": {
-    "b0_1": {
+    "b0": {
       "enabled": true,
       "tag": "عروض مميزة ⭐",
       "title": "تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر",
       "cta": "اكتشف العروض الآن ↗",
-      "url": "https://silvercoupons.blogspot.com/",
-      "image": "",
-      "byCountry": {}
-    },
-    "b0_2": {
-      "enabled": false,
-      "tag": "",
-      "title": "",
-      "cta": "",
-      "url": "https://silvercoupons.blogspot.com/",
-      "image": "",
-      "byCountry": {}
-    },
-    "b0_3": {
-      "enabled": false,
-      "tag": "",
-      "title": "",
-      "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
       "image": "",
       "byCountry": {}
