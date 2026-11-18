@@ -445,7 +445,7 @@
     .fb-btn.voted-up { background: #dcfce7; border-color: #16a34a; color: #15803d; }
     .fb-btn.voted-down { background: #fee2e2; border-color: #dc2626; color: #b91c1c; }
 
-    /* بانرات العروض الإعلانية + السلايدر العلوي المتحرك (3 شرائح بنفس المقاس 130px) */
+    /* بانرات العروض الإعلانية + السلايدر العلوي المتحرك (نقاط التمرير أسفل البانر لعدم حجب الصورة) */
     .promo-banner-wrap { padding: 12px 16px 4px; max-width: 600px; margin: auto; }
     .top-slider-wrapper {
       position: relative;
@@ -469,15 +469,14 @@
       box-shadow: none;
     }
     .top-slider-dots {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
+      justify-content: center;
+      align-items: center;
       gap: 6px;
-      z-index: 6;
-      background: rgba(15, 23, 42, 0.45);
-      padding: 4px 9px;
+      margin: 8px auto 0;
+      width: fit-content;
+      background: #e2e8f0;
+      padding: 4px 10px;
       border-radius: 20px;
       direction: rtl;
     }
@@ -485,7 +484,7 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.55);
+      background: #94a3b8;
       border: none;
       padding: 0;
       cursor: pointer;
@@ -494,7 +493,7 @@
     .slider-dot.active {
       width: 18px;
       border-radius: 8px;
-      background: var(--accent);
+      background: var(--blue);
     }
 
     .promo-banner-card {
@@ -1299,7 +1298,7 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إدارة البانرات الإعلانية (مع التوجيه الذكي الثلاثي: رابط خارجي / متجر / قسم) -->
+      <!-- 3. إدارة البانرات الإعلانية -->
       <div id="admBannerTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">💡 يمكنك توجيه الزائر عند الضغط على البانر إلى <strong>رابط خارجي</strong> أو <strong>صفحة متجر معين</strong> أو <strong>قسم محدد داخل التطبيق</strong>:</p>
         <div class="form-group">
@@ -1381,7 +1380,7 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. إدارة نافذة البوب أب الترويجية (مع التوجيه الذكي الثلاثي) -->
+      <!-- 4. إدارة نافذة البوب أب الترويجية -->
       <div id="admPopupTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">تظهر نافذة البوب أب <strong>مرة واحدة فقط في الجلسة</strong> وتدعم التوجيه لرابط خارجي أو متجر أو قسم:</p>
         <div class="form-group">
@@ -1486,7 +1485,7 @@
         </div>
       </div>
 
-      <!-- 5. إدارة البانر المستطيل العائم بعرض التطبيق (مع التوجيه الذكي الثلاثي) -->
+      <!-- 5. إدارة البانر المستطيل العائم بعرض التطبيق -->
       <div id="admStripTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">بانر مستطيل أنيق بعرض التطبيق بالكامل يظهر للزائر لعدة ثوانٍ ويدعم التوجيه لرابط خارجي أو متجر أو قسم:</p>
         <div class="form-group">
@@ -2965,9 +2964,9 @@
         <div class="top-slider-track" id="topSliderTrack">
           ${activeSlideEntries.map(item => buildBannerCardHtml(item.key, item.obj, true)).join('')}
         </div>
-        <div class="top-slider-dots" id="topSliderDots">
-          ${activeSlideEntries.map((_, idx) => `<button type="button" class="slider-dot ${idx === 0 ? 'active' : ''}" onclick="goToTopSlide(${idx})"></button>`).join('')}
-        </div>
+      </div>
+      <div class="top-slider-dots" id="topSliderDots">
+        ${activeSlideEntries.map((_, idx) => `<button type="button" class="slider-dot ${idx === 0 ? 'active' : ''}" onclick="goToTopSlide(${idx})"></button>`).join('')}
       </div>
     `;
 
