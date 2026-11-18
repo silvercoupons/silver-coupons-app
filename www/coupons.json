@@ -106,6 +106,8 @@
       "byCountry": {
         "EG": {
           "enabled": true,
+          "actionType": "url",
+          "targetValue": "",
           "tag": "",
           "title": "",
           "cta": "",
