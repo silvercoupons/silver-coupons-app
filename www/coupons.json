@@ -50,8 +50,10 @@
     }
   ],
   "banners": {
-    "b0": {
+    "b0_1": {
       "enabled": true,
+      "actionType": "url",
+      "targetValue": "",
       "tag": "",
       "title": "",
       "cta": "",
@@ -59,8 +61,43 @@
       "image": "https://e.top4top.io/p_397481jkt0.png",
       "byCountry": {}
     },
+    "b0_2": {
+      "enabled": false,
+      "actionType": "url",
+      "targetValue": "",
+      "tag": "",
+      "title": "",
+      "cta": "",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": "",
+      "byCountry": {
+        "EG": {
+          "enabled": true,
+          "actionType": "store",
+          "targetValue": "defacto",
+          "tag": "",
+          "title": "",
+          "cta": "",
+          "url": "https://silvercoupons.blogspot.com/",
+          "image": "https://f.top4top.io/p_3974egyli0.jpg"
+        }
+      }
+    },
+    "b0_3": {
+      "enabled": false,
+      "actionType": "url",
+      "targetValue": "",
+      "tag": "",
+      "title": "",
+      "cta": "",
+      "url": "https://silvercoupons.blogspot.com/",
+      "image": "",
+      "byCountry": {}
+    },
     "b1": {
       "enabled": true,
+      "actionType": "url",
+      "targetValue": "",
       "tag": "عروض الإلكترونيات 💻",
       "title": "خصومات إضافية على الهواتف والأجهزة الذكية",
       "cta": "تسوق العرض الآن ↗",
@@ -79,6 +116,8 @@
     },
     "b2": {
       "enabled": true,
+      "actionType": "url",
+      "targetValue": "",
       "tag": "تخفيضات تلقائية ⚡",
       "title": "عروض حصرية تُطبق تلقائياً بدون كود خصم",
       "cta": "اكتشف العروض ↗",
@@ -97,6 +136,8 @@
     },
     "b3": {
       "enabled": true,
+      "actionType": "url",
+      "targetValue": "",
       "tag": "وفر أكثر 🪙",
       "title": "أقوى كوبونات التوفير اليومية المحدثة باستمرار",
       "cta": "تصفح المدونة ↗",
@@ -111,6 +152,8 @@
     "targetPage": "homeView",
     "layout": "landscape",
     "country": "ALL",
+    "actionType": "url",
+    "targetValue": "",
     "duration": 3,
     "tag": "🔥 عرض حصري",
     "title": "معاينة نافذة البوب أب الترويجية",
@@ -124,6 +167,8 @@
     "id": 1794978704460,
     "enabled": false,
     "country": "ALL",
+    "actionType": "url",
+    "targetValue": "",
     "duration": 1,
     "badge": "⚡ عرض سريع",
     "title": "",
