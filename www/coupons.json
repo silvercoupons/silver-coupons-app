@@ -52,11 +52,11 @@
   "banners": {
     "b0": {
       "enabled": true,
-      "tag": "عروض مميزة ⭐",
-      "title": "تخفيضات كبرى وأكواد خصم حصرية لأشهر المتاجر",
-      "cta": "اكتشف العروض الآن ↗",
+      "tag": "",
+      "title": "",
+      "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
-      "image": "",
+      "image": "https://ibb.co/KpcyPPFf",
       "byCountry": {}
     },
     "b1": {
