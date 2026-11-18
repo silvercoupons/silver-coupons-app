@@ -84,7 +84,16 @@
       "cta": "اكتشف العروض ↗",
       "url": "https://silvercoupons.blogspot.com/",
       "image": "",
-      "byCountry": {}
+      "byCountry": {
+        "EG": {
+          "enabled": true,
+          "tag": "",
+          "title": "",
+          "cta": "اكتشف العروض ↗",
+          "url": "https://silvercoupons.blogspot.com/",
+          "image": "https://f.top4top.io/p_3974egyli0.jpg"
+        }
+      }
     },
     "b3": {
       "enabled": true,
