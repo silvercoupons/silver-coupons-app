@@ -106,8 +106,8 @@
       "byCountry": {
         "EG": {
           "enabled": true,
-          "actionType": "url",
-          "targetValue": "",
+          "actionType": "store",
+          "targetValue": "noon",
           "tag": "",
           "title": "",
           "cta": "",
