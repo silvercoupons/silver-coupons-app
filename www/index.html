@@ -341,7 +341,7 @@
     /* عناوين الأقسام */
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin: 16px 16px 10px;
+      margin: 16px 16px 10px; gap: 8px;
     }
     .section-title-text { font-size: 15.5px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; }
     .view-all-link {
@@ -367,7 +367,7 @@
       display: block;
     }
 
-    /* شريط التبويبات الفرعي في صفحة الكوبونات (كوبونات خصم / مفعّل تلقائي / المواسم والأعياد) */
+    /* شريط التبويبات الفرعي في صفحة الكوبونات */
     .coupons-subtabs-strip {
       display: flex;
       gap: 8px;
@@ -473,7 +473,7 @@
       width: 100%; display: block;
     }
 
-    /* زر المفضلة (القلب) وأزرار التقييم */
+    /* زر المفضلة (القلب) وأزرار التقييم والمشاركة في الكارت */
     .fav-heart-btn {
       position: absolute; top: 10px; left: 10px;
       width: 30px; height: 30px; border-radius: 50%;
@@ -486,18 +486,22 @@
     }
     .ticket-feedback-bar {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 6px 14px; background: #f1f5f9; border-top: 1px solid #e2e8f0;
-      font-size: 11px; color: var(--muted);
+      padding: 6px 12px; background: #f1f5f9; border-top: 1px solid #e2e8f0;
+      font-size: 11px; color: var(--muted); gap: 6px;
     }
-    .fb-btns { display: flex; gap: 6px; }
+    .fb-btns { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
     .fb-btn {
       background: #fff; border: 1px solid #cbd5e1; border-radius: 14px;
-      padding: 2px 9px; font-family: 'Cairo', sans-serif; font-size: 10.5px;
+      padding: 2px 8px; font-family: 'Cairo', sans-serif; font-size: 10.5px;
       font-weight: 700; color: var(--text); cursor: pointer; display: inline-flex;
-      align-items: center; gap: 4px; transition: 0.15s;
+      align-items: center; gap: 3px; transition: 0.15s;
     }
     .fb-btn.voted-up { background: #dcfce7; border-color: #16a34a; color: #15803d; }
     .fb-btn.voted-down { background: #fee2e2; border-color: #dc2626; color: #b91c1c; }
+    .fb-btn-share {
+      background: #eff6ff; border-color: #bfdbfe; color: var(--blue);
+    }
+    .fb-btn-share:active { background: #dbeafe; }
 
     /* بانرات العروض الإعلانية + السلايدر العلوي المتحرك */
     .promo-banner-wrap { padding: 12px 16px 4px; max-width: 600px; margin: auto; }
@@ -1072,11 +1076,14 @@
   <div class="floating-cat-bar" id="floatingCategoriesBar"></div>
 </div>
 
-<!-- صفحة عرض الكل / صفحة المتجر / صفحة الفئة (مع البانر المخصص تحت العنوان مباشرة) -->
+<!-- صفحة عرض الكل / صفحة المتجر / صفحة الفئة (مع زر مشاركة الصفحة + البانر المخصص) -->
 <div id="filteredListView" class="page-view">
   <div class="section-header">
     <span class="section-title-text" id="filteredViewTitle">جميع العروض</span>
-    <button class="btn-shop" style="border:none; cursor:pointer;" onclick="goBackFromFiltered()">رجوع ✕</button>
+    <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+      <button type="button" class="btn-shop" style="border:none; cursor:pointer; background:#eff6ff; color:var(--blue);" onclick="shareCurrentFilteredPage()">📤 مشاركة</button>
+      <button type="button" class="btn-shop" style="border:none; cursor:pointer;" onclick="goBackFromFiltered()">رجوع ✕</button>
+    </div>
   </div>
   <div class="container">
     <div id="filteredContextBannerWrap"></div>
@@ -1269,7 +1276,7 @@
         <div class="admin-tab" onclick="switchAdminTab('admSettingsTab', this)">🔑 الربط</div>
       </div>
 
-      <!-- 1. إدارة الكوبونات والأقسام/الفئات (مع بانر مخصص لكل قسم) -->
+      <!-- 1. إدارة الكوبونات والأقسام/الفئات -->
       <div id="admCouponsTab" class="adm-subview">
         <div class="cat-manager-box" id="catManagerBox">
           <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:4px;">📂 إدارة الأقسام والفئات (تعديل الأيقونة وبانر صفحة القسم):</label>
@@ -1375,7 +1382,7 @@
         <div id="adminCouponsList"></div>
       </div>
 
-      <!-- 2. إدارة المتاجر والشعارات (مع بانر مخصص لصفحة كل متجر) -->
+      <!-- 2. إدارة المتاجر والشعارات -->
       <div id="admStoresTab" class="adm-subview" style="display:none;">
         <input type="hidden" id="editStoreId" value="">
         <div class="form-group">
@@ -1410,7 +1417,6 @@
           <input type="url" id="newStoreUrl" value="https://silvercoupons.blogspot.com/">
         </div>
 
-        <!-- إعدادات البانر الإعلاني الخاص بصفحة هذا المتجر -->
         <div class="sub-panel-box">
           <label style="font-size:12px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">🖼️ بانر إعلاني خاص يظهر أعلى صفحة هذا المتجر (اختياري):</label>
           <div class="form-group" style="margin-bottom:8px;">
@@ -1865,15 +1871,15 @@
 <div class="share-modal-backdrop" id="shareModalBackdrop" onclick="if(event.target===this) closeShareSheet()">
   <div class="share-modal-sheet">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h4 style="margin:0; font-size:16px; font-weight:800;">📤 شارك تطبيق الكوبون الفضي عبر:</h4>
+      <h4 id="shareModalHeading" style="margin:0; font-size:16px; font-weight:800;">📤 شارك تطبيق الكوبون الفضي عبر:</h4>
       <button onclick="closeShareSheet()" style="border:none; background:#f1f5f9; border-radius:8px; padding:5px 10px; font-weight:800; cursor:pointer;">✕</button>
     </div>
-    <p style="margin:6px 0 0; font-size:12px; color:var(--muted);">اختر وسيلة المراسلة المفضلة لإرسال رابط التطبيق لأصدقائك:</p>
+    <p style="margin:6px 0 0; font-size:12px; color:var(--muted);">اختر وسيلة المراسلة المفضلة لإرسال العرض لأصدقائك:</p>
     <div class="share-options-grid">
       <a id="shareWhatsAppLink" href="#" target="_blank" class="share-opt-btn" style="background:#25D366;" onclick="closeShareSheet()">💬 واتساب</a>
       <a id="shareFacebookLink" href="#" target="_blank" class="share-opt-btn" style="background:#1877F2;" onclick="closeShareSheet()">📘 فيسبوك</a>
       <a id="shareMessengerLink" href="#" target="_blank" class="share-opt-btn" style="background:#0084FF;" onclick="closeShareSheet()">⚡ ماسنجر</a>
-      <button type="button" class="share-opt-btn" style="background:#0f172a;" onclick="copyShareAppUrl()">📋 نسخ الرابط</button>
+      <button type="button" class="share-opt-btn" style="background:#0f172a;" onclick="copyShareAppUrl()">📋 نسخ النص والرابط</button>
     </div>
   </div>
 </div>
@@ -2003,6 +2009,8 @@
   let previousViewId = 'homeView';
   let notifReturnViewId = 'homeView';
   let activeViewId = 'homeView';
+  let currentFilteredShareMeta = { title: '', url: '' };
+  let activeSharePayload = { title: '', text: '', url: '' };
   let tapCount = 0;
   let tapTimer = null;
   let popupTimerHandle = null;
@@ -2019,6 +2027,64 @@
   function isWelcomeVisible() {
     const ws = document.getElementById('welcomeScreen');
     return ws && !ws.classList.contains('hidden');
+  }
+
+  /* تنفيذ المشاركة الذكية عبر نافذة مشاركة النظام الأصلية مع بديل احتياطي */
+  async function triggerNativeOrFallbackShare(title, text, url, sheetHeading = '📤 مشاركة عبر:') {
+    const appLink = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
+    const shareUrl = (url && url.trim() !== '') ? url.trim() : appLink;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: text,
+          url: shareUrl
+        });
+        return;
+      } catch (err) {
+        if (err && err.name === 'AbortError') return;
+      }
+    }
+
+    activeSharePayload = { title: title, text: `${text}\n${shareUrl}`, url: shareUrl };
+    document.getElementById('shareModalHeading').innerText = sheetHeading;
+    document.getElementById('shareWhatsAppLink').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(activeSharePayload.text)}`;
+    document.getElementById('shareFacebookLink').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+    document.getElementById('shareMessengerLink').href = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=291494419107518&redirect_uri=${encodeURIComponent(shareUrl)}`;
+    document.getElementById('shareModalBackdrop').classList.add('open');
+  }
+
+  /* مشاركة كوبون أو عرض محدد من داخل الكارت */
+  function shareCouponCard(couponId, event) {
+    if (event) event.stopPropagation();
+    const c = appData.coupons.find(item => Number(item.id) === Number(couponId));
+    if (!c) return;
+    const storeObj = appData.stores.find(s => s.id === c.storeId) || {};
+    const targetUrl = (c.url || storeObj.url || 'https://silvercoupons.blogspot.com/').trim();
+    const appLink = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
+    const cleanStoreName = (c.storeName || '').split('-')[0].trim();
+
+    let codeLine = '';
+    if (c.type === 'auto_link') {
+      codeLine = c.code ? `⚡ كوبون مفعّل تلقائياً عبر الرابط: ${c.code}\n` : `⚡ عرض مفعّل تلقائياً عبر الرابط\n`;
+    } else if (c.code && c.code.trim() !== '') {
+      codeLine = `🔑 كود الخصم: ${c.code.trim()}\n`;
+    } else {
+      codeLine = `🎁 عرض تلقائي بدون كود\n`;
+    }
+
+    const shareText = `🏷️ عرض ${cleanStoreName} (${c.discount})\n${c.title}\n${codeLine}🛒 رابط العرض: ${targetUrl}\n📲 حمّل تطبيق الكوبون الفضي للمزيد من الأكواد:`;
+    triggerNativeOrFallbackShare(`كود خصم ${cleanStoreName}`, shareText, appLink, `📤 مشاركة عرض ${cleanStoreName}:`);
+  }
+
+  /* مشاركة صفحة المتجر أو القسم المفتوحة حالياً */
+  function shareCurrentFilteredPage() {
+    const appLink = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
+    const pageTitle = currentFilteredShareMeta.title || document.getElementById('filteredViewTitle').innerText || 'عروض الكوبون الفضي';
+    const pageUrl = currentFilteredShareMeta.url || appLink;
+    const shareText = `${pageTitle}\nاكتشف أحدث أكواد الخصم الفعالة والعروض الحصرية عبر تطبيق الكوبون الفضي:`;
+    triggerNativeOrFallbackShare(pageTitle, shareText, pageUrl, `📤 مشاركة ${pageTitle}:`);
   }
 
   /* تنفيذ التوجيه الذكي الثلاثي */
@@ -2772,12 +2838,7 @@
   function openShareSheet() {
     const shareUrl = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
     const shareMsg = `🪙 حمل تطبيق "الكوبون الفضي" واحصل على أحدث أكواد الخصم الفعالة لأشهر المتاجر العربية:\n${shareUrl}`;
-
-    document.getElementById('shareWhatsAppLink').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMsg)}`;
-    document.getElementById('shareFacebookLink').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-    document.getElementById('shareMessengerLink').href = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=291494419107518&redirect_uri=${encodeURIComponent(shareUrl)}`;
-
-    document.getElementById('shareModalBackdrop').classList.add('open');
+    triggerNativeOrFallbackShare('تطبيق الكوبون الفضي - Silver Coupons', shareMsg, shareUrl, '📤 شارك تطبيق الكوبون الفضي عبر:');
   }
 
   function closeShareSheet() {
@@ -2785,11 +2846,11 @@
   }
 
   function copyShareAppUrl() {
-    const shareUrl = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
-    const shareMsg = `🪙 حمل تطبيق "الكوبون الفضي" واحصل على أحدث أكواد الخصم الفعالة:\n${shareUrl}`;
-    navigator.clipboard.writeText(shareMsg);
+    const fallbackUrl = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
+    const copyText = activeSharePayload.text || `🪙 حمل تطبيق "الكوبون الفضي" واحصل على أحدث أكواد الخصم الفعالة:\n${fallbackUrl}`;
+    navigator.clipboard.writeText(copyText);
     closeShareSheet();
-    showToast('تم نسخ رابط التطبيق بنجاح! الصقه في أي محادثة.');
+    showToast('تم نسخ نص العرض والرابط بنجاح! الصقه في أي محادثة.');
   }
 
   function handleViewAllClick(sectionKey) {
@@ -3547,10 +3608,11 @@
           ${bottomHtml}
         </div>
         <div class="ticket-feedback-bar">
-          <span>هل استفدت من العرض؟</span>
+          <span>هل استفدت؟</span>
           <div class="fb-btns">
             <button type="button" class="fb-btn ${myVote === 'up' ? 'voted-up' : ''}" onclick="rateCoupon(${c.id}, 'up')">👍 شغال</button>
             <button type="button" class="fb-btn ${myVote === 'down' ? 'voted-down' : ''}" onclick="rateCoupon(${c.id}, 'down')">👎 لا يعمل</button>
+            <button type="button" class="fb-btn fb-btn-share" title="مشاركة الكوبون" onclick="shareCouponCard(${c.id}, event)">📤 مشاركة</button>
           </div>
         </div>
       </div>
@@ -3622,13 +3684,16 @@
     }).join('');
   }
 
-  /* فتح صفحة المتجر أو الفئة مع عرض البانر المخصص تحت العنوان مباشرة عند تفعيله */
+  /* فتح صفحة المتجر أو الفئة مع عرض البانر المخصص تحت العنوان مباشرة وتجهيز بيانات المشاركة */
   function openFilteredView(filterType, filterValue, titleText, returnTo = 'homeView') {
     previousViewId = returnTo;
     activeViewId = 'filteredListView';
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('filteredListView').classList.add('active');
     document.getElementById('filteredViewTitle').innerText = titleText;
+
+    const appLink = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
+    currentFilteredShareMeta = { title: titleText, url: appLink };
 
     const bannerWrap = document.getElementById('filteredContextBannerWrap');
     bannerWrap.innerHTML = '';
@@ -3639,24 +3704,34 @@
     if (filterType === 'category') {
       results = countryCoupons.filter(c => c.category === filterValue);
       const catObj = (appData.categories || []).find(cat => cat.name === filterValue);
-      if (catObj && catObj.bannerEnabled !== false && catObj.bannerImg && catObj.bannerImg.trim() !== '') {
-        const targetLink = (catObj.bannerUrl || '').trim() || 'https://silvercoupons.blogspot.com/';
-        bannerWrap.innerHTML = `
-          <a href="${targetLink}" target="_blank" class="context-page-banner">
-            <img src="${catObj.bannerImg.trim()}" alt="${catObj.name}">
-          </a>
-        `;
+      if (catObj) {
+        if (catObj.bannerUrl && catObj.bannerUrl.trim() !== '') {
+          currentFilteredShareMeta.url = catObj.bannerUrl.trim();
+        }
+        if (catObj.bannerEnabled !== false && catObj.bannerImg && catObj.bannerImg.trim() !== '') {
+          const targetLink = (catObj.bannerUrl || '').trim() || 'https://silvercoupons.blogspot.com/';
+          bannerWrap.innerHTML = `
+            <a href="${targetLink}" target="_blank" class="context-page-banner">
+              <img src="${catObj.bannerImg.trim()}" alt="${catObj.name}">
+            </a>
+          `;
+        }
       }
     } else if (filterType === 'store') {
       results = countryCoupons.filter(c => String(c.storeId) === String(filterValue));
       const storeObj = (appData.stores || []).find(s => String(s.id) === String(filterValue));
-      if (storeObj && storeObj.bannerEnabled !== false && storeObj.bannerImg && storeObj.bannerImg.trim() !== '') {
-        const targetLink = (storeObj.bannerUrl || '').trim() || storeObj.url || 'https://silvercoupons.blogspot.com/';
-        bannerWrap.innerHTML = `
-          <a href="${targetLink}" target="_blank" class="context-page-banner">
-            <img src="${storeObj.bannerImg.trim()}" alt="${storeObj.name}">
-          </a>
-        `;
+      if (storeObj) {
+        if (storeObj.url && storeObj.url.trim() !== '') {
+          currentFilteredShareMeta.url = storeObj.url.trim();
+        }
+        if (storeObj.bannerEnabled !== false && storeObj.bannerImg && storeObj.bannerImg.trim() !== '') {
+          const targetLink = (storeObj.bannerUrl || '').trim() || storeObj.url || 'https://silvercoupons.blogspot.com/';
+          bannerWrap.innerHTML = `
+            <a href="${targetLink}" target="_blank" class="context-page-banner">
+              <img src="${storeObj.bannerImg.trim()}" alt="${storeObj.name}">
+            </a>
+          `;
+        }
       }
     } else if (filterType === 'deals') {
       results = countryCoupons.filter(c => c.type === 'deal' || c.type === 'auto_link' || !c.code || c.code.trim() === '');
