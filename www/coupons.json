@@ -187,6 +187,14 @@
     "categories": "",
     "latest": ""
   },
+  "homeConfig": {
+    "stores": true,
+    "electronics": true,
+    "deals": true,
+    "categories": true,
+    "latest": true,
+    "customSections": []
+  },
   "notifications": [
     {
       "id": 1794944868662,
@@ -281,6 +289,7 @@
     {
       "id": 1795084084655,
       "type": "auto_link",
+      "isSeason": true,
       "country": "ALL",
       "storeId": "noon",
       "storeName": "نون - Noon",
@@ -290,7 +299,7 @@
       "code": "",
       "url": "https://jforce.jumia.com.eg/s/RaYFuwp",
       "verified": true,
-      "usedCount": 93
+      "usedCount": 92
     },
     {
       "id": 1794930214510,
