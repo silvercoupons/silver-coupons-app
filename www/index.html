@@ -350,6 +350,42 @@
       text-decoration: none;
     }
 
+    /* شريط التبويبات الفرعي في صفحة الكوبونات (كوبونات خصم / مفعّل تلقائي / المواسم والأعياد) */
+    .coupons-subtabs-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 16px 12px;
+      max-width: 600px;
+      margin: 0 auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .coupons-subtabs-strip::-webkit-scrollbar { display: none; }
+    .c-subtab-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.2s;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .c-subtab-pill.active {
+      background: #0f172a;
+      color: #fef08a;
+      border-color: #0f172a;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.18);
+    }
+
     /* شريط المتاجر الدائري */
     .stores-strip {
       display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px;
@@ -446,7 +482,7 @@
     .fb-btn.voted-up { background: #dcfce7; border-color: #16a34a; color: #15803d; }
     .fb-btn.voted-down { background: #fee2e2; border-color: #dc2626; color: #b91c1c; }
 
-    /* بانرات العروض الإعلانية + السلايدر العلوي المتحرك (نقاط التمرير أسفل البانر لعدم حجب الصورة) */
+    /* بانرات العروض الإعلانية + السلايدر العلوي المتحرك */
     .promo-banner-wrap { padding: 12px 16px 4px; max-width: 600px; margin: auto; }
     .top-slider-wrapper {
       position: relative;
@@ -575,6 +611,7 @@
     .verified-badge { background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
     .deal-badge { background: #dbeafe; color: #1d4ed8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
     .autolink-badge { background: #f3e8ff; color: #6b21a8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .season-badge { background: #ffe4e6; color: #be123c; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
     .ticket-title { font-size: 14px; font-weight: 700; margin: 0; color: var(--text); line-height: 1.4; }
     .ticket-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
     .ticket-divider { border-top: 2px dashed #e2e8f0; margin: 0 14px; }
@@ -934,14 +971,18 @@
     <!-- السلايدر العلوي المتحرك (3 شرائح قبل أشهر المتاجر) -->
     <div class="promo-banner-wrap" id="bannerSlot0"></div>
 
-    <div class="section-header">
-      <span class="section-title-text">🏪 أشهر المتاجر</span>
-      <span class="view-all-link" onclick="handleViewAllClick('stores')">عرض الكل ◂</span>
+    <!-- قسم أشهر المتاجر -->
+    <div id="homeSecStoresWrap">
+      <div class="section-header">
+        <span class="section-title-text">🏪 أشهر المتاجر</span>
+        <span class="view-all-link" onclick="handleViewAllClick('stores')">عرض الكل ◂</span>
+      </div>
+      <div class="stores-strip" id="storesContainer"></div>
     </div>
-    <div class="stores-strip" id="storesContainer"></div>
 
     <div class="promo-banner-wrap" id="bannerSlot1"></div>
 
+    <!-- قسم عروض الإلكترونيات -->
     <div id="electronicsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">💻 عروض الإلكترونيات</span>
@@ -952,6 +993,7 @@
 
     <div class="promo-banner-wrap" id="bannerSlot2"></div>
 
+    <!-- قسم العروض التلقائية -->
     <div id="autoDealsSectionWrap">
       <div class="section-header">
         <span class="section-title-text">⚡ العروض التلقائية</span>
@@ -960,19 +1002,28 @@
       <div class="horizontal-cards-strip" id="autoDealsCarousel"></div>
     </div>
 
-    <div class="section-header">
-      <span class="section-title-text">🎯 أقوى الفئات</span>
-      <span class="view-all-link" onclick="handleViewAllClick('categories')">اعرض الكل ◂</span>
+    <!-- قسم أقوى الفئات -->
+    <div id="homeSecCategoriesWrap">
+      <div class="section-header">
+        <span class="section-title-text">🎯 أقوى الفئات</span>
+        <span class="view-all-link" onclick="handleViewAllClick('categories')">اعرض الكل ◂</span>
+      </div>
+      <div class="categories-grid" id="categoriesGridContainer"></div>
     </div>
-    <div class="categories-grid" id="categoriesGridContainer"></div>
 
     <div class="promo-banner-wrap" id="bannerSlot3"></div>
 
-    <div class="section-header">
-      <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
-      <span class="view-all-link" onclick="handleViewAllClick('latest')">اعرض الكل ◂</span>
+    <!-- قسم أحدث الكوبونات الفعالة -->
+    <div id="homeSecLatestWrap">
+      <div class="section-header">
+        <span class="section-title-text">🏷️ أحدث الكوبونات الفعالة</span>
+        <span class="view-all-link" onclick="handleViewAllClick('latest')">اعرض الكل ◂</span>
+      </div>
+      <div class="horizontal-cards-strip" id="latestCouponsCarousel"></div>
     </div>
-    <div class="horizontal-cards-strip" id="latestCouponsCarousel"></div>
+
+    <!-- الأقسام المخصصة الإضافية في الصفحة الرئيسية (تُدار من لوحة التحكم) -->
+    <div id="customHomeSectionsContainer"></div>
   </div>
 </div>
 
@@ -985,6 +1036,15 @@
       <span style="font-size:11.5px; color:var(--muted); font-weight:700;" id="couponsTabCountBadge">0 عرض</span>
     </div>
   </div>
+
+  <!-- شريط تبويبات نوع العرض (الكل / كوبونات خصم / عروض مفعّل تلقائي / عروض المواسم والأعياد) -->
+  <div class="coupons-subtabs-strip" id="couponsSubTabsBar">
+    <div class="c-subtab-pill active" data-sub="ALL" onclick="selectCouponsSubTab('ALL')">🌟 الكل</div>
+    <div class="c-subtab-pill" data-sub="COUPON" onclick="selectCouponsSubTab('COUPON')">🏷️ كوبونات خصم</div>
+    <div class="c-subtab-pill" data-sub="AUTO" onclick="selectCouponsSubTab('AUTO')">⚡ عروض مفعّل تلقائي</div>
+    <div class="c-subtab-pill" data-sub="SEASON" onclick="selectCouponsSubTab('SEASON')">🎉 عروض المواسم والأعياد</div>
+  </div>
+
   <div class="container" id="uniqueStoreCouponsContainer"></div>
 
   <!-- شريط الفئات المرن فوق شريط التبويبات السفلي -->
@@ -1176,6 +1236,7 @@
       <div class="admin-tabs">
         <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
         <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
+        <div class="admin-tab" onclick="switchAdminTab('admHomeSecTab', this)">🏠 الرئيسية</div>
         <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانرات</div>
         <div class="admin-tab" onclick="switchAdminTab('admPopupTab', this)">🎯 بوب أب</div>
         <div class="admin-tab" onclick="switchAdminTab('admStripTab', this)">📢 شريط عائم</div>
@@ -1208,11 +1269,18 @@
 
         <input type="hidden" id="editCouponId" value="">
         <div class="form-group">
-          <label>نوع البطاقة</label>
+          <label>نوع البطاقة (يحدد تبويب الفرز في صفحة الكوبونات)</label>
           <select id="admType" onchange="toggleCodeInput()">
-            <option value="coupon">🏷️ بطاقة كوبون بكود خصم (نسخ الكود + فتح المتجر)</option>
-            <option value="deal">🎁 بطاقة عرض تلقائي بدون كود (احصل على العرض)</option>
-            <option value="auto_link">🔗 كوبون مفعّل تلقائياً عبر الرابط (تفعيل فوري + توجيه للشراء)</option>
+            <option value="coupon">🏷️ كوبون خصم (نسخ الكود + فتح المتجر)</option>
+            <option value="deal">🎁 عرض تلقائي بدون كود (احصل على العرض)</option>
+            <option value="auto_link">🔗 كوبون مفعّل تلقائياً عبر الرابط (تفعيل فوري + إظهار الكود)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>🎉 إدراج في تبويب (عروض المواسم والأعياد)؟</label>
+          <select id="admIsSeason">
+            <option value="false">لا (عرض عادي)</option>
+            <option value="true">✅ نعم — أدرجه أيضاً في عروض المواسم والأعياد</option>
           </select>
         </div>
         <div class="form-group">
@@ -1247,7 +1315,7 @@
           <input type="text" id="admTitle" placeholder="فعال على جميع المنتجات المخفضة وغير المخفضة">
         </div>
         <div class="form-group" id="codeInputGroup">
-          <label>كود الخصم الصحيح</label>
+          <label id="admCodeLabel">كود الخصم الصحيح</label>
           <input type="text" id="admCode" placeholder="WK83" style="font-family:monospace; font-weight:bold;">
         </div>
         <div class="form-group">
@@ -1302,7 +1370,76 @@
         <div id="adminStoresList"></div>
       </div>
 
-      <!-- 3. إدارة البانرات الإعلانية -->
+      <!-- 3. إدارة أقسام الصفحة الرئيسية (إظهار / إخفاء / إضافة أقسام مخصصة) -->
+      <div id="admHomeSecTab" class="adm-subview" style="display:none;">
+        <h4 style="margin:0 0 8px; font-size:13.5px;">🎛️ إظهار أو إخفاء الأقسام الأساسية في الصفحة الرئيسية:</h4>
+        <div class="form-group">
+          <label>قسم (🏪 أشهر المتاجر)</label>
+          <select id="hsStoresEnabled" onchange="saveBuiltinHomeSections()">
+            <option value="true">✅ ظاهر في الرئيسية</option>
+            <option value="false">❌ مخفي من الرئيسية</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>قسم (💻 عروض الإلكترونيات)</label>
+          <select id="hsElectronicsEnabled" onchange="saveBuiltinHomeSections()">
+            <option value="true">✅ ظاهر في الرئيسية</option>
+            <option value="false">❌ مخفي من الرئيسية</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>قسم (⚡ العروض التلقائية)</label>
+          <select id="hsDealsEnabled" onchange="saveBuiltinHomeSections()">
+            <option value="true">✅ ظاهر في الرئيسية</option>
+            <option value="false">❌ مخفي من الرئيسية</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>قسم (🎯 أقوى الفئات)</label>
+          <select id="hsCategoriesEnabled" onchange="saveBuiltinHomeSections()">
+            <option value="true">✅ ظاهر في الرئيسية</option>
+            <option value="false">❌ مخفي من الرئيسية</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>قسم (🏷️ أحدث الكوبونات الفعالة)</label>
+          <select id="hsLatestEnabled" onchange="saveBuiltinHomeSections()">
+            <option value="true">✅ ظاهر في الرئيسية</option>
+            <option value="false">❌ مخفي من الرئيسية</option>
+          </select>
+        </div>
+
+        <h4 style="margin:18px 0 8px; font-size:13.5px; border-top:1px solid #e2e8f0; padding-top:12px;">➕ إضافة قسم جديد مخصص في الصفحة الرئيسية:</h4>
+        <input type="hidden" id="editCustomSecId" value="">
+        <div class="form-group">
+          <label>عنوان القسم الجديد (مثال: 🎉 عروض المواسم والأعياد أو 🍔 عروض المطاعم)</label>
+          <input type="text" id="csTitle" placeholder="🎉 عروض المواسم والأعياد">
+        </div>
+        <div class="form-group">
+          <label>مصدر الكوبونات التي ستُعرض داخل هذا القسم</label>
+          <select id="csFilterType" onchange="toggleCustomSecFilterUI()">
+            <option value="season">🎉 عروض المواسم والأعياد</option>
+            <option value="category">📂 عروض فئة / قسم محدد</option>
+            <option value="store">🏪 عروض متجر / براند محدد</option>
+            <option value="auto">⚡ جميع العروض المفعّلة تلقائياً</option>
+          </select>
+        </div>
+        <div class="form-group" id="csCatWrap" style="display:none;">
+          <label>اختر الفئة</label>
+          <select id="csTargetCat"></select>
+        </div>
+        <div class="form-group" id="csStoreWrap" style="display:none;">
+          <label>اختر المتجر</label>
+          <select id="csTargetStore"></select>
+        </div>
+        <button class="btn-copy" id="saveCustomSecBtn" style="max-width:100%; width:100%; padding:11px;" onclick="saveCustomHomeSection()">+ إضافة القسم للرئيسية</button>
+        <button class="btn-shop" id="cancelCustomSecBtn" style="display:none; width:100%; justify-content:center; margin-top:8px; border:none; cursor:pointer;" onclick="resetCustomSecForm()">إلغاء التعديل</button>
+
+        <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">📋 الأقسام المخصصة المضافة حالياً:</h4>
+        <div id="adminCustomSectionsList"></div>
+      </div>
+
+      <!-- 4. إدارة البانرات الإعلانية -->
       <div id="admBannerTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">💡 يمكنك توجيه الزائر عند الضغط على البانر إلى <strong>رابط خارجي</strong> أو <strong>صفحة متجر معين</strong> أو <strong>قسم محدد داخل التطبيق</strong>:</p>
         <div class="form-group">
@@ -1339,7 +1476,6 @@
           </select>
         </div>
 
-        <!-- التوجيه الذكي الثلاثي للبانر -->
         <div class="form-group">
           <label>🎯 نوع التوجيه عند الضغط على البانر</label>
           <select id="bannerActionType" onchange="toggleActionTargetUI('banner')">
@@ -1384,7 +1520,7 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
       </div>
 
-      <!-- 4. إدارة نافذة البوب أب الترويجية -->
+      <!-- 5. إدارة نافذة البوب أب الترويجية -->
       <div id="admPopupTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">تظهر نافذة البوب أب <strong>مرة واحدة فقط في الجلسة</strong> وتدعم التوجيه لرابط خارجي أو متجر أو قسم:</p>
         <div class="form-group">
@@ -1428,7 +1564,6 @@
           </select>
         </div>
 
-        <!-- التوجيه الذكي الثلاثي للبوب أب -->
         <div class="form-group">
           <label>🎯 نوع التوجيه عند الضغط على البوب أب</label>
           <select id="popActionType" onchange="toggleActionTargetUI('pop')">
@@ -1489,7 +1624,7 @@
         </div>
       </div>
 
-      <!-- 5. إدارة البانر المستطيل العائم بعرض التطبيق -->
+      <!-- 6. إدارة البانر المستطيل العائم بعرض التطبيق -->
       <div id="admStripTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">بانر مستطيل أنيق بعرض التطبيق بالكامل يظهر للزائر لعدة ثوانٍ ويدعم التوجيه لرابط خارجي أو متجر أو قسم:</p>
         <div class="form-group">
@@ -1515,7 +1650,6 @@
           </select>
         </div>
 
-        <!-- التوجيه الذكي الثلاثي للشريط العائم -->
         <div class="form-group">
           <label>🎯 نوع التوجيه عند الضغط على الشريط العائم</label>
           <select id="stripActionType" onchange="toggleActionTargetUI('strip')">
@@ -1572,7 +1706,7 @@
         </div>
       </div>
 
-      <!-- 6. إدارة التنبيهات والعروض الفورية داخل التطبيق -->
+      <!-- 7. إدارة التنبيهات والعروض الفورية داخل التطبيق -->
       <div id="admNotifTab" class="adm-subview" style="display:none;">
         <p style="font-size:11.5px; color:var(--muted); margin-top:0;">أضف هنا كل إشعار أو عرض فوري ترسله للمستخدمين ليضيء الجرس العلوي والنقطة الحمراء ويظل محفوظاً داخل <strong>(🔔 مركز التنبيهات)</strong>:</p>
         <div class="form-group">
@@ -1608,7 +1742,7 @@
         <div id="adminNotifsList"></div>
       </div>
 
-      <!-- 7. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
+      <!-- 8. التحكم في روابط "اعرض الكل" ورابط مشاركة التطبيق -->
       <div id="admLinksTab" class="adm-subview" style="display:none;">
         <h4 style="margin:0 0 8px; font-size:13px;">📤 رابط مشاركة التطبيق (APK / Google Play):</h4>
         <div class="form-group">
@@ -1642,7 +1776,7 @@
         <button class="btn-copy" style="max-width:100%; width:100%; padding:11px;" onclick="saveLinksAdmin()">حفظ إعدادات الروابط والمشاركة</button>
       </div>
 
-      <!-- 8. إعدادات مفتاح الربط السحابي -->
+      <!-- 9. إعدادات مفتاح الربط السحابي -->
       <div id="admSettingsTab" class="adm-subview" style="display:none;">
         <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن التطبيق من نشر تعديلاتك وحذف وإضافة الكوبونات والمتاجر والبانرات والتنبيهات تلقائياً بضغطة زر:</p>
         <div class="form-group">
@@ -1771,12 +1905,22 @@
     latest: ''
   };
 
+  const DEFAULT_HOME_CONFIG = {
+    stores: true,
+    electronics: true,
+    deals: true,
+    categories: true,
+    latest: true,
+    customSections: []
+  };
+
   let appData = {
     categories: [...DEFAULT_CATEGORIES],
     banners: JSON.parse(JSON.stringify(DEFAULT_BANNERS)),
     popupBanner: { ...DEFAULT_POPUP },
     floatingStrip: { ...DEFAULT_STRIP },
     links: { ...DEFAULT_LINKS },
+    homeConfig: JSON.parse(JSON.stringify(DEFAULT_HOME_CONFIG)),
     notifications: [],
     stores: [],
     coupons: []
@@ -1784,6 +1928,7 @@
 
   let selectedCountry = localStorage.getItem('silver_user_country') || '';
   let couponsTabSelectedCategory = 'ALL';
+  let couponsTabSelectedSubType = 'ALL';
   let previousViewId = 'homeView';
   let notifReturnViewId = 'homeView';
   let activeViewId = 'homeView';
@@ -1805,7 +1950,7 @@
     return ws && !ws.classList.contains('hidden');
   }
 
-  /* تنفيذ التوجيه الذكي الثلاثي (رابط خارجي / متجر داخل التطبيق / قسم داخل التطبيق) */
+  /* تنفيذ التوجيه الذكي الثلاثي */
   function executeSmartAction(actionType, targetValue, fallbackUrl, returnView = 'homeView') {
     const mode = actionType || 'url';
     if (mode === 'store' && targetValue) {
@@ -1840,7 +1985,7 @@
     const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
     const catsHtml = cats.map(c => `<option value="${c.name}">${c.icon || '🏷️'} ${c.name}</option>`).join('');
 
-    ['bannerTargetStore', 'popTargetStore', 'stripTargetStore'].forEach(id => {
+    ['bannerTargetStore', 'popTargetStore', 'stripTargetStore', 'csTargetStore'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         const prev = el.value;
@@ -1849,7 +1994,7 @@
       }
     });
 
-    ['bannerTargetCat', 'popTargetCat', 'stripTargetCat'].forEach(id => {
+    ['bannerTargetCat', 'popTargetCat', 'stripTargetCat', 'csTargetCat'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         const prev = el.value;
@@ -2245,6 +2390,131 @@
     showToast('تم حذف البانر المستطيل! اضغط زر النشر الأخضر.');
   }
 
+  /* دوال إدارة أقسام الصفحة الرئيسية (إظهار / إخفاء / إضافة أقسام مخصصة) */
+  function loadHomeConfigForm() {
+    populateSmartTargetSelectors();
+    const hc = appData.homeConfig || DEFAULT_HOME_CONFIG;
+    document.getElementById('hsStoresEnabled').value = String(hc.stores !== false);
+    document.getElementById('hsElectronicsEnabled').value = String(hc.electronics !== false);
+    document.getElementById('hsDealsEnabled').value = String(hc.deals !== false);
+    document.getElementById('hsCategoriesEnabled').value = String(hc.categories !== false);
+    document.getElementById('hsLatestEnabled').value = String(hc.latest !== false);
+    renderCustomHomeSectionsAdminList();
+  }
+
+  function saveBuiltinHomeSections() {
+    if (!appData.homeConfig) appData.homeConfig = JSON.parse(JSON.stringify(DEFAULT_HOME_CONFIG));
+    appData.homeConfig.stores = document.getElementById('hsStoresEnabled').value === 'true';
+    appData.homeConfig.electronics = document.getElementById('hsElectronicsEnabled').value === 'true';
+    appData.homeConfig.deals = document.getElementById('hsDealsEnabled').value === 'true';
+    appData.homeConfig.categories = document.getElementById('hsCategoriesEnabled').value === 'true';
+    appData.homeConfig.latest = document.getElementById('hsLatestEnabled').value === 'true';
+    refreshAllUI();
+    showToast('تم تحديث إعدادات الرئيسية! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function toggleCustomSecFilterUI() {
+    const fType = document.getElementById('csFilterType').value;
+    document.getElementById('csCatWrap').style.display = (fType === 'category') ? 'block' : 'none';
+    document.getElementById('csStoreWrap').style.display = (fType === 'store') ? 'block' : 'none';
+  }
+
+  function saveCustomHomeSection() {
+    const editId = document.getElementById('editCustomSecId').value;
+    const title = document.getElementById('csTitle').value.trim();
+    const filterType = document.getElementById('csFilterType').value;
+    let filterValue = '';
+    if (filterType === 'category') filterValue = document.getElementById('csTargetCat').value;
+    else if (filterType === 'store') filterValue = document.getElementById('csTargetStore').value;
+
+    if (!title) return alert('يرجى كتابة عنوان القسم');
+    if (!appData.homeConfig) appData.homeConfig = JSON.parse(JSON.stringify(DEFAULT_HOME_CONFIG));
+    if (!Array.isArray(appData.homeConfig.customSections)) appData.homeConfig.customSections = [];
+
+    const secObj = {
+      id: editId ? Number(editId) : Date.now(),
+      enabled: true,
+      title: title,
+      filterType: filterType,
+      filterValue: filterValue
+    };
+
+    if (editId) {
+      const idx = appData.homeConfig.customSections.findIndex(s => s.id === Number(editId));
+      if (idx !== -1) {
+        secObj.enabled = appData.homeConfig.customSections[idx].enabled !== false;
+        appData.homeConfig.customSections[idx] = secObj;
+      }
+      showToast('تم تعديل القسم! اضغط زر النشر الأخضر بالأعلى.');
+    } else {
+      appData.homeConfig.customSections.push(secObj);
+      showToast('تمت إضافة القسم للرئيسية! اضغط زر النشر الأخضر بالأعلى.');
+    }
+
+    resetCustomSecForm();
+    refreshAllUI();
+  }
+
+  function editCustomHomeSection(secId) {
+    const hc = appData.homeConfig || DEFAULT_HOME_CONFIG;
+    const sec = (hc.customSections || []).find(s => s.id === secId);
+    if (!sec) return;
+    document.getElementById('editCustomSecId').value = sec.id;
+    document.getElementById('csTitle').value = sec.title || '';
+    document.getElementById('csFilterType').value = sec.filterType || 'season';
+    toggleCustomSecFilterUI();
+    if (sec.filterType === 'category') document.getElementById('csTargetCat').value = sec.filterValue || '';
+    if (sec.filterType === 'store') document.getElementById('csTargetStore').value = sec.filterValue || '';
+    document.getElementById('saveCustomSecBtn').innerText = '💾 حفظ تعديل القسم';
+    document.getElementById('cancelCustomSecBtn').style.display = 'flex';
+  }
+
+  function resetCustomSecForm() {
+    document.getElementById('editCustomSecId').value = '';
+    document.getElementById('csTitle').value = '';
+    document.getElementById('csFilterType').value = 'season';
+    toggleCustomSecFilterUI();
+    document.getElementById('saveCustomSecBtn').innerText = '+ إضافة القسم للرئيسية';
+    document.getElementById('cancelCustomSecBtn').style.display = 'none';
+  }
+
+  function toggleCustomSecVisibility(secId) {
+    const hc = appData.homeConfig || DEFAULT_HOME_CONFIG;
+    const sec = (hc.customSections || []).find(s => s.id === secId);
+    if (sec) {
+      sec.enabled = (sec.enabled === false) ? true : false;
+      refreshAllUI();
+      showToast('تم تغيير حالة ظهور القسم! اضغط زر النشر الأخضر.');
+    }
+  }
+
+  function deleteCustomHomeSection(secId) {
+    if (!confirm('حذف هذا القسم من الصفحة الرئيسية؟')) return;
+    const hc = appData.homeConfig || DEFAULT_HOME_CONFIG;
+    hc.customSections = (hc.customSections || []).filter(s => s.id !== secId);
+    refreshAllUI();
+    showToast('تم حذف القسم! اضغط زر النشر الأخضر.');
+  }
+
+  function renderCustomHomeSectionsAdminList() {
+    const container = document.getElementById('adminCustomSectionsList');
+    if (!container) return;
+    const hc = appData.homeConfig || DEFAULT_HOME_CONFIG;
+    const list = hc.customSections || [];
+    container.innerHTML = list.length ? list.map(sec => `
+      <div class="manage-row">
+        <div style="flex:1;">
+          <strong>${sec.title}</strong> ${sec.enabled === false ? '<span style="color:var(--red);font-size:11px;">(مخفي)</span>' : '<span style="color:var(--green);font-size:11px;">(ظاهر)</span>'}
+        </div>
+        <div style="display:flex; gap:4px;">
+          <button class="btn-mini" style="background:#475569;" onclick="toggleCustomSecVisibility(${sec.id})">${sec.enabled === false ? 'إظهار' : 'إخفاء'}</button>
+          <button class="btn-mini" style="background:var(--blue);" onclick="editCustomHomeSection(${sec.id})">تعديل</button>
+          <button class="btn-mini" style="background:var(--red);" onclick="deleteCustomHomeSection(${sec.id})">حذف</button>
+        </div>
+      </div>
+    `).join('') : `<div style="font-size:12px; color:var(--muted);">لم تضف أقساماً مخصصة إضافية بعد.</div>`;
+  }
+
   function isFavorite(couponId) {
     return userFavorites.includes(Number(couponId));
   }
@@ -2501,6 +2771,7 @@
         document.getElementById('adminView').classList.add('active');
         document.getElementById('ghTokenInput').value = localStorage.getItem('silver_gh_token') || '';
         populateSmartTargetSelectors();
+        loadHomeConfigForm();
         loadBannerForm();
         loadPopupForm();
         loadStripForm();
@@ -2526,9 +2797,20 @@
     showToast('تم حفظ مفتاح الربط بنجاح! يمكنك النشر الآن.');
   }
 
+  /* إظهار حقل الكود لكل من (كوبون خصم) و(كوبون مفعّل تلقائياً عبر الرابط) */
   function toggleCodeInput() {
     const type = document.getElementById('admType').value;
-    document.getElementById('codeInputGroup').style.display = (type === 'deal' || type === 'auto_link') ? 'none' : 'block';
+    const grp = document.getElementById('codeInputGroup');
+    const lbl = document.getElementById('admCodeLabel');
+    if (type === 'deal') {
+      grp.style.display = 'none';
+    } else if (type === 'auto_link') {
+      grp.style.display = 'block';
+      lbl.innerText = 'كود الخصم المدمج في الرابط (اختياري — يظهر في رسالة التفعيل للمستخدم)';
+    } else {
+      grp.style.display = 'block';
+      lbl.innerText = 'كود الخصم الصحيح';
+    }
   }
 
   function normalizeBanners(rawBanners) {
@@ -2576,6 +2858,7 @@
         popupBanner: { ...DEFAULT_POPUP, ...(fetched.popupBanner || {}) },
         floatingStrip: { ...DEFAULT_STRIP, ...(fetched.floatingStrip || {}) },
         links: { ...DEFAULT_LINKS, ...(fetched.links || {}) },
+        homeConfig: { ...DEFAULT_HOME_CONFIG, ...(fetched.homeConfig || {}) },
         notifications: Array.isArray(fetched.notifications) ? fetched.notifications : [],
         stores: Array.isArray(fetched.stores) ? fetched.stores : [],
         coupons: Array.isArray(fetched.coupons) ? fetched.coupons : []
@@ -2592,6 +2875,7 @@
           popupBanner: { ...DEFAULT_POPUP, ...(parsed.popupBanner || {}) },
           floatingStrip: { ...DEFAULT_STRIP, ...(parsed.floatingStrip || {}) },
           links: { ...DEFAULT_LINKS, ...(parsed.links || {}) },
+          homeConfig: { ...DEFAULT_HOME_CONFIG, ...(parsed.homeConfig || {}) },
           notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
           stores: parsed.stores || [],
           coupons: parsed.coupons || []
@@ -2612,6 +2896,7 @@
     showToast('جاري التحديث من السحابة...');
     await initApp(false);
     populateSmartTargetSelectors();
+    loadHomeConfigForm();
     loadBannerForm();
     loadPopupForm();
     loadStripForm();
@@ -2652,7 +2937,16 @@
     populateAdminStores();
     populateAdminCategories();
     populateSmartTargetSelectors();
+    renderCustomHomeSectionsAdminList();
     renderAdminLists();
+  }
+
+  function selectCouponsSubTab(subType) {
+    couponsTabSelectedSubType = subType;
+    document.querySelectorAll('#couponsSubTabsBar .c-subtab-pill').forEach(p => {
+      p.classList.toggle('active', p.getAttribute('data-sub') === subType);
+    });
+    renderCouponsTab();
   }
 
   function renderCouponsTab() {
@@ -2681,11 +2975,28 @@
     bar.innerHTML = pillsHtml;
 
     let sortedCoupons = getSortedCountryCoupons();
+
+    /* تطبيق تصفية شريط التبويبات الفرعي (نوع العرض) */
+    if (couponsTabSelectedSubType === 'COUPON') {
+      sortedCoupons = sortedCoupons.filter(c => c.type !== 'deal' && c.type !== 'auto_link' && c.code && c.code.trim() !== '');
+    } else if (couponsTabSelectedSubType === 'AUTO') {
+      sortedCoupons = sortedCoupons.filter(c => c.type === 'deal' || c.type === 'auto_link' || !c.code || c.code.trim() === '');
+    } else if (couponsTabSelectedSubType === 'SEASON') {
+      sortedCoupons = sortedCoupons.filter(c => c.isSeason === true || c.isSeason === 'true');
+    }
+
+    /* تطبيق تصفية الفئة التجارية السفلية */
     if (couponsTabSelectedCategory !== 'ALL') {
       sortedCoupons = sortedCoupons.filter(c => c.category === couponsTabSelectedCategory);
       headingEl.innerText = `🏷️ عروض قسم: ${couponsTabSelectedCategory}`;
     } else {
-      headingEl.innerText = '🏷️ جميع الكوبونات والعروض';
+      const subTitles = {
+        ALL: '🏷️ جميع الكوبونات والعروض',
+        COUPON: '🏷️ كوبونات الخصم الفعالة',
+        AUTO: '⚡ العروض المفعّلة تلقائياً',
+        SEASON: '🎉 عروض المواسم والأعياد'
+      };
+      headingEl.innerText = subTitles[couponsTabSelectedSubType] || '🏷️ جميع الكوبونات والعروض';
     }
 
     countEl.innerText = `${sortedCoupons.length} عرض`;
@@ -3048,10 +3359,11 @@
     const isDeal = c.type === 'deal' || (!isAutoLink && (!c.code || c.code.trim() === ''));
     const targetUrl = c.url || storeObj.url || 'https://silvercoupons.blogspot.com/';
     const favActive = isFavorite(c.id);
+    const safeCode = (c.code || '').replace(/'/g, '');
 
     let footerHtml = '';
     if (isAutoLink) {
-      footerHtml = `<button type="button" class="h-btn-deal" onclick="activateAutoLinkCoupon('${targetUrl}', this)">احصل على العرض ↗</button>`;
+      footerHtml = `<button type="button" class="h-btn-deal" onclick="activateAutoLinkCoupon('${targetUrl}', this, '${safeCode}')">احصل على العرض ↗</button>`;
     } else if (isDeal) {
       footerHtml = `<a href="${targetUrl}" target="_blank" class="h-btn-deal">احصل على العرض ↗</a>`;
     } else {
@@ -3087,15 +3399,17 @@
     const logo = storeObj.logo || 'https://via.placeholder.com/60';
     const isAutoLink = c.type === 'auto_link';
     const isDeal = c.type === 'deal' || (!isAutoLink && (!c.code || c.code.trim() === ''));
+    const isSeason = c.isSeason === true || c.isSeason === 'true';
     const targetUrl = c.url || storeObj.url || 'https://silvercoupons.blogspot.com/';
     const favActive = isFavorite(c.id);
     const myVote = userVotes[String(c.id)] || '';
+    const safeCode = (c.code || '').replace(/'/g, '');
 
     let badgeHtml = '';
     let bottomHtml = '';
     if (isAutoLink) {
       badgeHtml = `<span class="autolink-badge">⚡ كوبون مفعّل تلقائياً عبر الرابط</span>`;
-      bottomHtml = `<button type="button" class="btn-deal-full" onclick="activateAutoLinkCoupon('${targetUrl}', this)">احصل على العرض ↗</button>`;
+      bottomHtml = `<button type="button" class="btn-deal-full" onclick="activateAutoLinkCoupon('${targetUrl}', this, '${safeCode}')">احصل على العرض ↗</button>`;
     } else if (isDeal) {
       badgeHtml = `<span class="deal-badge">⚡ عرض تلقائي بدون كود</span>`;
       bottomHtml = `<a href="${targetUrl}" target="_blank" class="btn-deal-full">احصل على العرض ↗</a>`;
@@ -3119,6 +3433,7 @@
             <div class="badges-row">
               <span class="discount-badge">${c.discount}</span>
               ${badgeHtml}
+              ${isSeason ? `<span class="season-badge">🎉 مواسم وأعياد</span>` : ''}
             </div>
             <h3 class="ticket-title">${c.title}</h3>
             <div class="ticket-meta">متجر: ${c.storeName} • القسم: ${c.category || 'عام'}</div>
@@ -3140,6 +3455,13 @@
   }
 
   function renderHomeSections() {
+    const hc = appData.homeConfig || DEFAULT_HOME_CONFIG;
+    document.getElementById('homeSecStoresWrap').style.display = (hc.stores !== false) ? 'block' : 'none';
+    document.getElementById('electronicsSectionWrap').style.display = (hc.electronics !== false) ? 'block' : 'none';
+    document.getElementById('autoDealsSectionWrap').style.display = (hc.deals !== false) ? 'block' : 'none';
+    document.getElementById('homeSecCategoriesWrap').style.display = (hc.categories !== false) ? 'block' : 'none';
+    document.getElementById('homeSecLatestWrap').style.display = (hc.latest !== false) ? 'block' : 'none';
+
     const countryCoupons = getSortedCountryCoupons();
 
     let elecItems = countryCoupons.filter(c => c.category === 'إلكترونيات' || c.category === 'موبايلات');
@@ -3158,6 +3480,44 @@
     document.getElementById('latestCouponsCarousel').innerHTML = latestList.length
       ? latestList.slice(0, HOME_MAX_CARDS).map(buildHorizontalCard).join('')
       : `<div style="padding:10px; color:var(--muted); font-size:13px;">لا توجد كوبونات متاحة لهذه الدولة حالياً.</div>`;
+
+    /* عرض الأقسام المخصصة الإضافية في الصفحة الرئيسية */
+    const customContainer = document.getElementById('customHomeSectionsContainer');
+    const customList = (hc.customSections || []).filter(sec => sec.enabled !== false);
+    customContainer.innerHTML = customList.map(sec => {
+      let items = countryCoupons;
+      let fType = 'all';
+      let fVal = 'all';
+      if (sec.filterType === 'season') {
+        items = countryCoupons.filter(c => c.isSeason === true || c.isSeason === 'true');
+        fType = 'season';
+      } else if (sec.filterType === 'category' && sec.filterValue) {
+        items = countryCoupons.filter(c => c.category === sec.filterValue);
+        fType = 'category';
+        fVal = sec.filterValue;
+      } else if (sec.filterType === 'store' && sec.filterValue) {
+        items = countryCoupons.filter(c => String(c.storeId) === String(sec.filterValue));
+        fType = 'store';
+        fVal = sec.filterValue;
+      } else if (sec.filterType === 'auto') {
+        items = countryCoupons.filter(c => c.type === 'deal' || c.type === 'auto_link' || !c.code || c.code.trim() === '');
+        fType = 'deals';
+      }
+
+      if (!items.length) return '';
+      const safeTitle = sec.title.replace(/'/g, '');
+      return `
+        <div>
+          <div class="section-header">
+            <span class="section-title-text">${sec.title}</span>
+            <span class="view-all-link" onclick="openFilteredView('${fType}', '${fVal}', '${safeTitle}', 'homeView')">اعرض الكل ◂</span>
+          </div>
+          <div class="horizontal-cards-strip">
+            ${items.slice(0, HOME_MAX_CARDS).map(buildHorizontalCard).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
   function openFilteredView(filterType, filterValue, titleText, returnTo = 'homeView') {
@@ -3176,6 +3536,8 @@
       results = countryCoupons.filter(c => String(c.storeId) === String(filterValue));
     } else if (filterType === 'deals') {
       results = countryCoupons.filter(c => c.type === 'deal' || c.type === 'auto_link' || !c.code || c.code.trim() === '');
+    } else if (filterType === 'season') {
+      results = countryCoupons.filter(c => c.isSeason === true || c.isSeason === 'true');
     }
 
     const container = document.getElementById('filteredViewContainer');
@@ -3250,18 +3612,23 @@
     }).join('') : `<div style="grid-column:span 3; text-align:center; padding:30px; color:var(--muted);">لا توجد متاجر متاحة لدولتك حالياً.</div>`;
   }
 
-  function activateAutoLinkCoupon(targetUrl, btn) {
+  /* تفعيل الكوبون المربوط بالرابط وإظهار رمز الكود الفعلي في رسالة التأكيد */
+  function activateAutoLinkCoupon(targetUrl, btn, couponCode = '') {
     const originalText = btn.innerText;
-    btn.innerText = '✓ تم تفعيل الكوبون! جاري التوجيه...';
+    const cleanCode = (couponCode || '').trim().toUpperCase();
+    btn.innerText = cleanCode ? `✓ تم تفعيل (${cleanCode})! جاري التوجيه...` : '✓ تم تفعيل الكوبون! جاري التوجيه...';
     btn.style.background = '#0f172a';
-    showToast('⚡ تم تفعيل الكوبون تلقائياً وسوف يتم توجيهك للشراء...');
+    const toastMessage = cleanCode
+      ? `⚡ تم تفعيل الكوبون (${cleanCode}) تلقائياً! جاري توجيهك للشراء...`
+      : '⚡ تم تفعيل الكوبون تلقائياً عبر الرابط! جاري توجيهك للشراء...';
+    showToast(toastMessage);
     setTimeout(() => {
       btn.innerText = originalText;
       btn.style.background = '#16a34a';
       if (targetUrl) {
         window.open(targetUrl, '_blank');
       }
-    }, 1150);
+    }, 1200);
   }
 
   function copyAndShop(code, targetUrl, btn, defaultLabel = 'نسخ الكود') {
@@ -3323,13 +3690,17 @@
     const cList = document.getElementById('adminCouponsList');
     cList.innerHTML = appData.coupons.map(c => {
       let typeLabel = '(عرض تلقائي)';
-      if (c.type === 'auto_link') typeLabel = '(مفعّل عبر الرابط 🔗)';
-      else if (c.code) typeLabel = `(<span style="color:var(--blue);font-family:monospace;">${c.code}</span>)`;
+      if (c.type === 'auto_link') {
+        typeLabel = c.code ? `(مفعّل بالرابط: <span style="color:#6b21a8;font-family:monospace;">${c.code}</span> 🔗)` : '(مفعّل عبر الرابط 🔗)';
+      } else if (c.code) {
+        typeLabel = `(<span style="color:var(--blue);font-family:monospace;">${c.code}</span>)`;
+      }
+      const seasonTag = (c.isSeason === true || c.isSeason === 'true') ? ' 🎉' : '';
 
       return `
       <div class="manage-row">
         <div style="flex:1;">
-          <strong>${c.storeName}</strong> ${typeLabel}<br>
+          <strong>${c.storeName}</strong> ${typeLabel}${seasonTag}<br>
           <span style="font-size:11px;color:var(--muted);">${c.category || ''} | ${c.discount} [${c.country || 'ALL'}]</span>
         </div>
         <div style="display:flex; gap:5px;">
@@ -3389,13 +3760,14 @@
     const type = document.getElementById('admType').value;
     const storeId = document.getElementById('admStore').value;
     const storeObj = appData.stores.find(s => s.id === storeId);
-    const codeVal = (type === 'deal' || type === 'auto_link') ? '' : document.getElementById('admCode').value.trim().toUpperCase();
+    const codeVal = (type === 'deal') ? '' : document.getElementById('admCode').value.trim().toUpperCase();
 
     if (type === 'coupon' && !codeVal) return alert('يرجى كتابة كود الخصم أو اختيار بطاقة عرض تلقائي / مفعّل عبر الرابط');
 
     const itemData = {
       id: editId ? Number(editId) : Date.now(),
       type: type,
+      isSeason: document.getElementById('admIsSeason').value === 'true',
       country: document.getElementById('admCountry').value,
       storeId: storeId,
       storeName: storeObj ? storeObj.name : storeId,
@@ -3427,6 +3799,7 @@
     document.getElementById('editCouponId').value = c.id;
     document.getElementById('admType').value = c.type || (c.code ? 'coupon' : 'deal');
     toggleCodeInput();
+    document.getElementById('admIsSeason').value = String(c.isSeason === true || c.isSeason === 'true');
     document.getElementById('admCountry').value = c.country || 'ALL';
     document.getElementById('admStore').value = c.storeId;
     document.getElementById('admCat').value = c.category || 'عروض جديدة';
@@ -3441,6 +3814,7 @@
 
   function resetCouponForm() {
     document.getElementById('editCouponId').value = '';
+    document.getElementById('admIsSeason').value = 'false';
     document.getElementById('admDiscount').value = '';
     document.getElementById('admTitle').value = '';
     document.getElementById('admCode').value = '';
@@ -3647,7 +4021,7 @@
   async function publishToGitHub() {
     const token = localStorage.getItem('silver_gh_token');
     if (!token) {
-      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[7]);
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[8]);
       return alert('يرجى لصق مفتاح GitHub Token هنا أولاً (مرة واحدة فقط) لتفعيل النشر الفوري.');
     }
 
