@@ -29,6 +29,7 @@ jobs:
         run: |
           mkdir -p www assets
           npm install
+          npm install @capacitor/share
           npm install -D @capacitor/assets
           npx cap add android
           if [ -f "www/logo.png" ]; then
