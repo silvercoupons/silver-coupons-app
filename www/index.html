@@ -2069,7 +2069,7 @@
     activeSharePayload = { title: title, text: fullMessage, url: shareUrl };
     document.getElementById('shareModalHeading').innerText = sheetHeading;
     document.getElementById('shareWhatsAppLink').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(fullMessage)}`;
-    document.getElementById('shareFacebookLink').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"e=${encodeURIComponent(text)}`;
+    document.getElementById('shareFacebookLink').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(text)}`;
     document.getElementById('shareMessengerLink').href = `fb-messenger://share/?link=${encodeURIComponent(shareUrl)}`;
     document.getElementById('shareModalBackdrop').classList.add('open');
   }
