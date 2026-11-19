@@ -279,6 +279,20 @@
   ],
   "coupons": [
     {
+      "id": 1795084084655,
+      "type": "auto_link",
+      "country": "ALL",
+      "storeId": "noon",
+      "storeName": "نون - Noon",
+      "category": "عروض جديدة",
+      "discount": "خصم إضافي",
+      "title": "عرض خاص لفترة محدودة",
+      "code": "",
+      "url": "https://jforce.jumia.com.eg/s/RaYFuwp",
+      "verified": true,
+      "usedCount": 93
+    },
+    {
       "id": 1794930214510,
       "type": "coupon",
       "country": "KW",
