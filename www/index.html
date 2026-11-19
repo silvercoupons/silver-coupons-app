@@ -1294,7 +1294,6 @@
             <input type="file" id="newCatFile" accept="image/*" style="font-size:11.5px; padding:6px;">
           </div>
 
-          <!-- إعدادات البانر الإعلاني الخاص بصفحة هذا القسم -->
           <div class="sub-panel-box">
             <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">🖼️ بانر إعلاني خاص يظهر أعلى صفحة هذا القسم (اختياري):</label>
             <div style="margin-bottom:6px;">
@@ -2029,17 +2028,30 @@
     return ws && !ws.classList.contains('hidden');
   }
 
-  /* تنفيذ المشاركة الذكية عبر نافذة مشاركة النظام الأصلية مع بديل احتياطي */
+  /* تنفيذ المشاركة الذكية عبر نافذة مشاركة نظام أندرويد الأصلية (Capacitor / Web Share / Android Intent) */
   async function triggerNativeOrFallbackShare(title, text, url, sheetHeading = '📤 مشاركة عبر:') {
     const appLink = (appData.links && appData.links.appShareUrl) ? appData.links.appShareUrl : DEFAULT_LINKS.appShareUrl;
     const shareUrl = (url && url.trim() !== '') ? url.trim() : appLink;
+    const fullMessage = `${text}\n${shareUrl}`;
 
+    // 1. استدعاء نافذة أندرويد الأصلية عبر Capacitor Share Plugin
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share) {
+      try {
+        await window.Capacitor.Plugins.Share.share({
+          title: title,
+          text: fullMessage,
+          dialogTitle: title
+        });
+        return;
+      } catch (e) {}
+    }
+
+    // 2. استدعاء نافذة النظام عبر Web Share API
     if (navigator.share) {
       try {
         await navigator.share({
           title: title,
-          text: text,
-          url: shareUrl
+          text: fullMessage
         });
         return;
       } catch (err) {
@@ -2047,11 +2059,18 @@
       }
     }
 
-    activeSharePayload = { title: title, text: `${text}\n${shareUrl}`, url: shareUrl };
+    // 3. استدعاء جسر أندرويد المخصص في حال استخدام WebView
+    if (window.AndroidShare && typeof window.AndroidShare.shareText === 'function') {
+      window.AndroidShare.shareText(title, fullMessage);
+      return;
+    }
+
+    // 4. البديل الاحتياطي للكمبيوتر والمتصفحات القديمة مع إصلاح رابط ماسنجر وفيسبوك
+    activeSharePayload = { title: title, text: fullMessage, url: shareUrl };
     document.getElementById('shareModalHeading').innerText = sheetHeading;
-    document.getElementById('shareWhatsAppLink').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(activeSharePayload.text)}`;
-    document.getElementById('shareFacebookLink').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-    document.getElementById('shareMessengerLink').href = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=291494419107518&redirect_uri=${encodeURIComponent(shareUrl)}`;
+    document.getElementById('shareWhatsAppLink').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(fullMessage)}`;
+    document.getElementById('shareFacebookLink').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"e=${encodeURIComponent(text)}`;
+    document.getElementById('shareMessengerLink').href = `fb-messenger://share/?link=${encodeURIComponent(shareUrl)}`;
     document.getElementById('shareModalBackdrop').classList.add('open');
   }
 
