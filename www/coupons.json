@@ -252,9 +252,12 @@
     {
       "id": "defacto",
       "name": "ديفاكتو - DeFacto",
+      "country": "EG",
       "logo": "https://cdn.almowafir.com/files/w200_adv_defacto.jpg",
       "url": "https://www.defacto.com.eg/",
-      "country": "EG"
+      "bannerEnabled": true,
+      "bannerImg": "https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/store_banner_defacto_1795216859075.png",
+      "bannerUrl": ""
     },
     {
       "id": "2b",
