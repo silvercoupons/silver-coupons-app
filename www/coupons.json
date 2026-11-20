@@ -238,9 +238,12 @@
     {
       "id": "2b",
       "name": "تو بي - 2B Egypt",
+      "country": "EG",
       "logo": "https://2b.com.eg/media/logo/stores/1/logo.png",
       "url": "https://2b.com.eg/ar/",
-      "country": "EG"
+      "bannerEnabled": true,
+      "bannerImg": "https://2b.com.eg/media/custom2b/strip/c/i/cib18_19nov_web_ar.webp",
+      "bannerUrl": ""
     },
     {
       "id": "raya",
