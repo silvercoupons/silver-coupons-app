@@ -247,9 +247,12 @@
     {
       "id": "noon",
       "name": "نون - Noon",
+      "country": "EG",
       "logo": "https://cdn.almowafir.com/files/w200_noon.png",
       "url": "https://silvercoupons.blogspot.com/p/noon.html/",
-      "country": "EG"
+      "bannerEnabled": true,
+      "bannerImg": "https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/store_banner_noon_1795218130814.png",
+      "bannerUrl": "https://www.noon.com/egypt-ar"
     },
     {
       "id": "namshi",
