@@ -297,6 +297,21 @@
   ],
   "coupons": [
     {
+      "id": 1795214182102,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "defacto",
+      "storeName": "ديفاكتو - DeFacto",
+      "category": "أزياء وموضة",
+      "discount": "خصم يصل الي 10% + كود الخصم الاضافي",
+      "title": "كود خصم ديفاكتو 2026 - كوبون يصل 85% فعال لكل \"موقع Defacto Egypt",
+      "code": "DEFAR1148",
+      "url": "https://www.defacto.com.eg/woman",
+      "verified": true,
+      "usedCount": 66
+    },
+    {
       "id": 1795213529150,
       "type": "coupon",
       "isSeason": false,
