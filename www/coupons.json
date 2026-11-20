@@ -293,6 +293,21 @@
   ],
   "coupons": [
     {
+      "id": 1795209856014,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "noon",
+      "storeName": "نون - Noon",
+      "category": "موبايلات وتابلت",
+      "discount": "خصم حتي 10% ",
+      "title": "كود خصم نون مصر للموبايلات والتابلت – وفر عند الشراء ",
+      "code": "WK83",
+      "url": "https://www.noon.com/egypt-ar/mobiles",
+      "verified": true,
+      "usedCount": 74
+    },
+    {
       "id": 1795209309949,
       "type": "coupon",
       "isSeason": false,
