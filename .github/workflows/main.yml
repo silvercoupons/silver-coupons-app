@@ -19,11 +19,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Setup Java JDK 21
+      - name: Setup Java JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
 
       - name: Install Dependencies & Generate App Icons
         run: |
@@ -37,6 +37,7 @@ jobs:
           if [ -f "google-services.json" ]; then
             cp google-services.json android/app/google-services.json
           fi
+          sed -i 's/google-services:4.4.0/google-services:4.4.2/g' android/build.gradle
           if [ -f "www/logo.png" ]; then
             cp www/logo.png assets/icon.png
             cp www/logo.png assets/icon-only.png
