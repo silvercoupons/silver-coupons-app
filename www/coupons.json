@@ -90,7 +90,7 @@
       "title": "",
       "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
-      "image": "https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/banner_b0_2_ALL_1795216708928.png",
+      "image": "",
       "byCountry": {
         "EG": {
           "enabled": true,
@@ -252,12 +252,9 @@
     {
       "id": "defacto",
       "name": "ديفاكتو - DeFacto",
-      "country": "EG",
       "logo": "https://cdn.almowafir.com/files/w200_adv_defacto.jpg",
       "url": "https://www.defacto.com.eg/",
-      "bannerEnabled": true,
-      "bannerImg": "https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/store_banner_defacto_1795216859075.png",
-      "bannerUrl": ""
+      "country": "EG"
     },
     {
       "id": "2b",
@@ -316,6 +313,21 @@
     }
   ],
   "coupons": [
+    {
+      "id": 1795217221847,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "store_1794772871167",
+      "storeName": "وفرها - Waffarha",
+      "category": "مأكولات ومشروبات",
+      "discount": "خصم حتي 40% + حصم اضافي 10%",
+      "title": "كود خصم وفرها سينابون 2026 – وفر حتى 40% على طلبات Cinnabon أونلاين",
+      "code": "WFA46",
+      "url": "https://landing.waffarha.com/ar",
+      "verified": true,
+      "usedCount": 105
+    },
     {
       "id": 1795215749022,
       "type": "coupon",
