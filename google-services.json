@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "103571319898",
+    "project_id": "silver-coupons",
+    "storage_bucket": "silver-coupons.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103571319898:android:a317a28a4268f7bd1efc63",
+        "android_client_info": {
+          "package_name": "com.silvercoupons.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqtug2sYh8YwzgQBXM71yNqYXH1KLG3I4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
