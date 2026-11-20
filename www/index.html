@@ -903,7 +903,7 @@
   <div class="section-header">
     <span class="section-title-text" id="couponsTabHeading">🏷️ جميع الكوبونات والعروض</span>
     <div style="display:flex; align-items:center; gap:8px;">
-      <span class="view-all-link" onclick="handleViewAllClick('stores')">المزيد من المتاجر ◂</span>
+      <span class="view-all-link" id="couponsTabStoresLink" onclick="openStoresFromCouponsTab()">متاجر القسم ◂</span>
       <span style="font-size:11.5px; color:var(--muted); font-weight:700;" id="couponsTabCountBadge">0 عرض</span>
     </div>
   </div>
@@ -2241,19 +2241,66 @@
     handleHomeSearch();
   }
 
-  function openAllStoresPage() {
-    activeViewId = 'allStoresView';
-    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
-    document.getElementById('allStoresView').classList.add('active');
-    document.getElementById('storeSearchInput').value = '';
-    renderAllStoresGrid();
+  let activeStoreCategoryFilter = '';
+
+function openStoresFromCouponsTab() {
+  const isFilterEnabled = !(appData.settings && appData.settings.filterStoresByCategory === false);
+  const headingEl = document.getElementById('couponsTabHeading');
+  const headingText = headingEl ? headingEl.innerText.trim() : '';
+  let detectedCat = '';
+
+  if (isFilterEnabled && headingText && !headingText.includes('جميع الكوبونات')) {
+    detectedCat = headingText.replace(/عروض قسم|قسم|عروض|[^\u0600-\u06FFa-zA-Z0-9\s]/g, '').trim();
   }
 
-  function renderAllStoresGrid() {
-    const grid = document.getElementById('allStoresGridContainer');
-    const q = document.getElementById('storeSearchInput').value.trim().toLowerCase();
-    const visibleStores = appData.stores.filter(st => isStoreAvailableForSelectedCountry(st) && (!q || st.name.toLowerCase().includes(q)));
+  if (detectedCat) {
+    openAllStoresPage(detectedCat);
+  } else {
+    handleViewAllClick('stores');
+  }
+}
 
+function clearStoreCategoryFilter() {
+  activeStoreCategoryFilter = '';
+  renderAllStoresGrid();
+}
+
+function openAllStoresPage(categoryFilter = '') {
+  activeStoreCategoryFilter = categoryFilter || '';
+  activeViewId = 'allStoresView';
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('allStoresView').classList.add('active');
+  document.getElementById('storeSearchInput').value = '';
+  renderAllStoresGrid();
+}
+
+function renderAllStoresGrid() {
+  const grid = document.getElementById('allStoresGridContainer');
+  const q = document.getElementById('storeSearchInput').value.trim().toLowerCase();
+
+  let filterBar = document.getElementById('scStoreCatFilterBar');
+  if (activeStoreCategoryFilter) {
+    if (!filterBar) {
+      filterBar = document.createElement('div');
+      filterBar.id = 'scStoreCatFilterBar';
+      filterBar.style.cssText = 'display:flex; align-items:center; justify-content:space-between; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:10px; padding:10px 14px; margin:0 0 12px 0; font-size:13px;';
+      grid.parentNode.insertBefore(filterBar, grid);
+    }
+    filterBar.innerHTML = `<span>متاجر قسم: <strong>${activeStoreCategoryFilter}</strong></span><button type="button" onclick="clearStoreCategoryFilter()" style="background:#1e293b; color:#fff; border:none; padding:5px 12px; border-radius:6px; font-size:12px; cursor:pointer;">عرض كل المتاجر</button>`;
+  } else if (filterBar) {
+    filterBar.remove();
+  }
+
+  const visibleStores = appData.stores.filter(st => {
+    const matchCountry = isStoreAvailableForSelectedCountry(st);
+    const matchSearch = !q || st.name.toLowerCase().includes(q);
+    if (!matchCountry || !matchSearch) return false;
+    if (!activeStoreCategoryFilter) return true;
+    const catLower = activeStoreCategoryFilter.toLowerCase();
+    const storeCatMatch = st.category && st.category.toLowerCase().includes(catLower);
+    const couponCatMatch = appData.coupons && appData.coupons.some(c => c.storeId === st.id && c.category && c.category.toLowerCase().includes(catLower));
+    return storeCatMatch || couponCatMatch;
+  });
     grid.innerHTML = visibleStores.length ? visibleStores.map(st => {
       const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
       const starred = isFavoriteStore(st.id);
