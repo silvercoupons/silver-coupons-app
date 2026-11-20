@@ -416,16 +416,17 @@
     {
       "id": 1,
       "type": "coupon",
+      "isSeason": false,
       "country": "EG",
       "storeId": "noon",
       "storeName": "نون - Noon",
       "category": "أكواد خصم المتاجر",
       "discount": "خصم حتى 10% كاش باك",
-      "title": "كود خصم نون فعال على جميع المنتجات والالكترونيات",
+      "title": "كود خصم نون 2026 | كوبونات خصم Noon فوري تصل 90%",
       "code": "WK83",
       "url": "https://www.noon.com/egypt-ar",
       "verified": true,
-      "usedCount": 148
+      "usedCount": 149
     },
     {
       "id": 2,
