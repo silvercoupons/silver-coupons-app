@@ -293,6 +293,21 @@
   ],
   "coupons": [
     {
+      "id": 1795210440397,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "noon",
+      "storeName": "نون - Noon",
+      "category": "أزياء وموضة",
+      "discount": "خصم حتي 65% ",
+      "title": "جدّد دولابك بأقل تكلفة مع عروض نون مصر على الملابس الرجالية والنسائية والأزياء العصرية.",
+      "code": "WK83",
+      "url": "https://www.noon.com/egypt-ar/fashion/men-31225/clothing-16204/eg-fashion-men-cat/?limit=50&sort%5Bby%5D=popularity&sort%5Bdir%5D=desc",
+      "verified": true,
+      "usedCount": 89
+    },
+    {
       "id": 1795210217742,
       "type": "coupon",
       "isSeason": false,
