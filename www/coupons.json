@@ -297,6 +297,21 @@
   ],
   "coupons": [
     {
+      "id": 1795215749022,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "store_1794772871167",
+      "storeName": "وفرها - Waffarha",
+      "category": "أكواد خصم المتاجر",
+      "discount": "10% كاش باك",
+      "title": "كود خصم وفرها مصر 2026 – أقوى كوبون وفرها Waffarha حتى 85% نوفمبر.",
+      "code": "WFA38",
+      "url": "https://landing.waffarha.com/ar",
+      "verified": true,
+      "usedCount": 74
+    },
+    {
       "id": 1795215040061,
       "type": "coupon",
       "isSeason": false,
