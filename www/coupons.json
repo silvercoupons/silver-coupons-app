@@ -297,6 +297,21 @@
   ],
   "coupons": [
     {
+      "id": 1795212907110,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "noon",
+      "storeName": "نون - Noon",
+      "category": "الجمال والعطور",
+      "discount": "حصم حتي 65% لفترة مجدودة",
+      "title": "تسوق مستحضرات التجميل والعناية بالبشرة والشعر والعطور من نون مصر بأسعار وعروض مميزة",
+      "code": "WK83",
+      "url": "https://www.noon.com/egypt-ar/beauty",
+      "verified": true,
+      "usedCount": 55
+    },
+    {
       "id": 1795210440397,
       "type": "coupon",
       "isSeason": false,
