@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Signed AAB & APK
 
 on:
   push:
@@ -47,24 +47,37 @@ jobs:
           fi
           npx cap sync android
 
-      - name: Build Debug APK
+      - name: Decode Release Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/silvercoupons-release.jks
+
+      - name: Build Signed Release AAB & APK
         working-directory: ./android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
-          mv app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/SilverCoupons.apk"
+          ./gradlew bundleRelease assembleRelease \
+            -Pandroid.injected.signing.store.file="$GITHUB_WORKSPACE/android/app/silvercoupons-release.jks" \
+            -Pandroid.injected.signing.store.password="${{ secrets.KEYSTORE_PASSWORD }}" \
+            -Pandroid.injected.signing.key.alias="silvercoupons" \
+            -Pandroid.injected.signing.key.password="${{ secrets.KEYSTORE_PASSWORD }}"
+          mv app/build/outputs/bundle/release/app-release.aab "app/build/outputs/bundle/release/SilverCoupons.aab"
+          mv app/build/outputs/apk/release/app-release.apk "app/build/outputs/apk/release/SilverCoupons.apk"
 
-      - name: Upload APK Ready for Download
+      - name: Upload AAB & APK Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: SilverCoupons-APK
-          path: "android/app/build/outputs/apk/debug/SilverCoupons.apk"
+          name: SilverCoupons-Release-Files
+          path: |
+            android/app/build/outputs/bundle/release/SilverCoupons.aab
+            android/app/build/outputs/apk/release/SilverCoupons.apk
 
-      - name: Publish Direct APK Link
+      - name: Publish Release Files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: "Silver Coupons App (APK)"
-          files: "android/app/build/outputs/apk/debug/SilverCoupons.apk"
+          name: "Silver Coupons App (Release AAB & APK)"
+          files: |
+            android/app/build/outputs/bundle/release/SilverCoupons.aab
+            android/app/build/outputs/apk/release/SilverCoupons.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
