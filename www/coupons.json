@@ -26,9 +26,13 @@
       "bg": "#ede9fe"
     },
     {
-      "name": "متاجر شاملة",
+      "name": "أكواد خصم المتاجر",
       "icon": "🛒",
-      "bg": "#dcfce7"
+      "image": "",
+      "bg": "#dcfce7",
+      "bannerEnabled": true,
+      "bannerImg": "",
+      "bannerUrl": ""
     },
     {
       "name": "الاحذية والحقائب",
@@ -386,7 +390,7 @@
       "country": "SA",
       "storeId": "noon",
       "storeName": "نون - Noon",
-      "category": "متاجر شاملة",
+      "category": "أكواد خصم المتاجر",
       "discount": "10%",
       "title": "كود خصم نون السعودية على كل المنتجات",
       "code": "SILVER1",
@@ -400,7 +404,7 @@
       "country": "EG",
       "storeId": "noon",
       "storeName": "نون - Noon",
-      "category": "متاجر شاملة",
+      "category": "أكواد خصم المتاجر",
       "discount": "خصم حتى 10% كاش باك",
       "title": "كود خصم نون فعال على جميع المنتجات والالكترونيات",
       "code": "WK83",
