@@ -297,6 +297,21 @@
   ],
   "coupons": [
     {
+      "id": 1795214961191,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "defacto",
+      "storeName": "ديفاكتو - DeFacto",
+      "category": "أزياء وموضة",
+      "discount": "أزياء الاطفال : خصم أضافي 10%",
+      "title": "رمز خصم ديفاكتو  إضافي على ازياء الاطفال + خصومات الموقع",
+      "code": "DEFAR1148",
+      "url": "https://www.defacto.com.eg/kids-teens",
+      "verified": true,
+      "usedCount": 144
+    },
+    {
       "id": 1795214759045,
       "type": "coupon",
       "isSeason": false,
