@@ -6,9 +6,13 @@
       "bg": "#fef3c7"
     },
     {
-      "name": "طعام",
+      "name": "مأكولات ومشروبات",
       "icon": "🍔",
-      "bg": "#fee2e2"
+      "image": "",
+      "bg": "#fee2e2",
+      "bannerEnabled": true,
+      "bannerImg": "",
+      "bannerUrl": ""
     },
     {
       "name": "إلكترونيات",
