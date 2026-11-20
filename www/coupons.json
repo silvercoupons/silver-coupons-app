@@ -1,9 +1,13 @@
 {
   "categories": [
     {
-      "name": "عروض جديدة",
+      "name": "أقوي العروض",
       "icon": "🆕",
-      "bg": "#fef3c7"
+      "image": "",
+      "bg": "#fef3c7",
+      "bannerEnabled": true,
+      "bannerImg": "",
+      "bannerUrl": ""
     },
     {
       "name": "مأكولات ومشروبات",
