@@ -297,6 +297,21 @@
   ],
   "coupons": [
     {
+      "id": 1795214759045,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "defacto",
+      "storeName": "ديفاكتو - DeFacto",
+      "category": "أزياء وموضة",
+      "discount": "خصم 10% إضافي",
+      "title": "أزياء النساء : خصم ديفاكتو بنسبة 10% إضافي على ازياء النساء",
+      "code": "DEFAR1148",
+      "url": "https://www.defacto.com.eg/woman",
+      "verified": true,
+      "usedCount": 146
+    },
+    {
       "id": 1795214550005,
       "type": "coupon",
       "isSeason": false,
