@@ -9,14 +9,14 @@
   <title>الكوبون الفضي - Silver Coupons</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- كود ربط إشعارات OneSignal الفورية -->
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <!-- كود ربط إشعارات OneSignal الفورية (أندرويد + ويب) -->
   <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-      const appId = "YOUR_ONESIGNAL_APP_ID";
-      if (appId && appId !== "YOUR_ONESIGNAL_APP_ID") {
-        await OneSignal.init({ appId: appId });
+    const ONESIGNAL_APP_ID = "ضع_معرف_التطبيق_هنا";
+
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.plugins && window.plugins.OneSignal) {
+        window.plugins.OneSignal.initialize(ONESIGNAL_APP_ID);
+        window.plugins.OneSignal.Notifications.requestPermission(true);
       }
     });
   </script>
