@@ -290,6 +290,21 @@
   ],
   "coupons": [
     {
+      "id": 1795140217432,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "store_1794878209390",
+      "storeName": "جوميا - Jumia",
+      "category": "إلكترونيات",
+      "discount": "10%",
+      "title": "تحديث جديد",
+      "code": "WK83",
+      "url": "https://silvercoupons.blogspot.com/",
+      "verified": true,
+      "usedCount": 61
+    },
+    {
       "id": 1795084084655,
       "type": "auto_link",
       "isSeason": true,
