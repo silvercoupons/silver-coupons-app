@@ -293,6 +293,21 @@
   ],
   "coupons": [
     {
+      "id": 1795210217742,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "noon",
+      "storeName": "نون - Noon",
+      "category": "الاحذية والحقائب",
+      "discount": "عروض حتي 70%",
+      "title": "اكتشف تخفيضات نون مصر على الأحذية والشنط والحقائب الرجالي والإكسسوارات. اختر ما يناسب ذوقك",
+      "code": "WK83",
+      "url": "https://www.noon.com/egypt-ar/fashion/men-31225/eg-fashion-footwear/?sort%5Bby%5D=popularity&sort%5Bdir%5D=desc",
+      "verified": true,
+      "usedCount": 106
+    },
+    {
       "id": 1795209856014,
       "type": "coupon",
       "isSeason": false,
