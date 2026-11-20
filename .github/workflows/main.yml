@@ -31,8 +31,12 @@ jobs:
           npm install --legacy-peer-deps
           CAP_VER=$(node -p "require('./node_modules/@capacitor/core/package.json').version.split('.')[0]")
           npm install @capacitor/share@^${CAP_VER}.0.0 --legacy-peer-deps
+          npm install onesignal-cordova-plugin --legacy-peer-deps
           npm install -D @capacitor/assets --legacy-peer-deps
           npx cap add android
+          if [ -f "google-services.json" ]; then
+            cp google-services.json android/app/google-services.json
+          fi
           if [ -f "www/logo.png" ]; then
             cp www/logo.png assets/icon.png
             cp www/logo.png assets/icon-only.png
