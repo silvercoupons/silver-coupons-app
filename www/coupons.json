@@ -55,6 +55,15 @@
       "icon": "🏷️",
       "image": "https://b.top4top.io/p_3972xzheo0.png",
       "bg": "#fee2e2"
+    },
+    {
+      "name": "أنشطة وترفيه",
+      "icon": "🏷️",
+      "image": "https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/cat_1795215926751.png",
+      "bg": "#dbeafe",
+      "bannerEnabled": true,
+      "bannerImg": "",
+      "bannerUrl": ""
     }
   ],
   "banners": {
