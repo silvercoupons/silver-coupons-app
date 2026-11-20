@@ -293,6 +293,21 @@
   ],
   "coupons": [
     {
+      "id": 1795209309949,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "noon",
+      "storeName": "نون - Noon",
+      "category": "سوبر ماركت",
+      "discount": "خصم الكوبون على كافة المنتجات  مستخدم جديد: 10% حتى 50 جنيه  مستخدم قديم: 5% حتى 25 جنيه",
+      "title": "عروض سوبر ماركت نون مصر – وفر في مشتريات البيت. مع عروض نون مصر على البقالة والمواد الغذائية",
+      "code": "WK83",
+      "url": "https://www.noon.com/egypt-ar/grocery",
+      "verified": true,
+      "usedCount": 97
+    },
+    {
       "id": 1794930214510,
       "type": "coupon",
       "country": "KW",
