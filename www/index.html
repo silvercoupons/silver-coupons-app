@@ -2364,22 +2364,96 @@ function renderAllStoresGrid() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  window.loadBloggerFeed = function(data) {
-    const entries = data.feed.entry || [];
-    document.getElementById('blogContainer').innerHTML = entries.map(e => {
-      const title = e.title.$t;
-      const link = e.link.find(l => l.rel === 'alternate').href;
-      const img = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
-      return `
-        <div class="coupon-ticket" style="padding:12px; display:flex; gap:12px; align-items:center;">
-          <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover;">
-          <div style="flex:1;">
-            <h4 style="margin:0 0 8px 0; font-size:14px;">${title}</h4>
-            <a href="${link}" target="_blank" class="btn-shop" style="display:inline-block;">قراءة العرض في الموقع ↗</a>
-          </div>
-        </div>`;
-    }).join('');
-  };
+  window._scBlogEntries = [];
+
+window.openBlogArticleModal = function(idx) {
+  const entry = window._scBlogEntries[idx];
+  if (!entry) return;
+  const title = entry.title ? entry.title.$t : '';
+  const content = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : '');
+  const linkObj = entry.link ? entry.link.find(l => l.rel === 'alternate') : null;
+  const url = linkObj ? linkObj.href : '';
+
+  if (!document.getElementById('scBlogReaderStyle')) {
+    const st = document.createElement('style');
+    st.id = 'scBlogReaderStyle';
+    st.textContent = `
+      #scBlogReaderModal { position:fixed; inset:0; z-index:99999; background:#fff; display:flex; flex-direction:column; direction:rtl; }
+      .sc-reader-bar { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:2; }
+      .sc-reader-back { background:#f1f5f9; color:#0f172a; border:none; padding:7px 14px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; }
+      .sc-reader-share { background:#d32f2f; color:#fff; border:none; padding:7px 14px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; }
+      .sc-reader-body { flex:1; overflow-y:auto; padding:16px 16px 40px; line-height:1.85; font-size:15px; color:#1e293b; }
+      .sc-reader-body h1 { font-size:19px; margin:0 0 14px; color:#0f172a; line-height:1.5; }
+      .sc-reader-body img { max-width:100% !important; height:auto !important; border-radius:10px; margin:10px auto; display:block; }
+      .sc-reader-body table { width:100% !important; display:block; overflow-x:auto; }
+      .sc-reader-body iframe { max-width:100% !important; }
+      .sc-reader-body a { color:#d32f2f; font-weight:700; }
+    `;
+    document.head.appendChild(st);
+  }
+
+  let modal = document.getElementById('scBlogReaderModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'scBlogReaderModal';
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div class="sc-reader-bar">
+      <button type="button" class="sc-reader-back" onclick="closeBlogArticleModal()">← رجوع</button>
+      <button type="button" class="sc-reader-share" id="scReaderShareBtn">مشاركة المقال</button>
+    </div>
+    <div class="sc-reader-body">
+      <h1>${title}</h1>
+      <div id="scReaderHtmlContent">${content}</div>
+    </div>
+  `;
+
+  modal.querySelectorAll('#scReaderHtmlContent a').forEach(a => {
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  const shareBtn = document.getElementById('scReaderShareBtn');
+  if (shareBtn) {
+    shareBtn.onclick = function() {
+      if (typeof triggerNativeOrFallbackShare === 'function') {
+        triggerNativeOrFallbackShare(title, title, url);
+      } else if (navigator.share) {
+        navigator.share({ title: title, url: url }).catch(() => {});
+      } else if (url) {
+        window.open(url, '_blank');
+      }
+    };
+  }
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeBlogArticleModal = function() {
+  const modal = document.getElementById('scBlogReaderModal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+};
+
+window.loadBloggerFeed = function(data) {
+  const entries = data.feed.entry || [];
+  window._scBlogEntries = entries;
+  document.getElementById('blogContainer').innerHTML = entries.map((e, idx) => {
+    const title = e.title.$t;
+    const img = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
+    return `
+      <div class="coupon-ticket" style="padding:12px; display:flex; gap:12px; align-items:center;">
+        <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover;">
+        <div style="flex:1;">
+          <h4 style="margin:0 0 8px 0; font-size:14px;">${title}</h4>
+          <button type="button" onclick="openBlogArticleModal(${idx})" class="btn-shop" style="display:inline-block; border:none; cursor:pointer;">قراءة المقال ◂</button>
+        </div>
+      </div>`;
+  }).join('');
+};
 
   const bScript = document.createElement('script');
   bScript.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=25';
