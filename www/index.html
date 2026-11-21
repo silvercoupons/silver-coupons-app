@@ -11,10 +11,10 @@
 
   <!-- كود ربط إشعارات OneSignal الفورية (أندرويد) -->
   <script>
-    const ONESIGNAL_APP_ID = "ضع_معرف_التطبيق_هنا";
+    const ONESIGNAL_APP_ID = "abfff691-1c92-4bd6-ab51-996f5c7029c5";
 
     document.addEventListener("DOMContentLoaded", function () {
-      if (window.plugins && window.plugins.OneSignal && ONESIGNAL_APP_ID !== "abfff691-1c92-4bd6-ab51-996f5c7029c5") {
+      if (window.plugins && window.plugins.OneSignal && ONESIGNAL_APP_ID !== "ضع_معرف_التطبيق_هنا") {
         window.plugins.OneSignal.initialize(ONESIGNAL_APP_ID);
         window.plugins.OneSignal.Notifications.requestPermission(true);
       }
@@ -1062,22 +1062,27 @@
     <div class="legal-item" onclick="this.classList.toggle('open')">
       <div class="legal-header"><span>🔒 سياسة الخصوصية (Privacy Policy)</span><span>▾</span></div>
       <div class="legal-body">
-        نحن نحترم خصوصية مستخدمينا بشكل كامل. لا يقوم تطبيق الكوبون الفضي بجمع أو تخزين أي بيانات شخصية حساسة أو معلومات دفع بنكية. قد يستخدم التطبيق خدمات الإشعارات أو تحليل الأداء لتحسين تجربة الاستخدام، كما تحتوي بعض الروابط على روابط تسويق بالعمولة (Affiliate Links) لا تضيف أي تكلفة إضافية على المستخدم.
+        نحن نحترم خصوصية مستخدمينا بشكل كامل. لا يقوم تطبيق الكوبون الفضي بجمع أو تخزين أي بيانات شخصية حساسة أو معلومات دفع بنكية. قد يستخدم التطبيق خدمات الإشعارات (مثل Firebase و OneSignal) أو إعلانات الطرف الثالث (مثل Google AdMob) وتحليل الأداء لتحسين تجربة الاستخدام، كما تحتوي بعض الروابط على روابط تسويق بالعمولة (Affiliate Links) لا تضيف أي تكلفة إضافية على المستخدم.<br><br>
+        <a href="ضع_رابط_سياسة_الخصوصية_هنا" onclick="return openPrivacyInReader(this.href, event)" style="color:var(--blue); font-weight:700;">قراءة سياسة الخصوصية الكاملة ◂</a>
       </div>
     </div>
 
     <div class="legal-item" onclick="this.classList.toggle('open')">
       <div class="legal-header"><span>📜 الشروط والأحكام (Terms & Conditions)</span><span>▾</span></div>
       <div class="legal-body">
-        باستخدامك لتطبيق الكوبون الفضي، فإنك توافق على أن الكوبونات والعروض المعروضة تخضع لشروط وأحكام كل متجر على حدة وقد تنتهي صلاحيتها أو تتغير نسبة الخصم من قِبل المتجر المعلن في أي وقت دون إشعار مسبق.
+        باستخدامك لتطبيق الكوبون الفضي، فإنك توافق على أن الكوبونات والعروض المعروضة تخضع لشروط وأحكام كل متجر على حدة، وقد تنتهي صلاحيتها أو تتغير نسبة الخصم من قبل المتجر المعلن في أي وقت دون إشعار مسبق.<br><br>
+        تطبيق الكوبون الفضي منصة مستقلة، وجميع أسماء وشعارات المتاجر المعروضة هي ملك لأصحابها وتُستخدم للتعريف بالعروض فقط. كما قد يحتوي التطبيق على روابط تسويق بالعمولة لا تضيف أي تكلفة إضافية عليك عند الشراء.
       </div>
     </div>
 
     <div class="legal-item" onclick="this.classList.toggle('open')">
       <div class="legal-header"><span>📞 اتصل بنا (Contact Us)</span><span>▾</span></div>
       <div class="legal-body">
-        للاستفسارات، الإبلاغ عن كود لا يعمل، أو طلبات الإعلان وإضافة متجرك، يسعدنا تواصلك معنا عبر موقعنا الرسمي:<br>
-        <a href="https://silvercoupons.blogspot.com/" target="_blank" style="color:var(--blue); font-weight:700;">https://silvercoupons.blogspot.com</a>
+        للاستفسارات، الإبلاغ عن كود لا يعمل، أو طلبات الإعلان وإضافة متجرك، يسعدنا تواصلك معنا عبر:<br><br>
+        🌐 الموقع الرسمي:<br>
+        <a href="https://silvercoupons.blogspot.com/" target="_blank" onclick="event.stopPropagation()" style="color:var(--blue); font-weight:700;">https://silvercoupons.blogspot.com</a><br><br>
+        📧 البريد الإلكتروني:<br>
+        <a href="mailto:silvercouponz@gmail.com" onclick="event.stopPropagation()" style="color:var(--blue); font-weight:700;">silvercouponz@gmail.com</a>
       </div>
     </div>
 
@@ -1165,7 +1170,7 @@
   };
 
   const DEFAULT_LINKS = {
-    appShareUrl: 'https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk',
+    appShareUrl: 'https://play.google.com/store/apps/details?id=com.silvercoupons.app',
     stores: '', electronics: '', deals: '', categories: '', latest: ''
   };
 
@@ -1444,6 +1449,8 @@
     if (!forcePreview) {
       if (!st.enabled || st.enabled === 'false') return;
       if (isWelcomeVisible()) return;
+      const popupEl = document.getElementById('promoPopupBackdrop');
+      if (popupEl && popupEl.classList.contains('open')) return;
       if (!matchesCountry(st.country)) return;
 
       const seenKey = 'silver_seen_strip_v3_' + (st.id || 1);
@@ -2243,64 +2250,64 @@
 
   let activeStoreCategoryFilter = '';
 
-function openStoresFromCouponsTab() {
-  const isFilterEnabled = !(appData.settings && appData.settings.filterStoresByCategory === false);
-  const headingEl = document.getElementById('couponsTabHeading');
-  const headingText = headingEl ? headingEl.innerText.trim() : '';
-  let detectedCat = '';
+  function openStoresFromCouponsTab() {
+    const isFilterEnabled = !(appData.settings && appData.settings.filterStoresByCategory === false);
+    const headingEl = document.getElementById('couponsTabHeading');
+    const headingText = headingEl ? headingEl.innerText.trim() : '';
+    let detectedCat = '';
 
-  if (isFilterEnabled && headingText && !headingText.includes('جميع الكوبونات')) {
-    detectedCat = headingText.replace(/عروض قسم|قسم|عروض|[^\u0600-\u06FFa-zA-Z0-9\s]/g, '').trim();
-  }
-
-  if (detectedCat) {
-    openAllStoresPage(detectedCat);
-  } else {
-    handleViewAllClick('stores');
-  }
-}
-
-function clearStoreCategoryFilter() {
-  activeStoreCategoryFilter = '';
-  renderAllStoresGrid();
-}
-
-function openAllStoresPage(categoryFilter = '') {
-  activeStoreCategoryFilter = categoryFilter || '';
-  activeViewId = 'allStoresView';
-  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
-  document.getElementById('allStoresView').classList.add('active');
-  document.getElementById('storeSearchInput').value = '';
-  renderAllStoresGrid();
-}
-
-function renderAllStoresGrid() {
-  const grid = document.getElementById('allStoresGridContainer');
-  const q = document.getElementById('storeSearchInput').value.trim().toLowerCase();
-
-  let filterBar = document.getElementById('scStoreCatFilterBar');
-  if (activeStoreCategoryFilter) {
-    if (!filterBar) {
-      filterBar = document.createElement('div');
-      filterBar.id = 'scStoreCatFilterBar';
-      filterBar.style.cssText = 'display:flex; align-items:center; justify-content:space-between; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:10px; padding:10px 14px; margin:0 0 12px 0; font-size:13px;';
-      grid.parentNode.insertBefore(filterBar, grid);
+    if (isFilterEnabled && headingText && !headingText.includes('جميع الكوبونات')) {
+      detectedCat = headingText.replace(/عروض قسم|قسم|عروض|[^\u0600-\u06FFa-zA-Z0-9\s]/g, '').trim();
     }
-    filterBar.innerHTML = `<span>متاجر قسم: <strong>${activeStoreCategoryFilter}</strong></span><button type="button" onclick="clearStoreCategoryFilter()" style="background:#1e293b; color:#fff; border:none; padding:5px 12px; border-radius:6px; font-size:12px; cursor:pointer;">عرض كل المتاجر</button>`;
-  } else if (filterBar) {
-    filterBar.remove();
+
+    if (detectedCat) {
+      openAllStoresPage(detectedCat);
+    } else {
+      handleViewAllClick('stores');
+    }
   }
 
-  const visibleStores = appData.stores.filter(st => {
-    const matchCountry = isStoreAvailableForSelectedCountry(st);
-    const matchSearch = !q || st.name.toLowerCase().includes(q);
-    if (!matchCountry || !matchSearch) return false;
-    if (!activeStoreCategoryFilter) return true;
-    const catLower = activeStoreCategoryFilter.toLowerCase();
-    const storeCatMatch = st.category && st.category.toLowerCase().includes(catLower);
-    const couponCatMatch = appData.coupons && appData.coupons.some(c => c.storeId === st.id && c.category && c.category.toLowerCase().includes(catLower));
-    return storeCatMatch || couponCatMatch;
-  });
+  function clearStoreCategoryFilter() {
+    activeStoreCategoryFilter = '';
+    renderAllStoresGrid();
+  }
+
+  function openAllStoresPage(categoryFilter = '') {
+    activeStoreCategoryFilter = categoryFilter || '';
+    activeViewId = 'allStoresView';
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('allStoresView').classList.add('active');
+    document.getElementById('storeSearchInput').value = '';
+    renderAllStoresGrid();
+  }
+
+  function renderAllStoresGrid() {
+    const grid = document.getElementById('allStoresGridContainer');
+    const q = document.getElementById('storeSearchInput').value.trim().toLowerCase();
+
+    let filterBar = document.getElementById('scStoreCatFilterBar');
+    if (activeStoreCategoryFilter) {
+      if (!filterBar) {
+        filterBar = document.createElement('div');
+        filterBar.id = 'scStoreCatFilterBar';
+        filterBar.style.cssText = 'display:flex; align-items:center; justify-content:space-between; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:10px; padding:10px 14px; margin:0 0 12px 0; font-size:13px;';
+        grid.parentNode.insertBefore(filterBar, grid);
+      }
+      filterBar.innerHTML = `<span>متاجر قسم: <strong>${activeStoreCategoryFilter}</strong></span><button type="button" onclick="clearStoreCategoryFilter()" style="background:#1e293b; color:#fff; border:none; padding:5px 12px; border-radius:6px; font-size:12px; cursor:pointer;">عرض كل المتاجر</button>`;
+    } else if (filterBar) {
+      filterBar.remove();
+    }
+
+    const visibleStores = appData.stores.filter(st => {
+      const matchCountry = isStoreAvailableForSelectedCountry(st);
+      const matchSearch = !q || st.name.toLowerCase().includes(q);
+      if (!matchCountry || !matchSearch) return false;
+      if (!activeStoreCategoryFilter) return true;
+      const catLower = activeStoreCategoryFilter.toLowerCase();
+      const storeCatMatch = st.category && st.category.toLowerCase().includes(catLower);
+      const couponCatMatch = appData.coupons && appData.coupons.some(c => c.storeId === st.id && c.category && c.category.toLowerCase().includes(catLower));
+      return storeCatMatch || couponCatMatch;
+    });
     grid.innerHTML = visibleStores.length ? visibleStores.map(st => {
       const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
       const starred = isFavoriteStore(st.id);
@@ -2366,201 +2373,246 @@ function renderAllStoresGrid() {
 
   window._scBlogEntries = [];
 
-window.openBlogArticleModal = function(idx) {
-  const entry = window._scBlogEntries[idx];
-  if (!entry) return;
-  const title = entry.title ? entry.title.$t : '';
-  const content = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : '');
-  const linkObj = entry.link ? entry.link.find(l => l.rel === 'alternate') : null;
-  const url = linkObj ? linkObj.href : '';
-
-  if (!document.getElementById('scBlogReaderStyle')) {
-    const st = document.createElement('style');
-    st.id = 'scBlogReaderStyle';
-    st.textContent = `
-      #scBlogReaderModal { position:fixed; inset:0; z-index:99999; background:#fff; display:flex; flex-direction:column; direction:rtl; }
-      .sc-reader-bar { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:2; }
-      .sc-reader-back { background:#f1f5f9; color:#0f172a; border:none; padding:7px 14px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; }
-      .sc-reader-share { background:#d32f2f; color:#fff; border:none; padding:7px 14px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; }
-      .sc-reader-body { flex:1; overflow-y:auto; padding:16px 16px 40px; line-height:1.85; font-size:15px; color:#1e293b; }
-      .sc-reader-body h1 { font-size:19px; margin:0 0 14px; color:#0f172a; line-height:1.5; }
-      .sc-reader-body img { max-width:100% !important; height:auto !important; border-radius:10px; margin:10px auto; display:block; }
-      .sc-reader-body table { width:100% !important; display:block; overflow-x:auto; }
-      .sc-reader-body iframe { max-width:100% !important; }
-      .sc-reader-body a { color:#d32f2f; font-weight:700; }
-    `;
-    document.head.appendChild(st);
-  }
-
-  let modal = document.getElementById('scBlogReaderModal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'scBlogReaderModal';
-    document.body.appendChild(modal);
-  }
-
-  modal.innerHTML = `
-    <div class="sc-reader-bar">
-      <button type="button" class="sc-reader-back" onclick="closeBlogArticleModal()">← رجوع</button>
-      <button type="button" class="sc-reader-share" id="scReaderShareBtn">مشاركة المقال</button>
-    </div>
-    <div class="sc-reader-body">
-      <h1>${title}</h1>
-      <div id="scReaderHtmlContent">${content}</div>
-    </div>
-  `;
-
-modal.querySelectorAll('#scReaderHtmlContent a').forEach(a => {
-    const href = (a.getAttribute('href') || '').trim();
-    const isBlogDomain = href.includes('silvercoupons.blogspot.com');
-
-    if (isBlogDomain) {
-      a.removeAttribute('target');
-      a.addEventListener('click', function(ev) {
-        ev.preventDefault();
-        try {
-          const urlObj = new URL(href);
-          const targetPath = urlObj.pathname;
+  window.openPrivacyInReader = function(url, ev) {
+    if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+    if (!url || !url.includes('silvercoupons.blogspot.com')) return false;
+    try {
+      const targetPath = new URL(url).pathname;
+      const cbName = '_scPrivacyPageCb_' + Date.now();
+      window[cbName] = function(res) {
+        delete window[cbName];
+        const pages = (res && res.feed && res.feed.entry) ? res.feed.entry : [];
+        const matchedPage = pages.find(p => {
+          const l = p.link && p.link.find(x => x.rel === 'alternate');
+          return l && l.href && new URL(l.href).pathname === targetPath;
+        });
+        if (matchedPage && typeof openBlogArticleModal === 'function') {
+          window._scBlogEntries = window._scBlogEntries || [];
+          window._scBlogEntries.push(matchedPage);
+          openBlogArticleModal(window._scBlogEntries.length - 1);
           const bodyEl = document.querySelector('#scBlogReaderModal .sc-reader-body');
+          if (bodyEl) bodyEl.scrollTop = 0;
+        } else {
+          window.open(url, '_blank');
+        }
+      };
+      const s = document.createElement('script');
+      s.src = 'https://silvercoupons.blogspot.com/feeds/pages/default?alt=json-in-script&max-results=50&callback=' + cbName;
+      s.onerror = function() { window.open(url, '_blank'); };
+      document.body.appendChild(s);
+    } catch (err) {
+      window.open(url, '_blank');
+    }
+    return false;
+  };
 
-          // 1) روابط التصنيفات (search/label)
-          if (targetPath.includes('/search/label/')) {
-            const rawLabel = targetPath.split('/search/label/')[1].split('/')[0];
-            const labelName = decodeURIComponent(rawLabel);
-            if (bodyEl) bodyEl.innerHTML = `<h1>تصنيف: ${labelName}</h1><p style="color:#64748b;">جاري تحميل مقالات التصنيف...</p>`;
-            const cbName = '_scLabelCb_' + Date.now();
-            window[cbName] = function(res) {
-              delete window[cbName];
-              const list = (res && res.feed && res.feed.entry) ? res.feed.entry : [];
-              if (!list.length) {
-                if (bodyEl) bodyEl.innerHTML = `<h1>تصنيف: ${labelName}</h1><p>لا توجد مقالات في هذا التصنيف حالياً.</p>`;
-                return;
-              }
-              const cardsHtml = list.map(entry => {
-                window._scBlogEntries.push(entry);
-                const newIdx = window._scBlogEntries.length - 1;
-                const t = entry.title ? entry.title.$t : '';
-                const img = entry.media$thumbnail ? entry.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
-                return `
-                  <div class="coupon-ticket" style="padding:12px; display:flex; gap:12px; align-items:center; margin-bottom:10px; border:1px solid #e2e8f0; border-radius:12px;">
-                    <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover; margin:0;">
-                    <div style="flex:1;">
-                      <h4 style="margin:0 0 8px 0; font-size:14px;">${t}</h4>
-                      <button type="button" onclick="openBlogArticleModal(${newIdx})" class="btn-shop" style="display:inline-block; border:none; cursor:pointer;">قراءة المقال ◂</button>
-                    </div>
-                  </div>`;
-              }).join('');
-              if (bodyEl) {
-                bodyEl.innerHTML = `<h1>تصنيف: ${labelName}</h1><div>${cardsHtml}</div>`;
-                bodyEl.scrollTop = 0;
-              }
-            };
-            const s = document.createElement('script');
-            s.src = 'https://silvercoupons.blogspot.com/feeds/posts/default/-/' + encodeURIComponent(labelName) + '?alt=json-in-script&max-results=25&callback=' + cbName;
-            s.onerror = function() { window.open(href, '_blank'); };
-            document.body.appendChild(s);
-            return;
-          }
+  window.openBlogArticleModal = function(idx) {
+    const entry = window._scBlogEntries[idx];
+    if (!entry) return;
+    const title = entry.title ? entry.title.$t : '';
+    const content = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : '');
+    const linkObj = entry.link ? entry.link.find(l => l.rel === 'alternate') : null;
+    const url = linkObj ? linkObj.href : '';
 
-          // 2) روابط الصفحات الثابتة (/p/)
-          if (targetPath.includes('/p/')) {
-            const cbName = '_scPageCb_' + Date.now();
-            window[cbName] = function(res) {
-              delete window[cbName];
-              const pages = (res && res.feed && res.feed.entry) ? res.feed.entry : [];
-              const matchedPage = pages.find(p => {
-                const l = p.link && p.link.find(x => x.rel === 'alternate');
-                return l && l.href && new URL(l.href).pathname === targetPath;
-              });
-              if (matchedPage) {
-                window._scBlogEntries.push(matchedPage);
-                openBlogArticleModal(window._scBlogEntries.length - 1);
-                if (bodyEl) bodyEl.scrollTop = 0;
-              } else {
-                window.open(href, '_blank');
-              }
-            };
-            const s = document.createElement('script');
-            s.src = 'https://silvercoupons.blogspot.com/feeds/pages/default?alt=json-in-script&max-results=50&callback=' + cbName;
-            s.onerror = function() { window.open(href, '_blank'); };
-            document.body.appendChild(s);
-            return;
-          }
+    if (!document.getElementById('scBlogReaderStyle')) {
+      const st = document.createElement('style');
+      st.id = 'scBlogReaderStyle';
+      st.textContent = `
+        #scBlogReaderModal { position:fixed; inset:0; z-index:99999; background:#fff; display:flex; flex-direction:column; direction:rtl; }
+        .sc-reader-bar { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:2; }
+        .sc-reader-back { background:#f1f5f9; color:#0f172a; border:none; padding:7px 14px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; }
+        .sc-reader-share { background:#d32f2f; color:#fff; border:none; padding:7px 14px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; }
+        .sc-reader-body { flex:1; overflow-y:auto; padding:16px 16px 40px; line-height:1.85; font-size:15px; color:#1e293b; }
+        .sc-reader-body h1 { font-size:19px; margin:0 0 14px; color:#0f172a; line-height:1.5; }
+        .sc-reader-body img { max-width:100% !important; height:auto !important; border-radius:10px; margin:10px auto; display:block; }
+        .sc-reader-body table { width:100% !important; display:block; overflow-x:auto; }
+        .sc-reader-body iframe { max-width:100% !important; }
+        .sc-reader-body a { color:#d32f2f; font-weight:700; }
+      `;
+      document.head.appendChild(st);
+    }
 
-          // 3) روابط المقالات العادية (.html)
-          if (targetPath.includes('.html')) {
-            const foundIdx = window._scBlogEntries.findIndex(item => {
-              const l = item.link && item.link.find(x => x.rel === 'alternate');
-              return l && l.href && new URL(l.href).pathname === targetPath;
-            });
-            if (foundIdx !== -1) {
-              openBlogArticleModal(foundIdx);
-              if (bodyEl) bodyEl.scrollTop = 0;
+    let modal = document.getElementById('scBlogReaderModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'scBlogReaderModal';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div class="sc-reader-bar">
+        <button type="button" class="sc-reader-back" onclick="closeBlogArticleModal()">← رجوع</button>
+        <button type="button" class="sc-reader-share" id="scReaderShareBtn">مشاركة المقال</button>
+      </div>
+      <div class="sc-reader-body">
+        <h1>${title}</h1>
+        <div id="scReaderHtmlContent">${content}</div>
+      </div>
+    `;
+
+    modal.querySelectorAll('#scReaderHtmlContent a').forEach(a => {
+      const href = (a.getAttribute('href') || '').trim();
+      const isBlogDomain = href.includes('silvercoupons.blogspot.com');
+
+      if (isBlogDomain) {
+        a.removeAttribute('target');
+        a.addEventListener('click', function(ev) {
+          ev.preventDefault();
+          try {
+            const urlObj = new URL(href);
+            const targetPath = urlObj.pathname;
+            const bodyEl = document.querySelector('#scBlogReaderModal .sc-reader-body');
+
+            // 1) روابط التصنيفات (search/label)
+            if (targetPath.includes('/search/label/')) {
+              const rawLabel = targetPath.split('/search/label/')[1].split('/')[0];
+              const labelName = decodeURIComponent(rawLabel);
+              if (bodyEl) bodyEl.innerHTML = `<h1>تصنيف: ${labelName}</h1><p style="color:#64748b;">جاري تحميل مقالات التصنيف...</p>`;
+              const cbName = '_scLabelCb_' + Date.now();
+              window[cbName] = function(res) {
+                delete window[cbName];
+                const list = (res && res.feed && res.feed.entry) ? res.feed.entry : [];
+                if (!list.length) {
+                  if (bodyEl) bodyEl.innerHTML = `<h1>تصنيف: ${labelName}</h1><p>لا توجد مقالات في هذا التصنيف حالياً.</p>`;
+                  return;
+                }
+                const cardsHtml = list.map(entry => {
+                  window._scBlogEntries.push(entry);
+                  const newIdx = window._scBlogEntries.length - 1;
+                  const t = entry.title ? entry.title.$t : '';
+                  const img = entry.media$thumbnail ? entry.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
+                  return `
+                    <div class="coupon-ticket" style="padding:12px; display:flex; gap:12px; align-items:center; margin-bottom:10px; border:1px solid #e2e8f0; border-radius:12px;">
+                      <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover; margin:0;">
+                      <div style="flex:1;">
+                        <h4 style="margin:0 0 8px 0; font-size:14px;">${t}</h4>
+                        <button type="button" onclick="openBlogArticleModal(${newIdx})" class="btn-shop" style="display:inline-block; border:none; cursor:pointer;">قراءة المقال ◂</button>
+                      </div>
+                    </div>`;
+                }).join('');
+                if (bodyEl) {
+                  bodyEl.innerHTML = `<h1>تصنيف: ${labelName}</h1><div>${cardsHtml}</div>`;
+                  bodyEl.scrollTop = 0;
+                }
+              };
+              const s = document.createElement('script');
+              s.src = 'https://silvercoupons.blogspot.com/feeds/posts/default/-/' + encodeURIComponent(labelName) + '?alt=json-in-script&max-results=25&callback=' + cbName;
+              s.onerror = function() { window.open(href, '_blank'); };
+              document.body.appendChild(s);
               return;
             }
-            const cbName = '_scSinglePostCb_' + Date.now();
-            window[cbName] = function(res) {
-              delete window[cbName];
-              const entry = res && res.feed && res.feed.entry && res.feed.entry[0];
-              if (entry) {
-                window._scBlogEntries.push(entry);
-                openBlogArticleModal(window._scBlogEntries.length - 1);
-                if (bodyEl) bodyEl.scrollTop = 0;
-              } else {
-                window.open(href, '_blank');
-              }
-            };
-            const s = document.createElement('script');
-            s.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?path=' + encodeURIComponent(targetPath) + '&alt=json-in-script&callback=' + cbName;
-            s.onerror = function() { window.open(href, '_blank'); };
-            document.body.appendChild(s);
-            return;
-          }
 
-          // 4) رابط الصفحة الرئيسية للمدونة يغلق النافذة ويعيد المستخدم لقسم دليل التسوق
-          closeBlogArticleModal();
-        } catch (err) {
-          window.open(href, '_blank');
-        }
-      });
-    } else if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
-      a.setAttribute('target', '_blank');
-      a.setAttribute('rel', 'noopener noreferrer');
-    }
-  });
-// تفعيل أزرار نسخ الكوبون داخل مقالات دليل التسوق تلقائياً
-  modal.querySelectorAll('#scReaderHtmlContent button, #scReaderHtmlContent [onclick], #scReaderHtmlContent a').forEach(el => {
-    const txt = (el.innerText || '').trim();
-    const rawOnclick = el.getAttribute('onclick') || '';
-    if (txt.includes('نسخ') || txt.includes('انسخ') || rawOnclick.toLowerCase().includes('copy')) {
-      let codeToCopy = el.getAttribute('data-code') || el.getAttribute('data-coupon') || '';
-      if (!codeToCopy && rawOnclick) {
-        const m = rawOnclick.match(/['"]([A-Za-z0-9_\-]{2,25})['"]/);
-        if (m && m[1]) codeToCopy = m[1];
+            // 2) روابط الصفحات الثابتة (/p/)
+            if (targetPath.includes('/p/')) {
+              const cbName = '_scPageCb_' + Date.now();
+              window[cbName] = function(res) {
+                delete window[cbName];
+                const pages = (res && res.feed && res.feed.entry) ? res.feed.entry : [];
+                const matchedPage = pages.find(p => {
+                  const l = p.link && p.link.find(x => x.rel === 'alternate');
+                  return l && l.href && new URL(l.href).pathname === targetPath;
+                });
+                if (matchedPage) {
+                  window._scBlogEntries.push(matchedPage);
+                  openBlogArticleModal(window._scBlogEntries.length - 1);
+                  if (bodyEl) bodyEl.scrollTop = 0;
+                } else {
+                  window.open(href, '_blank');
+                }
+              };
+              const s = document.createElement('script');
+              s.src = 'https://silvercoupons.blogspot.com/feeds/pages/default?alt=json-in-script&max-results=50&callback=' + cbName;
+              s.onerror = function() { window.open(href, '_blank'); };
+              document.body.appendChild(s);
+              return;
+            }
+
+            // 3) روابط المقالات العادية (.html)
+            if (targetPath.includes('.html')) {
+              const foundIdx = window._scBlogEntries.findIndex(item => {
+                const l = item.link && item.link.find(x => x.rel === 'alternate');
+                return l && l.href && new URL(l.href).pathname === targetPath;
+              });
+              if (foundIdx !== -1) {
+                openBlogArticleModal(foundIdx);
+                if (bodyEl) bodyEl.scrollTop = 0;
+                return;
+              }
+              const cbName = '_scSinglePostCb_' + Date.now();
+              window[cbName] = function(res) {
+                delete window[cbName];
+                const entry = res && res.feed && res.feed.entry && res.feed.entry[0];
+                if (entry) {
+                  window._scBlogEntries.push(entry);
+                  openBlogArticleModal(window._scBlogEntries.length - 1);
+                  if (bodyEl) bodyEl.scrollTop = 0;
+                } else {
+                  window.open(href, '_blank');
+                }
+              };
+              const s = document.createElement('script');
+              s.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?path=' + encodeURIComponent(targetPath) + '&alt=json-in-script&callback=' + cbName;
+              s.onerror = function() { window.open(href, '_blank'); };
+              document.body.appendChild(s);
+              return;
+            }
+
+            // 4) رابط الصفحة الرئيسية للمدونة يغلق النافذة ويعيد المستخدم لقسم دليل التسوق
+            closeBlogArticleModal();
+          } catch (err) {
+            window.open(href, '_blank');
+          }
+        });
+      } else if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
       }
-      el.removeAttribute('onclick');
-      el.addEventListener('click', function(ev) {
-        ev.preventDefault();
-        let finalCode = codeToCopy;
-        if (!finalCode && el.parentElement) {
-          const siblings = Array.from(el.parentElement.children);
-          for (const sib of siblings) {
-            if (sib === el) continue;
-            const sTxt = (sib.innerText || sib.value || '').trim();
-            if (sTxt && /^[A-Za-z0-9_\-]{2,25}$/.test(sTxt)) {
-              finalCode = sTxt;
-              break;
+    });
+
+    // تفعيل أزرار نسخ الكوبون داخل مقالات دليل التسوق تلقائياً
+    modal.querySelectorAll('#scReaderHtmlContent button, #scReaderHtmlContent [onclick], #scReaderHtmlContent a').forEach(el => {
+      const txt = (el.innerText || '').trim();
+      const rawOnclick = el.getAttribute('onclick') || '';
+      if (txt.includes('نسخ') || txt.includes('انسخ') || rawOnclick.toLowerCase().includes('copy')) {
+        let codeToCopy = el.getAttribute('data-code') || el.getAttribute('data-coupon') || '';
+        if (!codeToCopy && rawOnclick) {
+          const m = rawOnclick.match(/['"]([A-Za-z0-9_\-]{2,25})['"]/);
+          if (m && m[1]) codeToCopy = m[1];
+        }
+        el.removeAttribute('onclick');
+        el.addEventListener('click', function(ev) {
+          ev.preventDefault();
+          let finalCode = codeToCopy;
+          if (!finalCode && el.parentElement) {
+            const siblings = Array.from(el.parentElement.children);
+            for (const sib of siblings) {
+              if (sib === el) continue;
+              const sTxt = (sib.innerText || sib.value || '').trim();
+              if (sTxt && /^[A-Za-z0-9_\-]{2,25}$/.test(sTxt)) {
+                finalCode = sTxt;
+                break;
+              }
             }
           }
-        }
-        if (!finalCode) return;
-        const onCopied = () => {
-          const oldTxt = el.innerText;
-          el.innerText = 'تم النسخ ✓';
-          setTimeout(() => { el.innerText = oldTxt; }, 2000);
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(finalCode).then(onCopied).catch(() => {
+          if (!finalCode) return;
+          const onCopied = () => {
+            const oldTxt = el.innerText;
+            el.innerText = 'تم النسخ ✓';
+            setTimeout(() => { el.innerText = oldTxt; }, 2000);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(finalCode).then(onCopied).catch(() => {
+              const ta = document.createElement('textarea');
+              ta.value = finalCode;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              ta.remove();
+              onCopied();
+            });
+          } else {
             const ta = document.createElement('textarea');
             ta.value = finalCode;
             ta.style.position = 'fixed';
@@ -2570,61 +2622,50 @@ modal.querySelectorAll('#scReaderHtmlContent a').forEach(a => {
             document.execCommand('copy');
             ta.remove();
             onCopied();
-          });
-        } else {
-          const ta = document.createElement('textarea');
-          ta.value = finalCode;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          ta.remove();
-          onCopied();
-        }
-      });
-    }
-  });
-  
-  const shareBtn = document.getElementById('scReaderShareBtn');
-  if (shareBtn) {
-    shareBtn.onclick = function() {
-      if (typeof triggerNativeOrFallbackShare === 'function') {
-        triggerNativeOrFallbackShare(title, title, url);
-      } else if (navigator.share) {
-        navigator.share({ title: title, url: url }).catch(() => {});
-      } else if (url) {
-        window.open(url, '_blank');
+          }
+        });
       }
-    };
-  }
+    });
 
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-};
+    const shareBtn = document.getElementById('scReaderShareBtn');
+    if (shareBtn) {
+      shareBtn.onclick = function() {
+        if (typeof triggerNativeOrFallbackShare === 'function') {
+          triggerNativeOrFallbackShare(title, title, url);
+        } else if (navigator.share) {
+          navigator.share({ title: title, url: url }).catch(() => {});
+        } else if (url) {
+          window.open(url, '_blank');
+        }
+      };
+    }
 
-window.closeBlogArticleModal = function() {
-  const modal = document.getElementById('scBlogReaderModal');
-  if (modal) modal.style.display = 'none';
-  document.body.style.overflow = '';
-};
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
 
-window.loadBloggerFeed = function(data) {
-  const entries = data.feed.entry || [];
-  window._scBlogEntries = entries;
-  document.getElementById('blogContainer').innerHTML = entries.map((e, idx) => {
-    const title = e.title.$t;
-    const img = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
-    return `
-      <div class="coupon-ticket" style="padding:12px; display:flex; gap:12px; align-items:center;">
-        <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover;">
-        <div style="flex:1;">
-          <h4 style="margin:0 0 8px 0; font-size:14px;">${title}</h4>
-          <button type="button" onclick="openBlogArticleModal(${idx})" class="btn-shop" style="display:inline-block; border:none; cursor:pointer;">قراءة المقال ◂</button>
-        </div>
-      </div>`;
-  }).join('');
-};
+  window.closeBlogArticleModal = function() {
+    const modal = document.getElementById('scBlogReaderModal');
+    if (modal) modal.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  window.loadBloggerFeed = function(data) {
+    const entries = data.feed.entry || [];
+    window._scBlogEntries = entries;
+    document.getElementById('blogContainer').innerHTML = entries.map((e, idx) => {
+      const title = e.title.$t;
+      const img = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
+      return `
+        <div class="coupon-ticket" style="padding:12px; display:flex; gap:12px; align-items:center;">
+          <img src="${img}" style="width:70px; height:70px; border-radius:10px; object-fit:cover;">
+          <div style="flex:1;">
+            <h4 style="margin:0 0 8px 0; font-size:14px;">${title}</h4>
+            <button type="button" onclick="openBlogArticleModal(${idx})" class="btn-shop" style="display:inline-block; border:none; cursor:pointer;">قراءة المقال ◂</button>
+          </div>
+        </div>`;
+    }).join('');
+  };
 
   const bScript = document.createElement('script');
   bScript.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=25';
@@ -2632,7 +2673,7 @@ window.loadBloggerFeed = function(data) {
 
   initApp(true);
 </script>
-  
+
 <!-- شريط تنبيه وضع عدم الاتصال (رفيع في الأعلى ولا يحجب القائمة السفلية) -->
 <div id="sc-offline-bar" style="display:none; position:fixed; top:0; left:0; right:0; background:#1f2937; color:#fff; text-align:center; padding:5px 28px 5px 10px; font-size:11.5px; z-index:99999; font-family:inherit; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
   وضع عدم الاتصال — تعرض النسخة المحفوظة
@@ -2659,6 +2700,6 @@ window.loadBloggerFeed = function(data) {
     updateStatus();
   })();
 </script>
-  
+
 </body>
 </html>
