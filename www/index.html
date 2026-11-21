@@ -2415,6 +2415,64 @@ window.openBlogArticleModal = function(idx) {
     a.setAttribute('rel', 'noopener noreferrer');
   });
 
+// تفعيل أزرار نسخ الكوبون داخل مقالات دليل التسوق تلقائياً
+  modal.querySelectorAll('#scReaderHtmlContent button, #scReaderHtmlContent [onclick], #scReaderHtmlContent a').forEach(el => {
+    const txt = (el.innerText || '').trim();
+    const rawOnclick = el.getAttribute('onclick') || '';
+    if (txt.includes('نسخ') || txt.includes('انسخ') || rawOnclick.toLowerCase().includes('copy')) {
+      let codeToCopy = el.getAttribute('data-code') || el.getAttribute('data-coupon') || '';
+      if (!codeToCopy && rawOnclick) {
+        const m = rawOnclick.match(/['"]([A-Za-z0-9_\-]{2,25})['"]/);
+        if (m && m[1]) codeToCopy = m[1];
+      }
+      el.removeAttribute('onclick');
+      el.addEventListener('click', function(ev) {
+        ev.preventDefault();
+        let finalCode = codeToCopy;
+        if (!finalCode && el.parentElement) {
+          const siblings = Array.from(el.parentElement.children);
+          for (const sib of siblings) {
+            if (sib === el) continue;
+            const sTxt = (sib.innerText || sib.value || '').trim();
+            if (sTxt && /^[A-Za-z0-9_\-]{2,25}$/.test(sTxt)) {
+              finalCode = sTxt;
+              break;
+            }
+          }
+        }
+        if (!finalCode) return;
+        const onCopied = () => {
+          const oldTxt = el.innerText;
+          el.innerText = 'تم النسخ ✓';
+          setTimeout(() => { el.innerText = oldTxt; }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(finalCode).then(onCopied).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = finalCode;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            onCopied();
+          });
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = finalCode;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          onCopied();
+        }
+      });
+    }
+  });
+  
   const shareBtn = document.getElementById('scReaderShareBtn');
   if (shareBtn) {
     shareBtn.onclick = function() {
