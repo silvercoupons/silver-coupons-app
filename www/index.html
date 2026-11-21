@@ -2411,8 +2411,49 @@ window.openBlogArticleModal = function(idx) {
   `;
 
   modal.querySelectorAll('#scReaderHtmlContent a').forEach(a => {
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
+    const href = (a.getAttribute('href') || '').trim();
+    const isInternalBlogPost = href.includes('silvercoupons.blogspot.com') && href.includes('.html');
+    if (isInternalBlogPost) {
+      a.removeAttribute('target');
+      a.addEventListener('click', function(ev) {
+        ev.preventDefault();
+        try {
+          const targetPath = new URL(href).pathname;
+          const foundIdx = window._scBlogEntries.findIndex(item => {
+            const l = item.link && item.link.find(x => x.rel === 'alternate');
+            return l && l.href && new URL(l.href).pathname === targetPath;
+          });
+          if (foundIdx !== -1) {
+            openBlogArticleModal(foundIdx);
+            const bodyEl = document.querySelector('#scBlogReaderModal .sc-reader-body');
+            if (bodyEl) bodyEl.scrollTop = 0;
+            return;
+          }
+          const cbName = '_scSinglePostCb_' + Date.now();
+          window[cbName] = function(res) {
+            delete window[cbName];
+            const entry = res && res.feed && res.feed.entry && res.feed.entry[0];
+            if (entry) {
+              window._scBlogEntries.push(entry);
+              openBlogArticleModal(window._scBlogEntries.length - 1);
+              const bodyEl = document.querySelector('#scBlogReaderModal .sc-reader-body');
+              if (bodyEl) bodyEl.scrollTop = 0;
+            } else {
+              window.open(href, '_blank');
+            }
+          };
+          const s = document.createElement('script');
+          s.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?path=' + encodeURIComponent(targetPath) + '&alt=json-in-script&callback=' + cbName;
+          s.onerror = function() { window.open(href, '_blank'); };
+          document.body.appendChild(s);
+        } catch (err) {
+          window.open(href, '_blank');
+        }
+      });
+    } else if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    }
   });
 
 // تفعيل أزرار نسخ الكوبون داخل مقالات دليل التسوق تلقائياً
