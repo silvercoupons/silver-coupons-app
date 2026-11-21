@@ -1,4 +1,4 @@
-const CACHE_NAME = 'silver-coupons-offline-v5';
+const CACHE_NAME = 'silver-coupons-offline-v6';
 
 // استثناء خدمات الإشعارات والروابط الخارجية حتى لا تتأثر نهائياً
 const IGNORED_DOMAINS = [
