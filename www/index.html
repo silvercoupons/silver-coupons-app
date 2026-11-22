@@ -273,6 +273,75 @@
       box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
     }
 
+    /* مقاس الشريط العائم الرفيع (Smart Bar) للبوب أب */
+    .promo-popup-backdrop.smart-bar-popup {
+      background: transparent;
+      backdrop-filter: none;
+      align-items: flex-end;
+      padding: 0 12px 76px;
+      pointer-events: none;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-card {
+      pointer-events: auto;
+      max-width: 576px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.18);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px 10px 38px;
+      text-align: right;
+      overflow: visible;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-img-wrap {
+      width: 44px; height: 44px; border-radius: 10px;
+      flex-shrink: 0; background: #f8fafc; border: 1px solid #f1f5f9;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-img-wrap img {
+      width: 44px; height: 44px; max-height: 44px; object-fit: cover;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-body {
+      padding: 0; flex: 1; min-width: 0;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .promo-popup-backdrop.smart-bar-popup #promoPopupTextBlock {
+      flex: 1; min-width: 0;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-tag {
+      font-size: 9.5px; padding: 1px 6px; margin-bottom: 2px;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-title {
+      font-size: 12.5px; margin: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-desc {
+      font-size: 11px; margin: 1px 0 0; line-height: 1.35;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-code-box {
+      padding: 3px 6px; margin: 0; border-width: 1.5px; flex-shrink: 0;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-code-text {
+      font-size: 12px; letter-spacing: 0.5px;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-code-box .btn-copy {
+      padding: 4px 7px; font-size: 10.5px; max-width: none;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-cta {
+      width: auto; padding: 7px 13px; border-radius: 20px;
+      background: #dc2626; font-size: 11.5px; white-space: nowrap;
+      flex-shrink: 0; box-shadow: none;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-close {
+      top: 50%; transform: translateY(-50%); left: 8px;
+      width: 24px; height: 24px; font-size: 12px;
+      background: #f1f5f9; color: #64748b; border: none;
+    }
+    .promo-popup-backdrop.smart-bar-popup .promo-popup-timer-pill {
+      top: -10px; right: 12px; font-size: 9.5px; padding: 1px 7px;
+    }
+
     /* البانر المستطيل العائم بعرض التطبيق */
     .floating-strip-wrap {
       position: fixed;
@@ -338,6 +407,50 @@
       cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
 
+    /* مقاس الشريط العائم الرفيع (Smart Bar) للشريط العائم */
+    .floating-strip-card.smart-bar-mode {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.18);
+      min-height: 62px;
+      padding: 8px 12px 8px 38px;
+      gap: 10px;
+    }
+    .floating-strip-card.smart-bar-mode .floating-strip-bg {
+      position: static;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      object-fit: cover;
+      opacity: 1;
+      flex-shrink: 0;
+      border: 1px solid #f1f5f9;
+      pointer-events: auto;
+    }
+    .floating-strip-card.smart-bar-mode .floating-strip-content {
+      padding: 0;
+      color: #0f172a;
+      flex: 1;
+      min-width: 0;
+    }
+    .floating-strip-card.smart-bar-mode .floating-strip-badge {
+      background: #fef08a; color: #854d0e; font-size: 9px; margin-bottom: 2px;
+    }
+    .floating-strip-card.smart-bar-mode .floating-strip-title {
+      color: #0f172a; font-size: 13px;
+    }
+    .floating-strip-card.smart-bar-mode .floating-strip-sub {
+      color: #64748b; font-size: 11px;
+    }
+    .floating-strip-card.smart-bar-mode .floating-strip-btn {
+      background: #dc2626; color: #ffffff; border-radius: 20px; padding: 7px 14px;
+    }
+    .floating-strip-card.smart-bar-mode .floating-strip-close {
+      top: 50%; transform: translateY(-50%); left: 8px;
+      background: #f1f5f9; color: #64748b;
+    }
+
     /* عناوين الأقسام */
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
@@ -365,6 +478,14 @@
       height: 115px;
       object-fit: cover;
       display: block;
+    }
+    .context-page-banner.smart-bar-context {
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+    }
+    .context-page-banner.smart-bar-context img {
+      height: 66px;
+      object-fit: cover;
     }
 
     /* شريط التبويبات الفرعي في صفحة الكوبونات */
@@ -540,6 +661,80 @@
     }
     .promo-title { font-size: 14.5px; font-weight: 800; margin: 0 0 4px; line-height: 1.35; }
     .promo-cta { font-size: 11.5px; color: #fef08a; font-weight: 700; }
+
+    /* مقاس الشريط العائم الرفيع (Smart Bar) للبانرات الرئيسية */
+    .promo-banner-card.smart-bar-banner {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+    }
+    .promo-banner-card.smart-bar-banner.image-only-banner {
+      padding: 0;
+      border: 1px solid #e2e8f0;
+      min-height: 0;
+    }
+    .promo-banner-card.smart-bar-banner.image-only-banner img {
+      width: 100%;
+      height: 66px;
+      object-fit: cover;
+      border-radius: 0;
+    }
+    .smart-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .smart-bar-thumb {
+      width: 42px !important;
+      height: 42px !important;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid #f1f5f9;
+    }
+    .smart-bar-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+    .smart-bar-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .smart-bar-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .smart-bar-cta-btn {
+      background: #dc2626;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 7px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
 
     /* قسم أقوى الفئات */
     .categories-grid {
@@ -807,7 +1002,7 @@
 
 <!-- البانر المستطيل العائم بعرض التطبيق -->
 <div class="floating-strip-wrap" id="floatingStripWrap">
-  <div class="floating-strip-card">
+  <div class="floating-strip-card" id="floatingStripCard">
     <img id="floatingStripBg" class="floating-strip-bg" src="" alt="" style="display:none;">
     <button type="button" class="floating-strip-close" title="إغلاق" onclick="closeFloatingStrip()">✕</button>
     <div id="floatingStripLink" class="floating-strip-content" onclick="handleStripClickAction()">
@@ -997,7 +1192,7 @@
 
 <!-- 3. تبويب دليل التسوق الحي -->
 <div id="blogView" class="page-view">
-  <div class="section-header"><span class="section-title-text">📖 دليل التسوق وأحدث العروض</span></div>
+  <div class="section-header"><span class="section-title-text" id="blogViewHeading">📖 دليل التسوق وأحدث العروض</span></div>
   <div class="container" id="blogContainer">جاري تحميل دليل التسوق...</div>
 </div>
 
@@ -1236,27 +1431,40 @@
   const HOME_MAX_CATEGORIES = 6;
   const HOME_MAX_STORES = 6;
 
+  /* تصنيفات دليل التسوق في بلوجر لكل دولة */
+  const COUNTRY_BLOG_LABELS = {
+    EG: 'egypt',
+    SA: 'saudi-arabia',
+    AE: 'emirates',
+    KW: 'kuwait',
+    QA: 'qatar',
+    BH: 'bahrain',
+    OM: 'oman',
+    JO: 'jordan',
+    MA: 'morocco'
+  };
+
   const DEFAULT_CATEGORIES = [
-    { name: 'عروض جديدة', icon: '🆕', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png', bg: '#fef3c7', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'الأحذية والحقائب', icon: '👜', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Handbag/3D/handbag_3d.png', bg: '#fce7f3', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'مطاعم', icon: '🍔', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Hamburger/3D/hamburger_3d.png', bg: '#fee2e2', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'ترفيه', icon: '🎮', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Video%20game/3D/video_game_3d.png', bg: '#ede9fe', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'سوبر ماركت', icon: '🛒', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Shopping%20cart/3D/shopping_cart_3d.png', bg: '#dcfce7', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'البيت والمطبخ', icon: '🏠', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/House%20with%20garden/3D/house_with_garden_3d.png', bg: '#ffedd5', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'موبايلات', icon: '📱', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Mobile%20phone/3D/mobile_phone_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'أكسسوارات', icon: '⌚', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Watch/3D/watch_3d.png', bg: '#e0f2fe', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'إلكترونيات', icon: '💻', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Laptop/3D/laptop_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'الجمال والعطور', icon: '🌸', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Lipstick/3D/lipstick_3d.png', bg: '#fdf2f8', bannerEnabled: false, bannerImg: '', bannerUrl: '' },
-    { name: 'أزياء وموضة', icon: '👗', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Dress/3D/dress_3d.png', bg: '#f3e8ff', bannerEnabled: false, bannerImg: '', bannerUrl: '' }
+    { name: 'عروض جديدة', icon: '🆕', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'الأحذية والحقائب', icon: '👜', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Handbag/3D/handbag_3d.png', bg: '#fce7f3', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'مطاعم', icon: '🍔', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Hamburger/3D/hamburger_3d.png', bg: '#fee2e2', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'ترفيه', icon: '🎮', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Video%20game/3D/video_game_3d.png', bg: '#ede9fe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'سوبر ماركت', icon: '🛒', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Shopping%20cart/3D/shopping_cart_3d.png', bg: '#dcfce7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'البيت والمطبخ', icon: '🏠', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/House%20with%20garden/3D/house_with_garden_3d.png', bg: '#ffedd5', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'موبايلات', icon: '📱', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Mobile%20phone/3D/mobile_phone_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'أكسسوارات', icon: '⌚', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Watch/3D/watch_3d.png', bg: '#e0f2fe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'إلكترونيات', icon: '💻', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Laptop/3D/laptop_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'الجمال والعطور', icon: '🌸', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Lipstick/3D/lipstick_3d.png', bg: '#fdf2f8', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
+    { name: 'أزياء وموضة', icon: '👗', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Dress/3D/dress_3d.png', bg: '#f3e8ff', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' }
   ];
 
   const DEFAULT_BANNERS = {
-    b0_1: { enabled: true, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_2: { enabled: false, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_3: { enabled: false, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b1: { enabled: true, actionType: 'url', targetValue: '', tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b2: { enabled: true, actionType: 'url', targetValue: '', tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b3: { enabled: true, actionType: 'url', targetValue: '', tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
+    b0_1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_2: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_3: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b2: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b3: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
   };
 
   const DEFAULT_POPUP = {
@@ -1266,7 +1474,7 @@
   };
 
   const DEFAULT_STRIP = {
-    id: 0, enabled: false, country: 'ALL', actionType: 'url', targetValue: '',
+    id: 0, enabled: false, layout: 'default', country: 'ALL', actionType: 'url', targetValue: '',
     duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗',
     url: 'https://silvercoupons.blogspot.com/', image: ''
   };
@@ -1431,6 +1639,7 @@
     if (icon) icon.classList.add('spin-anim');
     showToast('جاري مزامنة أحدث العروض والبانرات...');
     await initApp(true);
+    fetchBlogFeedForCountry();
     if (icon) icon.classList.remove('spin-anim');
     showToast('تم تحديث التطبيق بأحدث البيانات بنجاح ✓');
   }
@@ -1459,11 +1668,13 @@
     }
 
     const layoutMode = pop.layout || 'landscape';
+    const backdropEl = document.getElementById('promoPopupBackdrop');
     const imgWrap = document.getElementById('promoPopupImgWrap');
     const imgEl = document.getElementById('promoPopupImg');
     const bodyEl = document.getElementById('promoPopupBody');
     const textBlock = document.getElementById('promoPopupTextBlock');
 
+    backdropEl.classList.toggle('smart-bar-popup', layoutMode === 'smart_bar');
     imgWrap.className = 'promo-popup-img-wrap mode-' + layoutMode;
 
     if (pop.image && pop.image.trim() !== '') {
@@ -1514,7 +1725,7 @@
       timerPill.style.display = 'none';
     }
 
-    document.getElementById('promoPopupBackdrop').classList.add('open');
+    backdropEl.classList.add('open');
   }
 
   function handlePopupCtaAction() {
@@ -1525,7 +1736,7 @@
 
   function handlePopupImageClick() {
     const pop = appData.popupBanner;
-    if (pop && pop.layout === 'poster') handlePopupCtaAction();
+    if (pop && (pop.layout === 'poster' || pop.layout === 'smart_bar')) handlePopupCtaAction();
   }
 
   function closePromoPopup() {
@@ -1558,6 +1769,11 @@
       const seenKey = 'silver_seen_strip_v3_' + (st.id || 1);
       if (sessionStorage.getItem(seenKey)) return;
       sessionStorage.setItem(seenKey, '1');
+    }
+
+    const cardEl = document.getElementById('floatingStripCard');
+    if (cardEl) {
+      cardEl.classList.toggle('smart-bar-mode', st.layout === 'smart_bar');
     }
 
     const badgeEl = document.getElementById('floatingStripBadge');
@@ -1760,6 +1976,7 @@
   document.addEventListener('touchend', async (e) => {
     if (window.scrollY <= 0 && (e.changedTouches[0].clientY - touchStartY) > 110) {
       await initApp(true);
+      fetchBlogFeedForCountry();
       showToast('تم تحديث أحدث الكوبونات والبانرات بنجاح ✓');
     }
   }, { passive: true });
@@ -1787,6 +2004,7 @@
     document.getElementById('currentCountryBtn').innerText = `${flag} ${name} ▾`;
     document.getElementById('welcomeScreen').classList.add('hidden');
     refreshAllUI();
+    fetchBlogFeedForCountry();
     setTimeout(() => {
       triggerPromoPopup(false, activeViewId);
       triggerFloatingStrip(false);
@@ -2014,8 +2232,27 @@
     const titleTxt = (bannerObj.title || '').trim();
     const ctaTxt = (bannerObj.cta || '').trim();
     const hasAnyText = Boolean(tagTxt || titleTxt || ctaTxt);
+    const isSmartBar = bannerObj.layout === 'smart_bar';
     const slideWrapStart = isSlide ? '<div class="top-slider-slide">' : '';
     const slideWrapEnd = isSlide ? '</div>' : '';
+
+    if (isSmartBar) {
+      if (hasImage && !hasAnyText) {
+        return `${slideWrapStart}<div onclick="handleBannerClick('${slotKey}')" class="promo-banner-card smart-bar-banner image-only-banner"><img src="${imgSrc}" alt="عرض ترويجي"></div>${slideWrapEnd}`;
+      }
+      return `${slideWrapStart}
+        <div onclick="handleBannerClick('${slotKey}')" class="promo-banner-card smart-bar-banner">
+          <div class="smart-bar-left">
+            ${hasImage ? `<img src="${imgSrc}" alt="${titleTxt}" class="smart-bar-thumb">` : ''}
+            <div class="smart-bar-text">
+              ${titleTxt ? `<h3 class="smart-bar-title">${titleTxt}</h3>` : ''}
+              ${tagTxt ? `<span class="smart-bar-tag">${tagTxt}</span>` : ''}
+            </div>
+          </div>
+          ${ctaTxt ? `<span class="smart-bar-cta-btn">${ctaTxt}</span>` : ''}
+        </div>
+      ${slideWrapEnd}`;
+    }
 
     if (hasImage && !hasAnyText) {
       return `${slideWrapStart}<div onclick="handleBannerClick('${slotKey}')" class="promo-banner-card image-only-banner"><img src="${imgSrc}" alt="عرض ترويجي"></div>${slideWrapEnd}`;
@@ -2295,7 +2532,8 @@
         if (catObj.bannerUrl && catObj.bannerUrl.trim() !== '') currentFilteredShareMeta.url = catObj.bannerUrl.trim();
         if (catObj.bannerEnabled !== false && catObj.bannerImg && catObj.bannerImg.trim() !== '') {
           const targetLink = (catObj.bannerUrl || '').trim() || 'https://silvercoupons.blogspot.com/';
-          bannerWrap.innerHTML = `<a href="${targetLink}" target="_blank" class="context-page-banner"><img src="${catObj.bannerImg.trim()}" alt="${catObj.name}"></a>`;
+          const extraClass = (catObj.bannerLayout === 'smart_bar') ? ' smart-bar-context' : '';
+          bannerWrap.innerHTML = `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${catObj.bannerImg.trim()}" alt="${catObj.name}"></a>`;
         }
       }
     } else if (filterType === 'store') {
@@ -2305,7 +2543,8 @@
         if (storeObj.url && storeObj.url.trim() !== '') currentFilteredShareMeta.url = storeObj.url.trim();
         if (storeObj.bannerEnabled !== false && storeObj.bannerImg && storeObj.bannerImg.trim() !== '') {
           const targetLink = (storeObj.bannerUrl || '').trim() || storeObj.url || 'https://silvercoupons.blogspot.com/';
-          bannerWrap.innerHTML = `<a href="${targetLink}" target="_blank" class="context-page-banner"><img src="${storeObj.bannerImg.trim()}" alt="${storeObj.name}"></a>`;
+          const extraClass = (storeObj.bannerLayout === 'smart_bar') ? ' smart-bar-context' : '';
+          bannerWrap.innerHTML = `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${storeObj.bannerImg.trim()}" alt="${storeObj.name}"></a>`;
         }
       }
     } else if (filterType === 'deals') {
@@ -2474,6 +2713,7 @@
   }
 
   window._scBlogEntries = [];
+  window._scBlogUsingCountryLabel = false;
 
   window.openPrivacyInReader = function(url, ev) {
     if (ev) { ev.preventDefault(); ev.stopPropagation(); }
@@ -2598,7 +2838,7 @@
                 }
               };
               const s = document.createElement('script');
-              s.src = 'https://silvercoupons.blogspot.com/feeds/posts/default/-/' + encodeURIComponent(labelName) + '?alt=json-in-script&max-results=25&callback=' + cbName;
+              s.src = 'https://silvercoupons.blogspot.com/feeds/posts/default/-/' + encodeURIComponent(labelName) + '?alt=json-in-script&max-results=20&callback=' + cbName;
               s.onerror = function() { window.open(href, '_blank'); };
               document.body.appendChild(s);
               return;
@@ -2753,9 +2993,19 @@
   };
 
   window.loadBloggerFeed = function(data) {
-    const entries = data.feed.entry || [];
+    const entries = (data && data.feed && data.feed.entry) ? data.feed.entry : [];
+    if (entries.length === 0 && window._scBlogUsingCountryLabel) {
+      fetchBlogFeedForCountry(true);
+      return;
+    }
     window._scBlogEntries = entries;
-    document.getElementById('blogContainer').innerHTML = entries.map((e, idx) => {
+    const container = document.getElementById('blogContainer');
+    if (!container) return;
+    if (!entries.length) {
+      container.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--muted);">لا توجد مقالات متاحة حالياً.</div>`;
+      return;
+    }
+    container.innerHTML = entries.map((e, idx) => {
       const title = e.title.$t;
       const img = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's400') : 'https://via.placeholder.com/100';
       return `
@@ -2769,11 +3019,39 @@
     }).join('');
   };
 
-  const bScript = document.createElement('script');
-  bScript.src = 'https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=25';
-  document.body.appendChild(bScript);
+  function fetchBlogFeedForCountry(forceGeneral = false) {
+    const container = document.getElementById('blogContainer');
+    const heading = document.getElementById('blogViewHeading');
+    if (container) container.innerHTML = 'جاري تحميل دليل التسوق...';
+
+    const oldScript = document.getElementById('scBlogFeedScript');
+    if (oldScript) oldScript.remove();
+
+    const label = (!forceGeneral && selectedCountry && COUNTRY_BLOG_LABELS[selectedCountry]) ? COUNTRY_BLOG_LABELS[selectedCountry] : '';
+    window._scBlogUsingCountryLabel = Boolean(label);
+
+    if (heading) {
+      const savedLabel = localStorage.getItem('silver_user_country_label') || '';
+      heading.innerText = (label && savedLabel) ? `📖 دليل التسوق — ${savedLabel}` : '📖 دليل التسوق وأحدث العروض';
+    }
+
+    const bScript = document.createElement('script');
+    bScript.id = 'scBlogFeedScript';
+    bScript.src = label
+      ? `https://silvercoupons.blogspot.com/feeds/posts/default/-/${encodeURIComponent(label)}?alt=json-in-script&callback=loadBloggerFeed&max-results=20`
+      : `https://silvercoupons.blogspot.com/feeds/posts/default?alt=json-in-script&callback=loadBloggerFeed&max-results=20`;
+    bScript.onerror = function () {
+      if (window._scBlogUsingCountryLabel) {
+        fetchBlogFeedForCountry(true);
+      } else if (container) {
+        container.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--muted);">تعذر تحميل المقالات، يرجى التحقق من الاتصال بالإنترنت.</div>`;
+      }
+    };
+    document.body.appendChild(bScript);
+  }
 
   initApp(true);
+  fetchBlogFeedForCountry();
 </script>
 
 <!-- شريط تنبيه وضع عدم الاتصال (رفيع في الأعلى ولا يحجب القائمة السفلية) -->
