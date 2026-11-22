@@ -202,19 +202,19 @@
     "image": "https://cdn.almowafir.com/files/w200_dhgate.jpg"
   },
   "floatingStrip": {
-    "id": 1795321032388,
-    "enabled": true,
-    "layout": "smart_bar",
-    "country": "EG",
+    "id": 1795322138118,
+    "enabled": false,
+    "layout": "default",
+    "country": "ALL",
     "actionType": "url",
     "targetValue": "",
-    "duration": 3,
+    "duration": 7,
     "badge": "⚡ عرض سريع",
     "title": "",
-    "sub": "يييييي",
+    "sub": "",
     "btnText": "تسوق ↗",
     "url": "https://silvercoupons.blogspot.com/",
-    "image": "https://cdn.almowafir.com/files/w200_dhgate.jpg"
+    "image": ""
   },
   "links": {
     "appShareUrl": "https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk",
