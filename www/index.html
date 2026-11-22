@@ -1134,7 +1134,10 @@
     <div class="c-subtab-pill" data-sub="SEASON" onclick="selectCouponsSubTab('SEASON')">🎉 عروض المواسم والأعياد</div>
   </div>
 
-  <div class="container" id="uniqueStoreCouponsContainer"></div>
+  <div class="container">
+    <div id="couponsTabCategoryBannerWrap"></div>
+    <div id="uniqueStoreCouponsContainer"></div>
+  </div>
   <div class="floating-cat-bar" id="floatingCategoriesBar"></div>
 </div>
 
@@ -1461,17 +1464,17 @@
   };
 
   const DEFAULT_CATEGORIES = [
-    { name: 'عروض جديدة', icon: '🆕', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'الأحذية والحقائب', icon: '👜', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Handbag/3D/handbag_3d.png', bg: '#fce7f3', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'مطاعم', icon: '🍔', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Hamburger/3D/hamburger_3d.png', bg: '#fee2e2', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'ترفيه', icon: '🎮', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Video%20game/3D/video_game_3d.png', bg: '#ede9fe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'سوبر ماركت', icon: '🛒', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Shopping%20cart/3D/shopping_cart_3d.png', bg: '#dcfce7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'البيت والمطبخ', icon: '🏠', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/House%20with%20garden/3D/house_with_garden_3d.png', bg: '#ffedd5', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'موبايلات', icon: '📱', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Mobile%20phone/3D/mobile_phone_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'أكسسوارات', icon: '⌚', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Watch/3D/watch_3d.png', bg: '#e0f2fe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'إلكترونيات', icon: '💻', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Laptop/3D/laptop_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'الجمال والعطور', icon: '🌸', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Lipstick/3D/lipstick_3d.png', bg: '#fdf2f8', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' },
-    { name: 'أزياء وموضة', icon: '👗', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Dress/3D/dress_3d.png', bg: '#f3e8ff', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' }
+    { name: 'عروض جديدة', icon: '🆕', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'الأحذية والحقائب', icon: '👜', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Handbag/3D/handbag_3d.png', bg: '#fce7f3', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'مطاعم', icon: '🍔', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Hamburger/3D/hamburger_3d.png', bg: '#fee2e2', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'ترفيه', icon: '🎮', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Video%20game/3D/video_game_3d.png', bg: '#ede9fe', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'سوبر ماركت', icon: '🛒', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Shopping%20cart/3D/shopping_cart_3d.png', bg: '#dcfce7', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'البيت والمطبخ', icon: '🏠', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/House%20with%20garden/3D/house_with_garden_3d.png', bg: '#ffedd5', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'موبايلات', icon: '📱', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Mobile%20phone/3D/mobile_phone_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'أكسسوارات', icon: '⌚', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Watch/3D/watch_3d.png', bg: '#e0f2fe', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'إلكترونيات', icon: '💻', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Laptop/3D/laptop_3d.png', bg: '#dbeafe', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'الجمال والعطور', icon: '🌸', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Lipstick/3D/lipstick_3d.png', bg: '#fdf2f8', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' },
+    { name: 'أزياء وموضة', icon: '👗', image: 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Dress/3D/dress_3d.png', bg: '#f3e8ff', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' }
   ];
 
   const DEFAULT_BANNERS = {
@@ -1824,6 +1827,58 @@
       }
     }
 
+    (appData.categories || []).forEach(cat => {
+      if (cat.bannerEnabled === false) return;
+      const mode = cat.bannerDisplayMode || 'inline';
+      if (mode !== 'inline') return;
+      const places = Array.isArray(cat.bannerPlacements) && cat.bannerPlacements.length ? cat.bannerPlacements : ['category_top'];
+      if (places.includes(placementName)) {
+        const hasContent = Boolean((cat.bannerImg || '').trim() || (cat.bannerTitle || '').trim() || (cat.bannerTag || '').trim() || (cat.bannerCta || '').trim());
+        if (hasContent) {
+          items.push({
+            kind: 'category_banner',
+            data: {
+              layout: cat.bannerLayout || 'default',
+              image: cat.bannerImg || '',
+              title: cat.bannerTitle || '',
+              tag: cat.bannerTag || '',
+              cta: cat.bannerCta || '',
+              actionType: cat.bannerUrl ? 'url' : 'category',
+              targetValue: cat.name,
+              url: cat.bannerUrl || 'https://silvercoupons.blogspot.com/'
+            },
+            repeatEvery: Math.max(1, Number(cat.bannerRepeatEvery) || 4)
+          });
+        }
+      }
+    });
+
+    (appData.stores || []).forEach(stObj => {
+      if (stObj.bannerEnabled === false) return;
+      const mode = stObj.bannerDisplayMode || 'inline';
+      if (mode !== 'inline') return;
+      const places = Array.isArray(stObj.bannerPlacements) && stObj.bannerPlacements.length ? stObj.bannerPlacements : ['store_top'];
+      if (places.includes(placementName) && matchesCountry(stObj.country)) {
+        const hasContent = Boolean((stObj.bannerImg || '').trim() || (stObj.bannerTitle || '').trim() || (stObj.bannerTag || '').trim() || (stObj.bannerCta || '').trim());
+        if (hasContent) {
+          items.push({
+            kind: 'store_banner',
+            data: {
+              layout: stObj.bannerLayout || 'default',
+              image: stObj.bannerImg || '',
+              title: stObj.bannerTitle || '',
+              tag: stObj.bannerTag || '',
+              cta: stObj.bannerCta || '',
+              actionType: stObj.bannerUrl ? 'url' : 'store',
+              targetValue: stObj.id,
+              url: stObj.bannerUrl || stObj.url || 'https://silvercoupons.blogspot.com/'
+            },
+            repeatEvery: Math.max(1, Number(stObj.bannerRepeatEvery) || 4)
+          });
+        }
+      }
+    });
+
     return items;
   }
 
@@ -1919,19 +1974,74 @@
     return htmlOut;
   }
 
-  function triggerFloatingStrip(forcePreview = false) {
+  function getEffectiveFloatingStrip() {
     const st = appData.floatingStrip;
-    if (!st) return;
-    if ((st.displayMode || 'floating') !== 'floating') {
+    if (st && st.enabled && st.enabled !== 'false' && (st.displayMode || 'floating') === 'floating' && matchesCountry(st.country)) {
+      return {
+        id: st.id || 1,
+        layout: st.layout || 'default',
+        badge: st.badge || '',
+        title: st.title || '',
+        sub: st.sub || '',
+        btnText: st.btnText || 'تسوق ↗',
+        image: st.image || '',
+        duration: st.duration,
+        actionType: st.actionType || 'url',
+        targetValue: st.targetValue || '',
+        url: st.url || 'https://silvercoupons.blogspot.com/'
+      };
+    }
+
+    const floatCat = (appData.categories || []).find(c => c.bannerEnabled !== false && c.bannerDisplayMode === 'floating' && ((c.bannerImg || '').trim() || (c.bannerTitle || '').trim()));
+    if (floatCat) {
+      return {
+        id: 'cat_' + floatCat.name,
+        layout: floatCat.bannerLayout || 'default',
+        badge: floatCat.bannerTag || floatCat.name,
+        title: floatCat.bannerTitle || `عروض قسم ${floatCat.name}`,
+        sub: '',
+        btnText: floatCat.bannerCta || 'تصفح ↗',
+        image: floatCat.bannerImg || '',
+        duration: 0,
+        actionType: floatCat.bannerUrl ? 'url' : 'category',
+        targetValue: floatCat.name,
+        url: floatCat.bannerUrl || 'https://silvercoupons.blogspot.com/'
+      };
+    }
+
+    const floatStore = (appData.stores || []).find(s => s.bannerEnabled !== false && s.bannerDisplayMode === 'floating' && matchesCountry(s.country) && ((s.bannerImg || '').trim() || (s.bannerTitle || '').trim()));
+    if (floatStore) {
+      return {
+        id: 'store_' + floatStore.id,
+        layout: floatStore.bannerLayout || 'default',
+        badge: floatStore.bannerTag || floatStore.name.split('-')[0],
+        title: floatStore.bannerTitle || `عروض ${floatStore.name.split('-')[0]}`,
+        sub: '',
+        btnText: floatStore.bannerCta || 'تسوق ↗',
+        image: floatStore.bannerImg || '',
+        duration: 0,
+        actionType: floatStore.bannerUrl ? 'url' : 'store',
+        targetValue: floatStore.id,
+        url: floatStore.bannerUrl || floatStore.url || 'https://silvercoupons.blogspot.com/'
+      };
+    }
+
+    return null;
+  }
+
+  let currentActiveFloatingData = null;
+
+  function triggerFloatingStrip(forcePreview = false) {
+    const st = getEffectiveFloatingStrip();
+    currentActiveFloatingData = st;
+    if (!st) {
       closeFloatingStrip();
       return;
     }
     if (!forcePreview) {
-      if (!st.enabled || st.enabled === 'false') return;
       if (isWelcomeVisible()) return;
       const popupEl = document.getElementById('promoPopupBackdrop');
       if (popupEl && popupEl.classList.contains('open')) return;
-      if (!matchesCountry(st.country)) return;
 
       const seenKey = 'silver_seen_strip_v3_' + (st.id || 1);
       if (sessionStorage.getItem(seenKey)) return;
@@ -1970,7 +2080,7 @@
   }
 
   function handleStripClickAction() {
-    const st = appData.floatingStrip || DEFAULT_STRIP;
+    const st = currentActiveFloatingData || appData.floatingStrip || DEFAULT_STRIP;
     closeFloatingStrip();
     executeSmartAction(st.actionType, st.targetValue, st.url, activeViewId || 'homeView');
   }
@@ -2292,9 +2402,34 @@
     renderCouponsTab();
   }
 
+  function buildContextBannerHtml(bannerConfig, fallbackUrl, fallbackAlt) {
+    if (!bannerConfig || bannerConfig.enabled === false) return '';
+    const mode = bannerConfig.displayMode || 'inline';
+    if (mode !== 'inline') return '';
+    const imgSrc = (bannerConfig.image || '').trim();
+    const titleTxt = (bannerConfig.title || '').trim();
+    const tagTxt = (bannerConfig.tag || '').trim();
+    const ctaTxt = (bannerConfig.cta || '').trim();
+    if (!imgSrc && !titleTxt && !tagTxt && !ctaTxt) return '';
+
+    return buildInlineCardHtml({
+      data: {
+        layout: bannerConfig.layout || 'default',
+        image: imgSrc,
+        title: titleTxt,
+        tag: tagTxt,
+        cta: ctaTxt,
+        actionType: 'url',
+        targetValue: '',
+        url: (bannerConfig.url || '').trim() || fallbackUrl || 'https://silvercoupons.blogspot.com/'
+      }
+    }, 'between-coupons-banner-item');
+  }
+
   function renderCouponsTab() {
     const bar = document.getElementById('floatingCategoriesBar');
     const container = document.getElementById('uniqueStoreCouponsContainer');
+    const catBannerWrap = document.getElementById('couponsTabCategoryBannerWrap');
     const headingEl = document.getElementById('couponsTabHeading');
     const countEl = document.getElementById('couponsTabCountBadge');
     if (!bar || !container) return;
@@ -2309,6 +2444,8 @@
     `).join('');
     bar.innerHTML = pillsHtml;
 
+    if (catBannerWrap) catBannerWrap.innerHTML = '';
+
     let sortedCoupons = getSortedCountryCoupons();
     if (couponsTabSelectedSubType === 'COUPON') {
       sortedCoupons = sortedCoupons.filter(c => c.type !== 'deal' && c.type !== 'auto_link' && c.code && c.code.trim() !== '');
@@ -2321,6 +2458,22 @@
     if (couponsTabSelectedCategory !== 'ALL') {
       sortedCoupons = sortedCoupons.filter(c => c.category === couponsTabSelectedCategory);
       headingEl.innerText = `🏷️ عروض قسم: ${couponsTabSelectedCategory}`;
+      const catObj = cats.find(cat => cat.name === couponsTabSelectedCategory);
+      if (catObj && catBannerWrap) {
+        const places = Array.isArray(catObj.bannerPlacements) && catObj.bannerPlacements.length ? catObj.bannerPlacements : ['category_top'];
+        if (places.includes('category_top')) {
+          catBannerWrap.innerHTML = buildContextBannerHtml({
+            enabled: catObj.bannerEnabled !== false,
+            layout: catObj.bannerLayout || 'default',
+            displayMode: catObj.bannerDisplayMode || 'inline',
+            image: catObj.bannerImg || '',
+            title: catObj.bannerTitle || '',
+            tag: catObj.bannerTag || '',
+            cta: catObj.bannerCta || '',
+            url: catObj.bannerUrl || ''
+          }, 'https://silvercoupons.blogspot.com/', catObj.name);
+        }
+      }
     } else {
       const subTitles = {
         ALL: '🏷️ جميع الكوبونات والعروض',
@@ -2707,10 +2860,18 @@
       const catObj = (appData.categories || []).find(cat => cat.name === filterValue);
       if (catObj) {
         if (catObj.bannerUrl && catObj.bannerUrl.trim() !== '') currentFilteredShareMeta.url = catObj.bannerUrl.trim();
-        if (catObj.bannerEnabled !== false && catObj.bannerImg && catObj.bannerImg.trim() !== '') {
-          const targetLink = (catObj.bannerUrl || '').trim() || 'https://silvercoupons.blogspot.com/';
-          const extraClass = (catObj.bannerLayout === 'smart_bar') ? ' smart-bar-context' : '';
-          bannerWrap.innerHTML += `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${catObj.bannerImg.trim()}" alt="${catObj.name}"></a>`;
+        const places = Array.isArray(catObj.bannerPlacements) && catObj.bannerPlacements.length ? catObj.bannerPlacements : ['category_top'];
+        if (places.includes('category_top')) {
+          bannerWrap.innerHTML += buildContextBannerHtml({
+            enabled: catObj.bannerEnabled !== false,
+            layout: catObj.bannerLayout || 'default',
+            displayMode: catObj.bannerDisplayMode || 'inline',
+            image: catObj.bannerImg || '',
+            title: catObj.bannerTitle || '',
+            tag: catObj.bannerTag || '',
+            cta: catObj.bannerCta || '',
+            url: catObj.bannerUrl || ''
+          }, 'https://silvercoupons.blogspot.com/', catObj.name);
         }
       }
       const inlineCatBanners = getActiveInlineItems('categories');
@@ -2722,10 +2883,18 @@
       const storeObj = (appData.stores || []).find(s => String(s.id) === String(filterValue));
       if (storeObj) {
         if (storeObj.url && storeObj.url.trim() !== '') currentFilteredShareMeta.url = storeObj.url.trim();
-        if (storeObj.bannerEnabled !== false && storeObj.bannerImg && storeObj.bannerImg.trim() !== '') {
-          const targetLink = (storeObj.bannerUrl || '').trim() || storeObj.url || 'https://silvercoupons.blogspot.com/';
-          const extraClass = (storeObj.bannerLayout === 'smart_bar') ? ' smart-bar-context' : '';
-          bannerWrap.innerHTML += `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${storeObj.bannerImg.trim()}" alt="${storeObj.name}"></a>`;
+        const places = Array.isArray(storeObj.bannerPlacements) && storeObj.bannerPlacements.length ? storeObj.bannerPlacements : ['store_top'];
+        if (places.includes('store_top')) {
+          bannerWrap.innerHTML += buildContextBannerHtml({
+            enabled: storeObj.bannerEnabled !== false,
+            layout: storeObj.bannerLayout || 'default',
+            displayMode: storeObj.bannerDisplayMode || 'inline',
+            image: storeObj.bannerImg || '',
+            title: storeObj.bannerTitle || '',
+            tag: storeObj.bannerTag || '',
+            cta: storeObj.bannerCta || '',
+            url: storeObj.bannerUrl || storeObj.url || ''
+          }, storeObj.url || 'https://silvercoupons.blogspot.com/', storeObj.name);
         }
       }
       const inlineStoreBanners = getActiveInlineItems('store_detail');
