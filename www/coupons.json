@@ -82,6 +82,7 @@
   "banners": {
     "b0_1": {
       "enabled": true,
+      "layout": "default",
       "actionType": "url",
       "targetValue": "",
       "tag": "",
@@ -93,6 +94,7 @@
     },
     "b0_2": {
       "enabled": false,
+      "layout": "default",
       "actionType": "url",
       "targetValue": "",
       "tag": "",
@@ -115,6 +117,7 @@
     },
     "b0_3": {
       "enabled": false,
+      "layout": "default",
       "actionType": "url",
       "targetValue": "",
       "tag": "",
@@ -126,6 +129,7 @@
     },
     "b1": {
       "enabled": true,
+      "layout": "default",
       "actionType": "url",
       "targetValue": "",
       "tag": "عروض الإلكترونيات 💻",
@@ -148,6 +152,7 @@
     },
     "b2": {
       "enabled": true,
+      "layout": "default",
       "actionType": "url",
       "targetValue": "",
       "tag": "تخفيضات تلقائية ⚡",
@@ -168,6 +173,7 @@
     },
     "b3": {
       "enabled": true,
+      "layout": "default",
       "actionType": "url",
       "targetValue": "",
       "tag": "وفر أكثر 🪙",
@@ -196,12 +202,13 @@
     "image": "https://cdn.almowafir.com/files/w200_dhgate.jpg"
   },
   "floatingStrip": {
-    "id": 1794978704460,
+    "id": 1795320974121,
     "enabled": false,
+    "layout": "smart_bar",
     "country": "ALL",
     "actionType": "url",
     "targetValue": "",
-    "duration": 1,
+    "duration": 3,
     "badge": "⚡ عرض سريع",
     "title": "",
     "sub": "يييييي",
