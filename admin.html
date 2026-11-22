@@ -223,6 +223,12 @@
             </select>
           </div>
           <div style="margin-bottom:6px;">
+            <select id="catBannerLayout" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
+              <option value="default">🖼️ مقاس بانر قياسي (افتراضي)</option>
+              <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
+            </select>
+          </div>
+          <div style="margin-bottom:6px;">
             <input type="url" id="catBannerImg" placeholder="🔗 رابط صورة بانر القسم العريض (800×320 بكسل)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
           </div>
           <div style="margin-bottom:6px;">
@@ -343,6 +349,13 @@
           <select id="storeBannerEnabled">
             <option value="true">✅ ظاهر (عند وجود صورة)</option>
             <option value="false">❌ مخفي حالياً</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>مقاس وشكل بانر المتجر</label>
+          <select id="storeBannerLayout">
+            <option value="default">🖼️ مقاس بانر قياسي (افتراضي)</option>
+            <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
           </select>
         </div>
         <div class="form-group" style="margin-bottom:8px;">
@@ -471,6 +484,13 @@
         </select>
       </div>
       <div class="form-group">
+        <label>مقاس وشكل البانر</label>
+        <select id="bannerLayout">
+          <option value="default">🖼️ مقاس قياسي (افتراضي)</option>
+          <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label>🎯 نوع التوجيه عند الضغط على البانر</label>
         <select id="bannerActionType" onchange="toggleActionTargetUI('banner')">
           <option value="url">🌐 رابط خارجي (External URL)</option>
@@ -538,6 +558,7 @@
           <option value="landscape">🖼️ أفقي عريض (Landscape)</option>
           <option value="portrait">📱 عمودي طولي (Portrait)</option>
           <option value="poster">🎨 بوستر إعلاني كامل (Full Poster)</option>
+          <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
         </select>
       </div>
       <div class="form-group">
@@ -618,6 +639,13 @@
         <select id="stripEnabled">
           <option value="true">✅ مفعّل ويظهر للزوار</option>
           <option value="false">❌ مخفي حالياً</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>مقاس وشكل الشريط العائم</label>
+        <select id="stripLayout">
+          <option value="default">📢 مستطيل قياسي (افتراضي)</option>
+          <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
         </select>
       </div>
       <div class="form-group">
@@ -775,18 +803,18 @@
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
   const DEFAULT_CATEGORIES = [
-    { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7', bannerEnabled: false, bannerImg: '', bannerUrl: '' }
+    { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' }
   ];
   const DEFAULT_BANNERS = {
-    b0_1: { enabled: true, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_2: { enabled: false, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_3: { enabled: false, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b1: { enabled: true, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b2: { enabled: true, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b3: { enabled: true, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
+    b0_1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_2: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_3: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b2: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b3: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
   };
   const DEFAULT_POPUP = { id: 0, enabled: false, targetPage: 'homeView', layout: 'landscape', country: 'ALL', actionType: 'url', targetValue: '', duration: 0, tag: '', title: '', desc: '', code: '', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
-  const DEFAULT_STRIP = { id: 0, enabled: false, country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
+  const DEFAULT_STRIP = { id: 0, enabled: false, layout: 'default', country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
   const DEFAULT_LINKS = { appShareUrl: 'https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk', stores: '', electronics: '', deals: '', categories: '', latest: '' };
   const DEFAULT_HOME_CONFIG = { stores: true, electronics: true, deals: true, categories: true, latest: true, customSections: [] };
 
@@ -968,6 +996,7 @@
     document.getElementById('newCatName').value = cat.name || '';
     document.getElementById('newCatUrl').value = cat.image || '';
     document.getElementById('catBannerEnabled').value = String(cat.bannerEnabled !== false);
+    document.getElementById('catBannerLayout').value = cat.bannerLayout || 'default';
     document.getElementById('catBannerImg').value = cat.bannerImg || '';
     document.getElementById('catBannerUrl').value = cat.bannerUrl || '';
     document.getElementById('saveCatBtn').innerText = '💾 حفظ تعديل القسم والبانر';
@@ -981,6 +1010,7 @@
     document.getElementById('newCatUrl').value = '';
     document.getElementById('newCatFile').value = '';
     document.getElementById('catBannerEnabled').value = 'true';
+    document.getElementById('catBannerLayout').value = 'default';
     document.getElementById('catBannerImg').value = '';
     document.getElementById('catBannerFile').value = '';
     document.getElementById('catBannerUrl').value = '';
@@ -995,6 +1025,7 @@
     let imgUrl = document.getElementById('newCatUrl').value.trim();
     const fileInput = document.getElementById('newCatFile');
     const bEnabled = document.getElementById('catBannerEnabled').value === 'true';
+    const bLayout = document.getElementById('catBannerLayout').value || 'default';
     let bImg = document.getElementById('catBannerImg').value.trim();
     const bFileInput = document.getElementById('catBannerFile');
     const bUrl = document.getElementById('catBannerUrl').value.trim();
@@ -1015,11 +1046,11 @@
 
     if (editIdx >= 0 && appData.categories[editIdx]) {
       const oldName = appData.categories[editIdx].name;
-      appData.categories[editIdx] = { name, icon, image: imgUrl, bg: appData.categories[editIdx].bg || '#eff6ff', bannerEnabled: bEnabled, bannerImg: bImg, bannerUrl: bUrl };
+      appData.categories[editIdx] = { name, icon, image: imgUrl, bg: appData.categories[editIdx].bg || '#eff6ff', bannerEnabled: bEnabled, bannerLayout: bLayout, bannerImg: bImg, bannerUrl: bUrl };
       if (oldName !== name) appData.coupons.forEach(c => { if (c.category === oldName) c.category = name; });
     } else {
       const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
-      appData.categories.push({ name, icon, image: imgUrl, bg: bgPalette[appData.categories.length % bgPalette.length], bannerEnabled: bEnabled, bannerImg: bImg, bannerUrl: bUrl });
+      appData.categories.push({ name, icon, image: imgUrl, bg: bgPalette[appData.categories.length % bgPalette.length], bannerEnabled: bEnabled, bannerLayout: bLayout, bannerImg: bImg, bannerUrl: bUrl });
     }
     resetCategoryForm();
     refreshAdminUI();
@@ -1114,6 +1145,7 @@
     document.getElementById('newStoreLogo').value = st.logo || '';
     document.getElementById('newStoreUrl').value = st.url || 'https://silvercoupons.blogspot.com/';
     document.getElementById('storeBannerEnabled').value = String(st.bannerEnabled !== false);
+    document.getElementById('storeBannerLayout').value = st.bannerLayout || 'default';
     document.getElementById('storeBannerImg').value = st.bannerImg || '';
     document.getElementById('storeBannerUrl').value = st.bannerUrl || '';
     document.getElementById('saveStoreBtn').innerText = '💾 حفظ تعديل المتجر والبانر';
@@ -1129,6 +1161,7 @@
     document.getElementById('newStoreFile').value = '';
     document.getElementById('newStoreUrl').value = 'https://silvercoupons.blogspot.com/';
     document.getElementById('storeBannerEnabled').value = 'true';
+    document.getElementById('storeBannerLayout').value = 'default';
     document.getElementById('storeBannerImg').value = '';
     document.getElementById('storeBannerFile').value = '';
     document.getElementById('storeBannerUrl').value = '';
@@ -1144,6 +1177,7 @@
     const fileInput = document.getElementById('newStoreFile');
     const url = document.getElementById('newStoreUrl').value.trim();
     const sBannerEnabled = document.getElementById('storeBannerEnabled').value === 'true';
+    const sBannerLayout = document.getElementById('storeBannerLayout').value || 'default';
     let sBannerImg = document.getElementById('storeBannerImg').value.trim();
     const sBannerFile = document.getElementById('storeBannerFile');
     const sBannerUrl = document.getElementById('storeBannerUrl').value.trim();
@@ -1165,7 +1199,7 @@
     }
     if (!logoUrl) logoUrl = 'https://via.placeholder.com/80?text=' + encodeURIComponent(name[0]);
 
-    const storePayload = { id: storeId, name, country, logo: logoUrl, url: url || 'https://silvercoupons.blogspot.com/', bannerEnabled: sBannerEnabled, bannerImg: sBannerImg, bannerUrl: sBannerUrl };
+    const storePayload = { id: storeId, name, country, logo: logoUrl, url: url || 'https://silvercoupons.blogspot.com/', bannerEnabled: sBannerEnabled, bannerLayout: sBannerLayout, bannerImg: sBannerImg, bannerUrl: sBannerUrl };
     if (editId) {
       const idx = appData.stores.findIndex(s => s.id === editId);
       if (idx !== -1) {
@@ -1296,6 +1330,7 @@
     const targetData = (country !== 'ALL' && base.byCountry && base.byCountry[country]) ? base.byCountry[country] : base;
 
     document.getElementById('bannerEnabled').value = String(targetData.enabled !== false);
+    document.getElementById('bannerLayout').value = targetData.layout || 'default';
     const actType = targetData.actionType || 'url';
     document.getElementById('bannerActionType').value = actType;
     if (actType === 'store') document.getElementById('bannerTargetStore').value = targetData.targetValue || '';
@@ -1324,6 +1359,7 @@
     const targetVal = (actType === 'store') ? document.getElementById('bannerTargetStore').value : (actType === 'category' ? document.getElementById('bannerTargetCat').value : '');
     const fields = {
       enabled: document.getElementById('bannerEnabled').value === 'true',
+      layout: document.getElementById('bannerLayout').value || 'default',
       actionType: actType, targetValue: targetVal,
       tag: document.getElementById('bannerTag').value.trim(),
       title: document.getElementById('bannerTitle').value.trim(),
@@ -1396,6 +1432,7 @@
   function loadStripForm() {
     const s = appData.floatingStrip || DEFAULT_STRIP;
     document.getElementById('stripEnabled').value = String(Boolean(s.enabled));
+    document.getElementById('stripLayout').value = s.layout || 'default';
     document.getElementById('stripCountry').value = s.country || 'ALL';
     document.getElementById('stripActionType').value = s.actionType || 'url';
     if (s.actionType === 'store') document.getElementById('stripTargetStore').value = s.targetValue || '';
@@ -1424,6 +1461,7 @@
     const targetVal = (actType === 'store') ? document.getElementById('stripTargetStore').value : (actType === 'category' ? document.getElementById('stripTargetCat').value : '');
     appData.floatingStrip = {
       id: Date.now(), enabled: document.getElementById('stripEnabled').value === 'true',
+      layout: document.getElementById('stripLayout').value || 'default',
       country: document.getElementById('stripCountry').value, actionType: actType, targetValue: targetVal,
       duration: Number(document.getElementById('stripDuration').value) || 0,
       badge: document.getElementById('stripBadge').value.trim(), title: document.getElementById('stripTitle').value.trim(),
