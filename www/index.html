@@ -1475,12 +1475,12 @@
   ];
 
   const DEFAULT_BANNERS = {
-    b0_1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_2: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_3: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b2: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b3: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
+    b0_1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_2: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_3: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b2: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b3: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
   };
 
   const DEFAULT_POPUP = {
@@ -1490,7 +1490,7 @@
   };
 
   const DEFAULT_STRIP = {
-    id: 0, enabled: false, layout: 'default', displayMode: 'floating', placement: 'home_top', repeatEvery: 4,
+    id: 0, enabled: false, layout: 'default', displayMode: 'floating', placement: 'home_top', placements: ['home_top'], repeatEvery: 4,
     country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع',
     title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: ''
   };
@@ -1777,15 +1777,26 @@
     }, 1000);
   }
 
+  function getItemInlinePlacements(itemObj, defaultSingle = 'slot') {
+    if (!itemObj) return [];
+    const mode = itemObj.displayMode || (defaultSingle === 'home_top' ? 'floating' : 'inline');
+    if (mode !== 'inline') return [];
+
+    const multi = Array.isArray(itemObj.placements) ? itemObj.placements.filter(Boolean) : [];
+    if (multi.length > 0) return multi;
+
+    const single = itemObj.placement || defaultSingle;
+    return single ? [single] : [];
+  }
+
   function getActiveInlineItems(placementName) {
     const items = [];
 
     ['b0_1', 'b0_2', 'b0_3', 'b1', 'b2', 'b3'].forEach(slotKey => {
       const b = getEffectiveBanner(slotKey);
       if (!b || b.enabled === false || b.enabled === 'false') return;
-      const mode = b.displayMode || 'inline';
-      const place = b.placement || 'slot';
-      if (mode === 'inline' && place === placementName) {
+      const itemPlaces = getItemInlinePlacements(b, 'slot');
+      if (itemPlaces.includes(placementName)) {
         const hasContent = Boolean((b.image || '').trim() || (b.title || '').trim() || (b.tag || '').trim() || (b.cta || '').trim());
         if (hasContent) {
           items.push({
@@ -1800,9 +1811,8 @@
 
     const st = appData.floatingStrip;
     if (st && st.enabled && st.enabled !== 'false') {
-      const sMode = st.displayMode || 'floating';
-      const sPlace = st.placement || 'home_top';
-      if (sMode === 'inline' && sPlace === placementName && matchesCountry(st.country)) {
+      const stripPlaces = getItemInlinePlacements(st, 'home_top');
+      if (stripPlaces.includes(placementName) && matchesCountry(st.country)) {
         const hasContent = Boolean((st.image || '').trim() || (st.title || '').trim() || (st.badge || '').trim() || (st.sub || '').trim() || (st.btnText || '').trim());
         if (hasContent) {
           items.push({
@@ -2432,9 +2442,8 @@
 
   function isSlotInlineInDefaultPlacement(bannerObj) {
     if (!bannerObj) return false;
-    const mode = bannerObj.displayMode || 'inline';
-    const place = bannerObj.placement || 'slot';
-    return mode === 'inline' && place === 'slot';
+    const places = getItemInlinePlacements(bannerObj, 'slot');
+    return places.includes('slot');
   }
 
   function renderTopHeroSlider() {
