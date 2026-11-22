@@ -491,6 +491,30 @@
         </select>
       </div>
       <div class="form-group">
+        <label>وضع العرض (عائم أم ثابت داخل الصفحة)</label>
+        <select id="bannerDisplayMode" onchange="togglePlacementUI('banner')">
+          <option value="inline">📌 ثابت مدمج داخل الصفحة (Inline)</option>
+          <option value="floating">🎈 عائم فوق المحتوى (Floating)</option>
+        </select>
+      </div>
+      <div class="sub-panel-box" id="bannerPlacementBox">
+        <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">📍 موضع البانر الثابت (عند اختيار وضع ثابت مدمج):</label>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>المكان داخل التطبيق</label>
+          <select id="bannerPlacement" onchange="toggleRepeatEveryUI('banner')">
+            <option value="slot">📍 مكانه الافتراضي في الصفحة الرئيسية</option>
+            <option value="home_top">🏠 أعلى الصفحة الرئيسية</option>
+            <option value="between_coupons">🏷️ بين بطاقات الكوبونات</option>
+            <option value="categories">📂 صفحة الأقسام / الفئات والأقسام</option>
+            <option value="store_detail">🏪 داخل صفحة المتجر</option>
+          </select>
+        </div>
+        <div class="form-group" id="bannerRepeatEveryWrap" style="display:none; margin-bottom:0;">
+          <label>تكرار الظهور كل كم بطاقة كوبون؟</label>
+          <input type="number" id="bannerRepeatEvery" min="1" max="50" value="4">
+        </div>
+      </div>
+      <div class="form-group">
         <label>🎯 نوع التوجيه عند الضغط على البانر</label>
         <select id="bannerActionType" onchange="toggleActionTargetUI('banner')">
           <option value="url">🌐 رابط خارجي (External URL)</option>
@@ -632,21 +656,44 @@
       <button type="button" class="btn-mini" style="width:100%; background:var(--red); padding:9px; margin-top:8px;" onclick="clearPopupAdmin()">🗑️ حذف وإخفاء البوب أب</button>
     </div>
 
-    <!-- 6. إدارة البانر المستطيل العائم -->
+    <!-- 6. إدارة البانر المستطيل العائم / الثابت -->
     <div id="admStripTab" class="adm-subview" style="display:none;">
       <div class="form-group">
-        <label>حالة البانر المستطيل العائم</label>
+        <label>حالة البانر المستطيل العائم / الثابت</label>
         <select id="stripEnabled">
           <option value="true">✅ مفعّل ويظهر للزوار</option>
           <option value="false">❌ مخفي حالياً</option>
         </select>
       </div>
       <div class="form-group">
-        <label>مقاس وشكل الشريط العائم</label>
+        <label>مقاس وشكل الشريط</label>
         <select id="stripLayout">
           <option value="default">📢 مستطيل قياسي (افتراضي)</option>
           <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label>وضع العرض (عائم أم ثابت داخل الصفحة)</label>
+        <select id="stripDisplayMode" onchange="togglePlacementUI('strip')">
+          <option value="floating">🎈 عائم فوق المحتوى (Floating)</option>
+          <option value="inline">📌 ثابت مدمج داخل الصفحة (Inline)</option>
+        </select>
+      </div>
+      <div class="sub-panel-box" id="stripPlacementBox" style="display:none;">
+        <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">📍 موضع الشريط الثابت (عند اختيار وضع ثابت مدمج):</label>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>المكان داخل التطبيق</label>
+          <select id="stripPlacement" onchange="toggleRepeatEveryUI('strip')">
+            <option value="home_top">🏠 أعلى الصفحة الرئيسية</option>
+            <option value="between_coupons">🏷️ بين بطاقات الكوبونات</option>
+            <option value="categories">📂 صفحة الأقسام / الفئات والأقسام</option>
+            <option value="store_detail">🏪 داخل صفحة المتجر</option>
+          </select>
+        </div>
+        <div class="form-group" id="stripRepeatEveryWrap" style="display:none; margin-bottom:0;">
+          <label>تكرار الظهور كل كم بطاقة كوبون؟</label>
+          <input type="number" id="stripRepeatEvery" min="1" max="50" value="4">
+        </div>
       </div>
       <div class="form-group">
         <label>الدولة المستهدفة</label>
@@ -684,7 +731,7 @@
         <select id="stripTargetCat"></select>
       </div>
       <div class="form-group">
-        <label>مدة الظهور بالثواني (0 = حتى يغلقه الزائر)</label>
+        <label>مدة الظهور بالثواني (0 = حتى يغلقه الزائر — للوضع العائم)</label>
         <input type="number" id="stripDuration" min="0" max="60" value="7">
       </div>
       <div class="form-group">
@@ -806,15 +853,15 @@
     { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' }
   ];
   const DEFAULT_BANNERS = {
-    b0_1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_2: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_3: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b2: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b3: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
+    b0_1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_2: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_3: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b2: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b3: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
   };
   const DEFAULT_POPUP = { id: 0, enabled: false, targetPage: 'homeView', layout: 'landscape', country: 'ALL', actionType: 'url', targetValue: '', duration: 0, tag: '', title: '', desc: '', code: '', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
-  const DEFAULT_STRIP = { id: 0, enabled: false, layout: 'default', country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
+  const DEFAULT_STRIP = { id: 0, enabled: false, layout: 'default', displayMode: 'floating', placement: 'home_top', repeatEvery: 4, country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
   const DEFAULT_LINKS = { appShareUrl: 'https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk', stores: '', electronics: '', deals: '', categories: '', latest: '' };
   const DEFAULT_HOME_CONFIG = { stores: true, electronics: true, deals: true, categories: true, latest: true, customSections: [] };
 
@@ -953,6 +1000,22 @@
     document.getElementById(prefix + 'UrlGroup').style.display = (mode === 'url') ? 'block' : 'none';
     document.getElementById(prefix + 'StoreGroup').style.display = (mode === 'store') ? 'block' : 'none';
     document.getElementById(prefix + 'CatGroup').style.display = (mode === 'category') ? 'block' : 'none';
+  }
+
+  function togglePlacementUI(prefix) {
+    const modeEl = document.getElementById(prefix + 'DisplayMode');
+    const boxEl = document.getElementById(prefix + 'PlacementBox');
+    if (!modeEl || !boxEl) return;
+    boxEl.style.display = (modeEl.value === 'inline') ? 'block' : 'none';
+    toggleRepeatEveryUI(prefix);
+  }
+
+  function toggleRepeatEveryUI(prefix) {
+    const modeEl = document.getElementById(prefix + 'DisplayMode');
+    const placeEl = document.getElementById(prefix + 'Placement');
+    const wrapEl = document.getElementById(prefix + 'RepeatEveryWrap');
+    if (!modeEl || !placeEl || !wrapEl) return;
+    wrapEl.style.display = (modeEl.value === 'inline' && placeEl.value === 'between_coupons') ? 'block' : 'none';
   }
 
   function populateAdminStores() {
@@ -1331,6 +1394,10 @@
 
     document.getElementById('bannerEnabled').value = String(targetData.enabled !== false);
     document.getElementById('bannerLayout').value = targetData.layout || 'default';
+    document.getElementById('bannerDisplayMode').value = targetData.displayMode || 'inline';
+    document.getElementById('bannerPlacement').value = targetData.placement || 'slot';
+    document.getElementById('bannerRepeatEvery').value = targetData.repeatEvery || 4;
+    togglePlacementUI('banner');
     const actType = targetData.actionType || 'url';
     document.getElementById('bannerActionType').value = actType;
     if (actType === 'store') document.getElementById('bannerTargetStore').value = targetData.targetValue || '';
@@ -1360,6 +1427,9 @@
     const fields = {
       enabled: document.getElementById('bannerEnabled').value === 'true',
       layout: document.getElementById('bannerLayout').value || 'default',
+      displayMode: document.getElementById('bannerDisplayMode').value || 'inline',
+      placement: document.getElementById('bannerPlacement').value || 'slot',
+      repeatEvery: Math.max(1, Number(document.getElementById('bannerRepeatEvery').value) || 4),
       actionType: actType, targetValue: targetVal,
       tag: document.getElementById('bannerTag').value.trim(),
       title: document.getElementById('bannerTitle').value.trim(),
@@ -1433,6 +1503,10 @@
     const s = appData.floatingStrip || DEFAULT_STRIP;
     document.getElementById('stripEnabled').value = String(Boolean(s.enabled));
     document.getElementById('stripLayout').value = s.layout || 'default';
+    document.getElementById('stripDisplayMode').value = s.displayMode || 'floating';
+    document.getElementById('stripPlacement').value = s.placement || 'home_top';
+    document.getElementById('stripRepeatEvery').value = s.repeatEvery || 4;
+    togglePlacementUI('strip');
     document.getElementById('stripCountry').value = s.country || 'ALL';
     document.getElementById('stripActionType').value = s.actionType || 'url';
     if (s.actionType === 'store') document.getElementById('stripTargetStore').value = s.targetValue || '';
@@ -1462,6 +1536,9 @@
     appData.floatingStrip = {
       id: Date.now(), enabled: document.getElementById('stripEnabled').value === 'true',
       layout: document.getElementById('stripLayout').value || 'default',
+      displayMode: document.getElementById('stripDisplayMode').value || 'floating',
+      placement: document.getElementById('stripPlacement').value || 'home_top',
+      repeatEvery: Math.max(1, Number(document.getElementById('stripRepeatEvery').value) || 4),
       country: document.getElementById('stripCountry').value, actionType: actType, targetValue: targetVal,
       duration: Number(document.getElementById('stripDuration').value) || 0,
       badge: document.getElementById('stripBadge').value.trim(), title: document.getElementById('stripTitle').value.trim(),
