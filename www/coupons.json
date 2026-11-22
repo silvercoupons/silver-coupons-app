@@ -202,10 +202,10 @@
     "image": "https://cdn.almowafir.com/files/w200_dhgate.jpg"
   },
   "floatingStrip": {
-    "id": 1795320974121,
-    "enabled": false,
+    "id": 1795321032388,
+    "enabled": true,
     "layout": "smart_bar",
-    "country": "ALL",
+    "country": "EG",
     "actionType": "url",
     "targetValue": "",
     "duration": 3,
