@@ -451,6 +451,20 @@
       background: #f1f5f9; color: #64748b;
     }
 
+    /* حاويات البانرات الثابتة المدمجة (Inline Placements) */
+    .inline-placement-wrap {
+      padding: 8px 16px 4px;
+      max-width: 600px;
+      margin: auto;
+    }
+    .inline-placement-wrap:empty { display: none; padding: 0; }
+    .between-coupons-banner-item {
+      margin: 4px 0 14px 0;
+    }
+    .between-coupons-banner-item .promo-banner-card {
+      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    }
+
     /* عناوين الأقسام */
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
@@ -662,7 +676,7 @@
     .promo-title { font-size: 14.5px; font-weight: 800; margin: 0 0 4px; line-height: 1.35; }
     .promo-cta { font-size: 11.5px; color: #fef08a; font-weight: 700; }
 
-    /* مقاس الشريط العائم الرفيع (Smart Bar) للبانرات الرئيسية */
+    /* مقاس الشريط العائم الرفيع (Smart Bar) للبانرات الرئيسية والثابتة */
     .promo-banner-card.smart-bar-banner {
       background: #ffffff;
       border: 1px solid #e2e8f0;
@@ -1050,6 +1064,7 @@
   </div>
 
   <div id="homeMainSections">
+    <div class="inline-placement-wrap" id="inlinePlacementHomeTop"></div>
     <div class="promo-banner-wrap" id="bannerSlot0"></div>
 
     <div id="homeSecStoresWrap">
@@ -1144,6 +1159,7 @@
     <span class="section-title-text">🎯 جميع الأقسام والفئات</span>
     <button class="btn-shop" style="border:none; cursor:pointer;" onclick="switchTab('homeView', document.getElementById('navHome'))">رجوع ✕</button>
   </div>
+  <div class="inline-placement-wrap" id="inlinePlacementCategories"></div>
   <div class="categories-grid-two-col" id="allCategoriesGridContainer"></div>
 </div>
 
@@ -1459,12 +1475,12 @@
   ];
 
   const DEFAULT_BANNERS = {
-    b0_1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_2: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_3: { enabled: false, layout: 'default', actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b1: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b2: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b3: { enabled: true, layout: 'default', actionType: 'url', targetValue: '', tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
+    b0_1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_2: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_3: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'عروض الإلكترونيات 💻', title: 'خصومات إضافية على الهواتف والأجهزة الذكية', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b2: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'تخفيضات تلقائية ⚡', title: 'عروض حصرية تُطبق تلقائياً بدون كود خصم', cta: 'اكتشف العروض ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b3: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: 'وفر أكثر 🪙', title: 'أقوى كوبونات التوفير اليومية المحدثة باستمرار', cta: 'تصفح المدونة ↗', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
   };
 
   const DEFAULT_POPUP = {
@@ -1474,9 +1490,9 @@
   };
 
   const DEFAULT_STRIP = {
-    id: 0, enabled: false, layout: 'default', country: 'ALL', actionType: 'url', targetValue: '',
-    duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗',
-    url: 'https://silvercoupons.blogspot.com/', image: ''
+    id: 0, enabled: false, layout: 'default', displayMode: 'floating', placement: 'home_top', repeatEvery: 4,
+    country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع',
+    title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: ''
   };
 
   const DEFAULT_LINKS = {
@@ -1610,6 +1626,11 @@
     const bObj = getEffectiveBanner(slotKey);
     if (!bObj) return;
     executeSmartAction(bObj.actionType, bObj.targetValue, bObj.url, activeViewId || 'homeView');
+  }
+
+  function handleInlineItemClick(item) {
+    if (!item) return;
+    executeSmartAction(item.actionType, item.targetValue, item.url, activeViewId || 'homeView');
   }
 
   async function fetchFreshCloudData() {
@@ -1756,9 +1777,145 @@
     }, 1000);
   }
 
+  function getActiveInlineItems(placementName) {
+    const items = [];
+
+    ['b0_1', 'b0_2', 'b0_3', 'b1', 'b2', 'b3'].forEach(slotKey => {
+      const b = getEffectiveBanner(slotKey);
+      if (!b || b.enabled === false || b.enabled === 'false') return;
+      const mode = b.displayMode || 'inline';
+      const place = b.placement || 'slot';
+      if (mode === 'inline' && place === placementName) {
+        const hasContent = Boolean((b.image || '').trim() || (b.title || '').trim() || (b.tag || '').trim() || (b.cta || '').trim());
+        if (hasContent) {
+          items.push({
+            kind: 'banner',
+            slotKey,
+            data: b,
+            repeatEvery: Math.max(1, Number(b.repeatEvery) || 4)
+          });
+        }
+      }
+    });
+
+    const st = appData.floatingStrip;
+    if (st && st.enabled && st.enabled !== 'false') {
+      const sMode = st.displayMode || 'floating';
+      const sPlace = st.placement || 'home_top';
+      if (sMode === 'inline' && sPlace === placementName && matchesCountry(st.country)) {
+        const hasContent = Boolean((st.image || '').trim() || (st.title || '').trim() || (st.badge || '').trim() || (st.sub || '').trim() || (st.btnText || '').trim());
+        if (hasContent) {
+          items.push({
+            kind: 'strip',
+            data: st,
+            repeatEvery: Math.max(1, Number(st.repeatEvery) || 4)
+          });
+        }
+      }
+    }
+
+    return items;
+  }
+
+  function buildInlineCardHtml(entry, extraClass = '') {
+    const obj = entry.data || {};
+    const imgSrc = (obj.image || '').trim();
+    const hasImage = imgSrc !== '';
+    const tagTxt = (obj.tag || obj.badge || '').trim();
+    const titleTxt = (obj.title || '').trim();
+    const subTxt = (obj.sub || '').trim();
+    const ctaTxt = (obj.cta || obj.btnText || '').trim();
+    const hasAnyText = Boolean(tagTxt || titleTxt || subTxt || ctaTxt);
+    const isSmartBar = obj.layout === 'smart_bar';
+
+    const encodedItem = encodeURIComponent(JSON.stringify({
+      actionType: obj.actionType || 'url',
+      targetValue: obj.targetValue || '',
+      url: obj.url || 'https://silvercoupons.blogspot.com/'
+    }));
+
+    const clickAttr = `onclick="handleInlineItemClick(JSON.parse(decodeURIComponent('${encodedItem}')))"`;
+
+    if (isSmartBar) {
+      if (hasImage && !hasAnyText) {
+        return `<div class="${extraClass}"><div ${clickAttr} class="promo-banner-card smart-bar-banner image-only-banner"><img src="${imgSrc}" alt="عرض ترويجي"></div></div>`;
+      }
+      return `<div class="${extraClass}">
+        <div ${clickAttr} class="promo-banner-card smart-bar-banner">
+          <div class="smart-bar-left">
+            ${hasImage ? `<img src="${imgSrc}" alt="${titleTxt}" class="smart-bar-thumb">` : ''}
+            <div class="smart-bar-text">
+              ${titleTxt ? `<h3 class="smart-bar-title">${titleTxt}</h3>` : ''}
+              ${(tagTxt || subTxt) ? `<span class="smart-bar-tag">${tagTxt || subTxt}</span>` : ''}
+            </div>
+          </div>
+          ${ctaTxt ? `<span class="smart-bar-cta-btn">${ctaTxt}</span>` : ''}
+        </div>
+      </div>`;
+    }
+
+    if (hasImage && !hasAnyText) {
+      return `<div class="${extraClass}"><div ${clickAttr} class="promo-banner-card image-only-banner"><img src="${imgSrc}" alt="عرض ترويجي"></div></div>`;
+    }
+
+    return `<div class="${extraClass}">
+      <div ${clickAttr} class="promo-banner-card">
+        ${hasImage ? `<img src="${imgSrc}" alt="${titleTxt}">` : ''}
+        <div class="promo-banner-overlay" style="${!hasImage ? 'position:relative; background:none;' : ''}">
+          ${tagTxt ? `<span class="promo-tag">${tagTxt}</span>` : ''}
+          ${titleTxt ? `<h3 class="promo-title">${titleTxt}</h3>` : ''}
+          ${subTxt ? `<p class="floating-strip-sub" style="margin:0 0 6px;">${subTxt}</p>` : ''}
+          ${ctaTxt ? `<span class="promo-cta">${ctaTxt}</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderInlinePlacements() {
+    const homeTopWrap = document.getElementById('inlinePlacementHomeTop');
+    if (homeTopWrap) {
+      const homeTopItems = getActiveInlineItems('home_top');
+      homeTopWrap.innerHTML = homeTopItems.map(it => buildInlineCardHtml(it, '')).join('');
+    }
+
+    const catsWrap = document.getElementById('inlinePlacementCategories');
+    if (catsWrap) {
+      const catItems = getActiveInlineItems('categories');
+      catsWrap.innerHTML = catItems.map(it => buildInlineCardHtml(it, '')).join('');
+    }
+  }
+
+  function renderTicketsWithInlineBanners(itemsList, placementContext = 'coupons_tab') {
+    if (!Array.isArray(itemsList) || !itemsList.length) return '';
+    const betweenItems = getActiveInlineItems('between_coupons');
+    if (!betweenItems.length) {
+      return itemsList.map(buildVerticalTicket).join('');
+    }
+
+    const interval = Math.max(1, Number(betweenItems[0].repeatEvery) || 4);
+    let htmlOut = '';
+    let bannerCursor = 0;
+
+    itemsList.forEach((couponItem, idx) => {
+      htmlOut += buildVerticalTicket(couponItem);
+      const cardNumber = idx + 1;
+      if (cardNumber % interval === 0 && idx < itemsList.length - 1) {
+        const chosenBanner = betweenItems[bannerCursor % betweenItems.length];
+        bannerCursor++;
+        htmlOut += buildInlineCardHtml(chosenBanner, 'between-coupons-banner-item');
+      }
+    });
+
+    return htmlOut;
+  }
+
   function triggerFloatingStrip(forcePreview = false) {
     const st = appData.floatingStrip;
     if (!st) return;
+    if ((st.displayMode || 'floating') !== 'floating') {
+      closeFloatingStrip();
+      return;
+    }
     if (!forcePreview) {
       if (!st.enabled || st.enabled === 'false') return;
       if (isWelcomeVisible()) return;
@@ -1892,7 +2049,7 @@
     const container = document.getElementById('favCouponsContainer');
     const favItems = appData.coupons.filter(c => userFavorites.includes(Number(c.id)));
     container.innerHTML = favItems.length
-      ? favItems.map(buildVerticalTicket).join('')
+      ? renderTicketsWithInlineBanners(favItems, 'fav_coupons')
       : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لم تقم بحفظ أي كوبونات في المفضلة بعد.<br>اضغط على أيقونة ❤️ في أي بطاقة لحفظها هنا والرجوع إليها في أي وقت.</div>`;
   }
 
@@ -2109,6 +2266,7 @@
   function refreshAllUI() {
     localStorage.setItem('silver_custom_coupons', JSON.stringify(appData));
     renderAllBanners();
+    renderInlinePlacements();
     renderStoresStrip();
     renderCategoriesGrid();
     renderHomeSections();
@@ -2165,7 +2323,7 @@
 
     countEl.innerText = `${sortedCoupons.length} عرض`;
     container.innerHTML = sortedCoupons.length
-      ? sortedCoupons.map(buildVerticalTicket).join('')
+      ? renderTicketsWithInlineBanners(sortedCoupons, 'coupons_tab')
       : `<div style="text-align:center; padding:45px 20px; color:var(--muted);">لا توجد كوبونات أو عروض متاحة في هذا التصنيف لدولتك حالياً.</div>`;
   }
 
@@ -2196,8 +2354,10 @@
   }
 
   function openAllCategoriesPage() {
+    activeViewId = 'allCategoriesView';
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     document.getElementById('allCategoriesView').classList.add('active');
+    renderInlinePlacements();
     const grid = document.getElementById('allCategoriesGridContainer');
     const cats = (appData.categories && appData.categories.length) ? appData.categories : DEFAULT_CATEGORIES;
     const countryCoupons = getSortedCountryCoupons();
@@ -2270,6 +2430,13 @@
     ${slideWrapEnd}`;
   }
 
+  function isSlotInlineInDefaultPlacement(bannerObj) {
+    if (!bannerObj) return false;
+    const mode = bannerObj.displayMode || 'inline';
+    const place = bannerObj.placement || 'slot';
+    return mode === 'inline' && place === 'slot';
+  }
+
   function renderTopHeroSlider() {
     const wrap = document.getElementById('bannerSlot0');
     if (!wrap) return;
@@ -2280,6 +2447,7 @@
       .filter(item => {
         const b = item.obj;
         if (!b || b.enabled === false || b.enabled === 'false') return false;
+        if (!isSlotInlineInDefaultPlacement(b)) return false;
         return Boolean((b.image || '').trim() || (b.title || '').trim() || (b.tag || '').trim() || (b.cta || '').trim());
       });
 
@@ -2334,7 +2502,7 @@
   function renderSingleBanner(slotId, slotKey, bannerObj) {
     const wrap = document.getElementById(slotId);
     if (!wrap) return;
-    if (!bannerObj || bannerObj.enabled === false || bannerObj.enabled === 'false') {
+    if (!bannerObj || bannerObj.enabled === false || bannerObj.enabled === 'false' || !isSlotInlineInDefaultPlacement(bannerObj)) {
       wrap.innerHTML = ''; wrap.style.display = 'none'; return;
     }
     wrap.style.display = 'block';
@@ -2533,8 +2701,12 @@
         if (catObj.bannerEnabled !== false && catObj.bannerImg && catObj.bannerImg.trim() !== '') {
           const targetLink = (catObj.bannerUrl || '').trim() || 'https://silvercoupons.blogspot.com/';
           const extraClass = (catObj.bannerLayout === 'smart_bar') ? ' smart-bar-context' : '';
-          bannerWrap.innerHTML = `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${catObj.bannerImg.trim()}" alt="${catObj.name}"></a>`;
+          bannerWrap.innerHTML += `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${catObj.bannerImg.trim()}" alt="${catObj.name}"></a>`;
         }
+      }
+      const inlineCatBanners = getActiveInlineItems('categories');
+      if (inlineCatBanners.length) {
+        bannerWrap.innerHTML += inlineCatBanners.map(it => buildInlineCardHtml(it, 'between-coupons-banner-item')).join('');
       }
     } else if (filterType === 'store') {
       results = countryCoupons.filter(c => String(c.storeId) === String(filterValue));
@@ -2544,8 +2716,12 @@
         if (storeObj.bannerEnabled !== false && storeObj.bannerImg && storeObj.bannerImg.trim() !== '') {
           const targetLink = (storeObj.bannerUrl || '').trim() || storeObj.url || 'https://silvercoupons.blogspot.com/';
           const extraClass = (storeObj.bannerLayout === 'smart_bar') ? ' smart-bar-context' : '';
-          bannerWrap.innerHTML = `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${storeObj.bannerImg.trim()}" alt="${storeObj.name}"></a>`;
+          bannerWrap.innerHTML += `<a href="${targetLink}" target="_blank" class="context-page-banner${extraClass}"><img src="${storeObj.bannerImg.trim()}" alt="${storeObj.name}"></a>`;
         }
+      }
+      const inlineStoreBanners = getActiveInlineItems('store_detail');
+      if (inlineStoreBanners.length) {
+        bannerWrap.innerHTML += inlineStoreBanners.map(it => buildInlineCardHtml(it, 'between-coupons-banner-item')).join('');
       }
     } else if (filterType === 'deals') {
       results = countryCoupons.filter(c => c.type === 'deal' || c.type === 'auto_link' || !c.code || c.code.trim() === '');
@@ -2554,7 +2730,7 @@
     }
 
     document.getElementById('filteredViewContainer').innerHTML = results.length
-      ? results.map(buildVerticalTicket).join('')
+      ? renderTicketsWithInlineBanners(results, 'filtered_view')
       : `<div style="text-align:center; padding:40px; color:var(--muted);">لا توجد كوبونات مضافة في هذا القسم لدولتك حالياً.</div>`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -2580,7 +2756,7 @@
     });
 
     document.getElementById('searchResultsContainer').innerHTML = filtered.length
-      ? filtered.map(buildVerticalTicket).join('')
+      ? renderTicketsWithInlineBanners(filtered, 'search_results')
       : `<div style="text-align:center; padding:30px; color:var(--muted);">لا توجد نتائج مطابقة لبحثك.</div>`;
   }
 
@@ -2705,6 +2881,7 @@
     }
     if (viewId === 'couponsTabView') renderCouponsTab();
     else if (viewId === 'aboutView') updateHubCounters();
+    else if (viewId === 'allCategoriesView') renderInlinePlacements();
 
     if (selectedCountry && !isWelcomeVisible()) {
       setTimeout(() => triggerPromoPopup(false, viewId), 450);
