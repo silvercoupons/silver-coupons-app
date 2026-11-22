@@ -81,9 +81,9 @@
   ],
   "banners": {
     "b0_1": {
-      "enabled": true,
+      "enabled": false,
       "layout": "default",
-      "displayMode": "floating",
+      "displayMode": "inline",
       "placement": "store_detail",
       "repeatEvery": 4,
       "actionType": "store",
