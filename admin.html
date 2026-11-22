@@ -142,6 +142,15 @@
       background: #fff; border: 1px dashed #cbd5e1; border-radius: 10px;
       padding: 10px; margin-bottom: 12px;
     }
+    .multi-place-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 8px;
+    }
+    .multi-place-item {
+      display: flex; align-items: center; gap: 6px; background: #f8fafc;
+      border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 8px;
+      font-size: 11.5px; font-weight: 700; cursor: pointer;
+    }
+    .multi-place-item input { width: auto; margin: 0; cursor: pointer; }
     .cat-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .cat-chip-item {
       background: #fff; border: 1px solid #cbd5e1; border-radius: 20px;
@@ -500,7 +509,7 @@
       <div class="sub-panel-box" id="bannerPlacementBox">
         <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">📍 موضع البانر الثابت (عند اختيار وضع ثابت مدمج):</label>
         <div class="form-group" style="margin-bottom:8px;">
-          <label>المكان داخل التطبيق</label>
+          <label>المكان الأساسي (قائمة فردية)</label>
           <select id="bannerPlacement" onchange="toggleRepeatEveryUI('banner')">
             <option value="slot">📍 مكانه الافتراضي في الصفحة الرئيسية</option>
             <option value="home_top">🏠 أعلى الصفحة الرئيسية</option>
@@ -508,6 +517,15 @@
             <option value="categories">📂 صفحة الأقسام / الفئات والأقسام</option>
             <option value="store_detail">🏪 داخل صفحة المتجر</option>
           </select>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>أو اختر أكثر من مكان ثابت في نفس الوقت (اختيار متعدد):</label>
+          <div class="multi-place-grid" id="bannerMultiPlacements" onchange="toggleRepeatEveryUI('banner')">
+            <label class="multi-place-item"><input type="checkbox" value="home_top"> 🏠 الرئيسية</label>
+            <label class="multi-place-item"><input type="checkbox" value="between_coupons"> 🏷️ بين الكوبونات</label>
+            <label class="multi-place-item"><input type="checkbox" value="categories"> 📂 الأقسام والفئات</label>
+            <label class="multi-place-item"><input type="checkbox" value="store_detail"> 🏪 داخل المتاجر</label>
+          </div>
         </div>
         <div class="form-group" id="bannerRepeatEveryWrap" style="display:none; margin-bottom:0;">
           <label>تكرار الظهور كل كم بطاقة كوبون؟</label>
@@ -682,13 +700,22 @@
       <div class="sub-panel-box" id="stripPlacementBox" style="display:none;">
         <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">📍 موضع الشريط الثابت (عند اختيار وضع ثابت مدمج):</label>
         <div class="form-group" style="margin-bottom:8px;">
-          <label>المكان داخل التطبيق</label>
+          <label>المكان الأساسي (قائمة فردية)</label>
           <select id="stripPlacement" onchange="toggleRepeatEveryUI('strip')">
             <option value="home_top">🏠 أعلى الصفحة الرئيسية</option>
             <option value="between_coupons">🏷️ بين بطاقات الكوبونات</option>
             <option value="categories">📂 صفحة الأقسام / الفئات والأقسام</option>
             <option value="store_detail">🏪 داخل صفحة المتجر</option>
           </select>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>أو اختر أكثر من مكان ثابت في نفس الوقت (اختيار متعدد):</label>
+          <div class="multi-place-grid" id="stripMultiPlacements" onchange="toggleRepeatEveryUI('strip')">
+            <label class="multi-place-item"><input type="checkbox" value="home_top"> 🏠 الرئيسية</label>
+            <label class="multi-place-item"><input type="checkbox" value="between_coupons"> 🏷️ بين الكوبونات</label>
+            <label class="multi-place-item"><input type="checkbox" value="categories"> 📂 الأقسام والفئات</label>
+            <label class="multi-place-item"><input type="checkbox" value="store_detail"> 🏪 داخل المتاجر</label>
+          </div>
         </div>
         <div class="form-group" id="stripRepeatEveryWrap" style="display:none; margin-bottom:0;">
           <label>تكرار الظهور كل كم بطاقة كوبون؟</label>
@@ -853,15 +880,15 @@
     { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' }
   ];
   const DEFAULT_BANNERS = {
-    b0_1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_2: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b0_3: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b2: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
-    b3: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
+    b0_1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_2: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b0_3: { enabled: false, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b2: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
+    b3: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} }
   };
   const DEFAULT_POPUP = { id: 0, enabled: false, targetPage: 'homeView', layout: 'landscape', country: 'ALL', actionType: 'url', targetValue: '', duration: 0, tag: '', title: '', desc: '', code: '', cta: 'تسوق العرض الآن ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
-  const DEFAULT_STRIP = { id: 0, enabled: false, layout: 'default', displayMode: 'floating', placement: 'home_top', repeatEvery: 4, country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
+  const DEFAULT_STRIP = { id: 0, enabled: false, layout: 'default', displayMode: 'floating', placement: 'home_top', placements: ['home_top'], repeatEvery: 4, country: 'ALL', actionType: 'url', targetValue: '', duration: 7, badge: '⚡ عرض سريع', title: '', sub: '', btnText: 'تسوق ↗', url: 'https://silvercoupons.blogspot.com/', image: '' };
   const DEFAULT_LINKS = { appShareUrl: 'https://github.com/silvercoupons/silver-coupons-app/releases/download/latest/SilverCoupons.apk', stores: '', electronics: '', deals: '', categories: '', latest: '' };
   const DEFAULT_HOME_CONFIG = { stores: true, electronics: true, deals: true, categories: true, latest: true, customSections: [] };
 
@@ -1002,6 +1029,21 @@
     document.getElementById(prefix + 'CatGroup').style.display = (mode === 'category') ? 'block' : 'none';
   }
 
+  function getSelectedMultiPlacements(prefix) {
+    const box = document.getElementById(prefix + 'MultiPlacements');
+    if (!box) return [];
+    return Array.from(box.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+  }
+
+  function setSelectedMultiPlacements(prefix, values = []) {
+    const box = document.getElementById(prefix + 'MultiPlacements');
+    if (!box) return;
+    const setVals = Array.isArray(values) ? values : [];
+    box.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = setVals.includes(cb.value);
+    });
+  }
+
   function togglePlacementUI(prefix) {
     const modeEl = document.getElementById(prefix + 'DisplayMode');
     const boxEl = document.getElementById(prefix + 'PlacementBox');
@@ -1015,7 +1057,9 @@
     const placeEl = document.getElementById(prefix + 'Placement');
     const wrapEl = document.getElementById(prefix + 'RepeatEveryWrap');
     if (!modeEl || !placeEl || !wrapEl) return;
-    wrapEl.style.display = (modeEl.value === 'inline' && placeEl.value === 'between_coupons') ? 'block' : 'none';
+    const multiChecked = getSelectedMultiPlacements(prefix);
+    const hasBetween = (placeEl.value === 'between_coupons') || multiChecked.includes('between_coupons');
+    wrapEl.style.display = (modeEl.value === 'inline' && hasBetween) ? 'block' : 'none';
   }
 
   function populateAdminStores() {
@@ -1396,6 +1440,10 @@
     document.getElementById('bannerLayout').value = targetData.layout || 'default';
     document.getElementById('bannerDisplayMode').value = targetData.displayMode || 'inline';
     document.getElementById('bannerPlacement').value = targetData.placement || 'slot';
+    const initialMulti = Array.isArray(targetData.placements) && targetData.placements.length
+      ? targetData.placements
+      : ((targetData.placement && targetData.placement !== 'slot') ? [targetData.placement] : []);
+    setSelectedMultiPlacements('banner', initialMulti);
     document.getElementById('bannerRepeatEvery').value = targetData.repeatEvery || 4;
     togglePlacementUI('banner');
     const actType = targetData.actionType || 'url';
@@ -1424,11 +1472,14 @@
     }
     const actType = document.getElementById('bannerActionType').value || 'url';
     const targetVal = (actType === 'store') ? document.getElementById('bannerTargetStore').value : (actType === 'category' ? document.getElementById('bannerTargetCat').value : '');
+    const singlePlace = document.getElementById('bannerPlacement').value || 'slot';
+    const multiPlaces = getSelectedMultiPlacements('banner');
     const fields = {
       enabled: document.getElementById('bannerEnabled').value === 'true',
       layout: document.getElementById('bannerLayout').value || 'default',
       displayMode: document.getElementById('bannerDisplayMode').value || 'inline',
-      placement: document.getElementById('bannerPlacement').value || 'slot',
+      placement: singlePlace,
+      placements: multiPlaces,
       repeatEvery: Math.max(1, Number(document.getElementById('bannerRepeatEvery').value) || 4),
       actionType: actType, targetValue: targetVal,
       tag: document.getElementById('bannerTag').value.trim(),
@@ -1505,6 +1556,10 @@
     document.getElementById('stripLayout').value = s.layout || 'default';
     document.getElementById('stripDisplayMode').value = s.displayMode || 'floating';
     document.getElementById('stripPlacement').value = s.placement || 'home_top';
+    const initialMulti = Array.isArray(s.placements) && s.placements.length
+      ? s.placements
+      : (s.placement ? [s.placement] : ['home_top']);
+    setSelectedMultiPlacements('strip', initialMulti);
     document.getElementById('stripRepeatEvery').value = s.repeatEvery || 4;
     togglePlacementUI('strip');
     document.getElementById('stripCountry').value = s.country || 'ALL';
@@ -1533,11 +1588,14 @@
     }
     const actType = document.getElementById('stripActionType').value || 'url';
     const targetVal = (actType === 'store') ? document.getElementById('stripTargetStore').value : (actType === 'category' ? document.getElementById('stripTargetCat').value : '');
+    const singlePlace = document.getElementById('stripPlacement').value || 'home_top';
+    const multiPlaces = getSelectedMultiPlacements('strip');
     appData.floatingStrip = {
       id: Date.now(), enabled: document.getElementById('stripEnabled').value === 'true',
       layout: document.getElementById('stripLayout').value || 'default',
       displayMode: document.getElementById('stripDisplayMode').value || 'floating',
-      placement: document.getElementById('stripPlacement').value || 'home_top',
+      placement: singlePlace,
+      placements: multiPlaces,
       repeatEvery: Math.max(1, Number(document.getElementById('stripRepeatEvery').value) || 4),
       country: document.getElementById('stripCountry').value, actionType: actType, targetValue: targetVal,
       duration: Number(document.getElementById('stripDuration').value) || 0,
