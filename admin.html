@@ -227,7 +227,7 @@
           <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">🖼️ بانر إعلاني خاص يظهر أعلى صفحة هذا القسم (اختياري):</label>
           <div style="margin-bottom:6px;">
             <select id="catBannerEnabled" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
-              <option value="true">✅ إظهار بانر القسم (عند وجود صورة)</option>
+              <option value="true">✅ إظهار بانر القسم (عند وجود صورة أو نص)</option>
               <option value="false">❌ إخفاء بانر القسم</option>
             </select>
           </div>
@@ -236,6 +236,33 @@
               <option value="default">🖼️ مقاس بانر قياسي (افتراضي)</option>
               <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
             </select>
+          </div>
+          <div style="margin-bottom:6px;">
+            <select id="catBannerDisplayMode" onchange="togglePlacementUI('catBanner')" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
+              <option value="inline">📌 ثابت مدمج داخل الصفحة (Inline)</option>
+              <option value="floating">🎈 عائم فوق المحتوى (Floating)</option>
+            </select>
+          </div>
+          <div id="catBannerPlacementBox" style="margin-bottom:6px;">
+            <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:4px;">📍 أماكن ظهور بانر القسم الثابت (يمكن اختيار أكثر من مكان):</label>
+            <div class="multi-place-grid" id="catBannerMultiPlacements" onchange="toggleRepeatEveryUI('catBanner')">
+              <label class="multi-place-item"><input type="checkbox" value="category_top" checked> 📂 أعلى صفحة القسم</label>
+              <label class="multi-place-item"><input type="checkbox" value="home_top"> 🏠 الرئيسية</label>
+              <label class="multi-place-item"><input type="checkbox" value="between_coupons"> 🏷️ بين الكوبونات</label>
+              <label class="multi-place-item"><input type="checkbox" value="categories"> 🗂️ صفحة كل الأقسام</label>
+              <label class="multi-place-item"><input type="checkbox" value="store_detail"> 🏪 داخل المتاجر</label>
+            </div>
+            <div id="catBannerRepeatEveryWrap" style="display:none; margin-top:6px;">
+              <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:2px;">تكرار الظهور كل كم بطاقة كوبون؟</label>
+              <input type="number" id="catBannerRepeatEvery" min="1" max="50" value="4" style="width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
+            </div>
+          </div>
+          <div style="margin-bottom:6px;">
+            <input type="text" id="catBannerTitle" placeholder="عنوان الشريط أو البانر (اختياري لـ Smart Bar)" style="width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
+          </div>
+          <div style="display:flex; gap:6px; margin-bottom:6px;">
+            <input type="text" id="catBannerTag" placeholder="وصف/شارة (اختياري)" style="flex:1; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
+            <input type="text" id="catBannerCta" placeholder="نص الزر (مثل: تسوق ↗)" style="width:130px; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
           </div>
           <div style="margin-bottom:6px;">
             <input type="url" id="catBannerImg" placeholder="🔗 رابط صورة بانر القسم العريض (800×320 بكسل)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
@@ -356,7 +383,7 @@
         <div class="form-group" style="margin-bottom:8px;">
           <label>حالة بانر صفحة المتجر</label>
           <select id="storeBannerEnabled">
-            <option value="true">✅ ظاهر (عند وجود صورة)</option>
+            <option value="true">✅ ظاهر (عند وجود صورة أو نص)</option>
             <option value="false">❌ مخفي حالياً</option>
           </select>
         </div>
@@ -366,6 +393,34 @@
             <option value="default">🖼️ مقاس بانر قياسي (افتراضي)</option>
             <option value="smart_bar">📏 شريط عائم رفيع (Smart Bar)</option>
           </select>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>وضع العرض (عائم أم ثابت داخل الصفحة)</label>
+          <select id="storeBannerDisplayMode" onchange="togglePlacementUI('storeBanner')">
+            <option value="inline">📌 ثابت مدمج داخل الصفحة (Inline)</option>
+            <option value="floating">🎈 عائم فوق المحتوى (Floating)</option>
+          </select>
+        </div>
+        <div id="storeBannerPlacementBox" style="margin-bottom:8px;">
+          <label style="font-size:11.5px; font-weight:700; color:var(--muted); display:block; margin-bottom:4px;">📍 أماكن ظهور بانر المتجر الثابت (يمكن اختيار أكثر من مكان):</label>
+          <div class="multi-place-grid" id="storeBannerMultiPlacements" onchange="toggleRepeatEveryUI('storeBanner')">
+            <label class="multi-place-item"><input type="checkbox" value="store_top" checked> 🏪 أعلى صفحة المتجر</label>
+            <label class="multi-place-item"><input type="checkbox" value="home_top"> 🏠 الرئيسية</label>
+            <label class="multi-place-item"><input type="checkbox" value="between_coupons"> 🏷️ بين الكوبونات</label>
+            <label class="multi-place-item"><input type="checkbox" value="categories"> 📂 الأقسام والفئات</label>
+          </div>
+          <div id="storeBannerRepeatEveryWrap" style="display:none; margin-top:6px;">
+            <label style="font-size:11.5px; font-weight:700; color:var(--muted); display:block; margin-bottom:2px;">تكرار الظهور كل كم بطاقة كوبون؟</label>
+            <input type="number" id="storeBannerRepeatEvery" min="1" max="50" value="4">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>عنوان الشريط أو البانر (اختياري لـ Smart Bar)</label>
+          <input type="text" id="storeBannerTitle" placeholder="مثال: خصم إضافي 15% على كل منتجات المتجر">
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:8px;">
+          <input type="text" id="storeBannerTag" placeholder="وصف/شارة (اختياري)" style="flex:1; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
+          <input type="text" id="storeBannerCta" placeholder="نص الزر (مثل: تسوق ↗)" style="width:130px; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
         </div>
         <div class="form-group" style="margin-bottom:8px;">
           <label>رابط صورة بانر المتجر العريض (800×320 بكسل)</label>
@@ -877,7 +932,7 @@
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
   const DEFAULT_CATEGORIES = [
-    { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerImg: '', bannerUrl: '' }
+    { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' }
   ];
   const DEFAULT_BANNERS = {
     b0_1: { enabled: true, layout: 'default', displayMode: 'inline', placement: 'slot', placements: [], repeatEvery: 4, actionType: 'url', targetValue: '', tag: '', title: '', cta: '', url: 'https://silvercoupons.blogspot.com/', image: '', byCountry: {} },
@@ -1056,9 +1111,9 @@
     const modeEl = document.getElementById(prefix + 'DisplayMode');
     const placeEl = document.getElementById(prefix + 'Placement');
     const wrapEl = document.getElementById(prefix + 'RepeatEveryWrap');
-    if (!modeEl || !placeEl || !wrapEl) return;
+    if (!modeEl || !wrapEl) return;
     const multiChecked = getSelectedMultiPlacements(prefix);
-    const hasBetween = (placeEl.value === 'between_coupons') || multiChecked.includes('between_coupons');
+    const hasBetween = (placeEl && placeEl.value === 'between_coupons') || multiChecked.includes('between_coupons');
     wrapEl.style.display = (modeEl.value === 'inline' && hasBetween) ? 'block' : 'none';
   }
 
@@ -1088,7 +1143,7 @@
     document.getElementById('adminCategoriesChips').innerHTML = appData.categories.map((cat, idx) => `
       <span class="cat-chip-item">
         ${(cat.image && cat.image.trim() !== '') ? `<img src="${cat.image.trim()}" alt="" onerror="this.style.display='none'">` : `<span>${cat.icon || '🏷️'}</span>`}
-        <span>${cat.name}${(cat.bannerImg && cat.bannerEnabled !== false) ? ' 🖼️' : ''}</span>
+        <span>${cat.name}${((cat.bannerImg || cat.bannerTitle) && cat.bannerEnabled !== false) ? ' 🖼️' : ''}</span>
         <button class="cat-chip-edit" onclick="editCategoryAdmin(${idx})">✎</button>
         ${appData.categories.length > 1 ? `<button class="cat-chip-del" onclick="deleteCategoryAdmin(${idx})">×</button>` : ''}
       </span>
@@ -1104,6 +1159,14 @@
     document.getElementById('newCatUrl').value = cat.image || '';
     document.getElementById('catBannerEnabled').value = String(cat.bannerEnabled !== false);
     document.getElementById('catBannerLayout').value = cat.bannerLayout || 'default';
+    document.getElementById('catBannerDisplayMode').value = cat.bannerDisplayMode || 'inline';
+    const initialPlaces = Array.isArray(cat.bannerPlacements) && cat.bannerPlacements.length ? cat.bannerPlacements : ['category_top'];
+    setSelectedMultiPlacements('catBanner', initialPlaces);
+    document.getElementById('catBannerRepeatEvery').value = cat.bannerRepeatEvery || 4;
+    togglePlacementUI('catBanner');
+    document.getElementById('catBannerTitle').value = cat.bannerTitle || '';
+    document.getElementById('catBannerTag').value = cat.bannerTag || '';
+    document.getElementById('catBannerCta').value = cat.bannerCta || '';
     document.getElementById('catBannerImg').value = cat.bannerImg || '';
     document.getElementById('catBannerUrl').value = cat.bannerUrl || '';
     document.getElementById('saveCatBtn').innerText = '💾 حفظ تعديل القسم والبانر';
@@ -1118,6 +1181,13 @@
     document.getElementById('newCatFile').value = '';
     document.getElementById('catBannerEnabled').value = 'true';
     document.getElementById('catBannerLayout').value = 'default';
+    document.getElementById('catBannerDisplayMode').value = 'inline';
+    setSelectedMultiPlacements('catBanner', ['category_top']);
+    document.getElementById('catBannerRepeatEvery').value = 4;
+    togglePlacementUI('catBanner');
+    document.getElementById('catBannerTitle').value = '';
+    document.getElementById('catBannerTag').value = '';
+    document.getElementById('catBannerCta').value = '';
     document.getElementById('catBannerImg').value = '';
     document.getElementById('catBannerFile').value = '';
     document.getElementById('catBannerUrl').value = '';
@@ -1133,6 +1203,12 @@
     const fileInput = document.getElementById('newCatFile');
     const bEnabled = document.getElementById('catBannerEnabled').value === 'true';
     const bLayout = document.getElementById('catBannerLayout').value || 'default';
+    const bDisplayMode = document.getElementById('catBannerDisplayMode').value || 'inline';
+    const bPlacements = getSelectedMultiPlacements('catBanner');
+    const bRepeatEvery = Math.max(1, Number(document.getElementById('catBannerRepeatEvery').value) || 4);
+    const bTitle = document.getElementById('catBannerTitle').value.trim();
+    const bTag = document.getElementById('catBannerTag').value.trim();
+    const bCta = document.getElementById('catBannerCta').value.trim();
     let bImg = document.getElementById('catBannerImg').value.trim();
     const bFileInput = document.getElementById('catBannerFile');
     const bUrl = document.getElementById('catBannerUrl').value.trim();
@@ -1151,13 +1227,29 @@
       bImg = uploadedB;
     }
 
+    const catPayload = {
+      name, icon, image: imgUrl,
+      bg: (editIdx >= 0 && appData.categories[editIdx]) ? (appData.categories[editIdx].bg || '#eff6ff') : '',
+      bannerEnabled: bEnabled,
+      bannerLayout: bLayout,
+      bannerDisplayMode: bDisplayMode,
+      bannerPlacements: bPlacements,
+      bannerRepeatEvery: bRepeatEvery,
+      bannerTitle: bTitle,
+      bannerTag: bTag,
+      bannerCta: bCta,
+      bannerImg: bImg,
+      bannerUrl: bUrl
+    };
+
     if (editIdx >= 0 && appData.categories[editIdx]) {
       const oldName = appData.categories[editIdx].name;
-      appData.categories[editIdx] = { name, icon, image: imgUrl, bg: appData.categories[editIdx].bg || '#eff6ff', bannerEnabled: bEnabled, bannerLayout: bLayout, bannerImg: bImg, bannerUrl: bUrl };
+      appData.categories[editIdx] = catPayload;
       if (oldName !== name) appData.coupons.forEach(c => { if (c.category === oldName) c.category = name; });
     } else {
       const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
-      appData.categories.push({ name, icon, image: imgUrl, bg: bgPalette[appData.categories.length % bgPalette.length], bannerEnabled: bEnabled, bannerLayout: bLayout, bannerImg: bImg, bannerUrl: bUrl });
+      catPayload.bg = bgPalette[appData.categories.length % bgPalette.length];
+      appData.categories.push(catPayload);
     }
     resetCategoryForm();
     refreshAdminUI();
@@ -1253,6 +1345,14 @@
     document.getElementById('newStoreUrl').value = st.url || 'https://silvercoupons.blogspot.com/';
     document.getElementById('storeBannerEnabled').value = String(st.bannerEnabled !== false);
     document.getElementById('storeBannerLayout').value = st.bannerLayout || 'default';
+    document.getElementById('storeBannerDisplayMode').value = st.bannerDisplayMode || 'inline';
+    const initialPlaces = Array.isArray(st.bannerPlacements) && st.bannerPlacements.length ? st.bannerPlacements : ['store_top'];
+    setSelectedMultiPlacements('storeBanner', initialPlaces);
+    document.getElementById('storeBannerRepeatEvery').value = st.bannerRepeatEvery || 4;
+    togglePlacementUI('storeBanner');
+    document.getElementById('storeBannerTitle').value = st.bannerTitle || '';
+    document.getElementById('storeBannerTag').value = st.bannerTag || '';
+    document.getElementById('storeBannerCta').value = st.bannerCta || '';
     document.getElementById('storeBannerImg').value = st.bannerImg || '';
     document.getElementById('storeBannerUrl').value = st.bannerUrl || '';
     document.getElementById('saveStoreBtn').innerText = '💾 حفظ تعديل المتجر والبانر';
@@ -1269,6 +1369,13 @@
     document.getElementById('newStoreUrl').value = 'https://silvercoupons.blogspot.com/';
     document.getElementById('storeBannerEnabled').value = 'true';
     document.getElementById('storeBannerLayout').value = 'default';
+    document.getElementById('storeBannerDisplayMode').value = 'inline';
+    setSelectedMultiPlacements('storeBanner', ['store_top']);
+    document.getElementById('storeBannerRepeatEvery').value = 4;
+    togglePlacementUI('storeBanner');
+    document.getElementById('storeBannerTitle').value = '';
+    document.getElementById('storeBannerTag').value = '';
+    document.getElementById('storeBannerCta').value = '';
     document.getElementById('storeBannerImg').value = '';
     document.getElementById('storeBannerFile').value = '';
     document.getElementById('storeBannerUrl').value = '';
@@ -1285,6 +1392,12 @@
     const url = document.getElementById('newStoreUrl').value.trim();
     const sBannerEnabled = document.getElementById('storeBannerEnabled').value === 'true';
     const sBannerLayout = document.getElementById('storeBannerLayout').value || 'default';
+    const sBannerDisplayMode = document.getElementById('storeBannerDisplayMode').value || 'inline';
+    const sBannerPlacements = getSelectedMultiPlacements('storeBanner');
+    const sBannerRepeatEvery = Math.max(1, Number(document.getElementById('storeBannerRepeatEvery').value) || 4);
+    const sBannerTitle = document.getElementById('storeBannerTitle').value.trim();
+    const sBannerTag = document.getElementById('storeBannerTag').value.trim();
+    const sBannerCta = document.getElementById('storeBannerCta').value.trim();
     let sBannerImg = document.getElementById('storeBannerImg').value.trim();
     const sBannerFile = document.getElementById('storeBannerFile');
     const sBannerUrl = document.getElementById('storeBannerUrl').value.trim();
@@ -1306,7 +1419,20 @@
     }
     if (!logoUrl) logoUrl = 'https://via.placeholder.com/80?text=' + encodeURIComponent(name[0]);
 
-    const storePayload = { id: storeId, name, country, logo: logoUrl, url: url || 'https://silvercoupons.blogspot.com/', bannerEnabled: sBannerEnabled, bannerLayout: sBannerLayout, bannerImg: sBannerImg, bannerUrl: sBannerUrl };
+    const storePayload = {
+      id: storeId, name, country, logo: logoUrl,
+      url: url || 'https://silvercoupons.blogspot.com/',
+      bannerEnabled: sBannerEnabled,
+      bannerLayout: sBannerLayout,
+      bannerDisplayMode: sBannerDisplayMode,
+      bannerPlacements: sBannerPlacements,
+      bannerRepeatEvery: sBannerRepeatEvery,
+      bannerTitle: sBannerTitle,
+      bannerTag: sBannerTag,
+      bannerCta: sBannerCta,
+      bannerImg: sBannerImg,
+      bannerUrl: sBannerUrl
+    };
     if (editId) {
       const idx = appData.stores.findIndex(s => s.id === editId);
       if (idx !== -1) {
