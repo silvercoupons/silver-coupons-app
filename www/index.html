@@ -12,12 +12,21 @@
   <!-- كود ربط إشعارات OneSignal الفورية (أندرويد) -->
   <script>
     const ONESIGNAL_APP_ID = "abfff691-1c92-4bd6-ab51-996f5c7029c5";
+    let oneSignalInitialized = false;
 
-    document.addEventListener("DOMContentLoaded", function () {
-      if (window.plugins && window.plugins.OneSignal && ONESIGNAL_APP_ID !== "ضع_معرف_التطبيق_هنا") {
-        window.plugins.OneSignal.initialize(ONESIGNAL_APP_ID);
-        window.plugins.OneSignal.Notifications.requestPermission(true);
+    function initOneSignalApp() {
+      if (oneSignalInitialized) return;
+      const OneSignal = (window.plugins && window.plugins.OneSignal) || window.OneSignal;
+      if (OneSignal && typeof OneSignal.initialize === "function") {
+        oneSignalInitialized = true;
+        OneSignal.initialize(ONESIGNAL_APP_ID);
+        OneSignal.Notifications.requestPermission(true);
       }
+    }
+
+    document.addEventListener("deviceready", initOneSignalApp, false);
+    window.addEventListener("load", function () {
+      setTimeout(initOneSignalApp, 1500);
     });
   </script>
 
@@ -1063,7 +1072,7 @@
       <div class="legal-header"><span>🔒 سياسة الخصوصية (Privacy Policy)</span><span>▾</span></div>
       <div class="legal-body">
         نحن نحترم خصوصية مستخدمينا بشكل كامل. لا يقوم تطبيق الكوبون الفضي بجمع أو تخزين أي بيانات شخصية حساسة أو معلومات دفع بنكية. قد يستخدم التطبيق خدمات الإشعارات (مثل Firebase و OneSignal) أو إعلانات الطرف الثالث (مثل Google AdMob) وتحليل الأداء لتحسين تجربة الاستخدام، كما تحتوي بعض الروابط على روابط تسويق بالعمولة (Affiliate Links) لا تضيف أي تكلفة إضافية على المستخدم.<br><br>
-        <a href="ضع_رابط_سياسة_الخصوصية_هنا" onclick="return openPrivacyInReader(this.href, event)" style="color:var(--blue); font-weight:700;">قراءة سياسة الخصوصية الكاملة ◂</a>
+        <a href="https://silvercoupons.blogspot.com/p/privacy-policy.html" onclick="return openPrivacyInReader(this.href, event)" style="color:var(--blue); font-weight:700;">قراءة سياسة الخصوصية الكاملة ◂</a>
       </div>
     </div>
 
