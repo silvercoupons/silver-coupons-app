@@ -83,7 +83,7 @@
     "b0_1": {
       "enabled": true,
       "layout": "default",
-      "displayMode": "inline",
+      "displayMode": "floating",
       "placement": "store_detail",
       "repeatEvery": 4,
       "actionType": "store",
