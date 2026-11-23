@@ -85,7 +85,9 @@
       "layout": "default",
       "displayMode": "inline",
       "placement": "store_detail",
-      "placements": [],
+      "placements": [
+        "store_detail"
+      ],
       "repeatEvery": 4,
       "actionType": "url",
       "targetValue": "",
