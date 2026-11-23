@@ -682,17 +682,18 @@
     },
     {
       "id": 6,
-      "type": "deal",
+      "type": "auto_link",
+      "isSeason": false,
       "country": "EG",
       "storeId": "carrefour",
       "storeName": "كارفور - Carrefour",
-      "category": "بقالة وسوبرماركت",
+      "category": "أكواد خصم المتاجر",
       "discount": "خصم على الطلب الأول",
-      "title": "كود خصم كارفور على مقاضي البيت والمنتجات الغذائية والأجهزة",
-      "code": "",
+      "title": "كود خصم كارفور مصر للعملاء الجدد حتى 150 جنيه على أول طلب",
+      "code": "HELLO15",
       "url": "https://www.carrefouregypt.com/mafegy/ar",
       "verified": true,
-      "usedCount": 127
+      "usedCount": 74
     }
   ]
 }
