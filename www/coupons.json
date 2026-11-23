@@ -87,13 +87,13 @@
       "placement": "store_detail",
       "placements": [],
       "repeatEvery": 4,
-      "actionType": "store",
-      "targetValue": "store_1794772871167",
+      "actionType": "url",
+      "targetValue": "",
       "tag": "",
       "title": "",
       "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
-      "image": "https://e.top4top.io/p_397481jkt0.png",
+      "image": "",
       "byCountry": {
         "EG": {
           "enabled": true,
