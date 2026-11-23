@@ -100,6 +100,7 @@
       width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
       font-family: 'Cairo', sans-serif; font-size: 13px; background: #fff;
     }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .admin-tabs {
       display: flex; gap: 4px; margin-bottom: 14px; background: #f1f5f9;
       padding: 5px; border-radius: 12px; flex-wrap: wrap;
@@ -164,6 +165,10 @@
       width: 54px; height: 34px; border-radius: 6px; object-fit: cover;
       border: 1px solid #cbd5e1; background: #f1f5f9; flex-shrink: 0;
     }
+    .deal-thumb-mini {
+      width: 44px; height: 44px; border-radius: 8px; object-fit: contain;
+      border: 1px solid #e2e8f0; background: #f8fafc; padding: 2px; flex-shrink: 0;
+    }
     .toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
       background: #16a34a; color: #fff; padding: 10px 20px; border-radius: 30px;
@@ -200,6 +205,7 @@
 
     <div class="admin-tabs">
       <div class="admin-tab active" onclick="switchAdminTab('admCouponsTab', this)">🏷️ الكوبونات</div>
+      <div class="admin-tab" onclick="switchAdminTab('admDealsTab', this)">🛍️ الصفقات</div>
       <div class="admin-tab" onclick="switchAdminTab('admStoresTab', this)">🏪 المتاجر</div>
       <div class="admin-tab" onclick="switchAdminTab('admHomeSecTab', this)">🏠 الرئيسية</div>
       <div class="admin-tab" onclick="switchAdminTab('admBannerTab', this)">🖼️ البانرات</div>
@@ -347,7 +353,110 @@
       <div id="adminCouponsList"></div>
     </div>
 
-    <!-- 2. إدارة المتاجر والشعارات -->
+    <!-- 2. إدارة صفقات المنتجات -->
+    <div id="admDealsTab" class="adm-subview" style="display:none;">
+      <input type="hidden" id="editDealId" value="">
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>الدولة المستهدفة</label>
+          <select id="dealCountry">
+            <option value="ALL">🌍 كل الدول العربية</option>
+            <option value="EG">🇪🇬 مصر</option>
+            <option value="SA">🇸🇦 السعودية</option>
+            <option value="AE">🇦🇪 الإمارات</option>
+            <option value="KW">🇰🇼 الكويت</option>
+            <option value="BH">🇧🇭 البحرين</option>
+            <option value="QA">🇶🇦 قطر</option>
+            <option value="OM">🇴🇲 عُمان</option>
+            <option value="MA">🇲🇦 المغرب</option>
+            <option value="JO">🇯🇴 الأردن</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>الفئة / القسم (نفس المسميات)</label>
+          <select id="dealCategory"></select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>المتجر البائع (يُظهر شعاره واسمه على الكارت)</label>
+        <select id="dealStore" onchange="autoFillDealCouponCode()"></select>
+      </div>
+
+      <div class="form-group">
+        <label>اسم المنتج (اكتفِ باسم المنتج فقط ليظهر الكارت مرتباً وواضحاً)</label>
+        <input type="text" id="dealTitle" placeholder="مثال: ساعة شاومي الذكية 5 Redmi Active">
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>السعر الحالي (مثال: 2,199 ج.م)</label>
+          <input type="text" id="dealPrice" placeholder="2,199 ج.م">
+        </div>
+        <div class="form-group">
+          <label>السعر السابق (اختياري — مثال: 3,050 ج.م)</label>
+          <input type="text" id="dealOldPrice" placeholder="3,050 ج.م">
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>شارة الخصم (مثال: خصم 28%)</label>
+          <input type="text" id="dealDiscount" placeholder="خصم 28%">
+        </div>
+        <div class="form-group">
+          <label>اسم براند المنتج (اختياري — مثال: Xiaomi)</label>
+          <input type="text" id="dealBrandName" placeholder="Xiaomi">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>صورة المنتج (رابط مباشر أو رفع من الجهاز)</label>
+        <input type="url" id="dealImage" placeholder="https://example.com/product.jpg" style="margin-bottom:6px;">
+        <input type="file" id="dealImageFile" accept="image/*">
+      </div>
+
+      <div class="sub-panel-box">
+        <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:6px;">🏷️ شعار براند المنتج (اختياري — يظهر في زاوية صورة المنتج):</label>
+        <input type="url" id="dealBrandLogo" placeholder="🔗 رابط شعار البراند (مثل: شعار شاومي أو أنكر)" style="margin-bottom:6px; width:100%; padding:7px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:'Cairo',sans-serif; font-size:12px;">
+        <input type="file" id="dealBrandLogoFile" accept="image/*" style="font-size:11.5px;">
+      </div>
+
+      <div class="sub-panel-box">
+        <label style="font-size:11.5px; font-weight:800; color:var(--green); display:block; margin-bottom:6px;">🔑 كود خصم مرفق بالمنتج (اختياري — إذا وُجد يتحول الزر لـ «نسخ الكود وتسوق»):</label>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <input type="text" id="dealCouponCode" placeholder="مثال: WK83 (اتركه فارغاً للرابط المباشر)" style="flex:1; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-family:monospace; font-weight:bold;">
+          <button type="button" class="btn-mini" style="background:#0f172a; padding:8px 10px; white-space:nowrap;" onclick="autoFillDealCouponCode(true)">سحب كود المتجر</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>رابط المنتج / رابط الأفلييت (Affiliate Link)</label>
+        <input type="url" id="dealUrl" value="https://silvercoupons.blogspot.com/">
+      </div>
+
+      <div class="sub-panel-box">
+        <label style="font-size:11.5px; font-weight:800; color:var(--muted); display:block; margin-bottom:6px;">⚙️ حقول جاهزة للتحديث التلقائي مستقبلاً (اختياري):</label>
+        <div class="form-row-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label>معرّف المنتج (ASIN / SKU)</label>
+            <input type="text" id="dealSku" placeholder="B0XXXXXXXX">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>رابط تغذية/سعر تلقائي (اختياري)</label>
+            <input type="url" id="dealAutoSyncUrl" placeholder="https://...">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-copy" id="saveDealBtn" onclick="saveDealAdmin()">+ إضافة بطاقة المنتج</button>
+      <button class="btn-shop" id="cancelDealEditBtn" style="display:none; width:100%; margin-top:8px;" onclick="resetDealForm()">إلغاء تعديل المنتج</button>
+
+      <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🛍️ المنتجات الحالية في قسم الصفقات (تعديل / حذف):</h4>
+      <div id="adminDealsList"></div>
+    </div>
+
+    <!-- 3. إدارة المتاجر والشعارات -->
     <div id="admStoresTab" class="adm-subview" style="display:none;">
       <input type="hidden" id="editStoreId" value="">
       <div class="form-group">
@@ -447,7 +556,7 @@
       <div id="adminStoresList"></div>
     </div>
 
-    <!-- 3. إدارة أقسام الصفحة الرئيسية -->
+    <!-- 4. إدارة أقسام الصفحة الرئيسية -->
     <div id="admHomeSecTab" class="adm-subview" style="display:none;">
       <h4 style="margin:0 0 8px; font-size:13.5px;">🎛️ إظهار أو إخفاء الأقسام الأساسية في الصفحة الرئيسية:</h4>
       <div class="form-group">
@@ -516,7 +625,7 @@
       <div id="adminCustomSectionsList"></div>
     </div>
 
-    <!-- 4. إدارة البانرات الإعلانية -->
+    <!-- 5. إدارة البانرات الإعلانية -->
     <div id="admBannerTab" class="adm-subview" style="display:none;">
       <div class="form-group">
         <label>اختر البانر أو الشريحة</label>
@@ -637,7 +746,7 @@
       <div id="adminBannersList"></div>
     </div>
 
-    <!-- 5. إدارة نافذة البوب أب -->
+    <!-- 6. إدارة نافذة البوب أب -->
     <div id="admPopupTab" class="adm-subview" style="display:none;">
       <div class="form-group">
         <label>حالة نافذة البوب أب</label>
@@ -651,6 +760,7 @@
         <select id="popTargetPage">
           <option value="homeView">🏠 الصفحة الرئيسية</option>
           <option value="couponsTabView">🏷️ تبويب الكوبونات فقط</option>
+          <option value="dealsTabView">🛍️ تبويب الصفقات فقط</option>
           <option value="blogView">📖 تبويب دليل التسوق فقط</option>
           <option value="aboutView">ℹ️ تبويب عن التطبيق فقط</option>
           <option value="ALL">🌍 أول صفحة يزورها المستخدم</option>
@@ -736,7 +846,7 @@
       <button type="button" class="btn-mini" style="width:100%; background:var(--red); padding:9px; margin-top:8px;" onclick="clearPopupAdmin()">🗑️ حذف وإخفاء البوب أب</button>
     </div>
 
-    <!-- 6. إدارة البانر المستطيل العائم / الثابت -->
+    <!-- 7. إدارة البانر المستطيل العائم / الثابت -->
     <div id="admStripTab" class="adm-subview" style="display:none;">
       <div class="form-group">
         <label>حالة البانر المستطيل العائم / الثابت</label>
@@ -851,7 +961,7 @@
       <button type="button" class="btn-mini" style="width:100%; background:var(--red); padding:9px; margin-top:8px;" onclick="clearStripAdmin()">🗑️ حذف وإخفاء الشريط</button>
     </div>
 
-    <!-- 7. إدارة التنبيهات -->
+    <!-- 8. إدارة التنبيهات -->
     <div id="admNotifTab" class="adm-subview" style="display:none;">
       <div class="form-group">
         <label>الدولة المستهدفة للتنبيه</label>
@@ -886,7 +996,7 @@
       <div id="adminNotifsList"></div>
     </div>
 
-    <!-- 8. الروابط والمشاركة -->
+    <!-- 9. الروابط والمشاركة -->
     <div id="admLinksTab" class="adm-subview" style="display:none;">
       <div class="form-group">
         <label>رابط مشاركة التطبيق (Google Play / APK)</label>
@@ -915,7 +1025,7 @@
       <button class="btn-copy" onclick="saveLinksAdmin()">حفظ إعدادات الروابط والمشاركة</button>
     </div>
 
-    <!-- 9. مفتاح الربط السحابي -->
+    <!-- 10. مفتاح الربط السحابي -->
     <div id="admSettingsTab" class="adm-subview" style="display:none;">
       <p style="font-size:12px; color:var(--muted); margin-top:0;">ضع مفتاح GitHub Token هنا مرة واحدة فقط ليتمكن المتصفح من نشر تعديلاتك ورفع الصور تلقائياً:</p>
       <div class="form-group">
@@ -980,7 +1090,8 @@
     homeConfig: JSON.parse(JSON.stringify(DEFAULT_HOME_CONFIG)),
     notifications: [],
     stores: [],
-    coupons: []
+    coupons: [],
+    deals: []
   };
 
   function checkLockPass() {
@@ -1070,12 +1181,14 @@
         homeConfig: { ...DEFAULT_HOME_CONFIG, ...(fetched.homeConfig || {}) },
         notifications: Array.isArray(fetched.notifications) ? fetched.notifications : [],
         stores: Array.isArray(fetched.stores) ? fetched.stores : [],
-        coupons: Array.isArray(fetched.coupons) ? fetched.coupons : []
+        coupons: Array.isArray(fetched.coupons) ? fetched.coupons : [],
+        deals: Array.isArray(fetched.deals) ? fetched.deals : []
       };
     }
     refreshAdminUI();
     resetCategoryForm();
     resetStoreForm();
+    resetDealForm();
     loadHomeConfigForm();
     loadBannerForm();
     loadPopupForm();
@@ -1149,7 +1262,14 @@
   }
 
   function populateAdminStores() {
-    document.getElementById('admStore').innerHTML = appData.stores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+    const storesOpts = appData.stores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+    document.getElementById('admStore').innerHTML = storesOpts;
+    const dealStoreSel = document.getElementById('dealStore');
+    if (dealStoreSel) {
+      const prevDealStore = dealStoreSel.value;
+      dealStoreSel.innerHTML = storesOpts || '<option value="">متجر عام</option>';
+      if (prevDealStore && appData.stores.some(s => s.id === prevDealStore)) dealStoreSel.value = prevDealStore;
+    }
   }
 
   function populateSmartTargetSelectors() {
@@ -1166,10 +1286,19 @@
   }
 
   function populateAdminCategories() {
+    const catsOpts = appData.categories.map(cat => `<option value="${cat.name}">${cat.icon || '🏷️'} ${cat.name}</option>`).join('');
+
     const sel = document.getElementById('admCat');
     const currentVal = sel.value;
-    sel.innerHTML = appData.categories.map(cat => `<option value="${cat.name}">${cat.icon || '🏷️'} ${cat.name}</option>`).join('');
+    sel.innerHTML = catsOpts;
     if (currentVal && appData.categories.some(c => c.name === currentVal)) sel.value = currentVal;
+
+    const dealCatSel = document.getElementById('dealCategory');
+    if (dealCatSel) {
+      const prevDealCat = dealCatSel.value;
+      dealCatSel.innerHTML = catsOpts;
+      if (prevDealCat && appData.categories.some(c => c.name === prevDealCat)) dealCatSel.value = prevDealCat;
+    }
 
     document.getElementById('adminCategoriesChips').innerHTML = appData.categories.map((cat, idx) => `
       <span class="cat-chip-item">
@@ -1179,6 +1308,141 @@
         ${appData.categories.length > 1 ? `<button class="cat-chip-del" onclick="deleteCategoryAdmin(${idx})">×</button>` : ''}
       </span>
     `).join('');
+  }
+
+  /* سحب كود خصم تلقائياً من كوبونات المتجر المختار في تبويب الصفقات */
+  function autoFillDealCouponCode(notifyUser = false) {
+    const storeId = document.getElementById('dealStore').value;
+    const country = document.getElementById('dealCountry').value;
+    const codeInput = document.getElementById('dealCouponCode');
+    if (!storeId || !codeInput) return;
+
+    const matched = appData.coupons.find(c =>
+      String(c.storeId) === String(storeId) &&
+      c.code && c.code.trim() !== '' &&
+      (country === 'ALL' || !c.country || c.country === 'ALL' || c.country === country)
+    ) || appData.coupons.find(c => String(c.storeId) === String(storeId) && c.code && c.code.trim() !== '');
+
+    if (matched && matched.code) {
+      codeInput.value = matched.code.trim().toUpperCase();
+      if (notifyUser) showToast(`تم سحب الكود (${codeInput.value}) من كوبونات المتجر ✓`);
+    } else if (notifyUser) {
+      showToast('لا يوجد كود خصم مسجل لهذا المتجر حالياً');
+    }
+  }
+
+  function editDealAdmin(id) {
+    const d = (appData.deals || []).find(item => Number(item.id) === Number(id));
+    if (!d) return;
+    document.getElementById('editDealId').value = d.id;
+    document.getElementById('dealCountry').value = d.country || 'ALL';
+    document.getElementById('dealCategory').value = d.category || (appData.categories[0] ? appData.categories[0].name : 'عروض جديدة');
+    if (d.storeId) document.getElementById('dealStore').value = d.storeId;
+    document.getElementById('dealTitle').value = d.title || '';
+    document.getElementById('dealPrice').value = d.price || '';
+    document.getElementById('dealOldPrice').value = d.oldPrice || '';
+    document.getElementById('dealDiscount').value = d.discount || '';
+    document.getElementById('dealBrandName').value = d.brandName || '';
+    document.getElementById('dealImage').value = d.image || '';
+    document.getElementById('dealBrandLogo').value = d.brandLogo || '';
+    document.getElementById('dealCouponCode').value = d.couponCode || '';
+    document.getElementById('dealUrl').value = d.url || 'https://silvercoupons.blogspot.com/';
+    document.getElementById('dealSku').value = d.productSku || '';
+    document.getElementById('dealAutoSyncUrl').value = d.autoSyncUrl || '';
+    document.getElementById('saveDealBtn').innerText = '💾 حفظ تعديل المنتج';
+    document.getElementById('cancelDealEditBtn').style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetDealForm() {
+    document.getElementById('editDealId').value = '';
+    document.getElementById('dealTitle').value = '';
+    document.getElementById('dealPrice').value = '';
+    document.getElementById('dealOldPrice').value = '';
+    document.getElementById('dealDiscount').value = '';
+    document.getElementById('dealBrandName').value = '';
+    document.getElementById('dealImage').value = '';
+    document.getElementById('dealImageFile').value = '';
+    document.getElementById('dealBrandLogo').value = '';
+    document.getElementById('dealBrandLogoFile').value = '';
+    document.getElementById('dealCouponCode').value = '';
+    document.getElementById('dealSku').value = '';
+    document.getElementById('dealAutoSyncUrl').value = '';
+    document.getElementById('saveDealBtn').innerText = '+ إضافة بطاقة المنتج';
+    document.getElementById('cancelDealEditBtn').style.display = 'none';
+  }
+
+  async function saveDealAdmin() {
+    const editId = document.getElementById('editDealId').value;
+    const title = document.getElementById('dealTitle').value.trim();
+    const price = document.getElementById('dealPrice').value.trim();
+    if (!title) return alert('يرجى كتابة اسم المنتج');
+    if (!price) return alert('يرجى كتابة السعر الحالي للمنتج');
+
+    const storeId = document.getElementById('dealStore').value;
+    const storeObj = appData.stores.find(s => s.id === storeId) || {};
+    let imgUrl = document.getElementById('dealImage').value.trim();
+    let brandLogoUrl = document.getElementById('dealBrandLogo').value.trim();
+
+    const imgFile = document.getElementById('dealImageFile');
+    const brandFile = document.getElementById('dealBrandLogoFile');
+
+    if (imgFile.files && imgFile.files[0]) {
+      showToast('جاري رفع صورة المنتج...');
+      const uploaded = await uploadImageToGitHub(imgFile.files[0], `deal_${Date.now()}.png`);
+      if (!uploaded) return;
+      imgUrl = uploaded;
+      document.getElementById('dealImage').value = imgUrl;
+    }
+
+    if (brandFile.files && brandFile.files[0]) {
+      showToast('جاري رفع شعار البراند...');
+      const uploadedBrand = await uploadImageToGitHub(brandFile.files[0], `brand_${Date.now()}.png`);
+      if (!uploadedBrand) return;
+      brandLogoUrl = uploadedBrand;
+      document.getElementById('dealBrandLogo').value = brandLogoUrl;
+    }
+
+    if (!Array.isArray(appData.deals)) appData.deals = [];
+
+    const dealItem = {
+      id: editId ? Number(editId) : Date.now(),
+      country: document.getElementById('dealCountry').value || 'ALL',
+      category: document.getElementById('dealCategory').value || 'عروض جديدة',
+      storeId: storeId || '',
+      storeName: storeObj.name || 'متجر إلكتروني',
+      title,
+      price,
+      oldPrice: document.getElementById('dealOldPrice').value.trim(),
+      discount: document.getElementById('dealDiscount').value.trim(),
+      brandName: document.getElementById('dealBrandName').value.trim(),
+      brandLogo: brandLogoUrl,
+      image: imgUrl || 'https://via.placeholder.com/300?text=Deal',
+      couponCode: document.getElementById('dealCouponCode').value.trim().toUpperCase(),
+      url: document.getElementById('dealUrl').value.trim() || storeObj.url || 'https://silvercoupons.blogspot.com/',
+      productSku: document.getElementById('dealSku').value.trim(),
+      autoSyncUrl: document.getElementById('dealAutoSyncUrl').value.trim(),
+      inStock: true,
+      lastUpdated: new Date().toISOString()
+    };
+
+    if (editId) {
+      const idx = appData.deals.findIndex(d => Number(d.id) === Number(editId));
+      if (idx !== -1) appData.deals[idx] = dealItem;
+    } else {
+      appData.deals.unshift(dealItem);
+    }
+
+    resetDealForm();
+    renderAdminLists();
+    showToast('تم حفظ المنتج! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function deleteDealAdmin(id) {
+    if (!confirm('حذف هذا المنتج من قسم الصفقات؟')) return;
+    appData.deals = (appData.deals || []).filter(d => Number(d.id) !== Number(id));
+    renderAdminLists();
+    showToast('تم حذف المنتج! اضغط زر النشر الأخضر.');
   }
 
   function editCategoryAdmin(index) {
@@ -1276,7 +1540,10 @@
     if (editIdx >= 0 && appData.categories[editIdx]) {
       const oldName = appData.categories[editIdx].name;
       appData.categories[editIdx] = catPayload;
-      if (oldName !== name) appData.coupons.forEach(c => { if (c.category === oldName) c.category = name; });
+      if (oldName !== name) {
+        appData.coupons.forEach(c => { if (c.category === oldName) c.category = name; });
+        (appData.deals || []).forEach(d => { if (d.category === oldName) d.category = name; });
+      }
     } else {
       const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
       catPayload.bg = bgPalette[appData.categories.length % bgPalette.length];
@@ -1469,6 +1736,7 @@
       if (idx !== -1) {
         appData.stores[idx] = storePayload;
         appData.coupons.forEach(c => { if (c.storeId === editId) c.storeName = name; });
+        (appData.deals || []).forEach(d => { if (d.storeId === editId) d.storeName = name; });
       }
     } else {
       appData.stores.push(storePayload);
@@ -1901,6 +2169,28 @@
         </div>`;
     }).join('');
 
+    const dealsListEl = document.getElementById('adminDealsList');
+    if (dealsListEl) {
+      const dList = appData.deals || [];
+      dealsListEl.innerHTML = dList.length ? dList.map(d => `
+        <div class="manage-row">
+          <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
+            ${d.image ? `<img src="${d.image}" class="deal-thumb-mini" onerror="this.style.display='none'">` : ''}
+            <div style="min-width:0;">
+              <strong style="display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${d.title}</strong>
+              <span style="font-size:11px; color:var(--green); font-weight:800;">${d.price}</span>
+              ${d.couponCode ? `<span style="font-size:10.5px; color:var(--blue); font-family:monospace; margin-right:6px;">[${d.couponCode}]</span>` : ''}
+              <span style="font-size:11px; color:var(--muted);"> • ${d.category || ''} • ${d.storeName || ''} [${d.country || 'ALL'}]</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:5px; flex-shrink:0;">
+            <button class="btn-mini" style="background:var(--blue);" onclick="editDealAdmin(${d.id})">تعديل</button>
+            <button class="btn-mini" style="background:var(--red);" onclick="deleteDealAdmin(${d.id})">حذف</button>
+          </div>
+        </div>
+      `).join('') : `<div style="font-size:12px; color:var(--muted);">لا توجد منتجات مضافة في قسم الصفقات بعد.</div>`;
+    }
+
     const countriesOpts = [
       { v: 'ALL', l: '🌍 الكل' }, { v: 'EG', l: '🇪🇬 مصر' }, { v: 'SA', l: '🇸🇦 السعودية' }, { v: 'AE', l: '🇦🇪 الإمارات' },
       { v: 'KW', l: '🇰🇼 الكويت' }, { v: 'BH', l: '🇧🇭 البحرين' }, { v: 'QA', l: '🇶🇦 قطر' }, { v: 'OM', l: '🇴🇲 عُمان' },
@@ -1910,7 +2200,7 @@
       <div class="manage-row">
         <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
           <img src="${s.logo}" style="width:28px;height:28px;object-fit:contain;flex-shrink:0;">
-          <strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</strong>
+          <strong style="white:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</strong>
         </div>
         <div style="display:flex; align-items:center; gap:4px;">
           <select onchange="updateStoreCountryAdmin('${s.id}', this.value)" style="padding:4px 5px; border-radius:6px; border:1px solid #cbd5e1; font-family:'Cairo',sans-serif; font-size:11px;">
@@ -1956,7 +2246,7 @@
   async function publishToGitHub() {
     const token = localStorage.getItem('silver_gh_token');
     if (!token) {
-      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[8]);
+      switchAdminTab('admSettingsTab', document.querySelectorAll('.admin-tab')[9]);
       return alert('يرجى لصق مفتاح GitHub Token هنا أولاً.');
     }
     const btn = document.getElementById('publishBtn');
