@@ -94,22 +94,7 @@
       "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
       "image": "",
-      "byCountry": {
-        "EG": {
-          "enabled": true,
-          "layout": "default",
-          "displayMode": "inline",
-          "placement": "store_detail",
-          "repeatEvery": 4,
-          "actionType": "store",
-          "targetValue": "store_1794772871167",
-          "tag": "",
-          "title": "",
-          "cta": "اكتشف العروض",
-          "url": "https://silvercoupons.blogspot.com/",
-          "image": "https://e.top4top.io/p_397481jkt0.png"
-        }
-      }
+      "byCountry": {}
     },
     "b0_2": {
       "enabled": false,
