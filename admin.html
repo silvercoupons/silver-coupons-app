@@ -160,6 +160,10 @@
     .cat-chip-item img { width: 18px; height: 18px; border-radius: 4px; object-fit: contain; }
     .cat-chip-edit { color: var(--blue); cursor: pointer; font-weight: 800; border: none; background: none; padding: 0 3px; font-size: 12px; }
     .cat-chip-del { color: var(--red); cursor: pointer; font-weight: 800; border: none; background: none; padding: 0 2px; font-size: 13px; }
+    .banner-thumb-mini {
+      width: 54px; height: 34px; border-radius: 6px; object-fit: cover;
+      border: 1px solid #cbd5e1; background: #f1f5f9; flex-shrink: 0;
+    }
     .toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
       background: #16a34a; color: #fff; padding: 10px 20px; border-radius: 30px;
@@ -628,6 +632,9 @@
         <input type="file" id="bannerFile" accept="image/*">
       </div>
       <button class="btn-copy" onclick="saveBannerAdmin()">حفظ إعدادات هذا البانر</button>
+
+      <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">📋 البانرات المسجلة حالياً (تعديل / حذف):</h4>
+      <div id="adminBannersList"></div>
     </div>
 
     <!-- 5. إدارة نافذة البوب أب -->
@@ -931,6 +938,23 @@
   const API_JSON_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
   const CLOUD_JSON_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FILE_PATH}`;
 
+  const BANNER_SLOT_LABELS = {
+    b0_1: '🔝 العلوي — الشريحة 1',
+    b0_2: '🔝 العلوي — الشريحة 2',
+    b0_3: '🔝 العلوي — الشريحة 3',
+    b1: '1️⃣ البانر الأول',
+    b2: '2️⃣ البانر الثاني',
+    b3: '3️⃣ البانر الثالث'
+  };
+
+  const PLACEMENT_LABELS = {
+    slot: 'مكانه الافتراضي',
+    home_top: 'أعلى الرئيسية',
+    between_coupons: 'بين الكوبونات',
+    categories: 'الأقسام والفئات',
+    store_detail: 'داخل المتاجر'
+  };
+
   const DEFAULT_CATEGORIES = [
     { name: 'عروض جديدة', icon: '🆕', image: '', bg: '#fef3c7', bannerEnabled: false, bannerLayout: 'default', bannerDisplayMode: 'inline', bannerPlacements: ['category_top'], bannerRepeatEvery: 4, bannerTitle: '', bannerTag: '', bannerCta: '', bannerImg: '', bannerUrl: '' }
   ];
@@ -988,6 +1012,11 @@
     document.getElementById(tabId).style.display = 'block';
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
+    if (tabId === 'admBannerTab') {
+      loadBannerCountryFields();
+      renderAdminBannersList();
+    } else if (tabId === 'admPopupTab') loadPopupForm();
+    else if (tabId === 'admStripTab') loadStripForm();
   }
 
   function saveGhToken() {
@@ -1045,6 +1074,8 @@
       };
     }
     refreshAdminUI();
+    resetCategoryForm();
+    resetStoreForm();
     loadHomeConfigForm();
     loadBannerForm();
     loadPopupForm();
@@ -1620,7 +1651,81 @@
       appData.banners[slot].byCountry[country] = fields;
     }
     fileInput.value = '';
+    renderAdminBannersList();
     showToast('تم حفظ البانر! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function editBannerFromList(slot, country) {
+    document.getElementById('bannerSlotSelect').value = slot;
+    document.getElementById('bannerCountry').value = country;
+    loadBannerCountryFields();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function deleteBannerFromList(slot, country) {
+    const label = BANNER_SLOT_LABELS[slot] || slot;
+    if (!confirm(`هل تريد حذف/إخفاء بانر (${label} - ${country})؟`)) return;
+    if (country === 'ALL') {
+      const prevByCountry = (appData.banners[slot] && appData.banners[slot].byCountry) || {};
+      appData.banners[slot] = {
+        ...JSON.parse(JSON.stringify(DEFAULT_BANNERS[slot])),
+        enabled: false,
+        placement: 'slot',
+        placements: [],
+        tag: '',
+        title: '',
+        cta: '',
+        image: '',
+        byCountry: prevByCountry
+      };
+    } else if (appData.banners[slot] && appData.banners[slot].byCountry) {
+      delete appData.banners[slot].byCountry[country];
+    }
+    loadBannerCountryFields();
+    renderAdminBannersList();
+    showToast('تم حذف البانر! اضغط زر النشر الأخضر بالأعلى.');
+  }
+
+  function renderAdminBannersList() {
+    const listEl = document.getElementById('adminBannersList');
+    if (!listEl) return;
+    const rows = [];
+    ['b0_1', 'b0_2', 'b0_3', 'b1', 'b2', 'b3'].forEach(slot => {
+      const base = (appData.banners && appData.banners[slot]) || DEFAULT_BANNERS[slot];
+      const pushRow = (data, countryCode) => {
+        const hasContent = Boolean((data.image || '').trim() || (data.title || '').trim() || (data.tag || '').trim() || (data.cta || '').trim());
+        if (!hasContent && data.enabled === false) return;
+        const isEnabled = data.enabled !== false;
+        const multi = Array.isArray(data.placements) && data.placements.length ? data.placements : [data.placement || 'slot'];
+        const placeText = multi.map(p => PLACEMENT_LABELS[p] || p).join('، ');
+        const titlePreview = data.title || data.tag || (data.image ? 'بانر صورة صافية' : 'بدون عنوان');
+        rows.push(`
+          <div class="manage-row">
+            <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
+              ${data.image ? `<img src="${data.image}" class="banner-thumb-mini" onerror="this.style.display='none'">` : ''}
+              <div style="min-width:0;">
+                <strong>${BANNER_SLOT_LABELS[slot] || slot}</strong>
+                <span style="font-size:11px; color:var(--blue); font-weight:800;">[${countryCode}]</span>
+                ${isEnabled ? '<span style="color:var(--green); font-size:11px;">(ظاهر)</span>' : '<span style="color:var(--red); font-size:11px;">(مخفي)</span>'}
+                <br>
+                <span style="font-size:11px; color:var(--muted);">${titlePreview} | 📍 ${placeText}</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:5px; flex-shrink:0;">
+              <button class="btn-mini" style="background:var(--blue);" onclick="editBannerFromList('${slot}', '${countryCode}')">تعديل</button>
+              <button class="btn-mini" style="background:var(--red);" onclick="deleteBannerFromList('${slot}', '${countryCode}')">حذف</button>
+            </div>
+          </div>
+        `);
+      };
+      pushRow(base, 'ALL');
+      if (base.byCountry) {
+        Object.keys(base.byCountry).forEach(cCode => {
+          if (base.byCountry[cCode]) pushRow(base.byCountry[cCode], cCode);
+        });
+      }
+    });
+    listEl.innerHTML = rows.length ? rows.join('') : `<div style="font-size:12px; color:var(--muted);">لا توجد بانرات مفعّلة أو مضافة حالياً.</div>`;
   }
 
   function loadPopupForm() {
@@ -1821,6 +1926,8 @@
         <div style="flex:1;"><strong>${n.title}</strong><br><span style="font-size:11px; color:var(--muted);">${n.body}</span></div>
         <button class="btn-mini" style="background:var(--red);" onclick="deleteNotifAdmin(${n.id})">حذف</button>
       </div>`).join('');
+
+    renderAdminBannersList();
   }
 
   function toBase64(file) {
