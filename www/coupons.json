@@ -83,6 +83,10 @@
     "b0_1": {
       "enabled": false,
       "layout": "default",
+      "displayMode": "inline",
+      "placement": "store_detail",
+      "placements": [],
+      "repeatEvery": 4,
       "actionType": "store",
       "targetValue": "store_1794772871167",
       "tag": "",
@@ -105,15 +109,15 @@
           "url": "https://silvercoupons.blogspot.com/",
           "image": "https://e.top4top.io/p_397481jkt0.png"
         }
-      },
-      "displayMode": "inline",
-      "placement": "store_detail",
-      "placements": [],
-      "repeatEvery": 4
+      }
     },
     "b0_2": {
       "enabled": false,
       "layout": "default",
+      "displayMode": "inline",
+      "placement": "slot",
+      "placements": [],
+      "repeatEvery": 4,
       "actionType": "url",
       "targetValue": "",
       "tag": "",
@@ -132,15 +136,15 @@
           "url": "https://silvercoupons.blogspot.com/",
           "image": "https://f.top4top.io/p_3974egyli0.jpg"
         }
-      },
-      "displayMode": "inline",
-      "placement": "slot",
-      "placements": [],
-      "repeatEvery": 4
+      }
     },
     "b0_3": {
       "enabled": false,
       "layout": "default",
+      "displayMode": "inline",
+      "placement": "slot",
+      "placements": [],
+      "repeatEvery": 4,
       "actionType": "url",
       "targetValue": "",
       "tag": "",
@@ -148,15 +152,15 @@
       "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
       "image": "",
-      "byCountry": {},
-      "displayMode": "inline",
-      "placement": "slot",
-      "placements": [],
-      "repeatEvery": 4
+      "byCountry": {}
     },
     "b1": {
       "enabled": true,
       "layout": "default",
+      "displayMode": "inline",
+      "placement": "slot",
+      "placements": [],
+      "repeatEvery": 4,
       "actionType": "url",
       "targetValue": "",
       "tag": "عروض الإلكترونيات 💻",
@@ -175,15 +179,15 @@
           "url": "https://silvercoupons.blogspot.com/",
           "image": "https://e.top4top.io/p_3974adq5o0.png"
         }
-      },
-      "displayMode": "inline",
-      "placement": "slot",
-      "placements": [],
-      "repeatEvery": 4
+      }
     },
     "b2": {
       "enabled": true,
       "layout": "default",
+      "displayMode": "inline",
+      "placement": "slot",
+      "placements": [],
+      "repeatEvery": 4,
       "actionType": "url",
       "targetValue": "",
       "tag": "تخفيضات تلقائية ⚡",
@@ -200,36 +204,20 @@
           "url": "https://silvercoupons.blogspot.com/",
           "image": "https://f.top4top.io/p_3974egyli0.jpg"
         }
-      },
-      "displayMode": "inline",
-      "placement": "slot",
-      "placements": [],
-      "repeatEvery": 4
+      }
     },
     "b3": {
       "enabled": true,
       "layout": "default",
+      "displayMode": "inline",
+      "placement": "slot",
+      "placements": [],
+      "repeatEvery": 4,
       "actionType": "url",
       "targetValue": "",
       "tag": "وفر أكثر 🪙",
       "title": "أقوى كوبونات التوفير اليومية المحدثة باستمرار",
       "cta": "تصفح المدونة ↗",
-      "url": "https://silvercoupons.blogspot.com/",
-      "image": "",
-      "byCountry": {},
-      "displayMode": "inline",
-      "placement": "slot",
-      "placements": [],
-      "repeatEvery": 4
-    },
-    "": {
-      "enabled": false,
-      "layout": "default",
-      "actionType": "url",
-      "targetValue": "",
-      "tag": "",
-      "title": "",
-      "cta": "",
       "url": "https://silvercoupons.blogspot.com/",
       "image": "",
       "byCountry": {}
@@ -256,6 +244,12 @@
     "id": 1795322138118,
     "enabled": false,
     "layout": "default",
+    "displayMode": "floating",
+    "placement": "home_top",
+    "placements": [
+      "home_top"
+    ],
+    "repeatEvery": 4,
     "country": "ALL",
     "actionType": "url",
     "targetValue": "",
@@ -265,13 +259,7 @@
     "sub": "",
     "btnText": "تسوق ↗",
     "url": "https://silvercoupons.blogspot.com/",
-    "image": "",
-    "displayMode": "floating",
-    "placement": "home_top",
-    "placements": [
-      "home_top"
-    ],
-    "repeatEvery": 4
+    "image": ""
   },
   "links": {
     "appShareUrl": "https://silvercoupons.blogspot.com/p/download-app.html",
@@ -307,7 +295,16 @@
       "logo": "https://cdn.almowafir.com/files/w200_noon.png",
       "url": "https://silvercoupons.blogspot.com/p/noon.html/",
       "bannerEnabled": true,
-      "bannerImg": "https://raw.githubusercontent.com/silvercoupons/silver-coupons-app/main/www/store_banner_noon_1795218130814.png",
+      "bannerLayout": "default",
+      "bannerDisplayMode": "inline",
+      "bannerPlacements": [
+        "store_top"
+      ],
+      "bannerRepeatEvery": 4,
+      "bannerTitle": "",
+      "bannerTag": "",
+      "bannerCta": "",
+      "bannerImg": "",
       "bannerUrl": "https://www.noon.com/egypt-ar"
     },
     {
