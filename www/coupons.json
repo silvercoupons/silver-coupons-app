@@ -716,6 +716,31 @@
   ],
   "deals": [
     {
+      "id": 1795559550090,
+      "country": "EG",
+      "category": "سوبر ماركت",
+      "categories": [
+        "سوبر ماركت"
+      ],
+      "storeId": "carrefour",
+      "storeName": "كارفور - Carrefour",
+      "title": "المزاج أرز أبيض مصري - 1 كجم",
+      "price": "24 .99",
+      "oldPrice": "26.99",
+      "discount": "خصم 7%",
+      "brandName": "",
+      "brandLogo": "",
+      "priceDate": "25 نوفمبر ٢٠٢٦",
+      "image": "https://cdn.mafrservices.com/pim-content/EGY/media/product/606746/1777989600/606746_main.jpg?im=Resize=(300,300)",
+      "couponCode": "",
+      "url": "https://www.carrefouregypt.com/mafegy/ar/egyptian-rice/el-mazag-egyptian-rice-1kg/p/606746?offer=offer_carrefour_&sid=SLOTTED&sellerId=0000",
+      "productSku": "",
+      "autoSyncUrl": "",
+      "inStock": true,
+      "isHidden": false,
+      "lastUpdated": "2026-11-24T22:32:30.090Z"
+    },
+    {
       "id": 1795482693201,
       "country": "EG",
       "category": "موبايلات وتابلت",
