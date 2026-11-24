@@ -735,6 +735,13 @@
       overflow: hidden;
       min-height: 32px;
     }
+    .deal-prod-store-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
     .deal-prod-store {
       display: flex;
       align-items: center;
@@ -742,7 +749,12 @@
       font-size: 10.5px;
       font-weight: 700;
       color: var(--muted);
-      margin-bottom: 6px;
+      min-width: 0;
+    }
+    .deal-prod-store span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .deal-prod-store img {
       width: 17px;
@@ -752,6 +764,22 @@
       border: 1px solid #e2e8f0;
       background: #fff;
       flex-shrink: 0;
+    }
+    .deal-stock-pill {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .deal-stock-pill.avail {
+      background: #dcfce7;
+      color: #15803d;
+    }
+    .deal-stock-pill.soldout {
+      background: #fee2e2;
+      color: #b91c1c;
     }
     .deal-prod-prices {
       display: flex;
@@ -774,6 +802,7 @@
       font-size: 9.5px;
       color: var(--muted);
       margin-bottom: 7px;
+      line-height: 1.35;
     }
     .deal-prod-code {
       border: 1px dashed var(--blue);
@@ -804,6 +833,7 @@
     }
     .deal-prod-cta.direct { background: var(--green); }
     .deal-prod-cta.code-copy { background: var(--blue); }
+    .deal-prod-cta.soldout-btn { background: #94a3b8; cursor: default; }
 
     /* زر المفضلة وأزرار التقييم والمشاركة */
     .fav-heart-btn {
@@ -1823,6 +1853,10 @@
     if (event) event.preventDefault();
     const deal = (appData.deals || []).find(d => Number(d.id) === Number(dealId));
     if (!deal) return;
+    if (deal.inStock === false) {
+      showToast('⛔ هذا المنتج غير متوفر حالياً (نفذ)');
+      return;
+    }
     const storeObj = appData.stores.find(s => String(s.id) === String(deal.storeId)) || {};
     const targetUrl = (deal.url || storeObj.url || 'https://silvercoupons.blogspot.com/').trim();
     const code = (deal.couponCode || '').trim();
@@ -1844,8 +1878,21 @@
     const storeLogo = storeObj.logo || 'https://via.placeholder.com/40';
     const isFav = userFavDeals.includes(Number(deal.id));
     const isAlert = userPriceAlerts.includes(Number(deal.id));
+    const isAvailable = deal.inStock !== false;
     const hasCode = Boolean((deal.couponCode || '').trim());
     const hasBrand = Boolean((deal.brandName || '').trim() || (deal.brandLogo || '').trim());
+    const priceDateText = (deal.priceDate || '').trim();
+    const noteText = priceDateText ? `السعر وقت النشر • ${priceDateText}` : 'السعر وقت النشر';
+
+    let ctaClass = 'direct';
+    let ctaLabel = 'تسوق الآن ↗';
+    if (!isAvailable) {
+      ctaClass = 'soldout-btn';
+      ctaLabel = 'نفذ حالياً';
+    } else if (hasCode) {
+      ctaClass = 'code-copy';
+      ctaLabel = 'نسخ الكود وتسوق ↗';
+    }
 
     return `
       <div class="deal-product-card">
@@ -1866,18 +1913,21 @@
 
         <div>
           <h3 class="deal-prod-title">${deal.title}</h3>
-          <div class="deal-prod-store">
-            <img src="${storeLogo}" alt="${storeName}" onerror="this.style.display='none'">
-            <span>${storeName}</span>
+          <div class="deal-prod-store-line">
+            <div class="deal-prod-store">
+              <img src="${storeLogo}" alt="${storeName}" onerror="this.style.display='none'">
+              <span>${storeName}</span>
+            </div>
+            <span class="deal-stock-pill ${isAvailable ? 'avail' : 'soldout'}">${isAvailable ? 'متوفر' : 'نفذ'}</span>
           </div>
           <div class="deal-prod-prices">
             <span class="deal-prod-now">${deal.price}</span>
             ${deal.oldPrice ? `<span class="deal-prod-old">${deal.oldPrice}</span>` : ''}
           </div>
-          <div class="deal-prod-note">السعر وقت النشر</div>
-          ${hasCode ? `<div class="deal-prod-code">🏷️ كود: ${deal.couponCode}</div>` : ''}
-          <button type="button" class="deal-prod-cta ${hasCode ? 'code-copy' : 'direct'}" onclick="handleDealCardClick(${deal.id}, event)">
-            ${hasCode ? 'نسخ الكود وتسوق ↗' : 'تسوق الآن ↗'}
+          <div class="deal-prod-note">${noteText}</div>
+          ${(hasCode && isAvailable) ? `<div class="deal-prod-code">🏷️ كود: ${deal.couponCode}</div>` : ''}
+          <button type="button" class="deal-prod-cta ${ctaClass}" onclick="handleDealCardClick(${deal.id}, event)">
+            ${ctaLabel}
           </button>
         </div>
       </div>
@@ -1920,6 +1970,7 @@
     const q = (document.getElementById('searchInput') ? document.getElementById('searchInput').value : '').trim().toLowerCase();
 
     let list = (appData.deals || []).filter(d => {
+      if (d.isHidden === true) return false;
       if (!matchesCountry(d.country)) return false;
       if (dealsTabSelectedCategory !== 'ALL' && d.category !== dealsTabSelectedCategory) return false;
       if (chosenStore !== 'ALL' && String(d.storeId) !== String(chosenStore)) return false;
