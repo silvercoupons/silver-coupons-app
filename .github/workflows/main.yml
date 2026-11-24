@@ -38,6 +38,8 @@ jobs:
             cp google-services.json android/app/google-services.json
           fi
           sed -i 's/google-services:4.4.0/google-services:4.4.2/g' android/build.gradle
+          sed -i 's/versionCode 1/versionCode 2/g' android/app/build.gradle
+          sed -i 's/versionName "1.0"/versionName "1.1"/g' android/app/build.gradle
           if [ -f "www/logo.png" ]; then
             cp www/logo.png assets/icon.png
             cp www/logo.png assets/icon-only.png
