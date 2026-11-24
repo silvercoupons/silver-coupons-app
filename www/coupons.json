@@ -339,9 +339,7 @@
       "bannerEnabled": true,
       "bannerLayout": "default",
       "bannerDisplayMode": "inline",
-      "bannerPlacements": [
-        "store_top"
-      ],
+      "bannerPlacements": [],
       "bannerRepeatEvery": 4,
       "bannerTitle": "",
       "bannerTag": "",
