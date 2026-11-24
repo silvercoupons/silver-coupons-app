@@ -502,7 +502,7 @@
       object-fit: cover;
     }
 
-    /* شريط التبويبات الفرعي في صفحة الكوبونات */
+    /* شريط التبويبات الفرعي في صفحة الكوبونات وصفحة المتجر */
     .coupons-subtabs-strip {
       display: flex;
       gap: 8px;
@@ -517,6 +517,7 @@
     .c-subtab-pill {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 5px;
       padding: 7px 14px;
       border-radius: 12px;
@@ -536,6 +537,16 @@
       color: #fef08a;
       border-color: #0f172a;
       box-shadow: 0 3px 10px rgba(15, 23, 42, 0.18);
+    }
+    .store-tabs-grid {
+      display: flex;
+      gap: 8px;
+      margin: 0 0 12px 0;
+    }
+    .store-tabs-grid .c-subtab-pill {
+      flex: 1;
+      padding: 8px 6px;
+      font-size: 12px;
     }
 
     /* شريط المتاجر الدائري */
@@ -608,7 +619,7 @@
       width: 100%; display: block;
     }
 
-    /* شبكة بطاقات المنتجات (عمودين) في قسم الصفقات */
+    /* شبكة بطاقات المنتجات (عمودين) في قسم الصفقات وتبويب تسوق للمتجر */
     .deals-subbar {
       display: flex;
       gap: 8px;
@@ -1391,7 +1402,7 @@
   </div>
 </div>
 
-<!-- صفحة عرض الكل / صفحة المتجر / صفحة الفئة -->
+<!-- صفحة عرض الكل / صفحة المتجر (أكواد - عروض - تسوق) / صفحة الفئة -->
 <div id="filteredListView" class="page-view">
   <div class="section-header">
     <span class="section-title-text" id="filteredViewTitle">جميع العروض</span>
@@ -1402,6 +1413,11 @@
   </div>
   <div class="container">
     <div id="filteredContextBannerWrap"></div>
+    <div id="storeDetailTabsBar" class="store-tabs-grid" style="display:none;">
+      <div class="c-subtab-pill active" data-store-tab="codes" onclick="switchStoreDetailTab('codes')">🏷️ أكواد (<span id="stTabCodesCnt">0</span>)</div>
+      <div class="c-subtab-pill" data-store-tab="offers" onclick="switchStoreDetailTab('offers')">⚡ عروض (<span id="stTabOffersCnt">0</span>)</div>
+      <div class="c-subtab-pill" data-store-tab="shop" onclick="switchStoreDetailTab('shop')">🛍️ تسوق (<span id="stTabShopCnt">0</span>)</div>
+    </div>
     <div id="filteredViewContainer"></div>
   </div>
 </div>
@@ -1782,6 +1798,8 @@
   let notifReturnViewId = 'homeView';
   let activeViewId = 'homeView';
   let currentFilteredShareMeta = { title: '', url: '' };
+  let currentStoreDetailId = null;
+  let currentStoreDetailTab = 'codes';
   let popupTimerHandle = null;
   let stripTimerHandle = null;
   let topSliderAutoHandle = null;
@@ -1798,6 +1816,21 @@
   function isWelcomeVisible() {
     const ws = document.getElementById('welcomeScreen');
     return ws && !ws.classList.contains('hidden');
+  }
+
+  /* دعم تعدد الأقسام للكوبونات والمنتجات */
+  function itemMatchesCategory(item, catName) {
+    if (!item || !catName || catName === 'ALL') return true;
+    if (item.category === catName) return true;
+    if (Array.isArray(item.categories) && item.categories.includes(catName)) return true;
+    return false;
+  }
+
+  function itemHasCategorySubstring(item, subLower) {
+    if (!item || !subLower) return false;
+    if (item.category && item.category.toLowerCase().includes(subLower)) return true;
+    if (Array.isArray(item.categories) && item.categories.some(cat => String(cat).toLowerCase().includes(subLower))) return true;
+    return false;
   }
 
   function parseNumericPrice(priceStr) {
@@ -1826,6 +1859,9 @@
     }
     localStorage.setItem('silver_user_fav_deals', JSON.stringify(userFavDeals));
     renderDealsTab();
+    if (activeViewId === 'filteredListView' && currentStoreDetailId && currentStoreDetailTab === 'shop') {
+      renderStoreDetailTabContent();
+    }
   }
 
   async function toggleDealPriceAlert(dealId, event) {
@@ -1847,6 +1883,9 @@
     }
     localStorage.setItem('silver_user_price_alerts', JSON.stringify(userPriceAlerts));
     renderDealsTab();
+    if (activeViewId === 'filteredListView' && currentStoreDetailId && currentStoreDetailTab === 'shop') {
+      renderStoreDetailTabContent();
+    }
   }
 
   function handleDealCardClick(dealId, event) {
@@ -1972,10 +2011,11 @@
     let list = (appData.deals || []).filter(d => {
       if (d.isHidden === true) return false;
       if (!matchesCountry(d.country)) return false;
-      if (dealsTabSelectedCategory !== 'ALL' && d.category !== dealsTabSelectedCategory) return false;
+      if (dealsTabSelectedCategory !== 'ALL' && !itemMatchesCategory(d, dealsTabSelectedCategory)) return false;
       if (chosenStore !== 'ALL' && String(d.storeId) !== String(chosenStore)) return false;
       if (q) {
-        const hay = `${d.title || ''} ${d.brandName || ''} ${d.storeName || ''} ${d.category || ''} ${d.couponCode || ''}`.toLowerCase();
+        const catsText = Array.isArray(d.categories) ? d.categories.join(' ') : '';
+        const hay = `${d.title || ''} ${d.brandName || ''} ${d.storeName || ''} ${d.category || ''} ${catsText} ${d.couponCode || ''}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
@@ -2565,6 +2605,7 @@
     updateHubCounters();
     renderHomeSections();
     renderCouponsTab();
+    if (activeViewId === 'filteredListView' && currentStoreDetailId) renderStoreDetailTabContent();
     if (document.getElementById('favCouponsView').classList.contains('active')) renderFavCouponsList();
   }
 
@@ -2705,6 +2746,7 @@
     localStorage.setItem('silver_user_votes', JSON.stringify(userVotes));
     showToast(voteType === 'up' ? '👍 شكراً لتأكيد فعالية الكود!' : '👎 تم تسجيل تقييمك بنجاح');
     renderCouponsTab();
+    if (activeViewId === 'filteredListView' && currentStoreDetailId) renderStoreDetailTabContent();
   }
 
   let touchStartY = 0;
@@ -2854,6 +2896,9 @@
     renderCouponsTab();
     renderDealsTab();
     updateHubCounters();
+    if (activeViewId === 'filteredListView' && currentStoreDetailId) {
+      renderStoreDetailTabContent();
+    }
   }
 
   function selectCouponsSubTab(subType) {
@@ -2918,7 +2963,7 @@
     }
 
     if (couponsTabSelectedCategory !== 'ALL') {
-      sortedCoupons = sortedCoupons.filter(c => c.category === couponsTabSelectedCategory);
+      sortedCoupons = sortedCoupons.filter(c => itemMatchesCategory(c, couponsTabSelectedCategory));
       headingEl.innerText = `🏷️ عروض قسم: ${couponsTabSelectedCategory}`;
       const catObj = cats.find(cat => cat.name === couponsTabSelectedCategory);
       if (catObj && catBannerWrap) {
@@ -2988,7 +3033,7 @@
     const countryCoupons = getSortedCountryCoupons();
 
     grid.innerHTML = cats.map(cat => {
-      const count = countryCoupons.filter(c => c.category === cat.name).length;
+      const count = countryCoupons.filter(c => itemMatchesCategory(c, cat.name)).length;
       return `
         <div class="cat-square-card" onclick="openFilteredView('category', '${cat.name}', '${cat.icon || '🏷️'} ${cat.name}', 'allCategoriesView')">
           <div class="cat-square-icon" style="background:${cat.bg || '#eff6ff'};">${renderCategoryVisual(cat)}</div>
@@ -3261,7 +3306,7 @@
 
     const countryCoupons = getSortedCountryCoupons();
 
-    let elecItems = countryCoupons.filter(c => c.category === 'إلكترونيات' || c.category === 'موبايلات');
+    let elecItems = countryCoupons.filter(c => itemMatchesCategory(c, 'إلكترونيات') || itemMatchesCategory(c, 'موبايلات'));
     if (elecItems.length === 0) elecItems = countryCoupons;
     document.getElementById('electronicsCarousel').innerHTML = elecItems.length
       ? elecItems.slice(0, HOME_MAX_CARDS).map(buildHorizontalCard).join('')
@@ -3283,7 +3328,7 @@
     customContainer.innerHTML = customList.map(sec => {
       let items = countryCoupons, fType = 'all', fVal = 'all';
       if (sec.filterType === 'season') { items = countryCoupons.filter(c => c.isSeason === true || c.isSeason === 'true'); fType = 'season'; }
-      else if (sec.filterType === 'category' && sec.filterValue) { items = countryCoupons.filter(c => c.category === sec.filterValue); fType = 'category'; fVal = sec.filterValue; }
+      else if (sec.filterType === 'category' && sec.filterValue) { items = countryCoupons.filter(c => itemMatchesCategory(c, sec.filterValue)); fType = 'category'; fVal = sec.filterValue; }
       else if (sec.filterType === 'store' && sec.filterValue) { items = countryCoupons.filter(c => String(c.storeId) === String(sec.filterValue)); fType = 'store'; fVal = sec.filterValue; }
       else if (sec.filterType === 'auto') { items = countryCoupons.filter(c => c.type === 'deal' || c.type === 'auto_link' || !c.code || c.code.trim() === ''); fType = 'deals'; }
 
@@ -3301,6 +3346,51 @@
     }).join('');
   }
 
+  /* تبويبات صفحة المتجر (أكواد / عروض / تسوق) */
+  function getStoreTabCollections(storeId) {
+    const storeCoupons = getSortedCountryCoupons().filter(c => String(c.storeId) === String(storeId));
+    const codesList = storeCoupons.filter(c => c.type === 'auto_link' || (c.type !== 'deal' && c.code && c.code.trim() !== ''));
+    const offersList = storeCoupons.filter(c => c.type === 'deal' || (c.type !== 'auto_link' && (!c.code || c.code.trim() === '')));
+    const shopDeals = (appData.deals || []).filter(d => d.isHidden !== true && matchesCountry(d.country) && String(d.storeId) === String(storeId));
+    return { codesList, offersList, shopDeals };
+  }
+
+  function switchStoreDetailTab(tabKey) {
+    currentStoreDetailTab = tabKey;
+    document.querySelectorAll('#storeDetailTabsBar .c-subtab-pill').forEach(p => {
+      p.classList.toggle('active', p.getAttribute('data-store-tab') === tabKey);
+    });
+    renderStoreDetailTabContent();
+  }
+
+  function renderStoreDetailTabContent() {
+    if (!currentStoreDetailId) return;
+    const { codesList, offersList, shopDeals } = getStoreTabCollections(currentStoreDetailId);
+    const cntCodes = document.getElementById('stTabCodesCnt');
+    const cntOffers = document.getElementById('stTabOffersCnt');
+    const cntShop = document.getElementById('stTabShopCnt');
+    if (cntCodes) cntCodes.innerText = codesList.length;
+    if (cntOffers) cntOffers.innerText = offersList.length;
+    if (cntShop) cntShop.innerText = shopDeals.length;
+
+    const container = document.getElementById('filteredViewContainer');
+    if (!container) return;
+
+    if (currentStoreDetailTab === 'codes') {
+      container.innerHTML = codesList.length
+        ? renderTicketsWithInlineBanners(codesList, 'store_codes')
+        : `<div style="text-align:center; padding:40px 16px; color:var(--muted);">لا توجد أكواد خصم مضافة لهذا المتجر حالياً.</div>`;
+    } else if (currentStoreDetailTab === 'offers') {
+      container.innerHTML = offersList.length
+        ? renderTicketsWithInlineBanners(offersList, 'store_offers')
+        : `<div style="text-align:center; padding:40px 16px; color:var(--muted);">لا توجد عروض تلقائية بدون كود لهذا المتجر حالياً.</div>`;
+    } else if (currentStoreDetailTab === 'shop') {
+      container.innerHTML = shopDeals.length
+        ? `<div class="deals-grid-2col">${shopDeals.map(buildDealProductCard).join('')}</div>`
+        : `<div style="text-align:center; padding:40px 16px; color:var(--muted);">لا توجد منتجات مضافة لهذا المتجر في قسم الصفقات حالياً.</div>`;
+    }
+  }
+
   function openFilteredView(filterType, filterValue, titleText, returnTo = 'homeView') {
     previousViewId = returnTo;
     activeViewId = 'filteredListView';
@@ -3312,36 +3402,14 @@
     currentFilteredShareMeta = { title: titleText, url: appLink };
 
     const bannerWrap = document.getElementById('filteredContextBannerWrap');
+    const storeTabsBar = document.getElementById('storeDetailTabsBar');
     bannerWrap.innerHTML = '';
 
     const countryCoupons = getSortedCountryCoupons();
     let results = countryCoupons;
 
-    if (filterType === 'category') {
-      results = countryCoupons.filter(c => c.category === filterValue);
-      const catObj = (appData.categories || []).find(cat => cat.name === filterValue);
-      if (catObj) {
-        if (catObj.bannerUrl && catObj.bannerUrl.trim() !== '') currentFilteredShareMeta.url = catObj.bannerUrl.trim();
-        const places = Array.isArray(catObj.bannerPlacements) && catObj.bannerPlacements.length ? catObj.bannerPlacements : ['category_top'];
-        if (places.includes('category_top')) {
-          bannerWrap.innerHTML += buildContextBannerHtml({
-            enabled: catObj.bannerEnabled !== false,
-            layout: catObj.bannerLayout || 'default',
-            displayMode: catObj.bannerDisplayMode || 'inline',
-            image: catObj.bannerImg || '',
-            title: catObj.bannerTitle || '',
-            tag: catObj.bannerTag || '',
-            cta: catObj.bannerCta || '',
-            url: catObj.bannerUrl || ''
-          }, 'https://silvercoupons.blogspot.com/', catObj.name);
-        }
-      }
-      const inlineCatBanners = getActiveInlineItems('categories');
-      if (inlineCatBanners.length) {
-        bannerWrap.innerHTML += inlineCatBanners.map(it => buildInlineCardHtml(it, 'between-coupons-banner-item')).join('');
-      }
-    } else if (filterType === 'store') {
-      results = countryCoupons.filter(c => String(c.storeId) === String(filterValue));
+    if (filterType === 'store') {
+      currentStoreDetailId = String(filterValue);
       const storeObj = (appData.stores || []).find(s => String(s.id) === String(filterValue));
       if (storeObj) {
         if (storeObj.url && storeObj.url.trim() !== '') currentFilteredShareMeta.url = storeObj.url.trim();
@@ -3363,6 +3431,43 @@
       if (inlineStoreBanners.length) {
         bannerWrap.innerHTML += inlineStoreBanners.map(it => buildInlineCardHtml(it, 'between-coupons-banner-item')).join('');
       }
+
+      if (storeTabsBar) storeTabsBar.style.display = 'flex';
+      const { codesList, offersList, shopDeals } = getStoreTabCollections(currentStoreDetailId);
+      let defaultTab = 'codes';
+      if (!codesList.length && offersList.length) defaultTab = 'offers';
+      else if (!codesList.length && !offersList.length && shopDeals.length) defaultTab = 'shop';
+      switchStoreDetailTab(defaultTab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    currentStoreDetailId = null;
+    if (storeTabsBar) storeTabsBar.style.display = 'none';
+
+    if (filterType === 'category') {
+      results = countryCoupons.filter(c => itemMatchesCategory(c, filterValue));
+      const catObj = (appData.categories || []).find(cat => cat.name === filterValue);
+      if (catObj) {
+        if (catObj.bannerUrl && catObj.bannerUrl.trim() !== '') currentFilteredShareMeta.url = catObj.bannerUrl.trim();
+        const places = Array.isArray(catObj.bannerPlacements) && catObj.bannerPlacements.length ? catObj.bannerPlacements : ['category_top'];
+        if (places.includes('category_top')) {
+          bannerWrap.innerHTML += buildContextBannerHtml({
+            enabled: catObj.bannerEnabled !== false,
+            layout: catObj.bannerLayout || 'default',
+            displayMode: catObj.bannerDisplayMode || 'inline',
+            image: catObj.bannerImg || '',
+            title: catObj.bannerTitle || '',
+            tag: catObj.bannerTag || '',
+            cta: catObj.bannerCta || '',
+            url: catObj.bannerUrl || ''
+          }, 'https://silvercoupons.blogspot.com/', catObj.name);
+        }
+      }
+      const inlineCatBanners = getActiveInlineItems('categories');
+      if (inlineCatBanners.length) {
+        bannerWrap.innerHTML += inlineCatBanners.map(it => buildInlineCardHtml(it, 'between-coupons-banner-item')).join('');
+      }
     } else if (filterType === 'deals') {
       results = countryCoupons.filter(c => c.type === 'deal' || c.type === 'auto_link' || !c.code || c.code.trim() === '');
     } else if (filterType === 'season') {
@@ -3376,6 +3481,7 @@
   }
 
   function goBackFromFiltered() {
+    currentStoreDetailId = null;
     switchTab(previousViewId || 'homeView', previousViewId === 'homeView' ? document.getElementById('navHome') : null);
   }
 
@@ -3467,8 +3573,9 @@
       if (!activeStoreCategoryFilter) return true;
       const catLower = activeStoreCategoryFilter.toLowerCase();
       const storeCatMatch = st.category && st.category.toLowerCase().includes(catLower);
-      const couponCatMatch = appData.coupons && appData.coupons.some(c => c.storeId === st.id && c.category && c.category.toLowerCase().includes(catLower));
-      return storeCatMatch || couponCatMatch;
+      const couponCatMatch = appData.coupons && appData.coupons.some(c => c.storeId === st.id && itemHasCategorySubstring(c, catLower));
+      const dealCatMatch = appData.deals && appData.deals.some(d => d.isHidden !== true && String(d.storeId) === String(st.id) && itemHasCategorySubstring(d, catLower));
+      return storeCatMatch || couponCatMatch || dealCatMatch;
     });
     grid.innerHTML = visibleStores.length ? visibleStores.map(st => {
       const count = appData.coupons.filter(c => c.storeId === st.id && matchesCountry(c.country)).length;
