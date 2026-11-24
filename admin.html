@@ -126,7 +126,7 @@
       font-family: 'Cairo', sans-serif;
     }
     .btn-mini {
-      border: none; padding: 5px 10px; border-radius: 6px; font-family: 'Cairo', sans-serif;
+      border: none; padding: 5px 9px; border-radius: 6px; font-family: 'Cairo', sans-serif;
       font-size: 11px; font-weight: 700; cursor: pointer; color: #fff;
     }
     .btn-publish {
@@ -410,6 +410,28 @@
         </div>
       </div>
 
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>حالة التوفر في المتجر</label>
+          <select id="dealStockStatus">
+            <option value="available">✅ متوفر</option>
+            <option value="sold_out">⛔ نفذ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>حالة الظهور في التطبيق</label>
+          <select id="dealVisibility">
+            <option value="visible">👁️ ظاهر للزوار</option>
+            <option value="hidden">🙈 مخفي مؤقتاً</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>تاريخ / ملاحظة السعر بجانب «السعر وقت النشر» (قابل للتعديل يدوياً في أي وقت)</label>
+        <input type="text" id="dealPriceDate" placeholder="مثال: 24 نوفمبر 2026">
+      </div>
+
       <div class="form-group">
         <label>صورة المنتج (رابط مباشر أو رفع من الجهاز)</label>
         <input type="url" id="dealImage" placeholder="https://example.com/product.jpg" style="margin-bottom:6px;">
@@ -452,7 +474,7 @@
       <button class="btn-copy" id="saveDealBtn" onclick="saveDealAdmin()">+ إضافة بطاقة المنتج</button>
       <button class="btn-shop" id="cancelDealEditBtn" style="display:none; width:100%; margin-top:8px;" onclick="resetDealForm()">إلغاء تعديل المنتج</button>
 
-      <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🛍️ المنتجات الحالية في قسم الصفقات (تعديل / حذف):</h4>
+      <h4 style="margin:18px 0 8px; font-size:13px; border-top:1px solid #e2e8f0; padding-top:12px;">🛍️ المنتجات الحالية في قسم الصفقات (تعديل / توفر / إخفاء / حذف):</h4>
       <div id="adminDealsList"></div>
     </div>
 
@@ -1094,6 +1116,14 @@
     deals: []
   };
 
+  function getTodayArabicDate() {
+    try {
+      return new Date().toLocaleDateString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) {
+      return new Date().toISOString().slice(0, 10);
+    }
+  }
+
   function checkLockPass() {
     const val = document.getElementById('lockPassInput').value.trim();
     if (val === ADMIN_PASS) {
@@ -1343,6 +1373,9 @@
     document.getElementById('dealOldPrice').value = d.oldPrice || '';
     document.getElementById('dealDiscount').value = d.discount || '';
     document.getElementById('dealBrandName').value = d.brandName || '';
+    document.getElementById('dealStockStatus').value = (d.inStock === false) ? 'sold_out' : 'available';
+    document.getElementById('dealVisibility').value = (d.isHidden === true) ? 'hidden' : 'visible';
+    document.getElementById('dealPriceDate').value = d.priceDate || '';
     document.getElementById('dealImage').value = d.image || '';
     document.getElementById('dealBrandLogo').value = d.brandLogo || '';
     document.getElementById('dealCouponCode').value = d.couponCode || '';
@@ -1361,6 +1394,9 @@
     document.getElementById('dealOldPrice').value = '';
     document.getElementById('dealDiscount').value = '';
     document.getElementById('dealBrandName').value = '';
+    document.getElementById('dealStockStatus').value = 'available';
+    document.getElementById('dealVisibility').value = 'visible';
+    document.getElementById('dealPriceDate').value = getTodayArabicDate();
     document.getElementById('dealImage').value = '';
     document.getElementById('dealImageFile').value = '';
     document.getElementById('dealBrandLogo').value = '';
@@ -1370,6 +1406,23 @@
     document.getElementById('dealAutoSyncUrl').value = '';
     document.getElementById('saveDealBtn').innerText = '+ إضافة بطاقة المنتج';
     document.getElementById('cancelDealEditBtn').style.display = 'none';
+  }
+
+  function toggleDealStockQuick(id) {
+    const d = (appData.deals || []).find(item => Number(item.id) === Number(id));
+    if (!d) return;
+    d.inStock = (d.inStock === false) ? true : false;
+    d.lastUpdated = new Date().toISOString();
+    renderAdminLists();
+    showToast(d.inStock ? 'تم تحديث حالة المنتج إلى: متوفر ✓' : 'تم تحديث حالة المنتج إلى: نفذ ⛔');
+  }
+
+  function toggleDealHiddenQuick(id) {
+    const d = (appData.deals || []).find(item => Number(item.id) === Number(id));
+    if (!d) return;
+    d.isHidden = !d.isHidden;
+    renderAdminLists();
+    showToast(d.isHidden ? 'تم إخفاء المنتج عن الزوار (محفوظ دون حذف) 🙈' : 'تم إظهار المنتج للزوار مجدداً 👁️');
   }
 
   async function saveDealAdmin() {
@@ -1405,6 +1458,10 @@
 
     if (!Array.isArray(appData.deals)) appData.deals = [];
 
+    const priceDateVal = document.getElementById('dealPriceDate').value.trim();
+    const isAvailable = document.getElementById('dealStockStatus').value !== 'sold_out';
+    const isHidden = document.getElementById('dealVisibility').value === 'hidden';
+
     const dealItem = {
       id: editId ? Number(editId) : Date.now(),
       country: document.getElementById('dealCountry').value || 'ALL',
@@ -1417,12 +1474,14 @@
       discount: document.getElementById('dealDiscount').value.trim(),
       brandName: document.getElementById('dealBrandName').value.trim(),
       brandLogo: brandLogoUrl,
+      priceDate: priceDateVal,
       image: imgUrl || 'https://via.placeholder.com/300?text=Deal',
       couponCode: document.getElementById('dealCouponCode').value.trim().toUpperCase(),
       url: document.getElementById('dealUrl').value.trim() || storeObj.url || 'https://silvercoupons.blogspot.com/',
       productSku: document.getElementById('dealSku').value.trim(),
       autoSyncUrl: document.getElementById('dealAutoSyncUrl').value.trim(),
-      inStock: true,
+      inStock: isAvailable,
+      isHidden: isHidden,
       lastUpdated: new Date().toISOString()
     };
 
@@ -1439,7 +1498,7 @@
   }
 
   function deleteDealAdmin(id) {
-    if (!confirm('حذف هذا المنتج من قسم الصفقات؟')) return;
+    if (!confirm('حذف هذا المنتج نهائياً من قسم الصفقات؟')) return;
     appData.deals = (appData.deals || []).filter(d => Number(d.id) !== Number(id));
     renderAdminLists();
     showToast('تم حذف المنتج! اضغط زر النشر الأخضر.');
@@ -2172,23 +2231,32 @@
     const dealsListEl = document.getElementById('adminDealsList');
     if (dealsListEl) {
       const dList = appData.deals || [];
-      dealsListEl.innerHTML = dList.length ? dList.map(d => `
-        <div class="manage-row">
-          <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
-            ${d.image ? `<img src="${d.image}" class="deal-thumb-mini" onerror="this.style.display='none'">` : ''}
-            <div style="min-width:0;">
-              <strong style="display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${d.title}</strong>
-              <span style="font-size:11px; color:var(--green); font-weight:800;">${d.price}</span>
-              ${d.couponCode ? `<span style="font-size:10.5px; color:var(--blue); font-family:monospace; margin-right:6px;">[${d.couponCode}]</span>` : ''}
-              <span style="font-size:11px; color:var(--muted);"> • ${d.category || ''} • ${d.storeName || ''} [${d.country || 'ALL'}]</span>
+      dealsListEl.innerHTML = dList.length ? dList.map(d => {
+        const isAvail = d.inStock !== false;
+        const isHid = Boolean(d.isHidden);
+        return `
+          <div class="manage-row">
+            <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
+              ${d.image ? `<img src="${d.image}" class="deal-thumb-mini" onerror="this.style.display='none'">` : ''}
+              <div style="min-width:0;">
+                <strong style="display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${d.title}</strong>
+                <span style="font-size:11px; color:var(--green); font-weight:800;">${d.price}</span>
+                <span style="font-size:10.5px; font-weight:800; color:${isAvail ? 'var(--green)' : 'var(--red)'}; margin-right:5px;">[${isAvail ? 'متوفر' : 'نفذ'}]</span>
+                ${isHid ? `<span style="font-size:10.5px; font-weight:800; color:#d97706; margin-right:5px;">[مخفي]</span>` : `<span style="font-size:10.5px; font-weight:800; color:var(--blue); margin-right:5px;">[ظاهر]</span>`}
+                ${d.priceDate ? `<span style="font-size:10.5px; color:var(--muted); margin-right:5px;">(${d.priceDate})</span>` : ''}
+                <br>
+                <span style="font-size:11px; color:var(--muted);">${d.category || ''} • ${d.storeName || ''} [${d.country || 'ALL'}]</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; flex-shrink:0;">
+              <button class="btn-mini" style="background:${isAvail ? '#0f766e' : '#b45309'};" onclick="toggleDealStockQuick(${d.id})">${isAvail ? 'نفذ' : 'متوفر'}</button>
+              <button class="btn-mini" style="background:#475569;" onclick="toggleDealHiddenQuick(${d.id})">${isHid ? 'إظهار' : 'إخفاء'}</button>
+              <button class="btn-mini" style="background:var(--blue);" onclick="editDealAdmin(${d.id})">تعديل</button>
+              <button class="btn-mini" style="background:var(--red);" onclick="deleteDealAdmin(${d.id})">حذف</button>
             </div>
           </div>
-          <div style="display:flex; gap:5px; flex-shrink:0;">
-            <button class="btn-mini" style="background:var(--blue);" onclick="editDealAdmin(${d.id})">تعديل</button>
-            <button class="btn-mini" style="background:var(--red);" onclick="deleteDealAdmin(${d.id})">حذف</button>
-          </div>
-        </div>
-      `).join('') : `<div style="font-size:12px; color:var(--muted);">لا توجد منتجات مضافة في قسم الصفقات بعد.</div>`;
+        `;
+      }).join('') : `<div style="font-size:12px; color:var(--muted);">لا توجد منتجات مضافة في قسم الصفقات بعد.</div>`;
     }
 
     const countriesOpts = [
