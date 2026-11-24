@@ -77,6 +77,22 @@
       "bannerEnabled": true,
       "bannerImg": "",
       "bannerUrl": ""
+    },
+    {
+      "name": "تسوقك منتجاتك بافضل الاسعار",
+      "icon": "🏷️",
+      "image": "",
+      "bg": "#ede9fe",
+      "bannerEnabled": true,
+      "bannerLayout": "default",
+      "bannerDisplayMode": "inline",
+      "bannerPlacements": [],
+      "bannerRepeatEvery": 4,
+      "bannerTitle": "",
+      "bannerTag": "",
+      "bannerCta": "",
+      "bannerImg": "",
+      "bannerUrl": ""
     }
   ],
   "banners": {
