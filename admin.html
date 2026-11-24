@@ -152,6 +152,19 @@
       font-size: 11.5px; font-weight: 700; cursor: pointer;
     }
     .multi-place-item input { width: auto; margin: 0; cursor: pointer; }
+    .multi-cat-pills {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;
+    }
+    .multi-cat-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 20px;
+      padding: 4px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer;
+      user-select: none; transition: 0.15s;
+    }
+    .multi-cat-pill input { width: auto; margin: 0; accent-color: var(--blue); cursor: pointer; }
+    .multi-cat-pill:has(input:checked) {
+      background: #eff6ff; border-color: var(--blue); color: var(--blue);
+    }
     .cat-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .cat-chip-item {
       background: #fff; border: 1px solid #cbd5e1; border-radius: 20px;
@@ -327,8 +340,12 @@
         <select id="admStore"></select>
       </div>
       <div class="form-group">
-        <label>القسم (الفئة)</label>
-        <select id="admCat"></select>
+        <label>القسم الرئيسي (الفئة)</label>
+        <select id="admCat" onchange="syncPrimaryCategoryCheck('adm')"></select>
+      </div>
+      <div class="sub-panel-box">
+        <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:4px;">📂 إظهار هذا الكوبون في أقسام إضافية أيضاً (اختيار متعدد):</label>
+        <div class="multi-cat-pills" id="admExtraCatsBox"></div>
       </div>
       <div class="form-group">
         <label>قيمة الخصم (مثال: خصم 20% أو عروض حتى 50%)</label>
@@ -373,9 +390,14 @@
           </select>
         </div>
         <div class="form-group">
-          <label>الفئة / القسم (نفس المسميات)</label>
-          <select id="dealCategory"></select>
+          <label>القسم الرئيسي للمنتج</label>
+          <select id="dealCategory" onchange="syncPrimaryCategoryCheck('deal')"></select>
         </div>
+      </div>
+
+      <div class="sub-panel-box">
+        <label style="font-size:11.5px; font-weight:800; color:var(--blue); display:block; margin-bottom:4px;">📂 إظهار هذا المنتج في أقسام إضافية أيضاً (اختيار متعدد):</label>
+        <div class="multi-cat-pills" id="dealExtraCatsBox"></div>
       </div>
 
       <div class="form-group">
@@ -1217,6 +1239,7 @@
     }
     refreshAdminUI();
     resetCategoryForm();
+    resetCouponForm();
     resetStoreForm();
     resetDealForm();
     loadHomeConfigForm();
@@ -1291,6 +1314,42 @@
     wrapEl.style.display = (modeEl.value === 'inline' && hasBetween) ? 'block' : 'none';
   }
 
+  /* إدارة الأقسام المتعددة للكوبونات والمنتجات */
+  function renderMultiCategoryCheckboxes(boxId, selectedArr = [], primaryCat = '') {
+    const box = document.getElementById(boxId);
+    if (!box) return;
+    const selectedSet = new Set([
+      ...(Array.isArray(selectedArr) ? selectedArr : []),
+      ...(primaryCat ? [primaryCat] : [])
+    ]);
+    box.innerHTML = appData.categories.map(cat => {
+      const checked = selectedSet.has(cat.name) ? 'checked' : '';
+      const safeName = cat.name.replace(/"/g, '&quot;');
+      return `<label class="multi-cat-pill"><input type="checkbox" value="${safeName}" ${checked}> ${cat.icon || '🏷️'} ${cat.name}</label>`;
+    }).join('');
+  }
+
+  function getSelectedExtraCategories(boxId, primaryCat) {
+    const box = document.getElementById(boxId);
+    const result = primaryCat ? [primaryCat] : [];
+    if (box) {
+      box.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+        if (cb.value && !result.includes(cb.value)) result.push(cb.value);
+      });
+    }
+    return result;
+  }
+
+  function syncPrimaryCategoryCheck(prefix) {
+    const primarySel = document.getElementById(prefix === 'adm' ? 'admCat' : 'dealCategory');
+    const box = document.getElementById(prefix === 'adm' ? 'admExtraCatsBox' : 'dealExtraCatsBox');
+    if (!primarySel || !box) return;
+    const val = primarySel.value;
+    box.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      if (cb.value === val) cb.checked = true;
+    });
+  }
+
   function populateAdminStores() {
     const storesOpts = appData.stores.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
     document.getElementById('admStore').innerHTML = storesOpts;
@@ -1322,12 +1381,14 @@
     const currentVal = sel.value;
     sel.innerHTML = catsOpts;
     if (currentVal && appData.categories.some(c => c.name === currentVal)) sel.value = currentVal;
+    renderMultiCategoryCheckboxes('admExtraCatsBox', getSelectedExtraCategories('admExtraCatsBox', sel.value), sel.value);
 
     const dealCatSel = document.getElementById('dealCategory');
     if (dealCatSel) {
       const prevDealCat = dealCatSel.value;
       dealCatSel.innerHTML = catsOpts;
       if (prevDealCat && appData.categories.some(c => c.name === prevDealCat)) dealCatSel.value = prevDealCat;
+      renderMultiCategoryCheckboxes('dealExtraCatsBox', getSelectedExtraCategories('dealExtraCatsBox', dealCatSel.value), dealCatSel.value);
     }
 
     document.getElementById('adminCategoriesChips').innerHTML = appData.categories.map((cat, idx) => `
@@ -1366,7 +1427,10 @@
     if (!d) return;
     document.getElementById('editDealId').value = d.id;
     document.getElementById('dealCountry').value = d.country || 'ALL';
-    document.getElementById('dealCategory').value = d.category || (appData.categories[0] ? appData.categories[0].name : 'عروض جديدة');
+    const primaryCat = d.category || (appData.categories[0] ? appData.categories[0].name : 'عروض جديدة');
+    document.getElementById('dealCategory').value = primaryCat;
+    const allDealCats = (Array.isArray(d.categories) && d.categories.length) ? d.categories : [primaryCat];
+    renderMultiCategoryCheckboxes('dealExtraCatsBox', allDealCats, primaryCat);
     if (d.storeId) document.getElementById('dealStore').value = d.storeId;
     document.getElementById('dealTitle').value = d.title || '';
     document.getElementById('dealPrice').value = d.price || '';
@@ -1389,6 +1453,8 @@
 
   function resetDealForm() {
     document.getElementById('editDealId').value = '';
+    const defaultCat = document.getElementById('dealCategory').value || (appData.categories[0] ? appData.categories[0].name : '');
+    renderMultiCategoryCheckboxes('dealExtraCatsBox', defaultCat ? [defaultCat] : [], defaultCat);
     document.getElementById('dealTitle').value = '';
     document.getElementById('dealPrice').value = '';
     document.getElementById('dealOldPrice').value = '';
@@ -1458,6 +1524,8 @@
 
     if (!Array.isArray(appData.deals)) appData.deals = [];
 
+    const primaryCat = document.getElementById('dealCategory').value || 'عروض جديدة';
+    const allDealCats = getSelectedExtraCategories('dealExtraCatsBox', primaryCat);
     const priceDateVal = document.getElementById('dealPriceDate').value.trim();
     const isAvailable = document.getElementById('dealStockStatus').value !== 'sold_out';
     const isHidden = document.getElementById('dealVisibility').value === 'hidden';
@@ -1465,7 +1533,8 @@
     const dealItem = {
       id: editId ? Number(editId) : Date.now(),
       country: document.getElementById('dealCountry').value || 'ALL',
-      category: document.getElementById('dealCategory').value || 'عروض جديدة',
+      category: primaryCat,
+      categories: allDealCats,
       storeId: storeId || '',
       storeName: storeObj.name || 'متجر إلكتروني',
       title,
@@ -1600,8 +1669,14 @@
       const oldName = appData.categories[editIdx].name;
       appData.categories[editIdx] = catPayload;
       if (oldName !== name) {
-        appData.coupons.forEach(c => { if (c.category === oldName) c.category = name; });
-        (appData.deals || []).forEach(d => { if (d.category === oldName) d.category = name; });
+        appData.coupons.forEach(c => {
+          if (c.category === oldName) c.category = name;
+          if (Array.isArray(c.categories)) c.categories = c.categories.map(x => x === oldName ? name : x);
+        });
+        (appData.deals || []).forEach(d => {
+          if (d.category === oldName) d.category = name;
+          if (Array.isArray(d.categories)) d.categories = d.categories.map(x => x === oldName ? name : x);
+        });
       }
     } else {
       const bgPalette = ['#fef3c7', '#fee2e2', '#dbeafe', '#fce7f3', '#ede9fe', '#dcfce7', '#e0f2fe'];
@@ -1629,6 +1704,9 @@
     const codeVal = (type === 'deal') ? '' : document.getElementById('admCode').value.trim().toUpperCase();
     if (type === 'coupon' && !codeVal) return alert('يرجى كتابة كود الخصم');
 
+    const primaryCat = document.getElementById('admCat').value;
+    const allCouponCats = getSelectedExtraCategories('admExtraCatsBox', primaryCat);
+
     const itemData = {
       id: editId ? Number(editId) : Date.now(),
       type,
@@ -1636,7 +1714,8 @@
       country: document.getElementById('admCountry').value,
       storeId,
       storeName: storeObj ? storeObj.name : storeId,
-      category: document.getElementById('admCat').value,
+      category: primaryCat,
+      categories: allCouponCats,
       discount: document.getElementById('admDiscount').value || 'خصم إضافي',
       title: document.getElementById('admTitle').value || 'عرض خاص لفترة محدودة',
       code: codeVal,
@@ -1665,7 +1744,10 @@
     document.getElementById('admIsSeason').value = String(c.isSeason === true || c.isSeason === 'true');
     document.getElementById('admCountry').value = c.country || 'ALL';
     document.getElementById('admStore').value = c.storeId;
-    document.getElementById('admCat').value = c.category || 'عروض جديدة';
+    const primaryCat = c.category || 'عروض جديدة';
+    document.getElementById('admCat').value = primaryCat;
+    const allCouponCats = (Array.isArray(c.categories) && c.categories.length) ? c.categories : [primaryCat];
+    renderMultiCategoryCheckboxes('admExtraCatsBox', allCouponCats, primaryCat);
     document.getElementById('admDiscount').value = c.discount;
     document.getElementById('admTitle').value = c.title;
     document.getElementById('admCode').value = c.code || '';
@@ -1678,6 +1760,8 @@
   function resetCouponForm() {
     document.getElementById('editCouponId').value = '';
     document.getElementById('admIsSeason').value = 'false';
+    const defaultCat = document.getElementById('admCat').value || (appData.categories[0] ? appData.categories[0].name : '');
+    renderMultiCategoryCheckboxes('admExtraCatsBox', defaultCat ? [defaultCat] : [], defaultCat);
     document.getElementById('admDiscount').value = '';
     document.getElementById('admTitle').value = '';
     document.getElementById('admCode').value = '';
@@ -2218,9 +2302,10 @@
   function renderAdminLists() {
     document.getElementById('adminCouponsList').innerHTML = appData.coupons.map(c => {
       let typeLabel = c.code ? `(<span style="color:var(--blue);font-family:monospace;">${c.code}</span>)` : '(عرض تلقائي)';
+      const catsLabel = (Array.isArray(c.categories) && c.categories.length) ? c.categories.join('، ') : (c.category || '');
       return `
         <div class="manage-row">
-          <div style="flex:1;"><strong>${c.storeName}</strong> ${typeLabel}<br><span style="font-size:11px;color:var(--muted);">${c.category || ''} | ${c.discount} [${c.country || 'ALL'}]</span></div>
+          <div style="flex:1;"><strong>${c.storeName}</strong> ${typeLabel}<br><span style="font-size:11px;color:var(--muted);">${catsLabel} | ${c.discount} [${c.country || 'ALL'}]</span></div>
           <div style="display:flex; gap:5px;">
             <button class="btn-mini" style="background:var(--blue);" onclick="editCouponAdmin(${c.id})">تعديل</button>
             <button class="btn-mini" style="background:var(--red);" onclick="deleteCouponAdmin(${c.id})">حذف</button>
@@ -2234,6 +2319,7 @@
       dealsListEl.innerHTML = dList.length ? dList.map(d => {
         const isAvail = d.inStock !== false;
         const isHid = Boolean(d.isHidden);
+        const dealCatsLabel = (Array.isArray(d.categories) && d.categories.length) ? d.categories.join('، ') : (d.category || '');
         return `
           <div class="manage-row">
             <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
@@ -2245,7 +2331,7 @@
                 ${isHid ? `<span style="font-size:10.5px; font-weight:800; color:#d97706; margin-right:5px;">[مخفي]</span>` : `<span style="font-size:10.5px; font-weight:800; color:var(--blue); margin-right:5px;">[ظاهر]</span>`}
                 ${d.priceDate ? `<span style="font-size:10.5px; color:var(--muted); margin-right:5px;">(${d.priceDate})</span>` : ''}
                 <br>
-                <span style="font-size:11px; color:var(--muted);">${d.category || ''} • ${d.storeName || ''} [${d.country || 'ALL'}]</span>
+                <span style="font-size:11px; color:var(--muted);">${dealCatsLabel} • ${d.storeName || ''} [${d.country || 'ALL'}]</span>
               </div>
             </div>
             <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; flex-shrink:0;">
@@ -2268,7 +2354,7 @@
       <div class="manage-row">
         <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
           <img src="${s.logo}" style="width:28px;height:28px;object-fit:contain;flex-shrink:0;">
-          <strong style="white:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</strong>
+          <strong style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</strong>
         </div>
         <div style="display:flex; align-items:center; gap:4px;">
           <select onchange="updateStoreCountryAdmin('${s.id}', this.value)" style="padding:4px 5px; border-radius:6px; border:1px solid #cbd5e1; font-family:'Cairo',sans-serif; font-size:11px;">
