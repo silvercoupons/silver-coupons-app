@@ -716,6 +716,31 @@
   ],
   "deals": [
     {
+      "id": 1795559748623,
+      "country": "EG",
+      "category": "سوبر ماركت",
+      "categories": [
+        "سوبر ماركت"
+      ],
+      "storeId": "carrefour",
+      "storeName": "كارفور - Carrefour",
+      "title": "ارز مصرى الضحى - 1 كجم",
+      "price": "EGP 34 .99",
+      "oldPrice": "EGP 44.50",
+      "discount": "خصم 21%",
+      "brandName": "",
+      "brandLogo": "",
+      "priceDate": "٢٥ نوفمبر ٢٠٢٦",
+      "image": "https://cdn.mafrservices.com/sys-master-root/h65/h39/15127732453406/17997_main.jpg?im=Resize=(300,300)",
+      "couponCode": "",
+      "url": "https://www.carrefouregypt.com/mafegy/ar/egyptian-rice/el-mazag-egyptian-rice-1kg/p/606746?offer=offer_carrefour_&sid=SLOTTED&sellerId=0000",
+      "productSku": "",
+      "autoSyncUrl": "",
+      "inStock": true,
+      "isHidden": false,
+      "lastUpdated": "2026-11-24T22:35:48.623Z"
+    },
+    {
       "id": 1795559550090,
       "country": "EG",
       "category": "سوبر ماركت",
