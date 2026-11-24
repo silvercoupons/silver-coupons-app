@@ -643,15 +643,18 @@
       <input type="hidden" id="editCustomSecId" value="">
       <div class="form-group">
         <label>عنوان القسم الجديد</label>
-        <input type="text" id="csTitle" placeholder="🎉 عروض المواسم والأعياد">
+        <input type="text" id="csTitle" placeholder="🔥 أقوى صفقات اليوم">
       </div>
       <div class="form-group">
-        <label>مصدر الكوبونات</label>
+        <label>مصدر البطاقات (كوبونات أو صفقات منتجات)</label>
         <select id="csFilterType" onchange="toggleCustomSecFilterUI()">
-          <option value="season">🎉 عروض المواسم والأعياد</option>
-          <option value="category">📂 عروض فئة / قسم محدد</option>
-          <option value="store">🏪 عروض متجر / براند محدد</option>
-          <option value="auto">⚡ جميع العروض المفعّلة تلقائياً</option>
+          <option value="season">🎉 عروض المواسم والأعياد (كوبونات)</option>
+          <option value="category">📂 عروض فئة / قسم محدد (كوبونات)</option>
+          <option value="store">🏪 عروض متجر / براند محدد (كوبونات)</option>
+          <option value="auto">⚡ جميع العروض المفعّلة تلقائياً (كوبونات)</option>
+          <option value="deals_latest">🛍️ صفقات المنتجات (الأحدث)</option>
+          <option value="deals_category">🛍️ صفقات منتجات لفئة محددة</option>
+          <option value="deals_store">🛍️ صفقات منتجات لمتجر محدد</option>
         </select>
       </div>
       <div class="form-group" id="csCatWrap" style="display:none;">
@@ -1922,15 +1925,17 @@
 
   function toggleCustomSecFilterUI() {
     const fType = document.getElementById('csFilterType').value;
-    document.getElementById('csCatWrap').style.display = (fType === 'category') ? 'block' : 'none';
-    document.getElementById('csStoreWrap').style.display = (fType === 'store') ? 'block' : 'none';
+    document.getElementById('csCatWrap').style.display = (fType === 'category' || fType === 'deals_category') ? 'block' : 'none';
+    document.getElementById('csStoreWrap').style.display = (fType === 'store' || fType === 'deals_store') ? 'block' : 'none';
   }
 
   function saveCustomHomeSection() {
     const editId = document.getElementById('editCustomSecId').value;
     const title = document.getElementById('csTitle').value.trim();
     const filterType = document.getElementById('csFilterType').value;
-    let filterValue = (filterType === 'category') ? document.getElementById('csTargetCat').value : (filterType === 'store' ? document.getElementById('csTargetStore').value : '');
+    let filterValue = (filterType === 'category' || filterType === 'deals_category')
+      ? document.getElementById('csTargetCat').value
+      : ((filterType === 'store' || filterType === 'deals_store') ? document.getElementById('csTargetStore').value : '');
     if (!title) return alert('يرجى كتابة عنوان القسم');
     if (!Array.isArray(appData.homeConfig.customSections)) appData.homeConfig.customSections = [];
     const secObj = { id: editId ? Number(editId) : Date.now(), enabled: true, title, filterType, filterValue };
@@ -1952,8 +1957,8 @@
     document.getElementById('csTitle').value = sec.title || '';
     document.getElementById('csFilterType').value = sec.filterType || 'season';
     toggleCustomSecFilterUI();
-    if (sec.filterType === 'category') document.getElementById('csTargetCat').value = sec.filterValue || '';
-    if (sec.filterType === 'store') document.getElementById('csTargetStore').value = sec.filterValue || '';
+    if (sec.filterType === 'category' || sec.filterType === 'deals_category') document.getElementById('csTargetCat').value = sec.filterValue || '';
+    if (sec.filterType === 'store' || sec.filterType === 'deals_store') document.getElementById('csTargetStore').value = sec.filterValue || '';
     document.getElementById('saveCustomSecBtn').innerText = '💾 حفظ تعديل القسم';
     document.getElementById('cancelCustomSecBtn').style.display = 'flex';
   }
