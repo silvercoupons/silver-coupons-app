@@ -570,6 +570,11 @@
       scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;
     }
     .horizontal-cards-strip::-webkit-scrollbar { display: none; }
+    .horizontal-cards-strip .deal-product-card {
+      min-width: 172px;
+      max-width: 172px;
+      flex-shrink: 0;
+    }
     .h-card {
       min-width: 278px; max-width: 278px; background: #fff; border-radius: 16px;
       border: 1px solid #e2e8f0; box-shadow: 0 3px 10px rgba(0,0,0,0.05);
@@ -1859,6 +1864,7 @@
     }
     localStorage.setItem('silver_user_fav_deals', JSON.stringify(userFavDeals));
     renderDealsTab();
+    renderHomeSections();
     if (activeViewId === 'filteredListView' && currentStoreDetailId && currentStoreDetailTab === 'shop') {
       renderStoreDetailTabContent();
     }
@@ -1883,6 +1889,7 @@
     }
     localStorage.setItem('silver_user_price_alerts', JSON.stringify(userPriceAlerts));
     renderDealsTab();
+    renderHomeSections();
     if (activeViewId === 'filteredListView' && currentStoreDetailId && currentStoreDetailTab === 'shop') {
       renderStoreDetailTabContent();
     }
@@ -1976,6 +1983,16 @@
   function selectDealsCategory(catName) {
     dealsTabSelectedCategory = catName;
     renderDealsTab();
+  }
+
+  function openDealsTabWithFilter(catName = 'ALL', storeId = 'ALL') {
+    dealsTabSelectedCategory = catName || 'ALL';
+    switchTab('dealsTabView', document.getElementById('navDeals'));
+    const storeSel = document.getElementById('dealStoreFilter');
+    if (storeSel) {
+      storeSel.value = storeId || 'ALL';
+      renderDealsTab();
+    }
   }
 
   function renderDealsTab() {
@@ -3326,6 +3343,31 @@
     const customContainer = document.getElementById('customHomeSectionsContainer');
     const customList = (hc.customSections || []).filter(sec => sec.enabled !== false);
     customContainer.innerHTML = customList.map(sec => {
+      if (sec.filterType === 'deals_latest' || sec.filterType === 'deals_category' || sec.filterType === 'deals_store') {
+        let pDeals = (appData.deals || []).filter(d => d.isHidden !== true && matchesCountry(d.country));
+        let targetCat = 'ALL';
+        let targetStore = 'ALL';
+        if (sec.filterType === 'deals_category' && sec.filterValue) {
+          pDeals = pDeals.filter(d => itemMatchesCategory(d, sec.filterValue));
+          targetCat = sec.filterValue;
+        } else if (sec.filterType === 'deals_store' && sec.filterValue) {
+          pDeals = pDeals.filter(d => String(d.storeId) === String(sec.filterValue));
+          targetStore = sec.filterValue;
+        }
+        if (!pDeals.length) return '';
+        const safeCat = String(targetCat).replace(/'/g, "\\'");
+        const safeStore = String(targetStore).replace(/'/g, "\\'");
+        return `
+          <div>
+            <div class="section-header">
+              <span class="section-title-text">${sec.title}</span>
+              <span class="view-all-link" onclick="openDealsTabWithFilter('${safeCat}', '${safeStore}')">اعرض الكل ◂</span>
+            </div>
+            <div class="horizontal-cards-strip">${pDeals.slice(0, HOME_MAX_CARDS).map(buildDealProductCard).join('')}</div>
+          </div>
+        `;
+      }
+
       let items = countryCoupons, fType = 'all', fVal = 'all';
       if (sec.filterType === 'season') { items = countryCoupons.filter(c => c.isSeason === true || c.isSeason === 'true'); fType = 'season'; }
       else if (sec.filterType === 'category' && sec.filterValue) { items = countryCoupons.filter(c => itemMatchesCategory(c, sec.filterValue)); fType = 'category'; fVal = sec.filterValue; }
