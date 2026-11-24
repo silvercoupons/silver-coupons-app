@@ -750,8 +750,8 @@
       "storeId": "carrefour",
       "storeName": "كارفور - Carrefour",
       "title": "المزاج أرز أبيض مصري - 1 كجم",
-      "price": "24 .99",
-      "oldPrice": "26.99",
+      "price": "24.99 EGP",
+      "oldPrice": "26.99 EGP",
       "discount": "خصم 7%",
       "brandName": "",
       "brandLogo": "",
@@ -763,7 +763,7 @@
       "autoSyncUrl": "",
       "inStock": true,
       "isHidden": false,
-      "lastUpdated": "2026-11-24T22:32:30.090Z"
+      "lastUpdated": "2026-11-24T22:42:48.106Z"
     },
     {
       "id": 1795482693201,
