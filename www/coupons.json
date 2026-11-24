@@ -698,6 +698,28 @@
   ],
   "deals": [
     {
+      "id": 1795482693201,
+      "country": "EG",
+      "category": "موبايلات وتابلت",
+      "storeId": "2b",
+      "storeName": "تو بي - 2B Egypt",
+      "title": "اوبو A6 - رامات 6 جيجا - 128 جيجا بايت - أزرق",
+      "price": "15,899 ج.م‏",
+      "oldPrice": "22,249 ج.م‏",
+      "discount": "29%",
+      "brandName": "",
+      "brandLogo": "https://2b.com.eg/media/wysiwyg/Brandnew/new/oppo.svg?rand=12312",
+      "priceDate": "٢٤ نوفمبر ٢٠٢٦",
+      "image": "https://2b.com.eg/media/catalog/product/cache/45bcba66b667d1ca52af48b101a5f0cb/o/p/oppo-a6---blue_1.jpg",
+      "couponCode": "DD26",
+      "url": "https://2b.com.eg/ar/oppo-a6-6gb-ram-128gb-sapphire-blue.html",
+      "productSku": "",
+      "autoSyncUrl": "",
+      "inStock": true,
+      "isHidden": false,
+      "lastUpdated": "2026-11-24T01:14:44.524Z"
+    },
+    {
       "id": 1795478088121,
       "country": "EG",
       "category": "موبايلات وتابلت",
