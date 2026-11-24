@@ -698,28 +698,6 @@
   ],
   "deals": [
     {
-      "id": 1795483534977,
-      "country": "EG",
-      "category": "مأكولات ومشروبات",
-      "storeId": "store_1794772871167",
-      "storeName": "وفرها - Waffarha",
-      "title": "وجبة ساندوتش زنجر وقطع ستربس كومبو بخصم 39% من فروع كنتاكي فرايد تشيكن!",
-      "price": "189 جنيه",
-      "oldPrice": "310 جنيه",
-      "discount": "39%",
-      "brandName": "",
-      "brandLogo": "https://f.top4top.io/p_39799ubqv0.jpg",
-      "priceDate": "٢٤ نوفمبر ٢٠٢٦",
-      "image": "https://g.top4top.io/p_3979jvjrb0.png",
-      "couponCode": "WFA46",
-      "url": "https://2b.com.eg/ar/oppo-a6-6gb-ram-128gb-sapphire-blue.html",
-      "productSku": "",
-      "autoSyncUrl": "",
-      "inStock": true,
-      "isHidden": false,
-      "lastUpdated": "2026-11-24T01:28:13.139Z"
-    },
-    {
       "id": 1795482693201,
       "country": "EG",
       "category": "موبايلات وتابلت",
