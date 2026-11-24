@@ -260,7 +260,15 @@
     "deals": true,
     "categories": true,
     "latest": true,
-    "customSections": []
+    "customSections": [
+      {
+        "id": 1795554767767,
+        "enabled": true,
+        "title": "منتجات بأفضل سعر",
+        "filterType": "deals_latest",
+        "filterValue": ""
+      }
+    ]
   },
   "notifications": [
     {
