@@ -58,7 +58,19 @@
       "name": "سوبر ماركت",
       "icon": "🏷️",
       "image": "https://b.top4top.io/p_3972xzheo0.png",
-      "bg": "#fee2e2"
+      "bg": "#fee2e2",
+      "bannerEnabled": true,
+      "bannerLayout": "default",
+      "bannerDisplayMode": "inline",
+      "bannerPlacements": [
+        "category_top"
+      ],
+      "bannerRepeatEvery": 4,
+      "bannerTitle": "",
+      "bannerTag": "",
+      "bannerCta": "",
+      "bannerImg": "https://k.top4top.io/p_398190p340.jpg",
+      "bannerUrl": ""
     },
     {
       "name": "أنشطة وترفيه",
