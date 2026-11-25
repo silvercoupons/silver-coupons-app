@@ -359,12 +359,14 @@
       "bannerEnabled": true,
       "bannerLayout": "default",
       "bannerDisplayMode": "inline",
-      "bannerPlacements": [],
+      "bannerPlacements": [
+        "store_top"
+      ],
       "bannerRepeatEvery": 4,
       "bannerTitle": "",
       "bannerTag": "",
       "bannerCta": "",
-      "bannerImg": "",
+      "bannerImg": "https://i.ibb.co/b5DQ6MdM/waffarha-1200x450.jpg",
       "bannerUrl": ""
     },
     {
