@@ -62,12 +62,14 @@
       "bannerEnabled": true,
       "bannerLayout": "default",
       "bannerDisplayMode": "inline",
-      "bannerPlacements": [],
+      "bannerPlacements": [
+        "category_top"
+      ],
       "bannerRepeatEvery": 4,
       "bannerTitle": "",
       "bannerTag": "",
       "bannerCta": "",
-      "bannerImg": "",
+      "bannerImg": "https://ibb.co/4RYpG4Y1",
       "bannerUrl": ""
     },
     {
