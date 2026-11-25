@@ -405,6 +405,25 @@
   ],
   "coupons": [
     {
+      "id": 1795623022475,
+      "type": "coupon",
+      "isSeason": false,
+      "country": "EG",
+      "storeId": "store_1794772871167",
+      "storeName": "وفرها - Waffarha",
+      "category": "أنشطة وترفيه",
+      "categories": [
+        "أنشطة وترفيه",
+        "أقوي العروض"
+      ],
+      "discount": "خصم 67% + خصم اضا٤ي بالكوبون 10%",
+      "title": "أكبر مكان لألعاب الليزر تاج والأركيد بخصم حتى 67% في ووار زون، ديستركت 9",
+      "code": "WFA50",
+      "url": "",
+      "verified": true,
+      "usedCount": 117
+    },
+    {
       "id": 1795217221847,
       "type": "coupon",
       "isSeason": false,
