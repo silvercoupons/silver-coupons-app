@@ -62,14 +62,12 @@
       "bannerEnabled": true,
       "bannerLayout": "default",
       "bannerDisplayMode": "inline",
-      "bannerPlacements": [
-        "category_top"
-      ],
+      "bannerPlacements": [],
       "bannerRepeatEvery": 4,
       "bannerTitle": "",
       "bannerTag": "",
       "bannerCta": "",
-      "bannerImg": "https://k.top4top.io/p_398190p340.jpg",
+      "bannerImg": "",
       "bannerUrl": ""
     },
     {
