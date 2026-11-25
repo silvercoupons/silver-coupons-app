@@ -62,15 +62,13 @@
       "bannerEnabled": true,
       "bannerLayout": "default",
       "bannerDisplayMode": "inline",
-      "bannerPlacements": [
-        "category_top"
-      ],
+      "bannerPlacements": [],
       "bannerRepeatEvery": 4,
       "bannerTitle": "",
       "bannerTag": "",
       "bannerCta": "",
-      "bannerImg": "https://i.ibb.co/hFZVj2ZY/waffarha-offer-1200x450.jpg",
-      "bannerUrl": "https://silvercoupons.blogspot.com/search/label/supermarket"
+      "bannerImg": "",
+      "bannerUrl": ""
     },
     {
       "name": "أنشطة وترفيه",
